@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.system.test.mapper.TestMapperDao">
+
+    <select id="queryTestData" parameterType="java.util.Map" resultType="com.isoftstone.pmit.system.test.entity.TestData">
+        SELECT
+        staffISST_num AS staffISSTNum,
+        hw_number AS hwNumber,
+        staff_name AS staffName,
+        staffisst_account AS staffisstAccount,
+        staff_state AS staffState,
+        create_time AS createTime,
+        update_time AS updateTime,
+        into_date AS intoDate,
+        out_date AS outDate
+        FROM
+        sys_staffbaseinfo
+        WHERE 1=1
+        <if test="null != staffISSTNum">
+            and staffISST_num = '${staffISSTNum}'
+        </if>
+    </select>
+</mapper>

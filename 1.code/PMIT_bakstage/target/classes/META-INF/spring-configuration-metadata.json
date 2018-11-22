@@ -1,0 +1,18 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.isoftstone.pmit.framework.druid.DruidConfig",
+      "name": "spring.datasource.druid.master",
+      "sourceMethod": "masterDataSource()",
+      "type": "javax.sql.DataSource"
+    },
+    {
+      "sourceType": "com.isoftstone.pmit.framework.druid.DruidConfig",
+      "name": "spring.datasource.druid.slave",
+      "sourceMethod": "slaveDataSource()",
+      "type": "javax.sql.DataSource"
+    }
+  ],
+  "properties": []
+}

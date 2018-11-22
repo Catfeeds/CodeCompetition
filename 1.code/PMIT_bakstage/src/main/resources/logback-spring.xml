@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration debug="false" scan="true">
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${user.dir}/logs/pmit.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <!--日志文件输出的文件名-->
+            <fileNamePattern>tests.%i.log</fileNamePattern>
+            <fileNamePattern>${user.dir}/logs/pmit(%i){yyyy-MM-dd}.log</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>10</maxIndex>
+        </rollingPolicy>
+        <!--日志文件最大值-->
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>10MB</MaxFileSize>
+        </triggeringPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:MM:SS} [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <root levl="INFO">
+        <appender-ref ref="FILE"/>
+    </root>
+    <logger name="com.isoftstone.pmit.system" level="DEBUG"/>
+    <logger name="com.isoftstone.pmit.project" level="DEBUG"/>
+</configuration>

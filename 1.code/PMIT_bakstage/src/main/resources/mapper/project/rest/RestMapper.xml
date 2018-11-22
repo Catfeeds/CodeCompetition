@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.project.rest.mapper.RestMapper">
+
+    <select id="getKPIbyPrjID" parameterType="java.lang.String" resultType="map">
+		CALL get_rest_PrjKPI_byID(${_parameter})
+    </select>
+
+    <select id="getKPIAnalyseResultByKPI" parameterType="java.lang.String"  resultType="map">
+		SELECT
+			a.KpiSeqId,
+			a.ItemIndex,
+			a.ReaSonType,
+		  b.ReaSonTypeName,
+			a.AnalyseResult,
+			a.Deduction
+		FROM
+			t_contract_kpi_analyse AS a
+		LEFT JOIN t_dict_kpi_reason as b on a.ReaSonType = b.ReaSonTypeID
+		WHERE
+			a.KpiSeqId = '${_parameter}'
+
+			ORDER BY m.order_num ASC
+    </select>
+
+</mapper>
