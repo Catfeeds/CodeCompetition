@@ -1,12 +1,20 @@
 <template>
   <div id="app">
-    <div id="nav">
+    <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view/>
+    <router-view/> -->
+    <login></login>
   </div>
 </template>
+<script>
+import login from './views/login/index'
+export default {
+  name: 'LoginApp',
+  components: { login }
+}
+</script>
 
 <style lang="scss">
 #app {
