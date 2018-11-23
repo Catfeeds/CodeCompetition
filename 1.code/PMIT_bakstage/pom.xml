@@ -209,11 +209,6 @@
             <artifactId>joda-time</artifactId>
             <version>${joda.time.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.isoftstone</groupId>
-            <artifactId>pmit_bakstage</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
     <build>
