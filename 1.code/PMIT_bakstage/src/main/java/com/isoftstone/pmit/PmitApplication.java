@@ -17,7 +17,8 @@ import org.springframework.web.client.RestTemplate;
  * @author pmoit
  */
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-@MapperScan(basePackages = {"com.isoftstone.pmit.project.*.mapper","com.isoftstone.pmit.system.*.mapper"})
+@MapperScan(basePackages = {"com.isoftstone.pmit.project.*.mapper","com.isoftstone.pmit.system.*.mapper",
+        "com.isoftstone.pmit.common.operationlog.mapper"})
 @EnableScheduling
 @Configuration
 public class PmitApplication implements CommandLineRunner {
