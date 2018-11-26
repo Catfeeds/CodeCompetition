@@ -20,7 +20,7 @@ public class BaseLogBuilder implements ILogBuilder{
 
         operationLogVO.setTime(new Date());
         operationLogVO.setUrl(request.getRequestURL().toString());
-        operationLogVO.setIPAddress( request.getRemoteAddr());
+        operationLogVO.setIPAddress(request.getRemoteAddr());
 
         // TODO: 2018/11/24 cookie中获取用户信息
         operationLogVO.setAccount("admin");
