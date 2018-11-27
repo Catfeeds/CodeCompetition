@@ -1,6 +1,6 @@
 package com.isoftstone.pmit.project.hrbp.controller;
 
-import com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo;
+import com.isoftstone.pmit.project.hrbp.entity.OneStaffAllInfo;
 import com.isoftstone.pmit.project.hrbp.service.BaseStaffInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,8 +20,8 @@ public class BaseStaffInfoController {
 
     @RequestMapping(value = "/loginIn", method = { RequestMethod.POST })
     @ApiOperation(value="单个员工", notes="查询员工基本信息")
-    public BaseStaffInfo getBaseStaffInfoById(@RequestParam(value = "staffisstAccount", required = true) String employeeID){
-        BaseStaffInfo info = baseStaffInfoService.getBaseStaffInfoByID(employeeID);
+    public OneStaffAllInfo getBaseStaffInfoById(@RequestParam(value = "staffisstAccount", required = true) String employeeID){
+        OneStaffAllInfo info = baseStaffInfoService.getBaseStaffInfoByID(employeeID);
 
         return info;
     }
