@@ -1,6 +1,6 @@
 package com.isoftstone.pmit.project.hrbp.entity;
 
-public class BaseStaffInfo {
+public class BaseStaffInfo{
     private String employeeID;
     private String employeeName;
     private String idNumber;
@@ -48,6 +48,15 @@ public class BaseStaffInfo {
     private String educationMode;
     private String projectTeamId;
     private String currentStatus;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getEmployeeID() {
         return employeeID;
