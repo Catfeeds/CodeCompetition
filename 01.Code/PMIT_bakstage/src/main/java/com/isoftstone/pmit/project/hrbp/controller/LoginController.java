@@ -1,6 +1,6 @@
 package com.isoftstone.pmit.project.hrbp.controller;
 
-import com.isoftstone.pmit.project.hrbp.common.JsonBean;
+import com.isoftstone.pmit.project.hrbp.common.LoginInfo;
 import com.isoftstone.pmit.project.hrbp.util.IConstants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

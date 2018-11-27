@@ -1,62 +1,121 @@
 package com.isoftstone.pmit.project.hrbp.entity;
 
-public class BaseStaffInfo{
+import java.util.Date;
+
+public class BaseStaffInfo {
+
+    /*==============基础信息================*/
+    /*软通工号*/
     private String employeeID;
+    /*员工姓名*/
     private String employeeName;
-    private String idNumber;
-    private String isoftStatus;
-    private String personCategory;
-    private String ifBackBone;
-    private String ifOffShore;
-    private String workPlace;
-    private int workStationNumber;
-    private String cooperationMode;
-    private String positionRole;
-    private String skill;
-    private String sillDirection;
-    private String technologyPlatform;
-    private String technologyGrade;
-    private String position;
-    private String positionResponsibilities;
-    private String tutorName;
-    private String tutorId;
-    private String ifInTutorResourcePool;
-    private String directLeaderId;
-    private String directLeaderName;
-    private String hwId;
-    private String hwMailbox;
-    private String employmentDate;
-    private String departureDate;
-    private String generalPosition;
-    private String currentPositionDate;
-    private String costCentercostCenter;
-    private String bu;
-    private String du;
-    private String pdu;
-    private String workPlaceArea;
+    /*性别*/
     private String sex;
+    /*年龄*/
+    private int age;
+    /*身份证号*/
+    private String idNumber;
+    /*软通状态*/
+    private String isoftStatus;
+    /*人员类别*/
+    private String personCategory;
+    /*是否骨干*/
+    private String ifBackBone;
+    /*是否在岸*/
+    private String ifOffShore;
+    /*办公场地*/
+    private String workPlace;
+    /*工位编号*/
+    private int workStationNumber;
+    /*合作模式*/
+    private String cooperationMode;
+    /*岗位角色*/
+    private String positionRole;
+    /*岗位*/
+    private String position;
+    /*岗位职责*/
+    private String positionResponsibilities;
+    /*导师姓名*/
+    private String tutorName;
+    /*导师工号*/
+    private String tutorId;
+    /*是否在导师资源池*/
+    private String ifInTutorResourcePool;
+    /*直接汇报上级工号*/
+    private String directLeaderId;
+    /*直接汇报上级姓名*/
+    private String directLeaderName;
+    /*华为域账号*/
+    private String hwId;
+    /*华为邮箱*/
+    private String hwMailbox;
+    /*入职日期*/
+    private Date employmentDate;
+    /*离职日期*/
+    private String departureDate;
+    /*通用软通职位。eg：主管工程师(四级)-HW*/
+    private String generalPosition;
+    /*现职位生效时间*/
+    private String currentPositionDate;
+    /*成本中心*/
+    private String costCenter;
+    /*成本中心负责人*/
+    private String costCenterLeaderName;
+    /*bu*/
+    private String bu;
+    /*du*/
+    private String du;
+    /*pdu*/
+    private String pdu;
+    /*办公地点*/
+    private String workPlaceArea;
+    /*联系电话*/
     private String telephone;
-    private String graduationSchool;
-    private String graduationMajor;
-    private String graduationTime;
-    private String if211;
-    private String ifUnderGraduates;
-    private String ifAbvoveTwoInstitutions;
-    private String education;
-    private String degree;
-    private String ifGraduate;
-    private String educationMode;
+    /*证件照照片路径*/
+    private String photoPath;
+    /*公司邮箱*/
+    private String companyEmail;
+    /*工龄*/
+    private String lengthOfService;
+    /*司龄*/
+    private String divisionAge;
+    /*项目组ID。和项目群表关联*/
     private String projectTeamId;
+    /*当前人员状态*/
     private String currentStatus;
-    private String password;
+    /*===============教育信息==================*/
+    /*毕业学校*/
+    private String graduationSchool;
+    /*毕业专业*/
+    private String graduationMajor;
+    /*毕业时间*/
+    private String graduationTime;
+    /*是否211*/
+    private String if211;
+    /*是否统招。eg:是/否*/
+    private String ifUnderGraduates;
+    /*是否二本及以上。eg:是/否*/
+    private String ifAbvoveTwoInstitutions;
+    /*学历*/
+    private String education;
+    /*学位*/
+    private String degree;
+    /*是否应届*/
+    private String ifGraduate;
+    /*教育模式*/
+    private String educationMode;
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    /*=============技能信息=====================*/
+    /*技能*/
+    private String skill;
+    /*技能方向*/
+    private String sillDirection;
+    /*技术平台*/
+    private String technologyPlatform;
+    /*技术等级*/
+    private String technologyGrade;
+    /*擅长领域*/
+    private String areasOfExpertise;
 
     public String getEmployeeID() {
         return employeeID;
@@ -72,6 +131,22 @@ public class BaseStaffInfo{
 
     public void setEmployeeName(String employeeName) {
         this.employeeName = employeeName;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     public String getIdNumber() {
@@ -146,38 +221,6 @@ public class BaseStaffInfo{
         this.positionRole = positionRole;
     }
 
-    public String getSkill() {
-        return skill;
-    }
-
-    public void setSkill(String skill) {
-        this.skill = skill;
-    }
-
-    public String getSillDirection() {
-        return sillDirection;
-    }
-
-    public void setSillDirection(String sillDirection) {
-        this.sillDirection = sillDirection;
-    }
-
-    public String getTechnologyPlatform() {
-        return technologyPlatform;
-    }
-
-    public void setTechnologyPlatform(String technologyPlatform) {
-        this.technologyPlatform = technologyPlatform;
-    }
-
-    public String getTechnologyGrade() {
-        return technologyGrade;
-    }
-
-    public void setTechnologyGrade(String technologyGrade) {
-        this.technologyGrade = technologyGrade;
-    }
-
     public String getPosition() {
         return position;
     }
@@ -250,11 +293,11 @@ public class BaseStaffInfo{
         this.hwMailbox = hwMailbox;
     }
 
-    public String getEmploymentDate() {
+    public Date getEmploymentDate() {
         return employmentDate;
     }
 
-    public void setEmploymentDate(String employmentDate) {
+    public void setEmploymentDate(Date employmentDate) {
         this.employmentDate = employmentDate;
     }
 
@@ -282,12 +325,20 @@ public class BaseStaffInfo{
         this.currentPositionDate = currentPositionDate;
     }
 
-    public String getCostCentercostCenter() {
-        return costCentercostCenter;
+    public String getCostCenter() {
+        return costCenter;
     }
 
-    public void setCostCentercostCenter(String costCentercostCenter) {
-        this.costCentercostCenter = costCentercostCenter;
+    public void setCostCenter(String costCenter) {
+        this.costCenter = costCenter;
+    }
+
+    public String getCostCenterLeaderName() {
+        return costCenterLeaderName;
+    }
+
+    public void setCostCenterLeaderName(String costCenterLeaderName) {
+        this.costCenterLeaderName = costCenterLeaderName;
     }
 
     public String getBu() {
@@ -322,20 +373,60 @@ public class BaseStaffInfo{
         this.workPlaceArea = workPlaceArea;
     }
 
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
     public String getTelephone() {
         return telephone;
     }
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
+    }
+
+    public String getCompanyEmail() {
+        return companyEmail;
+    }
+
+    public void setCompanyEmail(String companyEmail) {
+        this.companyEmail = companyEmail;
+    }
+
+    public String getLengthOfService() {
+        return lengthOfService;
+    }
+
+    public void setLengthOfService(String lengthOfService) {
+        this.lengthOfService = lengthOfService;
+    }
+
+    public String getDivisionAge() {
+        return divisionAge;
+    }
+
+    public void setDivisionAge(String divisionAge) {
+        this.divisionAge = divisionAge;
+    }
+
+    public String getProjectTeamId() {
+        return projectTeamId;
+    }
+
+    public void setProjectTeamId(String projectTeamId) {
+        this.projectTeamId = projectTeamId;
+    }
+
+    public String getCurrentStatus() {
+        return currentStatus;
+    }
+
+    public void setCurrentStatus(String currentStatus) {
+        this.currentStatus = currentStatus;
     }
 
     public String getGraduationSchool() {
@@ -418,72 +509,44 @@ public class BaseStaffInfo{
         this.educationMode = educationMode;
     }
 
-    public String getProjectTeamId() {
-        return projectTeamId;
+    public String getSkill() {
+        return skill;
     }
 
-    public void setProjectTeamId(String projectTeamId) {
-        this.projectTeamId = projectTeamId;
+    public void setSkill(String skill) {
+        this.skill = skill;
     }
 
-    public String getCurrentStatus() {
-        return currentStatus;
+    public String getSillDirection() {
+        return sillDirection;
     }
 
-    public void setCurrentStatus(String currentStatus) {
-        this.currentStatus = currentStatus;
+    public void setSillDirection(String sillDirection) {
+        this.sillDirection = sillDirection;
     }
 
-    @Override
-    public String toString() {
-        return "BaseStaffInfo{" +
-                "employeeID='" + employeeID + '\'' +
-                ", employeeName='" + employeeName + '\'' +
-                ", idNumber='" + idNumber + '\'' +
-                ", isoftStatus='" + isoftStatus + '\'' +
-                ", personCategory='" + personCategory + '\'' +
-                ", ifBackBone='" + ifBackBone + '\'' +
-                ", ifOffShore='" + ifOffShore + '\'' +
-                ", workPlace='" + workPlace + '\'' +
-                ", workStationNumber=" + workStationNumber +
-                ", cooperationMode='" + cooperationMode + '\'' +
-                ", positionRole='" + positionRole + '\'' +
-                ", skill='" + skill + '\'' +
-                ", sillDirection='" + sillDirection + '\'' +
-                ", technologyPlatform='" + technologyPlatform + '\'' +
-                ", technologyGrade='" + technologyGrade + '\'' +
-                ", position='" + position + '\'' +
-                ", positionResponsibilities='" + positionResponsibilities + '\'' +
-                ", tutorName='" + tutorName + '\'' +
-                ", tutorId='" + tutorId + '\'' +
-                ", ifInTutorResourcePool='" + ifInTutorResourcePool + '\'' +
-                ", directLeaderId='" + directLeaderId + '\'' +
-                ", directLeaderName='" + directLeaderName + '\'' +
-                ", hwId='" + hwId + '\'' +
-                ", hwMailbox='" + hwMailbox + '\'' +
-                ", employmentDate='" + employmentDate + '\'' +
-                ", departureDate='" + departureDate + '\'' +
-                ", generalPosition='" + generalPosition + '\'' +
-                ", currentPositionDate='" + currentPositionDate + '\'' +
-                ", costCentercostCenter='" + costCentercostCenter + '\'' +
-                ", bu='" + bu + '\'' +
-                ", du='" + du + '\'' +
-                ", pdu='" + pdu + '\'' +
-                ", workPlaceArea='" + workPlaceArea + '\'' +
-                ", sex='" + sex + '\'' +
-                ", telephone='" + telephone + '\'' +
-                ", graduationSchool='" + graduationSchool + '\'' +
-                ", graduationMajor='" + graduationMajor + '\'' +
-                ", graduationTime='" + graduationTime + '\'' +
-                ", if211='" + if211 + '\'' +
-                ", ifUnderGraduates='" + ifUnderGraduates + '\'' +
-                ", ifAbvoveTwoInstitutions='" + ifAbvoveTwoInstitutions + '\'' +
-                ", education='" + education + '\'' +
-                ", degree='" + degree + '\'' +
-                ", ifGraduate='" + ifGraduate + '\'' +
-                ", educationMode='" + educationMode + '\'' +
-                ", projectTeamId='" + projectTeamId + '\'' +
-                ", currentStatus='" + currentStatus + '\'' +
-                '}';
+    public String getTechnologyPlatform() {
+        return technologyPlatform;
     }
+
+    public void setTechnologyPlatform(String technologyPlatform) {
+        this.technologyPlatform = technologyPlatform;
+    }
+
+    public String getTechnologyGrade() {
+        return technologyGrade;
+    }
+
+    public void setTechnologyGrade(String technologyGrade) {
+        this.technologyGrade = technologyGrade;
+    }
+
+    public String getAreasOfExpertise() {
+        return areasOfExpertise;
+    }
+
+    public void setAreasOfExpertise(String areasOfExpertise) {
+        this.areasOfExpertise = areasOfExpertise;
+    }
+
 }
