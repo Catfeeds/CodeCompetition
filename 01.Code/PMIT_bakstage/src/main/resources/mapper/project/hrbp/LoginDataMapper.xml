@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.LoginMapper">
+    <resultMap type="SysStaffbaseinfo" id="UserResult">
+        <id     property="staffISSTNum"         column="staffISST_num"      />
+        <result property="hwNumber"       column="hw_number"      />
+        <result property="staffName"       column="staff_name"      />
+        <result property="staffisstAccount"       column="staffisst_account"   />
+        <result property="staffState"       column="staff_state"    />
+        <result property="createTime"        column="create_time"        />
+        <result property="updateTime"       column="update_time"  />
+        <result property="intoDate"        column="into_date"     />
+        <result property="outDate"          column="out_date"       />
+        <result property="password"           column="pass_word"     />
+    </resultMap>
+
+    <select id="getUserInfos" parameterType="java.util.Map" resultMap="UserResult">
+        select staffISST_num,hw_number,staff_name, staffisst_account, pass_word ,create_time,
+        update_time,into_date,out_date from sys_staffbaseinfo
+        where staff_state= '${staffState}'
+        <if test="staffisstAccount != null">
+          and staffisst_account='${staffisstAccount}'
+        </if>
+        <if test="password != null">
+            and pass_word='${password}'
+        </if>
+
+    </select>
+    <select id="getUserRoleInfos" resultType="com.isoftstone.pmit.project.hrbp.entity.SysRole">
+      select * from sys_staffbaseinfo u, sys_role r,sys_staff_role s
+      where u.staffISST_num=s.staffISST_num and r.role_id=s.role_id and r.status='${status}'
+      <if test="staffisstAccount != null">
+          and staffisst_account='${staffisstAccount}'
+      </if>
+      <if test="roleId != null">
+          and role_id = '${roleId}'
+      </if>
+    </select>
+
+</mapper>
