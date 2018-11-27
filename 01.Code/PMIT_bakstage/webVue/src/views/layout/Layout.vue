@@ -1,8 +1,8 @@
 <template>
   <div :class="classObj" class="app-wrapper">
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
-    <sidebar class="sidebar-container" :style="widthChange"/>
-    <div class="main-container" :style="marginChange">
+    <sidebar class="sidebar-container" :style="sidebarWidth"/>
+    <div class="main-container" :style="mainMarginLeft">
       <navbar/>
       <tags-view/>
       <app-main/>
@@ -16,6 +16,12 @@ import ResizeMixin from './mixin/ResizeHandler'
 
 export default {
   name: 'Layout',
+  data () {
+    return {
+      sidebarWidth: '',
+      mainMarginLeft: ''
+    }    
+  },
   components: {
     Navbar,
     Sidebar,
@@ -25,27 +31,28 @@ export default {
   mixins: [ResizeMixin],
   computed: {
     sidebar() {
-      return this.$store.state.app.sidebar
+      return this.$store.getters.sidebar
     },
     device() {
-      return this.$store.state.app.device
+      return this.$store.getters.device
     },
     classObj() {
+      if (this.sidebar.opened) {
+        this.sidebarWidth = {
+          width: this.$store.getters.language==='en' ? '215px' : "180px"
+        },
+        this.mainMarginLeft = {
+          'margin-left': this.$store.getters.language==='en' ? '215px' : "180px"
+        }
+      }else {
+        this.sidebarWidth = {width: '36px'};
+        this.mainMarginLeft = {'margin-left': '36px'};
+      }
       return {
         hideSidebar: !this.sidebar.opened,
         openSidebar: this.sidebar.opened,
         withoutAnimation: this.sidebar.withoutAnimation,
         mobile: this.device === 'mobile'
-      }
-    },
-    widthChange () {
-      return {
-        width: this.$store.state.app.language==='en' ? '215px' : "180px"
-      }
-    },
-    marginChange () {
-      return {
-        'margin-left': this.$store.state.app.language==='en' ? '215px' : "180px"
       }
     }
   },

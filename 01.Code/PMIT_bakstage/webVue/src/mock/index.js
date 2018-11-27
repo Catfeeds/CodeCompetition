@@ -3,6 +3,7 @@ import loginAPI from "./login";
 import commonAPI from "./common";
 import remoteSearchAPI from "./remoteSearch";
 import transactionAPI from "./transaction";
+import projectGrupAPI from "./projectGroupMock";
 
 // 修复在使用 MockJS 情况下，设置 withCredentials = true，且未被拦截的跨域请求丢失 Cookies 的问题
 // https://github.com/nuysoft/Mock/issues/300
@@ -31,5 +32,12 @@ Mock.mock(/\/search\/user/, "get", remoteSearchAPI.searchUser);
 
 // 账单相关
 Mock.mock(/\/transaction\/list/, "get", transactionAPI.getList);
-
+//项目组设置相关
+Mock.mock(
+  /\/projectGroup\/getProductInfo/,
+  "get",
+  projectGrupAPI.getProductInfo
+);
+Mock.mock(/\/projectGroup\/getDUInfo/, "get", projectGrupAPI.getDUInfo);
+Mock.mock(/\/projectGroup\/getPDUctInfo/, "get", projectGrupAPI.getPDUctInfo);
 export default Mock;

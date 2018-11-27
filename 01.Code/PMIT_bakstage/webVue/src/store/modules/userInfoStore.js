@@ -1,4 +1,4 @@
-import { loginByUserName, logout, getUserInfo } from "@/api/login";
+import { loginByUserName, logout, getUserInfo } from "@/api/userInfoApi";
 import { getToken, setToken, removeToken } from "@/utils/auth";
 
 const user = {
@@ -113,5 +113,4 @@ const user = {
     }
   }
 };
-
 export default user;

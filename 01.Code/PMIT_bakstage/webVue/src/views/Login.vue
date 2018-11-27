@@ -129,7 +129,7 @@ export default {
       dialogTitle: this.$i18n.t("login.forgetPassword"),
       note: {
         backgroundImage:
-          "url(" + require("../../assets/images/login-bg.jpg") + ")",
+          "url(" + require("../assets/images/login-bg.jpg") + ")",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         backgroundSize: "100%"
@@ -179,7 +179,6 @@ export default {
               this.loading = false;
             });
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
