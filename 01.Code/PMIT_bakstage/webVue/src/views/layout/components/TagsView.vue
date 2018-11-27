@@ -40,7 +40,7 @@ export default {
   },
   computed: {
     visitedViews() {
-      return this.$store.state.tagsView.visitedViews
+      return this.$store.getters.visitedViews
     }
   },
   watch: {

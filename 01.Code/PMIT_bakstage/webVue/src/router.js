@@ -8,7 +8,7 @@ export const constantRouterMap = [
   {
     path: "/login",
     name: "login",
-    component: () => import("./views/login/index.vue"),
+    component: () => import("@/views/Login.vue"),
     hidden: true
   },
   {
@@ -26,17 +26,6 @@ export const constantRouterMap = [
           noCache: true,
           requiresAuth: true
         }
-      }
-    ]
-  },
-  {
-    path: "/redirect",
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: "/redirect/:path*",
-        component: () => import("@/views/redirect/index")
       }
     ]
   },
@@ -145,7 +134,7 @@ export const asyncRouterMap = [
     children: [
       {
         path: "project-team",
-        component: () => import("@/views/dashboard/index"),
+        component: () => import("@/views/projectGroupSettings/index"),
         name: "ProjectTeam",
         meta: {
           title: "projectTeam",

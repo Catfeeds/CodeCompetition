@@ -13,7 +13,7 @@ export default {
   name: 'AppMain',
   computed: {
     cachedViews() {
-      return this.$store.state.tagsView.cachedViews
+      return this.$store.getters.cachedViews
     },
     key() {
       return this.$route.fullPath
@@ -24,11 +24,11 @@ export default {
 
 <style scoped>
 .app-main {
-  /*84 = navbar + tags-view = 50 +34 */
   min-height: calc(100vh - 84px);
-  width: 100%;
+  width: calc(100% - 30px);
   position: relative;
   overflow: hidden;
+  margin: 15px;
 }
 </style>
 
