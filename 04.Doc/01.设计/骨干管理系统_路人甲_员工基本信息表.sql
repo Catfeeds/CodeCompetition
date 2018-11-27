@@ -101,23 +101,7 @@ CREATE TABLE `hrbp_role` (
 -- ----------------------------
 -- Records of hrbp_role
 -- ----------------------------
-INSERT INTO `hrbp_role` VALUES ('1', '管理员', 'admin', '1', '3', '1', 'admin', '2018-11-25 14:09:40', null, null, '系统设置与维护', null);
-INSERT INTO `hrbp_role` VALUES ('1', '管理员', 'main', '1', '3', '1', 'admin', '2018-11-25 14:09:40', null, null, '系统监控', null);
-INSERT INTO `hrbp_role` VALUES ('2', 'pm', 'pm', '1', '3', '1', 'admin', '2018-11-25 14:09:40', null, null, '项目组设置', null);
-INSERT INTO `hrbp_role` VALUES ('3', '信息录入员', 'person', '1', '1', '1', 'admin', '2018-11-25 14:11:45', null, null, '负责信息的上传', null);
-
--- ----------------------------
--- Table structure for hrbp_staffinfo_role
--- ----------------------------
-DROP TABLE IF EXISTS `hrbp_staffinfo_role`;
-CREATE TABLE `hrbp_staffinfo_role` (
-  `employeeID` varchar(16) NOT NULL COMMENT '用户ID',
-  `role_id` int(10) NOT NULL COMMENT '系统角色ID',
-  PRIMARY KEY (`employeeID`,`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户和角色关联表';
-
--- ----------------------------
--- Records of hrbp_staffinfo_role
--- ----------------------------
-INSERT INTO `hrbp_staffinfo_role` VALUES ('148550', '1');
-INSERT INTO `hrbp_staffinfo_role` VALUES ('148551', '2');
+INSERT INTO `hrbp_role` VALUES ('1', '超级管理员', 'admin', '1', '1', '1', 'admin', '2018-11-25 14:09:40', null, null, '系统设置与维护', null);
+INSERT INTO `hrbp_role` VALUES ('2', '管理员', 'main', '1', '2', '1', 'admin', '2018-11-25 14:09:40', null, null, '系统监控', null);
+INSERT INTO `hrbp_role` VALUES ('3', 'pm', 'pm', '1', '3', '1', 'admin', '2018-11-25 14:09:40', null, null, '项目组设置', null);
+INSERT INTO `hrbp_role` VALUES ('4', '信息录入员', 'person', '1', '4', '1', 'admin', '2018-11-25 14:11:45', null, null, '负责信息的上传', null);
