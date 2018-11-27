@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * @author lf
  */
-public interface SystemRoleService {
+public interface ISystemRoleService {
     /**
      * 获取所有系统角色
      * @return

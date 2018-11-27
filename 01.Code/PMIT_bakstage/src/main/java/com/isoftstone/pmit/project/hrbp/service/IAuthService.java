@@ -6,7 +6,7 @@ import com.isoftstone.pmit.system.menu.entity.Menu;
 
 import java.util.List;
 
-public interface AuthService {
+public interface IAuthService {
 	/**
 	 * 根据用户获取角色列表
 	 * @param employeeID
