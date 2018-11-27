@@ -20,16 +20,19 @@
           sys_project
         WHERE
           isLeafNode = ${isLeafNode}
-          <if test="true = isLeafNode">
+          <if test="true == isLeafNode">
               <if test="null != projectName and '' !=  projectName">
                   AND projectName like '%${projectName}%'
               </if>
               <if test="null != pmName and '' !=  pmName">
                   AND pmName like '%${pmName}%'
               </if>
+              <if test="null != treePath and '' != treePath">
+                  AND treePath like '%${treePath}%'
+              </if>
           </if>
-          <if test="null != parentID">
-              AND parentID = ${parentID}
+          <if test="null != treePath and '' != treePath">
+              AND treePath like '%${treePath}%'
           </if>
     </select>
 </mapper>
