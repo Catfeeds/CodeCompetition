@@ -43,7 +43,7 @@
         r.update_by updateBy,
         r.remark
         FROM
-        sys_role AS r
+        hrbp_role AS r
         where 1=1
         <if test="role_id != null and role_id != ''">
             and r.role_id = '${roleId}'
@@ -59,17 +59,17 @@
 
     <select id="getRolesByEmployeeID" parameterType="java.lang.String" resultType="com.isoftstone.pmit.project.hrbp.entity.SysRole">
       select
-      sr.role_id id,
+      li.role_id id,
       r.role_name,
       r.role_key
       from
-      sys_staffinfo_role sr
-      inner join sys_role r on r.role_id = sr.role_id
-      where sr.employee_id = #{employeeID}
+      login_information li
+      inner join hrbp_role hr on hr.role_id = li.role_id
+      where li.employee_ID= #{employeeID}
     </select>
 
     <insert id="insertSystemRole" parameterType="SysRole" keyProperty="role_id">
-        insert into sys_role(
+        insert into hrbp_role(
         <if test="role_name != null and role_name != ''">role_name,</if>
         <if test="role_key != null and role_key != ''">role_key,</if>
         <if test="role_sort != null and role_sort != ''">role_sort,</if>
@@ -98,11 +98,11 @@
     </insert>
 
     <update id="deleteSystemRole" parameterType="java.lang.String">
-        update sys_role set status = 0 where role_id = #{_paramter}
+        update hrbp_role set status = 0 where role_id = #{_paramter}
     </update>
 
     <update id="updateSystemRole" parameterType="SysRole">
-        update sys_role
+        update hrbp_role
         <set>
             <if test="role_name != null and role_name != ''">role_name = #{role_name},</if>
             <if test="role_key != null and role_key != ''">role_key = #{role_key},</if>
@@ -116,5 +116,4 @@
             <if test="remark != null and remark != ''">#{remark}</if>
         </set>
     </update>
-
 </mapper>

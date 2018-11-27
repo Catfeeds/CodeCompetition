@@ -1,14 +1,13 @@
 package com.isoftstone.pmit.project.hrbp.shiro;
 
-
 import com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo;
+import com.isoftstone.pmit.project.hrbp.entity.LoginInformation;
+import com.isoftstone.pmit.project.hrbp.entity.MenuInfo;
 import com.isoftstone.pmit.project.hrbp.entity.SysRole;
 import com.isoftstone.pmit.project.hrbp.mapper.BaseStaffInfoMapper;
-import com.isoftstone.pmit.project.hrbp.service.AuthService;
+import com.isoftstone.pmit.project.hrbp.mapper.LoginMapper;
+import com.isoftstone.pmit.project.hrbp.service.IAuthService;
 import com.isoftstone.pmit.system.menu.entity.Menu;
-import com.isoftstone.pmit.system.menu.service.MenuService;
-import com.isoftstone.pmit.system.staff.entity.StaffBaseInfo;
-import com.isoftstone.pmit.system.staff.mapper.StaffBaseInfoMapper;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -28,11 +27,12 @@ import java.util.List;
 @Service
 public class ShiroRealm extends AuthorizingRealm {
 
-    @Autowired
-    private AuthService authService;
 
     @Autowired
-    private BaseStaffInfoMapper staffInfoMapper;
+    private IAuthService authService;
+
+    @Autowired
+    private LoginMapper loginMapper;
 
     /**
      * 授予角色与权限
@@ -53,10 +53,10 @@ public class ShiroRealm extends AuthorizingRealm {
 //            for (SysRole sysRole : roles) {
 //                authorizationInfo.addRole(sysRole.getRoleKey());
 //                //角色对应权限数据
-//                List<Menu> menus = this.authService.findMenusBySysRoleId(sysRole.getRoleId());
+//                List<MenuInfo> menus = this.authService.getMenusBySysRoleId(sysRole.getRoleId());
 //                if (null != menus && menus.size() > 0) {
-//                    for (Menu menu : menus) {
-//                        authorizationInfo.addStringPermission(menu.getMenuEnName());
+//                    for (MenuInfo menu : menus) {
+//                        authorizationInfo.addStringPermission(menu.getMenuName());
 //                    }
 //                }
 //            }
@@ -77,13 +77,13 @@ public class ShiroRealm extends AuthorizingRealm {
 //        //UsernamePasswordToken用于存放提交的登录信息
 //        UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
 //        // 调用数据层
-//        BaseStaffInfo staffInfo = staffInfoMapper.findUserByEmployeeId(token.getUsername());
-//        if (staffInfo == null) {
+//        LoginInformation loginInformation = loginMapper.findStaffByEmployeeId(token.getUsername());
+//        if (loginInformation == null) {
 //            // 用户不存在
 //            return null;
 //        } else {
 //            // 密码存在
-//            return new SimpleAuthenticationInfo(staffInfo, staffInfo.getPassword(), getName());
+//            return new SimpleAuthenticationInfo(loginInformation, loginInformation.getPassword(), getName());
 //        }
         return null;
     }

@@ -18,19 +18,4 @@ public interface MenuMapper {
      */
     List<Menu> getMenuResultListByMenuId(String menuId);
 
-    /**
-     * 根据角色查询菜单权限
-     *
-     * @param roleId
-     * @return
-     */
-    List<Menu> findMenusBySysRoleId(Integer roleId);
-
-    /**
-     * 获取权限
-     *
-     * @param id
-     * @return
-     */
-    Menu getMenu(int id);
 }

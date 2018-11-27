@@ -1,6 +1,8 @@
 package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 
+import com.isoftstone.pmit.project.hrbp.entity.MenuInfo;
 import com.isoftstone.pmit.project.hrbp.entity.SysRole;
+import com.isoftstone.pmit.project.hrbp.mapper.MenuManageMapper;
 import com.isoftstone.pmit.project.hrbp.mapper.SysRoleMapper;
 import com.isoftstone.pmit.project.hrbp.service.IAuthService;
 import com.isoftstone.pmit.system.menu.entity.Menu;
@@ -14,7 +16,7 @@ import java.util.List;
 public class AuthServiceImpl implements IAuthService {
 
     @Autowired
-    private MenuMapper menuMapper;
+    private MenuManageMapper menuManageMapper;
 
     @Autowired
     private SysRoleMapper sysRoleMapper;
@@ -25,8 +27,7 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public List<Menu> findMenusBySysRoleId(Integer roleId) {
-        return menuMapper.findMenusBySysRoleId(roleId);
+    public List<MenuInfo> getMenusBySysRoleId(int roleId) {
+        return menuManageMapper.getMenusBySysRoleId(roleId);
     }
-
 }

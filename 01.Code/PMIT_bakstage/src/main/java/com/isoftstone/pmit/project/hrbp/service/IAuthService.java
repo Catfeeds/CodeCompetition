@@ -1,5 +1,6 @@
 package com.isoftstone.pmit.project.hrbp.service;
 
+import com.isoftstone.pmit.project.hrbp.entity.MenuInfo;
 import com.isoftstone.pmit.project.hrbp.entity.SysRole;
 import com.isoftstone.pmit.system.menu.entity.Menu;
 
@@ -19,8 +20,5 @@ public interface IAuthService {
 	 * @param roleId
 	 * @return
 	 */
-	List<Menu> findMenusBySysRoleId(Integer roleId);
-
-
-
+	List<MenuInfo> getMenusBySysRoleId(int roleId);
 }

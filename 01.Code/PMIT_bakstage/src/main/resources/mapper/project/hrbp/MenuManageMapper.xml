@@ -3,7 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.MenuManageMapper">
+	<resultMap type="com.isoftstone.pmit.project.hrbp.entity.MenuInfo" id="MenuResult">
+		<id     property="menuId"         column="menu_id"      />
+		<result property="menuName"       column="menu_name"      />
+		<result property="note"         column="remark"   />
+	</resultMap>
+	<select id="getMenusBySysRoleId" parameterType="java.lang.Integer"  resultType="com.isoftstone.pmit.project.hrbp.entity.MenuInfo">
 
+	</select>
     <select id="getMenuListByRoleId" parameterType="java.lang.String"  resultType="com.isoftstone.pmit.project.hrbp.entity.MenuInfo">
 		SELECT
 			m.menu_id as menuId,
@@ -11,7 +18,7 @@
 			m.remark as note
 		FROM
 			sys_menu AS m
-		order by 
+		order by
 			m.order_num
     </select>
 
