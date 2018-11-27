@@ -101,7 +101,7 @@ CREATE TABLE `hrbp_role` (
 -- ----------------------------
 -- Records of hrbp_role
 -- ----------------------------
-INSERT INTO `hrbp_role` VALUES ('1', '超级管理员', 'admin', '1', '1', '1', 'admin', '2018-11-25 14:09:40', null, null, '系统设置与维护', null);
+INSERT INTO `hrbp_role` VALUES ('1', 'admin', 'admin', '1', '1', '1', 'admin', '2018-11-25 14:09:40', null, null, '系统设置与维护', null);
 INSERT INTO `hrbp_role` VALUES ('2', '管理员', 'main', '1', '2', '1', 'admin', '2018-11-25 14:09:40', null, null, '系统监控', null);
 INSERT INTO `hrbp_role` VALUES ('3', 'pm', 'pm', '1', '3', '1', 'admin', '2018-11-25 14:09:40', null, null, '项目组设置', null);
 INSERT INTO `hrbp_role` VALUES ('4', '信息录入员', 'person', '1', '4', '1', 'admin', '2018-11-25 14:11:45', null, null, '负责信息的上传', null);
