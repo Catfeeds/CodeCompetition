@@ -1,8 +1,20 @@
 <template>
-  <div class="login-container note" :style="note">
+  <div
+    class="login-container note"
+    :style="note"
+  >
     <div class="login-con">
       <el-card class="box-card">
-        <div slot="header" class="clearfix"><span>欢迎登录</span></div>
+        <div
+          slot="header"
+          class="clearfix"
+        >
+          <span>欢迎登录</span>
+          <lang-select
+            class="international right-menu-item"
+            style="float:right;"
+          />
+        </div>
         <el-form
           ref="loginForm"
           :model="loginForm"
@@ -11,7 +23,9 @@
           label-position="left"
         >
           <el-form-item prop="userName">
-            <span class="svg-container"> <svg-icon icon-class="user" /> </span>
+            <span class="svg-container">
+              <svg-icon icon-class="user" />
+            </span>
             <el-input
               v-model="loginForm.userName"
               :placeholder="usernamePlaceholder"
@@ -32,19 +46,24 @@
               autocomplete="on"
               @keyup.enter.native="handleLogin"
             />
-            <span class="show-pwd" @click="showPwd">
+            <span
+              class="show-pwd"
+              @click="showPwd"
+            >
               <svg-icon icon-class="eye" />
             </span>
           </el-form-item>
-          <el-checkbox v-model="checked">十天内免登录</el-checkbox>
-          <a href="javascript:void(0)" @click="clearCookie">忘记密码?</a>
+          <el-checkbox v-model="checked">{{$t("login.freeLogin")}}</el-checkbox>
+          <a
+            href="javascript:void(0)"
+            @click="clearCookie"
+          >{{$t("login.forgetPasswordTitle")}}</a>
           <el-button
             :loading="loading"
             type="primary"
             style="width:100%;margin-top:20px;"
             @click.native.prevent="handleLogin"
-            >{{ $t("login.logIn") }}</el-button
-          >
+          >{{ $t("login.logIn") }}</el-button>
         </el-form>
       </el-card>
       <el-dialog
@@ -52,29 +71,29 @@
         :visible.sync="showDialog"
         width="20%"
         append-to-body
-      >
-        {{ $t("login.forgetPasswordTips") }}
-      </el-dialog>
+      >{{ $t("login.forgetPasswordTips") }}</el-dialog>
     </div>
   </div>
 </template>
 
 <script>
 import {} from "@/utils/validate";
+import LangSelect from '@/components/LangSelect'
+import Cookies from "js-cookie";
 export default {
   name: "Login",
-  components: {},
+  components: { LangSelect },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!value || value.replace(/\s/g, "").length <= 0) {
-        callback(new Error("请输入正确的账号"));
+        callback(new Error(this.$t('login.userNameTips')));
       } else {
         callback();
       }
     };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error("密码不能少于6位数"));
+        callback(new Error(this.$t('login.passwordTips')));
       } else {
         callback();
       }
@@ -140,17 +159,21 @@ export default {
           //判断复选框是否被勾选 勾选则调用配置cookie方法
           if (this.checked) {
             //传入账号名，密码，和保存天数3个参数
-            this.setCookie(
-              this.loginForm.userName,
-              this.loginForm.password,
-              10
-            );
+            Cookies.set('userName', this.loginForm.userName, {expires: 10});
+            Cookies.set('password', this.loginForm.password, {expires: 10});
           }
           this.$store
             .dispatch("LoginByUserName", this.loginForm)
             .then(() => {
               this.loading = false;
-              this.$router.push({ path: this.redirect || "/" });
+              Cookies.set('status', 'logined');
+              this.$store.dispatch("GetUserInfo").then(()=>{
+                this.$router.push({ path: this.redirect || "/" });
+              })
+              .catch(()=>{
+                
+              })
+              
             })
             .catch(() => {
               this.loading = false;
@@ -161,38 +184,18 @@ export default {
         }
       });
     },
-    //设置cookie
-    setCookie(c_name, c_pwd, exdays) {
-      var exdate = new Date(); //获取时间
-      exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * exdays); //保存的天数
-      //字符串拼接cookie
-      window.document.cookie =
-        "userName" + "=" + c_name + ";path=/;expires=" + exdate.toGMTString();
-      window.document.cookie =
-        "userPwd" + "=" + c_pwd + ";path=/;expires=" + exdate.toGMTString();
-    },
     //读取cookie
     getCookie: function() {
-      if (document.cookie.length > 0) {
-        var arr = document.cookie.split("; "); //这里显示的格式需要切割一下自己可输出看下
-        for (var i = 0; i < arr.length; i++) {
-          var arr2 = arr[i].split("="); //再次切割
-          //判断查找相对应的值
-          if (arr2[0] == "userName") {
-            this.loginForm.userName = arr2[1]; //保存到保存数据的地方
-          } else if (arr2[0] == "userPwd") {
-            this.loginForm.password = arr2[1];
-          }
-        }
-        if (this.loginForm.userName && this.loginForm.password) {
-          this.checked = true;
-          this.handleLogin();
-        }
+      if (Cookies.get('userName') && Cookies.get('password')) {
+        this.loginForm.userName = Cookies.get('userName');
+        this.loginForm.password = Cookies.get('password');
+        this.checked = true;
+        this.handleLogin();
       }
     },
     //清除cookie
     clearCookie: function() {
-      this.setCookie("", "", -1); //修改2值都为空，天数为负1天就好了
+      Cookies.remove();
     }
   },
   //页面加载调用获取cookie值

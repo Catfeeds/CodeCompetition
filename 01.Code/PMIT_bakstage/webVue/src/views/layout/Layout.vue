@@ -1,8 +1,8 @@
 <template>
   <div :class="classObj" class="app-wrapper">
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
-    <sidebar class="sidebar-container"/>
-    <div class="main-container">
+    <sidebar class="sidebar-container" :style="widthChange"/>
+    <div class="main-container" :style="marginChange">
       <navbar/>
       <tags-view/>
       <app-main/>
@@ -36,6 +36,16 @@ export default {
         openSidebar: this.sidebar.opened,
         withoutAnimation: this.sidebar.withoutAnimation,
         mobile: this.device === 'mobile'
+      }
+    },
+    widthChange () {
+      return {
+        width: this.$store.state.app.language==='en' ? '215px' : "180px"
+      }
+    },
+    marginChange () {
+      return {
+        'margin-left': this.$store.state.app.language==='en' ? '215px' : "180px"
       }
     }
   },
