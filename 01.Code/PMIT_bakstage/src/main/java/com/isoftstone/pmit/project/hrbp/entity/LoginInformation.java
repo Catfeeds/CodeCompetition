@@ -1,7 +1,7 @@
 package com.isoftstone.pmit.project.hrbp.entity;
 
 
-public class LoginIformation {
+public class LoginInformation {
     /*登陆id*/
     private int loginID;
     /*软通工号*/
