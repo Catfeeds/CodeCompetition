@@ -6,21 +6,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.isoftstone.pmit.common.web.controller.AbstractController;
-import com.isoftstone.pmit.project.hrbp.service.IProjectGroupService;
+import com.isoftstone.pmit.project.hrbp.service.IProjectTeamService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping("/hrbp/groupManage")
+@RequestMapping("/hrbp/TeamManage")
 @Api(value="群组管理", tags={"项目群组管理"})
-public class ProjectGroupController extends AbstractController {
+public class ProjectTeamController extends AbstractController {
 	
 	@Autowired
-	private IProjectGroupService projectGroupService;
+	private IProjectTeamService projectTeamService;
 	
-	@ApiOperation("查询群组关系树")
-	@GetMapping("/getGroupTree")
+	@ApiOperation("查询项目组人员信息")
+	@GetMapping("/getTeamInfos")
 	public String getGroupTree() {
 		
 		try {
