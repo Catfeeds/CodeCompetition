@@ -30,7 +30,7 @@
         update_by updateBy,
         remark
     </sql>
-    <select id="getAllRoles" parameterType="map" resultMap="DictTypeResult">
+    <select id="getAllRoles" parameterType="map" resultMap="SysRoleResult">
         SELECT
         r.role_id roleId,
         r.role_name roleName,
@@ -68,14 +68,6 @@
       where sr.employee_id = #{employeeID}
     </select>
 
-    <select id="selectAllSystemRole" resultMap="SysRoleResult" resultType="com.isoftstone.pmit.project.hrbp.entity.SysRole">
-        select
-          <include refid="roleColumn"/>
-        from
-         hrbp_role
-        order by create_time
-    </select>
-
     <insert id="insertSystemRole" parameterType="SysRole" keyProperty="role_id">
         insert into sys_role(
         <if test="role_name != null and role_name != ''">role_name,</if>
@@ -109,7 +101,7 @@
         update sys_role set status = 0 where role_id = #{_paramter}
     </update>
 
-    <update id="updateSysDictType" parameterType="SysRole">
+    <update id="updateSystemRole" parameterType="SysRole">
         update sys_role
         <set>
             <if test="role_name != null and role_name != ''">role_name = #{role_name},</if>

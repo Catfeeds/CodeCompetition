@@ -10,12 +10,6 @@ import java.util.Map;
  */
 public interface ISystemRoleService {
     /**
-     * 获取所有系统角色
-     * @return
-     */
-    List<SysRole> selectAllSystemRole();
-
-    /**
      * 新增角色信息
      * @param sysRole
      */

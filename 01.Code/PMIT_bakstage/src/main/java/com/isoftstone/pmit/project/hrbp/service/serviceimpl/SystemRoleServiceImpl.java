@@ -2,7 +2,7 @@ package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 
 import com.isoftstone.pmit.project.hrbp.entity.SysRole;
 import com.isoftstone.pmit.project.hrbp.mapper.SysRoleMapper;
-import com.isoftstone.pmit.project.hrbp.service.SystemRoleService;
+import com.isoftstone.pmit.project.hrbp.service.ISystemRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +14,10 @@ import java.util.Map;
  */
 
 @Service
-public class SystemRoleServiceImpl implements SystemRoleService {
+public class SystemRoleServiceImpl implements ISystemRoleService {
 
     @Autowired
     private SysRoleMapper sysRoleMapper;
-
-    @Override
-    public List<SysRole> selectAllSystemRole() {
-        return sysRoleMapper.selectAllSystemRole();
-    }
 
     @Override
     public void insertSystemRole(SysRole sysRole) {

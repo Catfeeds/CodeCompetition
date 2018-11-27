@@ -12,8 +12,6 @@ import java.util.Map;
 @Repository
 public interface SysRoleMapper {
 
-    List<SysRole> selectAllSystemRole();
-
     void insertSystemRole(SysRole sysRole);
 
     void deleteSystemRole(String str);
