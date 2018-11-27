@@ -11,4 +11,6 @@ import java.util.Map;
 @Mapper
 public interface ProjectManageMapper {
     public List<Project> queryProjectTreeNode(Map<String, Object> queryMap);
+
+	public void addProjectNode(Map<String, Object> queryMap);
 }

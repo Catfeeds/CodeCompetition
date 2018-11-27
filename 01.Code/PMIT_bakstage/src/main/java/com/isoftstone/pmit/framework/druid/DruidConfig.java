@@ -1,6 +1,5 @@
 package com.isoftstone.pmit.framework.druid;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.alibaba.druid.support.http.StatViewServlet;
 import org.springframework.beans.factory.annotation.Value;

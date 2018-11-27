@@ -2,10 +2,10 @@ package com.isoftstone.pmit.project.hrbp.service;
 
 import java.util.List;
 
-import com.isoftstone.pmit.system.menu.entity.Menu;
+import com.isoftstone.pmit.project.hrbp.entity.MenuInfo;
 
 public interface IMenuManageService {
 	
-	List<Menu> getMenuListByRoleId(String roleId);
+	List<MenuInfo> getMenuListByRoleId(String roleId);
 	
 }

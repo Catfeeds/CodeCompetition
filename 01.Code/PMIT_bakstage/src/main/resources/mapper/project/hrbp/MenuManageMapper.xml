@@ -4,21 +4,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.MenuManageMapper">
 
-    <select id="getMenuListByRoleId" parameterType="java.lang.String"  resultType="com.isoftstone.pmit.system.menu.entity.Menu">
+    <select id="getMenuListByRoleId" parameterType="java.lang.String"  resultType="com.isoftstone.pmit.project.hrbp.entity.MenuInfo">
 		SELECT
 			m.menu_id as menuId,
 			m.menu_name as menuName,
-			menu_enname as menuEnName,
-			m.menu_type as menuType,
-			m.parent_id as parentId,
-			m.order_num as orderNum,
-			m.menuUrl,
-			m.perms,
-			m.icon,
-			m.visible,
-			m.remark
+			m.remark as note
 		FROM
 			sys_menu AS m
+		order by 
+			m.order_num
     </select>
 
 </mapper>

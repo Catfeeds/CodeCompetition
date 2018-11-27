@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.isoftstone.pmit.common.util.AjaxResult;
 import com.isoftstone.pmit.common.web.controller.AbstractController;
+import com.isoftstone.pmit.project.hrbp.entity.MenuInfo;
 import com.isoftstone.pmit.project.hrbp.service.IMenuManageService;
-import com.isoftstone.pmit.system.menu.entity.Menu;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,7 +26,7 @@ public class MenuManageController extends AbstractController {
 	@ApiOperation("查询的所有菜单列表")
     @GetMapping(value = "/getAllMenuList")
 	public String getAllMenuList() {
-		List<Menu> menuList = null;
+		List<MenuInfo> menuList = null;
 		try {
 			menuList = menuManageService.getMenuListByRoleId("0");
 		} catch (Exception e) {

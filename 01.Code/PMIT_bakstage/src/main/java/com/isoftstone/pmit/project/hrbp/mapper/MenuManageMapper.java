@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.isoftstone.pmit.system.menu.entity.Menu;
+import com.isoftstone.pmit.project.hrbp.entity.MenuInfo;
 
 @Mapper
 public interface MenuManageMapper {
 	
-	List<Menu> getMenuListByRoleId(String RoleId);
+	List<MenuInfo> getMenuListByRoleId(String RoleId);
 	
 }

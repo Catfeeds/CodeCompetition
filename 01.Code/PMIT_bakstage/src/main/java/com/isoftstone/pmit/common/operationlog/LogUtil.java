@@ -30,7 +30,7 @@ public class LogUtil {
 
     @Pointcut("execution(public * com.isoftstone.pmit.system.test.controller.*.*(..))")
     public void webLog(){
-
+    	
     }
 
     @Before("webLog()")
