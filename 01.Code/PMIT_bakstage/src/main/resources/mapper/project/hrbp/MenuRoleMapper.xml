@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.MenuRoleMapper">
+    <resultMap id="MenuResultMap" type="com.isoftstone.pmit.system.menu.entity.Menu">
+        <id column="menu_id"  property="menuId" />
+        <result column="menu_name"  property="menuName" />
+        <result column="menu_enname"  property="menuEnname" />
+        <result column="parent_id"  property="parentId" />
+        <result column="order_num"  property="orderNum" />
+        <result column="menuUrl"  property="menuurl" />
+        <result column="menu_type"  property="menuType" />
+        <result column="visible"  property="visible" />
+        <result column="perms"  property="perms" />
+        <result column="icon"  property="icon" />
+        <result column="create_by"  property="createBy" />
+        <result column="create_time"  property="createTime" />
+        <result column="update_by"  property="updateBy" />
+        <result column="update_time"  property="updateTime" />
+        <result column="remark" property="remark" />
+    </resultMap>
+    <select id="getMenuListByRoleId" parameterType="java.lang.String"  resultType="com.isoftstone.pmit.system.menu.entity.Menu">
+		SELECT
+			m.menu_id as menuId,
+			m.menu_name as menuName,
+			m.menu_enname as menuEnName,
+			m.menu_type as menuType,
+			m.parent_id as parentId,
+			m.order_num as orderNum,
+			m.menuUrl,
+			m.perms,
+			m.icon,
+			m.visible,
+			m.remark
+		FROM
+			sys_menu AS m
+    </select>
+    <sql id="Base_Column_List" >
+    menu_id,menu_name,menu_enname,parent_id,order_num,menuUrl,menu_type,visible,perms,icon,create_by,create_time,update_by,update_time,remark
+  </sql>
+    <select id="getMenu" resultMap="MenuResultMap" parameterType="java.lang.Integer" >
+        select
+        <include refid="Base_Column_List" />
+        from sys_menu
+        where id = #{menu_id}
+    </select>
+    <delete id="deleteMenuByRid" parameterType="long">
+        DELETE FROM sys.role_menu WHERE role_id=#{roleId}
+    </delete>
+    <insert id="addMenu">
+        INSERT INTO sys.role_menu(role_id,menu_id) VALUES
+        <foreach collection="mids" item="mid" separator=",">
+            (#{roleId},#{mid})
+        </foreach>
+    </insert>
+</mapper>
