@@ -1,0 +1,116 @@
+===========sys_base_staff_info====================
+CREATE TABLE IF NOT EXISTS sys_base_staff_info (
+  employeeID varchar(16) NOT NULL COMMENT '软通工号',
+  employeeName varchar(64) DEFAULT NULL COMMENT '员工姓名',
+  idNumber varchar(64) DEFAULT NULL COMMENT '身份证号。敏感信息，需要加密',
+  isoftStatus varchar(8) DEFAULT NULL COMMENT '软通状态。eg：在职',
+  personCategory varchar(32) DEFAULT NULL COMMENT '人员类别。eg：实施人员/职能支撑人员',
+  ifBackBone varchar(4) DEFAULT NULL COMMENT '是否骨干。eg:是/否',
+  ifOffShore varchar(4) DEFAULT NULL COMMENT '是否在岸。eg:是/否',
+  workPlace varchar(64) DEFAULT NULL COMMENT '办公场地',
+  workStationNumber int(32) DEFAULT NULL COMMENT '工位编号',
+  cooperationMode varchar(2) DEFAULT NULL COMMENT '合作模式。eg：FP/TM',
+  positionRole varchar(16) DEFAULT NULL COMMENT '岗位角色。eg：QA/测试/开发/资料/其他',
+  skill varchar(128) DEFAULT NULL COMMENT '技能。eg：C/C++、Java、Web前端、测试、其他',
+  sillDirection varchar(64) DEFAULT NULL COMMENT '技能方向。eg：安卓、测试、前端、视频检测',
+  technologyPlatform varchar(32) DEFAULT NULL COMMENT '技术平台',
+  technologyGrade varchar(32) DEFAULT NULL COMMENT '技术等级',
+  position varchar(64) DEFAULT NULL COMMENT '岗位。eg：交付总监、实施经理',
+  positionResponsibilities varchar(2056) DEFAULT NULL COMMENT '岗位职责',
+  tutorName varchar(64) DEFAULT NULL COMMENT '导师姓名',
+  tutorId varchar(16) DEFAULT NULL COMMENT '导师工号',
+  ifInTutorResourcePool varchar(4) DEFAULT NULL COMMENT '是否在导师资源池。eg：是/否',
+  directLeaderId varchar(16) DEFAULT NULL COMMENT '直接汇报上级工号',
+  directLeaderName varchar(64) DEFAULT NULL COMMENT '直接汇报上级姓名',
+  hwId varchar(16) DEFAULT NULL COMMENT '华为域账号',
+  hwMailbox varchar(64) DEFAULT NULL COMMENT '华为邮箱。eg：zhangsan@huawei.com',
+  employmentDate varchar(20) DEFAULT NULL COMMENT '入职日期',
+  departureDate varchar(20) DEFAULT NULL COMMENT '离职日期',
+  generalPosition varchar(64) DEFAULT NULL COMMENT '通用软通职位。eg：主管工程师(四级)-HW',
+  currentPositionDate varchar(20) DEFAULT NULL COMMENT '现职位生效时间。eg：2018/5/1 0:00:00',
+  costCenter varchar(64) DEFAULT NULL COMMENT '成本中心',
+  costCenterLeaderName varchar(64) DEFAULT NULL COMMENT '成本中心负责人',
+  bu varchar(64) DEFAULT NULL COMMENT 'BU。 eg：2012',
+  du varchar(64) DEFAULT NULL COMMENT 'DU。eg：中央软件院',
+  pdu varchar(64) DEFAULT NULL COMMENT 'PDU。eg：GENEX',
+  workPlaceArea varchar(64) DEFAULT NULL COMMENT '工作地文本。eg:是/否',
+  sex varchar(4) DEFAULT NULL COMMENT '性别。eg：男/女',
+  telephone varchar(16) DEFAULT NULL COMMENT '联系电话',
+  graduationSchool varchar(32) DEFAULT NULL COMMENT '毕业学校',
+  graduationMajor varchar(64) DEFAULT NULL COMMENT '毕业专业',
+  graduationTime varchar(20) DEFAULT NULL COMMENT '毕业时间',
+  if211 varchar(4) DEFAULT NULL COMMENT '是否211。eg:是/否',
+  ifUnderGraduates varchar(4) DEFAULT NULL COMMENT '是否统招。eg:是/否',
+  ifAbvoveTwoInstitutions varchar(4) DEFAULT NULL COMMENT '是否二本及以上。eg:是/否',
+  education varchar(16) DEFAULT NULL COMMENT '学历',
+  degree varchar(16) DEFAULT NULL COMMENT '学位',
+  ifGraduate varchar(4) DEFAULT NULL COMMENT '是否应届',
+  educationMode varchar(16) DEFAULT NULL COMMENT '教育模式',
+  projectTeamId int(11) DEFAULT NULL COMMENT '项目组ID。和项目群表关联',
+  currentStatus varchar(2) DEFAULT '0' COMMENT '当前人员状态。eg：-1：已离职；0：在资源池；1：在项目中。
+  默认为在资源池，只有经过出入项操作才会改变状态',
+  areasOfExpertise varchar(64) DEFAULT NULL COMMENT  '擅长领域',
+  photoPath varchar(200)  NULL COMMENT '证件照照片路径',
+ PRIMARY KEY (employeeID));
+
+ ======= family_information ==============
+ 
+ CREATE TABLE IF NOT EXISTS  family_information(
+	employeeID varchar(16) NOT NULL COMMENT '软通工号',
+	birthdayDate varchar(64) DEFAULT NULL COMMENT	'出生年月',
+	nationality varchar(16) DEFAULT NULL COMMENT	'民族',
+	birthplace varchar(16) DEFAULT NULL COMMENT	'籍贯',
+	isPartyMember	varchar(16) DEFAULT NULL COMMENT	'是否党员  0 ：是 1：否',
+	heigh	varchar(16) DEFAULT NULL COMMENT	'身高',
+	weight varchar(16) DEFAULT NULL COMMENT	'体重',
+	currentHomeAddress varchar(200) DEFAULT NULL COMMENT	'现居住地址',
+	emergencyContact	varchar(16) DEFAULT NULL COMMENT '紧急联系人',
+	emergencyContactRelation	varchar(16) DEFAULT NULL COMMENT '紧急联系人关系',
+	emergencyContactAdress	varchar(200)DEFAULT NULL COMMENT '紧急联系人住址',
+	emergencyContactPhone	varchar(64) DEFAULT NULL COMMENT '紧急联系人电话',
+	maritalStatus	varchar(16) DEFAULT NULL COMMENT '婚姻状态 是 ：0  否 ：1',
+	childInformation	varchar(200)DEFAULT NULL COMMENT '子女信息',
+	wayToWork	varchar(64) DEFAULT NULL COMMENT '上班方式',
+	workingHour varchar(16) DEFAULT NULL COMMENT '上班路上时长',
+	isbuyHouse varchar(16) DEFAULT NULL COMMENT '是否买房',
+	dayOfBuyHouse	varchar(64)	DEFAULT NULL COMMENT '买房日期',
+	propertyAddress varchar(200) DEFAULT NULL COMMENT	'房产地址',
+	PRIMARY KEY (employeeID));
+	
+===============company_qualification========================
+CREATE TABLE IF NOT EXISTS  company_qualification(
+	qualificationName	varchar(64)	DEFAULT NULL COMMENT '资质名称',
+	qualificationType	varchar(64) DEFAULT NULL COMMENT '资质类型',
+	certificationLevel	varchar(64) DEFAULT NULL COMMENT '认证等级',
+	passDate	varchar(64) DEFAULT NULL COMMENT '通过日期',
+	qualificationID	varchar(64) NOT NULL COMMENT '资质ID',
+	employeeID	varchar(16)	DEFAULT NULL COMMENT '员工工号',
+	PRIMARY KEY (qualificationID));
+
+	
+=========================personal_style====================	
+CREATE TABLE IF NOT EXISTS personal_style (
+	employeeID varchar(16) NOT NULL COMMENT	'员工工号',
+	food varchar(100) DEFAULT NULL COMMENT '喜欢的食物',
+	game varchar(200) DEFAULT NULL COMMENT '喜欢的游戏',
+	motion varchar(200) DEFAULT NULL COMMENT '喜欢的运动',
+	book varchar(200) DEFAULT NULL COMMENT '喜欢的书籍',
+	movie varchar(200) DEFAULT NULL COMMENT '喜欢的电影',
+	music varchar(200) DEFAULT NULL COMMENT '喜欢的音乐',
+	oneSentence	varchar(200) DEFAULT NULL COMMENT '喜欢的一句话',
+	dislike	varchar(200) DEFAULT NULL COMMENT '不喜欢的',
+	photosOfLife varchar(200) DEFAULT NULL COMMENT '生活照照片路径',
+	PRIMARY KEY (employeeID));
+
+	
+=================login_information=======================
+CREATE TABLE
+IF NOT EXISTS login_information (
+	login_id INT NOT NULL COMMENT '登陆id',
+	employee_ID VARCHAR (16) DEFAULT NULL COMMENT '软通工号',
+	employee_name VARCHAR (16) DEFAULT NULL COMMENT '员工姓名',
+	pass_word VARCHAR (32) DEFAULT NULL COMMENT '密码',
+	role_id VARCHAR (16) DEFAULT NULL COMMENT '角色ID',
+	PRIMARY KEY (login_id)
+);
+
