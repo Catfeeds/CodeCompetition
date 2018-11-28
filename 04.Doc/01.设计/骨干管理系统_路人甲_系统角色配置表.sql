@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50560
 File Encoding         : 65001
 
-Date: 2018-11-28 17:02:16
+Date: 2018-11-28 17:16:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,7 +25,7 @@ CREATE TABLE `hrbp_role` (
   `role_key` varchar(100) DEFAULT NULL COMMENT '角色权限字符串',
   `role_sort` int(4) DEFAULT NULL COMMENT '显示顺序',
   `data_scope` int(4) DEFAULT '1' COMMENT '数据范围（1：全部数据权限 2：自定数据权限）',
-  `status` int(4) DEFAULT NULL COMMENT '角色状态（0正常 1停用）',
+  `status` int(4) DEFAULT '1' COMMENT '角色状态（0正常 1停用）',
   `create_by` varchar(64) DEFAULT NULL COMMENT '创建者',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_by` varchar(64) DEFAULT NULL COMMENT '更新者',
