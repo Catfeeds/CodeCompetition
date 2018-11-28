@@ -4,21 +4,14 @@ import java.util.Date;
 
 public class BaseStaffInfo {
 
-    /*==============基础信息================*/
     /*软通工号*/
     private String employeeID;
     /*员工姓名*/
     private String employeeName;
-    /*性别*/
-    private String sex;
-    /*年龄*/
-    private int age;
     /*身份证号*/
     private String idNumber;
     /*软通状态*/
     private String isoftStatus;
-    /*人员类别*/
-    private String personCategory;
     /*是否骨干*/
     private String ifBackBone;
     /*是否在岸*/
@@ -33,24 +26,16 @@ public class BaseStaffInfo {
     private String positionRole;
     /*岗位*/
     private String position;
-    /*岗位职责*/
-    private String positionResponsibilities;
-    /*导师姓名*/
-    private String tutorName;
-    /*导师工号*/
-    private String tutorId;
-    /*是否在导师资源池*/
-    private String ifInTutorResourcePool;
+    /*技能*/
+    private String skill;
+    /*技能方向*/
+    private String sillDirection;
     /*直接汇报上级工号*/
     private String directLeaderId;
     /*直接汇报上级姓名*/
     private String directLeaderName;
-    /*华为域账号*/
-    private String hwId;
-    /*华为邮箱*/
-    private String hwMailbox;
     /*入职日期*/
-    private Date employmentDate;
+    private String employmentDate;
     /*离职日期*/
     private String departureDate;
     /*通用软通职位。eg：主管工程师(四级)-HW*/
@@ -69,24 +54,32 @@ public class BaseStaffInfo {
     private String pdu;
     /*办公地点*/
     private String workPlaceArea;
+    /*性别*/
+    private String sex;
     /*联系电话*/
     private String telephone;
-    /*证件照照片路径*/
-    private String photoPath;
-    /*公司邮箱*/
-    private String companyEmail;
+    /*软通邮箱*/
+    private String isoftEmai;
+    /*域用户名*/
+    private String domainUserName;
+    /*民族*/
+    private String nation;
+    /*籍贯*/
+    private String nativePlace;
+    /*政治面貌*/
+    private String political;
+    /*项目组ID*/
+    private int projectTeamId;
+    /*当前人员状态*/
+    private String currentStatus;
     /*工龄*/
     private String lengthOfService;
     /*司龄*/
     private String divisionAge;
-    /*项目组ID。和项目群表关联*/
-    private String projectTeamId;
-    /*当前人员状态*/
-    private String currentStatus;
-    /*===============教育信息==================*/
+    /*==================教育信息========================*/
     /*毕业学校*/
     private String graduationSchool;
-    /*毕业专业*/
+    /*专业名称*/
     private String graduationMajor;
     /*毕业时间*/
     private String graduationTime;
@@ -105,18 +98,6 @@ public class BaseStaffInfo {
     /*教育模式*/
     private String educationMode;
 
-    /*=============技能信息=====================*/
-    /*技能*/
-    private String skill;
-    /*技能方向*/
-    private String sillDirection;
-    /*技术平台*/
-    private String technologyPlatform;
-    /*技术等级*/
-    private String technologyGrade;
-    /*擅长领域*/
-    private String areasOfExpertise;
-
     public String getEmployeeID() {
         return employeeID;
     }
@@ -133,22 +114,6 @@ public class BaseStaffInfo {
         this.employeeName = employeeName;
     }
 
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public String getIdNumber() {
         return idNumber;
     }
@@ -163,14 +128,6 @@ public class BaseStaffInfo {
 
     public void setIsoftStatus(String isoftStatus) {
         this.isoftStatus = isoftStatus;
-    }
-
-    public String getPersonCategory() {
-        return personCategory;
-    }
-
-    public void setPersonCategory(String personCategory) {
-        this.personCategory = personCategory;
     }
 
     public String getIfBackBone() {
@@ -229,36 +186,20 @@ public class BaseStaffInfo {
         this.position = position;
     }
 
-    public String getPositionResponsibilities() {
-        return positionResponsibilities;
+    public String getSkill() {
+        return skill;
     }
 
-    public void setPositionResponsibilities(String positionResponsibilities) {
-        this.positionResponsibilities = positionResponsibilities;
+    public void setSkill(String skill) {
+        this.skill = skill;
     }
 
-    public String getTutorName() {
-        return tutorName;
+    public String getSillDirection() {
+        return sillDirection;
     }
 
-    public void setTutorName(String tutorName) {
-        this.tutorName = tutorName;
-    }
-
-    public String getTutorId() {
-        return tutorId;
-    }
-
-    public void setTutorId(String tutorId) {
-        this.tutorId = tutorId;
-    }
-
-    public String getIfInTutorResourcePool() {
-        return ifInTutorResourcePool;
-    }
-
-    public void setIfInTutorResourcePool(String ifInTutorResourcePool) {
-        this.ifInTutorResourcePool = ifInTutorResourcePool;
+    public void setSillDirection(String sillDirection) {
+        this.sillDirection = sillDirection;
     }
 
     public String getDirectLeaderId() {
@@ -277,27 +218,11 @@ public class BaseStaffInfo {
         this.directLeaderName = directLeaderName;
     }
 
-    public String getHwId() {
-        return hwId;
-    }
-
-    public void setHwId(String hwId) {
-        this.hwId = hwId;
-    }
-
-    public String getHwMailbox() {
-        return hwMailbox;
-    }
-
-    public void setHwMailbox(String hwMailbox) {
-        this.hwMailbox = hwMailbox;
-    }
-
-    public Date getEmploymentDate() {
+    public String getEmploymentDate() {
         return employmentDate;
     }
 
-    public void setEmploymentDate(Date employmentDate) {
+    public void setEmploymentDate(String employmentDate) {
         this.employmentDate = employmentDate;
     }
 
@@ -373,6 +298,14 @@ public class BaseStaffInfo {
         this.workPlaceArea = workPlaceArea;
     }
 
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
     public String getTelephone() {
         return telephone;
     }
@@ -381,20 +314,60 @@ public class BaseStaffInfo {
         this.telephone = telephone;
     }
 
-    public String getPhotoPath() {
-        return photoPath;
+    public String getIsoftEmai() {
+        return isoftEmai;
     }
 
-    public void setPhotoPath(String photoPath) {
-        this.photoPath = photoPath;
+    public void setIsoftEmai(String isoftEmai) {
+        this.isoftEmai = isoftEmai;
     }
 
-    public String getCompanyEmail() {
-        return companyEmail;
+    public String getDomainUserName() {
+        return domainUserName;
     }
 
-    public void setCompanyEmail(String companyEmail) {
-        this.companyEmail = companyEmail;
+    public void setDomainUserName(String domainUserName) {
+        this.domainUserName = domainUserName;
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation;
+    }
+
+    public String getNativePlace() {
+        return nativePlace;
+    }
+
+    public void setNativePlace(String nativePlace) {
+        this.nativePlace = nativePlace;
+    }
+
+    public String getPolitical() {
+        return political;
+    }
+
+    public void setPolitical(String political) {
+        this.political = political;
+    }
+
+    public int getProjectTeamId() {
+        return projectTeamId;
+    }
+
+    public void setProjectTeamId(int projectTeamId) {
+        this.projectTeamId = projectTeamId;
+    }
+
+    public String getCurrentStatus() {
+        return currentStatus;
+    }
+
+    public void setCurrentStatus(String currentStatus) {
+        this.currentStatus = currentStatus;
     }
 
     public String getLengthOfService() {
@@ -411,22 +384,6 @@ public class BaseStaffInfo {
 
     public void setDivisionAge(String divisionAge) {
         this.divisionAge = divisionAge;
-    }
-
-    public String getProjectTeamId() {
-        return projectTeamId;
-    }
-
-    public void setProjectTeamId(String projectTeamId) {
-        this.projectTeamId = projectTeamId;
-    }
-
-    public String getCurrentStatus() {
-        return currentStatus;
-    }
-
-    public void setCurrentStatus(String currentStatus) {
-        this.currentStatus = currentStatus;
     }
 
     public String getGraduationSchool() {
@@ -508,45 +465,4 @@ public class BaseStaffInfo {
     public void setEducationMode(String educationMode) {
         this.educationMode = educationMode;
     }
-
-    public String getSkill() {
-        return skill;
-    }
-
-    public void setSkill(String skill) {
-        this.skill = skill;
-    }
-
-    public String getSillDirection() {
-        return sillDirection;
-    }
-
-    public void setSillDirection(String sillDirection) {
-        this.sillDirection = sillDirection;
-    }
-
-    public String getTechnologyPlatform() {
-        return technologyPlatform;
-    }
-
-    public void setTechnologyPlatform(String technologyPlatform) {
-        this.technologyPlatform = technologyPlatform;
-    }
-
-    public String getTechnologyGrade() {
-        return technologyGrade;
-    }
-
-    public void setTechnologyGrade(String technologyGrade) {
-        this.technologyGrade = technologyGrade;
-    }
-
-    public String getAreasOfExpertise() {
-        return areasOfExpertise;
-    }
-
-    public void setAreasOfExpertise(String areasOfExpertise) {
-        this.areasOfExpertise = areasOfExpertise;
-    }
-
 }
