@@ -98,6 +98,8 @@ public class BaseStaffInfo {
     /*教育模式*/
     private String educationMode;
 
+
+
     public String getEmployeeID() {
         return employeeID;
     }
