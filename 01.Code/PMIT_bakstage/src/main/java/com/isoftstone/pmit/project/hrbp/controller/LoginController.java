@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(value = "/auth")
 @Api(value = "登陆", tags = {"模块登陆页面"})
+@CrossOrigin
 public class LoginController {
 
 

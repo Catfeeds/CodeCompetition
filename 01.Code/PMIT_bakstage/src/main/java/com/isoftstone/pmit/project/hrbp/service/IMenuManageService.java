@@ -6,6 +6,8 @@ import com.isoftstone.pmit.project.hrbp.entity.MenuInfo;
 
 public interface IMenuManageService {
 	
-	List<MenuInfo> getMenuListByRoleId(String roleId);
+	List<MenuInfo> getMenuListByRoleId(Integer roleId);
+
+	String saveMenuByRoleId(Integer roleId, List<MenuInfo> menuInfos);
 	
 }

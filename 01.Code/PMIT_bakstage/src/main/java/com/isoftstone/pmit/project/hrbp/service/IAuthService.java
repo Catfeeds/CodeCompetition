@@ -20,5 +20,5 @@ public interface IAuthService {
 	 * @param roleId
 	 * @return
 	 */
-	List<MenuInfo> getMenusBySysRoleId(int roleId);
+	List<MenuInfo> getMenusBySysRoleId(Integer roleId);
 }

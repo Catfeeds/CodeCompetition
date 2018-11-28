@@ -1,0 +1,28 @@
+CREATE TABLE `isoftstone`.`hrbp_role_menu` ( `role_id` INT NOT NULL, `menu_id` INT NOT NULL );
+
+insert into hrbp_role_menu values (1,1);
+insert into hrbp_role_menu values (1,2);
+insert into hrbp_role_menu values (1,3);
+insert into hrbp_role_menu values (1,4);
+insert into hrbp_role_menu values (1,101);
+insert into hrbp_role_menu values (1,102);
+insert into hrbp_role_menu values (1,103);
+insert into hrbp_role_menu values (1,401);
+insert into hrbp_role_menu values (1,402);
+insert into hrbp_role_menu values (1,403);
+insert into hrbp_role_menu values (1,404);
+insert into hrbp_role_menu values (1,405);
+insert into hrbp_role_menu values (1,406);
+insert into hrbp_role_menu values (2,1);
+insert into hrbp_role_menu values (2,2);
+insert into hrbp_role_menu values (2,3);
+insert into hrbp_role_menu values (2,4);
+insert into hrbp_role_menu values (2,101);
+insert into hrbp_role_menu values (2,102);
+insert into hrbp_role_menu values (2,103);
+insert into hrbp_role_menu values (2,401);
+insert into hrbp_role_menu values (2,402);
+insert into hrbp_role_menu values (2,403);
+insert into hrbp_role_menu values (2,404);
+insert into hrbp_role_menu values (2,405);
+commit;

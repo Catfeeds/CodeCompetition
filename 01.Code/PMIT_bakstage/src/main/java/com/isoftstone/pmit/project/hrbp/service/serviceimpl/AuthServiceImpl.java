@@ -27,7 +27,7 @@ public class AuthServiceImpl implements IAuthService {
     }
 
     @Override
-    public List<MenuInfo> getMenusBySysRoleId(int roleId) {
-        return menuManageMapper.getMenusBySysRoleId(roleId);
+    public List<MenuInfo> getMenusBySysRoleId(Integer roleId) {
+        return menuManageMapper.getMenuListByRoleId(roleId);
     }
 }
