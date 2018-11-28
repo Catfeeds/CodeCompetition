@@ -60,12 +60,12 @@
     <select id="getRolesByEmployeeID" parameterType="java.lang.String" resultType="com.isoftstone.pmit.project.hrbp.entity.SysRole">
       select
       li.role_id id,
-      r.role_name,
-      r.role_key
+      hr.role_name,
+      hr.role_key
       from
       login_information li
       inner join hrbp_role hr on hr.role_id = li.role_id
-      where li.employee_ID= #{employeeID}
+      where li.employee_ID= '${_parameter}'
     </select>
 
     <insert id="insertSystemRole" parameterType="SysRole" keyProperty="role_id">

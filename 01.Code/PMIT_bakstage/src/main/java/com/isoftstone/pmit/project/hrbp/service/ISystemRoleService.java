@@ -33,4 +33,11 @@ public interface ISystemRoleService {
      * @return
      */
     List<SysRole> getAllRoles(Map<String,String> sysRoleParam);
+
+    /**
+     * 根据用户获取角色列表
+     * @param employeeID
+     * @return
+     */
+    SysRole getRolesByEmployeeID(String employeeID);
 }

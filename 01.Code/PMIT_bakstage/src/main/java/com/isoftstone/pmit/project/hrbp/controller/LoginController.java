@@ -1,6 +1,7 @@
 package com.isoftstone.pmit.project.hrbp.controller;
 
-import com.isoftstone.pmit.project.hrbp.common.LoginInfo;
+import com.isoftstone.pmit.common.web.controller.AbstractController;
+import com.isoftstone.pmit.project.hrbp.entity.LoginInfo;
 import com.isoftstone.pmit.project.hrbp.util.IConstants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,9 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/auth")
-@Api(value = "登陆", tags = {"模块登陆页面"})
+@Api(value = "登陆模块", tags = {"模块登陆页面"})
 @CrossOrigin
-public class LoginController {
+public class LoginController extends AbstractController {
 
 
     private Logger log = LoggerFactory.getLogger(LoginController.class);
@@ -34,9 +35,6 @@ public class LoginController {
     public LoginInfo loginIn(@RequestParam(value = "staffisstAccount", required = true) String staffisstAccount,
                             @RequestParam(value = "password", required = true) String password) {
         LoginInfo reJson = new LoginInfo();
-//        Map paramMap = ParamUtils.handleServletParameter(request);
-//        String staffisstAccount = MapUtils.getString(paramMap, "staffisstAccount");
-//        String password = MapUtils.getString(paramMap, "password");
         // shiro认证
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(staffisstAccount, password);
@@ -57,6 +55,7 @@ public class LoginController {
             return reJson;
         }
         reJson.setStatus(IConstants.RESULT_INT_SUCCESS);
+        reJson.setMessage("登录成功");
         String res = subject.getPrincipals().toString();
         if (subject.hasRole("admin")) {
             res = res + "----------你拥有admin权限";
@@ -66,5 +65,4 @@ public class LoginController {
         }
         return reJson;
     }
-
 }
