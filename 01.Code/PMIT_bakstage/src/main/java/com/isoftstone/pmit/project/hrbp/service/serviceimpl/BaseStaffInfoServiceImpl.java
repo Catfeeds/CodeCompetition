@@ -4,8 +4,9 @@ import com.isoftstone.pmit.project.hrbp.entity.OneStaffAllInfo;
 import com.isoftstone.pmit.project.hrbp.mapper.BaseStaffInfoMapper;
 import com.isoftstone.pmit.project.hrbp.service.BaseStaffInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
 
     @Autowired
