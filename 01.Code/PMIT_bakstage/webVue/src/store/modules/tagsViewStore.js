@@ -4,7 +4,7 @@ const tagsView = {
     cachedViews: []
   },
   mutations: {
-    ADD_VISITED_VIEW: (state, view) => {
+    addVisitedView: (state, view) => {
       if (state.visitedViews.some(v => v.path === view.path)) return;
       state.visitedViews.push(
         Object.assign({}, view, {
@@ -12,14 +12,14 @@ const tagsView = {
         })
       );
     },
-    ADD_CACHED_VIEW: (state, view) => {
+    addCachedView: (state, view) => {
       if (state.cachedViews.includes(view.name)) return;
       if (!view.meta.noCache) {
         state.cachedViews.push(view.name);
       }
     },
 
-    DEL_VISITED_VIEW: (state, view) => {
+    delVisitedView: (state, view) => {
       for (const [i, v] of state.visitedViews.entries()) {
         if (v.path === view.path) {
           state.visitedViews.splice(i, 1);
@@ -27,7 +27,7 @@ const tagsView = {
         }
       }
     },
-    DEL_CACHED_VIEW: (state, view) => {
+    delCachedView: (state, view) => {
       for (const i of state.cachedViews) {
         if (i === view.name) {
           const index = state.cachedViews.indexOf(i);
@@ -37,7 +37,7 @@ const tagsView = {
       }
     },
 
-    DEL_OTHERS_VISITED_VIEWS: (state, view) => {
+    delOthersVisitedViews: (state, view) => {
       for (const [i, v] of state.visitedViews.entries()) {
         if (v.path === view.path) {
           state.visitedViews = state.visitedViews.slice(i, i + 1);
@@ -45,7 +45,7 @@ const tagsView = {
         }
       }
     },
-    DEL_OTHERS_CACHED_VIEWS: (state, view) => {
+    delOthersCachedViews: (state, view) => {
       for (const i of state.cachedViews) {
         if (i === view.name) {
           const index = state.cachedViews.indexOf(i);
@@ -55,14 +55,14 @@ const tagsView = {
       }
     },
 
-    DEL_ALL_VISITED_VIEWS: state => {
+    delAllVisitedViews: state => {
       state.visitedViews = [];
     },
-    DEL_ALL_CACHED_VIEWS: state => {
+    delAllCachedViews: state => {
       state.cachedViews = [];
     },
 
-    UPDATE_VISITED_VIEW: (state, view) => {
+    updateVisitedView: (state, view) => {
       for (let v of state.visitedViews) {
         if (v.path === view.path) {
           v = Object.assign(v, view);
@@ -77,10 +77,10 @@ const tagsView = {
       dispatch("addCachedView", view);
     },
     addVisitedView({ commit }, view) {
-      commit("ADD_VISITED_VIEW", view);
+      commit("addVisitedView", view);
     },
     addCachedView({ commit }, view) {
-      commit("ADD_CACHED_VIEW", view);
+      commit("addCachedView", view);
     },
 
     delView({ dispatch, state }, view) {
@@ -95,13 +95,13 @@ const tagsView = {
     },
     delVisitedView({ commit, state }, view) {
       return new Promise(resolve => {
-        commit("DEL_VISITED_VIEW", view);
+        commit("delVisitedView", view);
         resolve([...state.visitedViews]);
       });
     },
     delCachedView({ commit, state }, view) {
       return new Promise(resolve => {
-        commit("DEL_CACHED_VIEW", view);
+        commit("delCachedView", view);
         resolve([...state.cachedViews]);
       });
     },
@@ -118,13 +118,13 @@ const tagsView = {
     },
     delOthersVisitedViews({ commit, state }, view) {
       return new Promise(resolve => {
-        commit("DEL_OTHERS_VISITED_VIEWS", view);
+        commit("delOthersVisitedViews", view);
         resolve([...state.visitedViews]);
       });
     },
     delOthersCachedViews({ commit, state }, view) {
       return new Promise(resolve => {
-        commit("DEL_OTHERS_CACHED_VIEWS", view);
+        commit("delOthersCachedViews", view);
         resolve([...state.cachedViews]);
       });
     },
@@ -141,19 +141,19 @@ const tagsView = {
     },
     delAllVisitedViews({ commit, state }) {
       return new Promise(resolve => {
-        commit("DEL_ALL_VISITED_VIEWS");
+        commit("delAllVisitedViews");
         resolve([...state.visitedViews]);
       });
     },
     delAllCachedViews({ commit, state }) {
       return new Promise(resolve => {
-        commit("DEL_ALL_CACHED_VIEWS");
+        commit("delAllCachedViews");
         resolve([...state.cachedViews]);
       });
     },
 
     updateVisitedView({ commit }, view) {
-      commit("UPDATE_VISITED_VIEW", view);
+      commit("updateVisitedView", view);
     }
   }
 };

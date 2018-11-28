@@ -27,7 +27,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("GetMenuInfo").then(() => {
+    this.$store.dispatch("getMenuInfo").then(() => {
     });
   }
 };
