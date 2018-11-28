@@ -66,6 +66,7 @@ const user = {
       return new Promise((resolve, reject) => {
         getUserInfo(state.token)
           .then(response => {
+            console.log(response);
             if (!response.data) {
               // 由于mockjs 不支持自定义状态码只能这样hack
               reject("error");

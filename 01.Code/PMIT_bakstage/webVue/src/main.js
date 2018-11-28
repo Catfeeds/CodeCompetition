@@ -14,6 +14,7 @@ import "./mock/index";
 Vue.config.productionTip = false;
 Vue.use(elmentui);
 router.beforeEach((to, from, next) => {
+  store.dispatch("GetUserInfo");
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (Cookies.get("status") !== "logined") {
       next({
