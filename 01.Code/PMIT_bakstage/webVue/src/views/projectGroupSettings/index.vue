@@ -16,7 +16,7 @@
         </el-col>
         <el-col :span="4">
           <el-form-item label="DU">
-            <el-select v-model="form.du" size="mini" placeholder="请选择">
+            <el-select v-model="form.du" size="mini" placeholder="请选择" @change="changeDU">
               <el-option
                 v-for="item in duOptions"
                 :key="item.value"
@@ -60,28 +60,30 @@
       :data="list"
       border
       fit
+      size="mini"
+      stripe
       highlight-current-row
       style="width: 100%"
     >
-      <el-table-column align="center" label="ID" width="80">
+      <el-table-column header-align="center" :label="$t('table.id')" width="80" sortable="true">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="180px" align="center" label="Date">
+      <el-table-column min-width="150px" header-align="center" :label="$t('projectGroup.product')" sortable="true">
         <template slot-scope="scope">
           <span>{{ scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="120px" align="center" label="Author">
+      <el-table-column min-width="150px" header-align="center" label="DU" sortable="true">
         <template slot-scope="scope">
           <span>{{ scope.row.author }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="100px" label="Importance">
+      <el-table-column min-width="150px" header-align="center" label="PDU" sortable="true">
         <template slot-scope="scope">
           <svg-icon
             v-for="n in +scope.row.importance"
@@ -92,13 +94,13 @@
         </template>
       </el-table-column>
 
-      <el-table-column class-name="status-col" label="Status" width="110">
+      <el-table-column :label="$t('projectGroup.teamName')" header-align="center" min-width="110" sortable="true">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="300px" label="Title">
+      <el-table-column width="150px" label="PM" header-align="center" sortable="true">
         <template slot-scope="scope">
           <template v-if="scope.row.edit">
             <el-input v-model="scope.row.title" class="edit-input" size="small"/>
@@ -114,7 +116,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="Actions" width="120">
+      <el-table-column align="center" :label="$t('table.option')" width="120" header-align="center">
         <template slot-scope="scope">
           <el-button
             v-if="scope.row.edit"
@@ -149,6 +151,12 @@ export default {
         pdu: "",
         teamName: "",
         pm: ""
+      },
+      list: null,
+      listLoading: false,
+      listQuery: {
+        page: 1,
+        limit: 10
       }
     };
   },
@@ -162,6 +170,9 @@ export default {
             value: item.id
           };
         });
+        this.form.product =
+          this.productOptions[0] && this.productOptions[0].value;
+        this.changeProduct(this.form.product);
       } else {
         this.productOptions = [];
       }
@@ -169,16 +180,55 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log("submit!");
+      this.listLoading = true;
+      this.$store
+        .dispatch("GetProjectGroupInfo", this.form)
+        .then(() => {
+          const data = this.$store.getters.projectGroup;
+        })
+        .catch(() => {
+          this.listLoading = false;
+        });
     },
     changeProduct(value) {
-      console.log(value);
+      this.$store.dispatch("GetDUInfo", value).then(() => {
+        const data = this.$store.getters.du;
+        if (data) {
+          this.duOptions = data.map(function(item) {
+            return {
+              label: item.name,
+              value: item.id
+            };
+          });
+          this.form.du = this.duOptions[0] && this.duOptions[0].value;
+          this.changeDU(this.form.du);
+        } else {
+          this.duOptions = [];
+        }
+      });
+    },
+    changeDU(value) {
+      this.$store.dispatch("GetPDUInfo", this.form.product, value).then(() => {
+        const data = this.$store.getters.pdu;
+        if (data) {
+          this.pduOptions = data.map(function(item) {
+            return {
+              label: item.name,
+              value: item.id
+            };
+          });
+          this.form.pdu = this.pduOptions[0] && this.pduOptions[0].value;
+        } else {
+          this.pduOptions = [];
+        }
+      });
     }
   }
 };
 </script>
 <style rel="stylesheet/scss" lang="scss">
-// .project-group-container {
-//   .el-form-item__content{width: 60%}
-// }
+.project-group-container {
+  margin: 15px;
+  // .el-form-item__content{width: 60%}
+}
 </style>

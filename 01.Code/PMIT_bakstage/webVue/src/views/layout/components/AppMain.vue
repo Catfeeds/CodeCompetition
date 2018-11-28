@@ -28,7 +28,6 @@ export default {
   width: calc(100% - 30px);
   position: relative;
   overflow: hidden;
-  margin: 15px;
 }
 </style>
 

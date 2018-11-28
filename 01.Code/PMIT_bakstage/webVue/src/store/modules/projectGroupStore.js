@@ -1,4 +1,9 @@
-import { getProductInfo, getDUInfo, getPDUInfo } from "@/api/projectGroupApi";
+import {
+  getProductInfo,
+  getDUInfo,
+  getPDUInfo,
+  getProjectGroupInfo
+} from "@/api/projectGroupApi";
 const projectGroup = {
   state: {
     product: [],
@@ -14,6 +19,9 @@ const projectGroup = {
     },
     SET_PDU: (state, pdu) => {
       state.pdu = pdu;
+    },
+    SET_PROJECTGROUP: (state, projectGroup) => {
+      state.projectGroup = projectGroup;
     }
   },
   actions: {
@@ -47,6 +55,18 @@ const projectGroup = {
         getPDUInfo(product, du)
           .then(response => {
             commit("SET_PDU", response.data);
+            resolve();
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    GetProjectGroupInfo({ commit }, param) {
+      return new Promise((resolve, reject) => {
+        getProjectGroupInfo(param)
+          .then(res => {
+            commit("SET_PROJECTGROUP", res.data);
             resolve();
           })
           .catch(error => {

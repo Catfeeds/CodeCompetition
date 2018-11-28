@@ -12,10 +12,17 @@ export function getDUInfo(product) {
     params: { product: product }
   });
 }
-export function getPDUctInfo(product, du) {
+export function getPDUInfo(product, du) {
   return request({
-    url: "projectGroup/getPDUctInfo",
+    url: "projectGroup/getPDUInfo",
     method: "get",
     params: { product: product, du: du }
+  });
+}
+export function getProjectGroupInfo(param) {
+  return request({
+    url: "projectGroup/getProjectGroupInfo",
+    method: "get",
+    params: param
   });
 }
