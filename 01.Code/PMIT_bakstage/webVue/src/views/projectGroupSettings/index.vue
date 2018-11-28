@@ -161,8 +161,8 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch("GetProductInfo").then(() => {
-      const data = this.$store.getters.product;
+    this.$store.dispatch("getProductInfo").then(() => {
+      const data = this.$store.getters.productList;
       if (data) {
         this.productOptions = data.map(function(item) {
           return {
@@ -182,17 +182,17 @@ export default {
     onSubmit() {
       this.listLoading = true;
       this.$store
-        .dispatch("GetProjectGroupInfo", this.form)
-        .then(() => {
-          const data = this.$store.getters.projectGroup;
+        .dispatch("getProjectGroupInfo", this.form)
+        .then((data) => {
+          
         })
         .catch(() => {
-          this.listLoading = false;
+          this.list = [];
         });
     },
     changeProduct(value) {
-      this.$store.dispatch("GetDUInfo", value).then(() => {
-        const data = this.$store.getters.du;
+      this.$store.dispatch("getDUInfo", value).then(() => {
+        const data = this.$store.getters.duList;
         if (data) {
           this.duOptions = data.map(function(item) {
             return {
@@ -208,8 +208,8 @@ export default {
       });
     },
     changeDU(value) {
-      this.$store.dispatch("GetPDUInfo", this.form.product, value).then(() => {
-        const data = this.$store.getters.pdu;
+      this.$store.dispatch("getPDUInfo", this.form.product, value).then(() => {
+        const data = this.$store.getters.pduList;
         if (data) {
           this.pduOptions = data.map(function(item) {
             return {

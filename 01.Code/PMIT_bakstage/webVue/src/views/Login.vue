@@ -163,11 +163,11 @@ export default {
             Cookies.set('password', this.loginForm.password, {expires: 10});
           }
           this.$store
-            .dispatch("LoginByUserName", this.loginForm)
+            .dispatch("loginByUserName", this.loginForm)
             .then(() => {
               this.loading = false;
               Cookies.set('status', 'logined');
-              this.$store.dispatch("GetUserInfo").then(()=>{
+              this.$store.dispatch("getUserInfo").then(()=>{
                 this.$router.push({ path: this.redirect || "/" });
               })
               .catch(()=>{

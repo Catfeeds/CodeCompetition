@@ -14,8 +14,8 @@ const getters = {
   setting: state => state.userInfoStore.setting,
   permission_routers: state => state.appStore.routers,
   addRouters: state => state.appStore.addRouters,
-  product: state => state.projectGroupStore.product,
-  du: state => state.projectGroupStore.du,
-  pdu: state => state.projectGroupStore.pdu
+  productList: state => state.projectGroupStore.productList,
+  duList: state => state.projectGroupStore.duList,
+  pduList: state => state.projectGroupStore.pduList
 };
 export default getters;

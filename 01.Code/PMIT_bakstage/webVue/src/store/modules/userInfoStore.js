@@ -17,41 +17,32 @@ const user = {
   },
 
   mutations: {
-    SET_CODE: (state, code) => {
-      state.code = code;
-    },
-    SET_TOKEN: (state, token) => {
+    setToken: (state, token) => {
       state.token = token;
     },
-    SET_INTRODUCTION: (state, introduction) => {
+    setIntroduction: (state, introduction) => {
       state.introduction = introduction;
     },
-    SET_SETTING: (state, setting) => {
-      state.setting = setting;
-    },
-    SET_STATUS: (state, status) => {
-      state.status = status;
-    },
-    SET_NAME: (state, name) => {
+    setName: (state, name) => {
       state.name = name;
     },
-    SET_AVATAR: (state, avatar) => {
+    setAvatar: (state, avatar) => {
       state.avatar = avatar;
     },
-    SET_ROLES: (state, roles) => {
+    setRoles: (state, roles) => {
       state.roles = roles;
     }
   },
 
   actions: {
     // 用户名登录
-    LoginByUserName({ commit }, userInfo) {
+    loginByUserName({ commit }, userInfo) {
       const userName = userInfo.userName.trim();
       return new Promise((resolve, reject) => {
         loginByUserName(userName, userInfo.password)
           .then(response => {
             const data = response.data;
-            commit("SET_TOKEN", data.token);
+            commit("setToken", data.token);
             setToken(response.data.token);
             resolve();
           })
@@ -62,7 +53,7 @@ const user = {
     },
 
     // 获取用户信息
-    GetUserInfo({ commit, state }) {
+    getUserInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getUserInfo(state.token)
           .then(response => {
@@ -74,13 +65,13 @@ const user = {
             const data = response.data;
             if (data.roles && data.roles.length > 0) {
               // 验证返回的roles是否是一个非空数组
-              commit("SET_ROLES", data.roles);
+              commit("setRoles", data.roles);
             } else {
               reject("getInfo: roles must be a non-null array !");
             }
-            commit("SET_NAME", data.name);
-            commit("SET_AVATAR", data.avatar);
-            commit("SET_INTRODUCTION", data.introduction);
+            commit("setName", data.name);
+            commit("setAvatar", data.avatar);
+            commit("setIntroduction", data.introduction);
             resolve(response);
           })
           .catch(error => {
@@ -89,12 +80,12 @@ const user = {
       });
     },
     // 登出
-    LogOut({ commit, state }) {
+    logOut({ commit, state }) {
       return new Promise((resolve, reject) => {
         logout(state.token)
           .then(() => {
-            commit("SET_TOKEN", "");
-            commit("SET_ROLES", []);
+            commit("setToken", "");
+            commit("setRoles", []);
             removeToken();
             resolve();
           })
@@ -107,7 +98,7 @@ const user = {
     // 前端 登出
     FedLogOut({ commit }) {
       return new Promise(resolve => {
-        commit("SET_TOKEN", "");
+        commit("setToken", "");
         removeToken();
         resolve();
       });
