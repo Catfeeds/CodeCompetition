@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.RoleMenuMapper">
+    <delete id="deleteMenuByRid" parameterType="java.lang.Integer">
+        DELETE FROM hrbp_role_menu WHERE role_id = #{roleId}
+    </delete>
+    <insert id="addMenu">
+        INSERT INTO hrbp_role_menu(role_id,menu_id) VALUES
+        <foreach collection="menuIds" item="menuId" separator=",">
+            (#{roleId},#{menuId})
+        </foreach>
+    </insert>
+    <update id="deleteRole" parameterType="java.lang.Integer">
+        update hrbp_role set status = 0  where role_id = #{roleId}
+    </update>
+</mapper>
