@@ -49,7 +49,7 @@ public class ShiroRealm extends AuthorizingRealm {
         //获取当前用户角色
         SysRole sysRole = this.systemRoleService.getRolesByEmployeeID(loginInformation.getEmployeeID());
         if(sysRole!=null){
-            authorizationInfo.addRole(sysRole.getRoleKey());
+            authorizationInfo.addRole(sysRole.getRoleName());
             //角色对应权限数据
             List<MenuInfo> menus = this.menuManageService.getMenuListByRoleId(sysRole.getRoleId());
             if (null != menus && menus.size() > 0) {

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author lf
@@ -20,28 +19,18 @@ public class SystemRoleServiceImpl implements ISystemRoleService {
     private SysRoleMapper sysRoleMapper;
 
     @Override
-    public void insertSystemRole(SysRole sysRole) {
-        sysRoleMapper.insertSystemRole(sysRole);
-    }
-
-    @Override
-    public void deleteSystemRole(String str) {
-        sysRoleMapper.deleteSystemRole(str);
-    }
-
-    @Override
     public void updateSystemRole(SysRole sysRole) {
         sysRoleMapper.updateSystemRole(sysRole);
     }
 
     @Override
-    public List<SysRole> getAllRoles(Map<String, String> sysRoleParam) {
-        return sysRoleMapper.getAllRoles(sysRoleParam);
+    public SysRole getRolesByEmployeeID(String employeeID) {
+        return sysRoleMapper.getRolesByEmployeeID(employeeID);
     }
 
     @Override
-    public SysRole getRolesByEmployeeID(String employeeID) {
-        return sysRoleMapper.getRolesByEmployeeID(employeeID);
+    public List<SysRole> queryAllRoles() {
+        return sysRoleMapper.queryAllRoles();
     }
 
 }

@@ -1,9 +1,9 @@
 package com.isoftstone.pmit.project.hrbp.controller;
 
 import com.isoftstone.pmit.common.util.AjaxResult;
-import com.isoftstone.pmit.common.util.JsonUtils;
 import com.isoftstone.pmit.common.web.controller.AbstractController;
 import com.isoftstone.pmit.project.hrbp.entity.SysRole;
+import com.isoftstone.pmit.project.hrbp.service.IRoleMenuService;
 import com.isoftstone.pmit.project.hrbp.service.ISystemRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/hrbp/system")
@@ -25,47 +23,41 @@ public class SystemRoleController extends AbstractController {
     @Autowired
     private ISystemRoleService systemRoleService;
 
-    @ApiOperation(value="查询系统角色", notes="查询角色,可选查询参数role_id ,role_name，role_key")
-    @PostMapping(value = "/getAllRoles")
-    public String getAllRoles(@RequestBody String param){
-        Map<String, String> sysRoleParam = JsonUtils.readValue(param, Map.class);
-        List<SysRole> resultList;
+    @Autowired
+    private IRoleMenuService roleMenuService;
+
+    @ApiOperation(value="查询系统角色", notes="查询所有角色")
+    @PostMapping(value = "/queryAllRoles")
+    public String queryAllRoles(){
+        List<SysRole> roleList;
         try {
-            resultList = systemRoleService.getAllRoles(sysRoleParam);
+            roleList = systemRoleService.queryAllRoles();
         } catch (Exception e) {
             e.printStackTrace();
-            logger.info("==========getAllRoles error===========" + e.getMessage());
+            logger.info("==========queryAllRoles error===========" + e.getMessage());
             return AjaxResult.returnToMessage(false, e.getMessage());
         }
-        return AjaxResult.returnToResult(true, resultList);
+        return AjaxResult.returnToResult(true,roleList);
     }
-
-
-    @ApiOperation(value="添加系统角色", notes="添加系统角色")
-    @PostMapping(value = "/insertSystemRole")
-    public AjaxResult insertSystemRole(@RequestBody String parameter){
-        SysRole sysRole = JsonUtils.readValue(parameter, SysRole.class);
+    @ApiOperation(value="根据用户id查询系统角色", notes="查询角色,根据用户id找角色")
+    @PostMapping(value = "/getRoleByEmpID")
+    public String getRoleByEmpID(@RequestBody String employeeID){
+        SysRole sysRole;
         try {
-            sysRole.setCreateBy("admin");
-            sysRole.setCreateTime(new Date());
-            systemRoleService.insertSystemRole(sysRole);
+            sysRole = systemRoleService.getRolesByEmployeeID(employeeID);
         } catch (Exception e) {
             e.printStackTrace();
-            logger.info("====insertSystemRole error=============" + e);
-            return AjaxResult.error();
+            logger.info("==========getRoleByEmpID error===========" + e.getMessage());
+            return AjaxResult.returnToMessage(false, e.getMessage());
         }
-        return AjaxResult.success();
+        return AjaxResult.returnToResult(true,sysRole);
     }
 
-    @ApiOperation(value="删除系统角色", notes="删除系统角色")
+    @ApiOperation(value="删除角色菜单", notes="删除角色菜单")
     @PostMapping(value = "/deleteSystemRole")
-    public AjaxResult deleteSystemRole(@RequestBody String parameter){
-        List<Map<String, String>> paramMap = JsonUtils.readValue(parameter, List.class);
+    public AjaxResult deleteSystemRole(@RequestBody Integer roleId){
         try {
-            for(Map<String, String> map:paramMap){
-                String str = String.valueOf(map.get("roleId"));
-                systemRoleService.deleteSystemRole(str);
-            }
+            roleMenuService.deleteSystemRole(roleId);
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("====deleteSystemRole error=============" + e);
@@ -74,17 +66,13 @@ public class SystemRoleController extends AbstractController {
         return AjaxResult.success();
     }
 
-    @ApiOperation(value="更新系统角色", notes="更新系统角色")
+    @ApiOperation(value="更新角色菜单", notes="更新角色菜单")
     @PostMapping(value = "/updateSystemRole")
-    public AjaxResult updateSystemRole(@RequestBody String parameter){
-        SysRole sysRole = JsonUtils.readValue(parameter, SysRole.class);
-        try {
-            systemRoleService.updateSystemRole(sysRole);
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.info("====updateSystemRole error=============" + e);
-            return AjaxResult.error();
+    public AjaxResult updateSystemRole(@RequestBody Integer roleId, Integer[] menuIds){
+        if (roleMenuService.updateSystemRole(roleId, menuIds) == menuIds.length) {
+            return AjaxResult.success();
         }
-        return AjaxResult.success();
+        return AjaxResult.error();
     }
+
 }

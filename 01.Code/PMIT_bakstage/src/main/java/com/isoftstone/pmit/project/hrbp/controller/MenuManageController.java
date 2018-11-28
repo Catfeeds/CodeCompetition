@@ -36,7 +36,7 @@ public class MenuManageController extends AbstractController {
 			logger.info("QueryAllMenuList ERROR" + e.getMessage());
 			return AjaxResult.returnToResult(false, e.getMessage());
 		}
-		return AjaxResult.returnToResult(false, menuList);
+		return AjaxResult.returnToResult(true, menuList);
 	}
 	
 	@ApiOperation("根据系统角色查询菜单列表")
@@ -51,7 +51,7 @@ public class MenuManageController extends AbstractController {
 			logger.info("QueryAllMenuList ERROR" + e.getMessage());
 			return AjaxResult.returnToResult(false, e.getMessage());
 		}
-		return AjaxResult.returnToResult(false, menuList);
+		return AjaxResult.returnToResult(true, menuList);
 	}
 	
 	@ApiOperation("保存系统角色的菜单列表")
@@ -65,7 +65,6 @@ public class MenuManageController extends AbstractController {
 			logger.info("QueryAllMenuList ERROR" + e.getMessage());
 			return AjaxResult.returnToResult(false, e.getMessage());
 		}
-		return AjaxResult.returnToResult(false, message);
+		return AjaxResult.returnToResult(true, message);
 	}
-	
 }
