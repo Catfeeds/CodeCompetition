@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.*;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -21,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
         "com.isoftstone.pmit.common.operationlog.mapper"})
 @EnableScheduling
 @Configuration
+@EnableTransactionManagement
 public class PmitApplication implements CommandLineRunner {
 
     public static void main(String[] args) {

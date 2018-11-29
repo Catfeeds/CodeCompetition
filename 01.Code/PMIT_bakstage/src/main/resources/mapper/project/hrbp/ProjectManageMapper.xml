@@ -3,36 +3,24 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.ProjectManageMapper">
-
-    <select id="queryProjectTreeNode" parameterType="java.util.Map"
-            resultType="Project">
-        SELECT
-          nodeID,
-          parentID,
-          treePath,
-          nodeName,
-          projectID,
-          projectName,
-          pmID,
-          pmName,
-          isLeafNode
-        FROM
-          sys_project
-        WHERE
-          isLeafNode = ${isLeafNode}
-          <if test="true == isLeafNode">
-              <if test="null != projectName and '' !=  projectName">
-                  AND projectName like '%${projectName}%'
-              </if>
-              <if test="null != pmName and '' !=  pmName">
-                  AND pmName like '%${pmName}%'
-              </if>
-              <if test="null != treePath and '' != treePath">
-                  AND treePath like '%${treePath}%'
-              </if>
-          </if>
-          <if test="null != treePath and '' != treePath">
-              AND treePath like '%${treePath}%'
-          </if>
+    <select id="queryNodes" parameterType="java.util.Map" resultType="ProjectTreeNode">
+      SELECT
+        nodeID,
+        nodePath,
+        nodeName,
+        projcetID,
+        projectName,
+        pmID,
+        pmName
+      FROM
+        sys_project_level
+      WHERE
+        isProject = TRUE
+        <if test="null != nodeIDs">
+            AND nodeID IN
+            <foreach collection="nodeIDs" separator="," open="(" item="item" close=")">
+                #{item}
+            </foreach>
+        </if>
     </select>
 </mapper>
