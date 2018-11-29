@@ -1,5 +1,5 @@
-import api from "@/api/permissionApi";
-const permission = {
+import api from "@/api/authorizationApi";
+const authorization = {
   state: {},
   mutations: {},
   actions: {
@@ -101,4 +101,4 @@ const permission = {
     }
   }
 };
-export default permission;
+export default authorization;

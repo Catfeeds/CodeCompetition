@@ -1,39 +1,44 @@
 import { getProductInfo } from "@/api/appApi";
-import { getArea,getRelationShips } from '@/api/relationShipApi'
+import { getArea, getRelationships } from "@/api/relationshipApi";
 
 let state = {
-    // products:[],
-    // aeras:[],
-    selectedProduct:'',
-    selectedArea:''
-}
+  // products:[],
+  // aeras:[],
+  selectedProduct: "",
+  selectedArea: ""
+};
 
-let mutations={
-    // setProducts(state,val){
-    //     state.products = val;
-    // },
-    // setArea(state,val){
-    //     state.aeras = val;
-    // },
-    setSelectedProduct(state,val){
-        state.selectedProduct=val;
-    },
-    setSelectedArea(state,val){
-        state.selectedArea = val;
-    }
-}
+let mutations = {
+  // setProducts(state,val){
+  //     state.products = val;
+  // },
+  // setArea(state,val){
+  //     state.aeras = val;
+  // },
+  setSelectedProduct(state, val) {
+    state.selectedProduct = val;
+  },
+  setSelectedArea(state, val) {
+    state.selectedArea = val;
+  }
+};
 
-let actions ={
-    getRSProductInfo({commit}){
-        return getProductInfo();
-    },
-    getRSArea({commit},product){
-        return getArea(product);
-    },
-    getRelationShips({state}){
-        return getRelationShips({
-            product:state.product,
-            area:state.area
-        })
-    }
-}
+let actions = {
+  getRSProductInfo() {
+    return getProductInfo();
+  },
+  getRSArea(commit, product) {
+    return getArea(product);
+  },
+  getRelationShips({ state }) {
+    return getRelationships({
+      product: state.product,
+      area: state.area
+    });
+  }
+};
+export default {
+  state,
+  mutations,
+  actions
+};

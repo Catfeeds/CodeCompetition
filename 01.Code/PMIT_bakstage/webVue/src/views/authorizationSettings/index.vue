@@ -1,5 +1,5 @@
 <template>
-  <div class="permission-container">
+  <div class="authorization-container">
     <el-tabs>
       <el-tab-pane label="角色设置">
         <el-row type="flex" justify="end">
@@ -161,7 +161,7 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-.permission-container {
+.authorization-container {
   margin: 15px;
 }
 </style>
