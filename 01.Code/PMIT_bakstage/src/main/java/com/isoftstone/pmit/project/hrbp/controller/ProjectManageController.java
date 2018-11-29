@@ -29,7 +29,6 @@ public class ProjectManageController {
     @PostMapping(value = "/queryProjectTreeNode")
     public String queryProjectTreeNode(@RequestBody String parameter) {
         PageInfo<Project> result = new PageInfo<Project>();
-
         Map<String, Object> paramMap = JsonUtils.readValue(parameter, Map.class);
         Map<String, Object> queryMap = new HashMap<String, Object>();
         queryMap.put("treePath", paramMap.get("treePath"));

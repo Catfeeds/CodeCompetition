@@ -12,13 +12,31 @@ import java.util.Map;
 @Repository
 public interface SysRoleMapper {
 
-    void insertSystemRole(SysRole sysRole);
 
-    void deleteSystemRole(String str);
-
+    /**
+     *  更新角色信息
+     * @param sysRole
+     */
     void updateSystemRole(SysRole sysRole);
 
-    List<SysRole> getAllRoles(Map<String, String> sysRoleParam);
+    /**
+     * 根据用户id找角色
+     * @param employeeID
+     * @return
+     */
+    SysRole getRolesByEmployeeID(String employeeID);
 
-    List<SysRole> getRolesByEmployeeID(String employeeID);
+    /**
+     * 查询所有角色
+     * @return
+     */
+    List<SysRole> queryAllRoles();
+
+    /**
+     * 插入角色
+     */
+    void insertSystemRole(SysRole role);
+
+
+
 }

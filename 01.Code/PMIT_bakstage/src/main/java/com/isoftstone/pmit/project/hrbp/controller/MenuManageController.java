@@ -31,7 +31,7 @@ public class MenuManageController extends AbstractController {
 		logger.info("getAllMenuList start");
 		List<MenuInfo> menuList = null;
 		try {
-			menuList = menuManageService.getMenuListByRoleId(1);
+			menuList = menuManageService.getMenus();
 		} catch (Exception e) {
 			logger.info("QueryAllMenuList ERROR" + e.getMessage());
 			return AjaxResult.returnToResult(false, e.getMessage());

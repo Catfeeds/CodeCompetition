@@ -4,6 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.MenuManageMapper">
 
+	<select id="getMenus" resultType="com.isoftstone.pmit.project.hrbp.entity.MenuInfo">
+		select
+		m.menu_id as menuId,
+		m.menu_name as menuName,
+		m.note as note
+		FROM
+			hrbp_menu m
+		order by
+			m.order_num
+	</select>
     <select id="getMenuListByRoleId" parameterType="java.lang.Integer"  resultType="com.isoftstone.pmit.project.hrbp.entity.MenuInfo">
 		SELECT
 			m.menu_id as menuId,
@@ -16,7 +26,7 @@
 			on 
 				m.menu_id = rm.menu_id
         where 
-			rm.role_id = 1
+			rm.role_id = '${_parameter}'
 		order by 
 			m.order_num
     </select>

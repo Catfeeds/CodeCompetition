@@ -51,4 +51,9 @@ public class MenuManageServiceImpl implements IMenuManageService {
 		return "saveMenuByRoleId success";
 	}
 
+	@Override
+	public List<MenuInfo> getMenus() {
+		return menuManageMapper.getMenus();
+	}
+
 }

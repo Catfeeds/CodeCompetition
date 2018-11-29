@@ -9,5 +9,6 @@ public interface IMenuManageService {
 	List<MenuInfo> getMenuListByRoleId(Integer roleId);
 
 	String saveMenuByRoleId(Integer roleId, List<MenuInfo> menuInfos);
-	
+
+	List<MenuInfo> getMenus();
 }

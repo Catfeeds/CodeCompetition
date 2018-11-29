@@ -7,13 +7,5 @@
         <id column="employee_id"  property="employeeId" />
         <result column="password"  property="password"/>
     </resultMap>
-
-    <select id="findUserByEmployeeId" parameterType="java.lang.String" resultType="com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo">
-        SELECT
-           s.employee_id,
-           s.password,
-        FROM
-           sys_basestaffinfo AS s
-        WHERE s.employee_id = #{employeeId}
-    </select>
-</mapper>
+    
+    </mapper>

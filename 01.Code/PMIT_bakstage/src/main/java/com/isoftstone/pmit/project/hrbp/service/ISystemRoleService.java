@@ -9,17 +9,20 @@ import java.util.Map;
  * @author lf
  */
 public interface ISystemRoleService {
-    /**
-     * 新增角色信息
-     * @param sysRole
-     */
-    void insertSystemRole(SysRole sysRole);
 
     /**
-     * 删除角色信息
-     * @param str
+     * 根据用户获取角色列表
+     * @param employeeID
+     * @return
      */
-    void deleteSystemRole(String str);
+    SysRole getRolesByEmployeeID(String employeeID);
+
+    /**
+     * 获取所有角色
+     * @return
+     */
+    List<SysRole> queryAllRoles();
+
 
     /**
      * 更新角色信息
@@ -27,10 +30,5 @@ public interface ISystemRoleService {
      */
     void updateSystemRole(SysRole sysRole);
 
-    /**
-     * 条件查询角色
-     * @param sysRoleParam
-     * @return
-     */
-    List<SysRole> getAllRoles(Map<String,String> sysRoleParam);
+
 }

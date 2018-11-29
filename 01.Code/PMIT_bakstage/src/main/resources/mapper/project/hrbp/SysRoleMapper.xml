@@ -30,90 +30,47 @@
         update_by updateBy,
         remark
     </sql>
-    <select id="getAllRoles" parameterType="map" resultMap="SysRoleResult">
-        SELECT
-        r.role_id roleId,
-        r.role_name roleName,
-        r.role_key roleKey,
-        r.role_sort roleSort,
-        r.data_scope dataScope,
-        r.status,
-        r.create_by createBy,
-        r.create_time createTime,
-        r.update_by updateBy,
-        r.remark
-        FROM
-        hrbp_role AS r
-        where 1=1
-        <if test="role_id != null and role_id != ''">
-            and r.role_id = '${roleId}'
-        </if>
-        <if test="null != dictName and dictName !=''">
-            AND r.role_name='${roleName}'
-        </if>
-        <if test="null != dictType and dictType !=''">
-            AND r.role_key='${roleKey}'
-        </if>
-        ORDER BY r.role_sort ASC
-    </select>
-
     <select id="getRolesByEmployeeID" parameterType="java.lang.String" resultType="com.isoftstone.pmit.project.hrbp.entity.SysRole">
       select
-      li.role_id id,
-      r.role_name,
-      r.role_key
+      hr.role_id roleId,
+      hr.role_name roleName,
+      hr.description
       from
       login_information li
       inner join hrbp_role hr on hr.role_id = li.role_id
       where li.employee_ID= #{employeeID}
     </select>
 
-    <insert id="insertSystemRole" parameterType="SysRole" keyProperty="role_id">
+    <insert id="insertSystemRole" parameterType="com.isoftstone.pmit.project.hrbp.entity.SysRole" keyProperty="role_id">
         insert into hrbp_role(
-        <if test="role_name != null and role_name != ''">role_name,</if>
-        <if test="role_key != null and role_key != ''">role_key,</if>
-        <if test="role_sort != null and role_sort != ''">role_sort,</if>
-        <if test="data_scope != null and data_scope != ''">data_scope,</if>
-        <if test="status != null and status != ''">status,</if>
-        <if test="create_by != null and create_by != ''">create_by,</if>
+        <if test="roleName != null and roleName != ''">role_name,</if>
         create_time,
-        <if test="update_by != null and update_by != ''">update_by,</if>
-        <if test="update_time != null and update_time != ''">update_time,</if>
         <if test="description != null and description != ''">description</if>
         <if test="remark != null and remark != ''">remark</if>
         )
         VALUES(
-        <if test="role_name != null and role_name != ''">#{role_name},</if>
-        <if test="role_key != null and role_key != ''">#{role_key},</if>
-        <if test="role_sort != null and role_sort != ''">#{role_sort},</if>
-        <if test="data_scope != null and data_scope != ''">#{data_scope},</if>
-        <if test="status != null and status != ''">#{status},</if>
-        <if test="create_by != null and create_by != ''">#{create_by},</if>
+        <if test="roleName != null and roleName != ''">#{roleName},</if>
         now(),
-        <if test="update_by != null and update_by != ''">#{update_by},</if>
-        <if test="update_time != null and update_time != ''">#{update_time},</if>
         <if test="description != null and description != ''">#{description}</if>
         <if test="remark != null and remark != ''">#{remark}</if>
         )
     </insert>
 
-    <update id="deleteSystemRole" parameterType="java.lang.String">
-        update hrbp_role set status = 0 where role_id = #{_paramter}
-    </update>
-
     <update id="updateSystemRole" parameterType="SysRole">
         update hrbp_role
         <set>
-            <if test="role_name != null and role_name != ''">role_name = #{role_name},</if>
-            <if test="role_key != null and role_key != ''">role_key = #{role_key},</if>
-            <if test="role_sort != null and role_sort != ''">role_sort = #{role_sort},</if>
-            <if test="data_scope != null and data_scope != ''">data_scope= #{data_scope},</if>
-            <if test="status != null and status != ''">status = #{status},</if>
-            <if test="create_by != null and create_by != ''">create_by = #{create_by},</if>
+            <if test="roleName != null and roleName != ''">role_name = #{roleName},</if>
             create_time = now(),
-            <if test="update_by != null and update_by != ''">update_by = #{update_by},</if>
             <if test="description != null and description != ''">description = #{description}</if>
-            <if test="remark != null and remark != ''">#{remark}</if>
         </set>
+        where role_id = #{roleId}
     </update>
+
+    <select id="queryAllRoles" resultType="com.isoftstone.pmit.project.hrbp.entity.SysRole">
+        select
+        <include refid="roleColumn"/>
+        from
+        hrbp_role
+        where status = 1;
+    </select>
 </mapper>

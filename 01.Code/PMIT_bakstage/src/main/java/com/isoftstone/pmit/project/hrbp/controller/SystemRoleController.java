@@ -1,21 +1,17 @@
 package com.isoftstone.pmit.project.hrbp.controller;
 
 import com.isoftstone.pmit.common.util.AjaxResult;
-import com.isoftstone.pmit.common.util.JsonUtils;
 import com.isoftstone.pmit.common.web.controller.AbstractController;
 import com.isoftstone.pmit.project.hrbp.entity.SysRole;
+import com.isoftstone.pmit.project.hrbp.service.IRoleMenuService;
 import com.isoftstone.pmit.project.hrbp.service.ISystemRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/hrbp/system")
@@ -25,47 +21,42 @@ public class SystemRoleController extends AbstractController {
     @Autowired
     private ISystemRoleService systemRoleService;
 
-    @ApiOperation(value="查询系统角色", notes="查询角色,可选查询参数role_id ,role_name，role_key")
-    @PostMapping(value = "/getAllRoles")
-    public String getAllRoles(@RequestBody String param){
-        Map<String, String> sysRoleParam = JsonUtils.readValue(param, Map.class);
-        List<SysRole> resultList;
+    @Autowired
+    private IRoleMenuService roleMenuService;
+
+    @ApiOperation(value="查询系统角色", notes="查询所有角色")
+    @PostMapping(value = "/queryAllRoles")
+    public String queryAllRoles(){
+        List<SysRole> roleList;
         try {
-            resultList = systemRoleService.getAllRoles(sysRoleParam);
+            roleList = systemRoleService.queryAllRoles();
         } catch (Exception e) {
             e.printStackTrace();
-            logger.info("==========getAllRoles error===========" + e.getMessage());
+            logger.info("==========queryAllRoles error===========" + e.getMessage());
             return AjaxResult.returnToMessage(false, e.getMessage());
         }
-        return AjaxResult.returnToResult(true, resultList);
+        return AjaxResult.returnToResult(true,roleList);
     }
 
-
-    @ApiOperation(value="添加系统角色", notes="添加系统角色")
-    @PostMapping(value = "/insertSystemRole")
-    public AjaxResult insertSystemRole(@RequestBody String parameter){
-        SysRole sysRole = JsonUtils.readValue(parameter, SysRole.class);
+    @ApiOperation(value="根据用户id查询系统角色", notes="查询角色,根据用户id找角色")
+    @PostMapping(value = "/getRoleByEmpID")
+    public String getRoleByEmpID(@RequestBody String employeeID){
+        SysRole sysRole;
         try {
-            sysRole.setCreateBy("admin");
-            sysRole.setCreateTime(new Date());
-            systemRoleService.insertSystemRole(sysRole);
+            sysRole = systemRoleService.getRolesByEmployeeID(employeeID);
         } catch (Exception e) {
             e.printStackTrace();
-            logger.info("====insertSystemRole error=============" + e);
-            return AjaxResult.error();
+            logger.info("==========getRoleByEmpID error===========" + e.getMessage());
+            return AjaxResult.returnToMessage(false, e.getMessage());
         }
-        return AjaxResult.success();
+        return AjaxResult.returnToResult(true,sysRole);
     }
 
-    @ApiOperation(value="删除系统角色", notes="删除系统角色")
+    @ApiOperation(value="删除角色菜单", notes="删除角色菜单")
     @PostMapping(value = "/deleteSystemRole")
-    public AjaxResult deleteSystemRole(@RequestBody String parameter){
-        List<Map<String, String>> paramMap = JsonUtils.readValue(parameter, List.class);
+    public AjaxResult deleteSystemRole(@RequestBody Integer roleId){
         try {
-            for(Map<String, String> map:paramMap){
-                String str = String.valueOf(map.get("roleId"));
-                systemRoleService.deleteSystemRole(str);
-            }
+            roleMenuService.deleteSystemRole(roleId);
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("====deleteSystemRole error=============" + e);
@@ -74,17 +65,46 @@ public class SystemRoleController extends AbstractController {
         return AjaxResult.success();
     }
 
-    @ApiOperation(value="更新系统角色", notes="更新系统角色")
+    @ApiOperation(value="更新角色菜单", notes="更新角色菜单")
     @PostMapping(value = "/updateSystemRole")
-    public AjaxResult updateSystemRole(@RequestBody String parameter){
-        SysRole sysRole = JsonUtils.readValue(parameter, SysRole.class);
+    public String updateSystemRole(Integer roleId, Integer[] menuIds){
+        logger.debug("更新角色菜单！角色数据roleId："+roleId+"，菜单数据permIds"+menuIds);
         try {
-            systemRoleService.updateSystemRole(sysRole);
+            if(null==roleId){
+                return AjaxResult.returnToMessage(false,"请选择角色！");
+            }
+            if(menuIds.length==0){
+                return AjaxResult.returnToMessage(false,"未授权，请您给该角色授权");
+            }
+            roleMenuService.updateSystemRole(roleId, menuIds);
+            return AjaxResult.returnToMessage(true,"更新角色菜单ok");
         } catch (Exception e) {
             e.printStackTrace();
-            logger.info("====updateSystemRole error=============" + e);
-            return AjaxResult.error();
+            logger.error("更新角色菜单！异常！", e);
         }
-        return AjaxResult.success();
+        return AjaxResult.returnToMessage(false,"操作错误,请稍后重试");
+
+    }
+
+    @ApiOperation(value="添加角色并授权", notes="添加角色并授权")
+    @RequestMapping(value = "/addRole", method = RequestMethod.POST)
+    @ResponseBody
+    public String addRole(Integer[] menuIds, @RequestBody SysRole role) {
+        logger.debug("添加角色并授权！角色数据role："+role+"，权限数据permIds："+menuIds);
+        try {
+            if(null == role){
+                return AjaxResult.returnToMessage(false,"请您填写完整的角色数据");
+            }
+            if(menuIds.length==0){
+                return AjaxResult.returnToMessage(false,"未授权，请您给该角色授权");
+            }
+            role.setCreateTime(new Date());
+            roleMenuService.addRole(role,menuIds);
+            return AjaxResult.returnToMessage(true,"添加角色并授权ok");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("添加角色并授权！异常！", e);
+        }
+        return AjaxResult.returnToMessage(false,"操作错误,请稍后重试");
     }
 }
