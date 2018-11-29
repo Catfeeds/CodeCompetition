@@ -185,7 +185,7 @@ export const asyncRouterMap = [
       },
       {
         path: "permission",
-        component: () => import("@/views/dashboard/index"),
+        component: () => import("@/views/permissionSettings/index"),
         name: "Permission",
         meta: {
           title: "permission",

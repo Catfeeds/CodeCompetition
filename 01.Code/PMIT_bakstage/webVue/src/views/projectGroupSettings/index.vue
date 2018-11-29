@@ -71,36 +71,41 @@
         </template>
       </el-table-column>
 
-      <el-table-column min-width="150px" header-align="center" :label="$t('projectGroup.product')" sortable="true">
+      <el-table-column
+        min-width="150px"
+        header-align="center"
+        :label="$t('projectGroup.product')"
+        sortable
+      >
         <template slot-scope="scope">
-          <span>{{ scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}') }}</span>
+          <span>{{ scope.row.product }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="150px" header-align="center" label="DU" sortable="true">
+      <el-table-column min-width="150px" header-align="center" label="DU" sortable>
         <template slot-scope="scope">
-          <span>{{ scope.row.author }}</span>
+          <span>{{ scope.row.du }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="150px" header-align="center" label="PDU" sortable="true">
+      <el-table-column min-width="150px" header-align="center" label="PDU" sortable>
         <template slot-scope="scope">
-          <svg-icon
-            v-for="n in +scope.row.importance"
-            :key="n"
-            icon-class="star"
-            class="meta-item__icon"
-          />
+          <span>{{ scope.row.pdu }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column :label="$t('projectGroup.teamName')" header-align="center" min-width="110" sortable="true">
+      <el-table-column
+        :label="$t('projectGroup.teamName')"
+        header-align="center"
+        min-width="110"
+        sortable
+      >
         <template slot-scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
+          <span>{{scope.row.teamName}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="150px" label="PM" header-align="center" sortable="true">
+      <el-table-column width="150px" label="PM" header-align="center">
         <template slot-scope="scope">
           <template v-if="scope.row.edit">
             <el-input v-model="scope.row.title" class="edit-input" size="small"/>
@@ -112,7 +117,7 @@
               @click="cancelEdit(scope.row)"
             >cancel</el-button>
           </template>
-          <span v-else>{{ scope.row.title }}</span>
+          <span v-else>{{ scope.row.pm }}</span>
         </template>
       </el-table-column>
 
@@ -161,65 +166,55 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch("getProductInfo").then(() => {
-      const data = this.$store.getters.productList;
+    let vm = this;
+    vm.$store.dispatch("getProductInfo").then(() => {
+      const data = vm.$store.getters.productList;
       if (data) {
-        this.productOptions = data.map(function(item) {
-          return {
-            label: item.name,
-            value: item.id
-          };
-        });
-        this.form.product =
-          this.productOptions[0] && this.productOptions[0].value;
-        this.changeProduct(this.form.product);
+        vm.productOptions = data;
+        vm.form.product = data[0] && data[0].value;
+        vm.changeProduct(vm.form.product);
       } else {
-        this.productOptions = [];
+        vm.productOptions = [];
       }
     });
   },
   methods: {
     onSubmit() {
-      this.listLoading = true;
-      this.$store
-        .dispatch("getProjectGroupInfo", this.form)
-        .then((data) => {
-          
+      let vm = this;
+      vm.listLoading = true;
+      vm.$store
+        .dispatch("getProjectGroupInfo", vm.form)
+        .then(data => {
+          vm.list = data;
+          vm.listLoading = false;
         })
         .catch(() => {
-          this.list = [];
+          vm.list = [];
+          vm.listLoading = false;
         });
     },
     changeProduct(value) {
-      this.$store.dispatch("getDUInfo", value).then(() => {
-        const data = this.$store.getters.duList;
+      let vm = this;
+      vm.$store.dispatch("getDUInfo", value).then(() => {
+        const data = vm.$store.getters.duList;
         if (data) {
-          this.duOptions = data.map(function(item) {
-            return {
-              label: item.name,
-              value: item.id
-            };
-          });
-          this.form.du = this.duOptions[0] && this.duOptions[0].value;
-          this.changeDU(this.form.du);
+          vm.duOptions = data;
+          vm.form.du = data[0] && data[0].value;
+          vm.changeDU(vm.form.du);
         } else {
-          this.duOptions = [];
+          vm.duOptions = [];
         }
       });
     },
     changeDU(value) {
-      this.$store.dispatch("getPDUInfo", this.form.product, value).then(() => {
-        const data = this.$store.getters.pduList;
+      let vm = this;
+      vm.$store.dispatch("getPDUInfo", vm.form.product, value).then(() => {
+        const data = vm.$store.getters.pduList;
         if (data) {
-          this.pduOptions = data.map(function(item) {
-            return {
-              label: item.name,
-              value: item.id
-            };
-          });
-          this.form.pdu = this.pduOptions[0] && this.pduOptions[0].value;
+          vm.pduOptions = data;
+          vm.form.pdu = data[0] && data[0].value;
         } else {
-          this.pduOptions = [];
+          vm.pduOptions = [];
         }
       });
     }

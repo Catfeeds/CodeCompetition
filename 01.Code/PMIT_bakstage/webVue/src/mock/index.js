@@ -40,4 +40,9 @@ Mock.mock(
 );
 Mock.mock(/\/projectGroup\/getDUInfo/, "get", projectGrupAPI.getDUInfo);
 Mock.mock(/\/projectGroup\/getPDUInfo/, "get", projectGrupAPI.getPDUctInfo);
+Mock.mock(
+  /\/projectGroup\/getProjectGroupInfo/,
+  "get",
+  projectGrupAPI.getProjectGroupInfo
+);
 export default Mock;

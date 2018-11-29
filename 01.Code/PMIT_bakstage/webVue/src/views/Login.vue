@@ -1,19 +1,10 @@
 <template>
-  <div
-    class="login-container note"
-    :style="note"
-  >
+  <div class="login-container note" :style="note">
     <div class="login-con">
       <el-card class="box-card">
-        <div
-          slot="header"
-          class="clearfix"
-        >
+        <div slot="header" class="clearfix">
           <span>欢迎登录</span>
-          <lang-select
-            class="international right-menu-item"
-            style="float:right;"
-          />
+          <lang-select class="international right-menu-item" style="float:right;"/>
         </div>
         <el-form
           ref="loginForm"
@@ -24,7 +15,7 @@
         >
           <el-form-item prop="userName">
             <span class="svg-container">
-              <svg-icon icon-class="user" />
+              <svg-icon icon-class="user"/>
             </span>
             <el-input
               v-model="loginForm.userName"
@@ -36,7 +27,7 @@
           </el-form-item>
           <el-form-item prop="password">
             <span class="svg-container">
-              <svg-icon icon-class="password" />
+              <svg-icon icon-class="password"/>
             </span>
             <el-input
               :type="passwordType"
@@ -46,18 +37,12 @@
               autocomplete="on"
               @keyup.enter.native="handleLogin"
             />
-            <span
-              class="show-pwd"
-              @click="showPwd"
-            >
-              <svg-icon icon-class="eye" />
+            <span class="show-pwd" @click="showPwd">
+              <svg-icon icon-class="eye"/>
             </span>
           </el-form-item>
           <el-checkbox v-model="checked">{{$t("login.freeLogin")}}</el-checkbox>
-          <a
-            href="javascript:void(0)"
-            @click="clearCookie"
-          >{{$t("login.forgetPasswordTitle")}}</a>
+          <a href="javascript:void(0)" @click="clearCookie">{{$t("login.forgetPasswordTitle")}}</a>
           <el-button
             :loading="loading"
             type="primary"
@@ -78,7 +63,7 @@
 
 <script>
 import {} from "@/utils/validate";
-import LangSelect from '@/components/LangSelect'
+import LangSelect from "@/components/LangSelect";
 import Cookies from "js-cookie";
 export default {
   name: "Login",
@@ -86,14 +71,14 @@ export default {
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!value || value.replace(/\s/g, "").length <= 0) {
-        callback(new Error(this.$t('login.userNameTips')));
+        callback(new Error(this.$t("login.userNameTips")));
       } else {
         callback();
       }
     };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error(this.$t('login.passwordTips')));
+        callback(new Error(this.$t("login.passwordTips")));
       } else {
         callback();
       }
@@ -153,30 +138,30 @@ export default {
       }
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+      let vm = this;
+      vm.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true;
+          vm.loading = true;
           //判断复选框是否被勾选 勾选则调用配置cookie方法
-          if (this.checked) {
+          if (vm.checked) {
             //传入账号名，密码，和保存天数3个参数
-            Cookies.set('userName', this.loginForm.userName, {expires: 10});
-            Cookies.set('password', this.loginForm.password, {expires: 10});
+            Cookies.set("userName", vm.loginForm.userName, { expires: 10 });
+            Cookies.set("password", vm.loginForm.password, { expires: 10 });
           }
-          this.$store
-            .dispatch("loginByUserName", this.loginForm)
+          vm.$store
+            .dispatch("loginByUserName", vm.loginForm)
             .then(() => {
-              this.loading = false;
-              Cookies.set('status', 'logined');
-              this.$store.dispatch("getUserInfo").then(()=>{
-                this.$router.push({ path: this.redirect || "/" });
-              })
-              .catch(()=>{
-                
-              })
-              
+              vm.loading = false;
+              Cookies.set("status", "logined");
+              vm.$store
+                .dispatch("getUserInfo")
+                .then(() => {
+                  vm.$router.push({ path: vm.redirect || "/" });
+                })
+                .catch(() => {});
             })
             .catch(() => {
-              this.loading = false;
+              vm.loading = false;
             });
         } else {
           return false;
@@ -185,9 +170,9 @@ export default {
     },
     //读取cookie
     getCookie: function() {
-      if (Cookies.get('userName') && Cookies.get('password')) {
-        this.loginForm.userName = Cookies.get('userName');
-        this.loginForm.password = Cookies.get('password');
+      if (Cookies.get("userName") && Cookies.get("password")) {
+        this.loginForm.userName = Cookies.get("userName");
+        this.loginForm.password = Cookies.get("password");
         this.checked = true;
         this.handleLogin();
       }
