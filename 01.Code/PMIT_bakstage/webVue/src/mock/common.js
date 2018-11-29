@@ -3,8 +3,6 @@ const menus = [
   "OverallSituation",
   "HumanModal",
   "RoleReport",
-  "TrainingReport",
-  "ExaminationReport",
   "ProjectTeam",
   "Course",
   "Training",

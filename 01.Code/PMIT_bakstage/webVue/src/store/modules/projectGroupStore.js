@@ -1,4 +1,5 @@
 import api from "@/api/projectGroupApi";
+import _ from "underscore";
 const projectGroup = {
   state: {
     productList: [],
@@ -18,8 +19,14 @@ const projectGroup = {
     setPDUList: (state, pdu) => {
       state.pduList = pdu;
     },
-    UPDATE_PRODUCT: (state, value) => {
+    updateProduct: (state, value) => {
       state.selectedProduct = value;
+    },
+    updateDU: (state, value) => {
+      state.selectedDU = value;
+    },
+    updatePDU: (state, value) => {
+      state.selectedPDU = value;
     }
   },
   actions: {
@@ -28,7 +35,12 @@ const projectGroup = {
         api
           .getProductInfo()
           .then(response => {
-            const data = response.data;
+            const data = _.map(response.data, function(item) {
+              return {
+                label: item.name,
+                value: item.id
+              };
+            });
             commit("setProductList", data);
             resolve();
           })
@@ -42,7 +54,13 @@ const projectGroup = {
         api
           .getDUInfo(product)
           .then(response => {
-            commit("setDUList", response.data);
+            const data = _.map(response.data, function(item) {
+              return {
+                label: item.name,
+                value: item.id
+              };
+            });
+            commit("setDUList", data);
             resolve();
           })
           .catch(error => {
@@ -55,7 +73,13 @@ const projectGroup = {
         api
           .getPDUInfo(product, du)
           .then(response => {
-            commit("setPDUList", response.data);
+            const data = _.map(response.data, function(item) {
+              return {
+                label: item.name,
+                value: item.id
+              };
+            });
+            commit("setPDUList", data);
             resolve();
           })
           .catch(error => {

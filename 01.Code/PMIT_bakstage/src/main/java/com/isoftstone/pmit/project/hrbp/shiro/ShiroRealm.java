@@ -4,9 +4,10 @@ import com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo;
 import com.isoftstone.pmit.project.hrbp.entity.LoginInformation;
 import com.isoftstone.pmit.project.hrbp.entity.MenuInfo;
 import com.isoftstone.pmit.project.hrbp.entity.SysRole;
+import com.isoftstone.pmit.project.hrbp.mapper.BaseStaffInfoMapper;
 import com.isoftstone.pmit.project.hrbp.mapper.LoginMapper;
-import com.isoftstone.pmit.project.hrbp.service.IMenuManageService;
-import com.isoftstone.pmit.project.hrbp.service.ISystemRoleService;
+import com.isoftstone.pmit.project.hrbp.service.IAuthService;
+import com.isoftstone.pmit.system.menu.entity.Menu;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -26,10 +27,10 @@ import java.util.List;
 @Service
 public class ShiroRealm extends AuthorizingRealm {
 
+
     @Autowired
-    private IMenuManageService menuManageService;
-    @Autowired
-    private ISystemRoleService systemRoleService;
+    private IAuthService authService;
+
     @Autowired
     private LoginMapper loginMapper;
 
@@ -43,21 +44,23 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         // 添加权限 和 角色信息
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        // 获取当前登陆用户
-        Subject subject = SecurityUtils.getSubject();
-        LoginInformation loginInformation = (LoginInformation) subject.getPrincipal();
-        //获取当前用户角色
-        SysRole sysRole = this.systemRoleService.getRolesByEmployeeID(loginInformation.getEmployeeID());
-        if(sysRole!=null){
-            authorizationInfo.addRole(sysRole.getRoleKey());
-            //角色对应权限数据
-            List<MenuInfo> menus = this.menuManageService.getMenuListByRoleId(sysRole.getRoleId());
-            if (null != menus && menus.size() > 0) {
-                for (MenuInfo menu : menus) {
-                    authorizationInfo.addStringPermission(menu.getMenuName());
-                }
-            }
-        }
+//        // 获取当前登陆用户
+//        Subject subject = SecurityUtils.getSubject();
+//        BaseStaffInfo StaffInfo = (BaseStaffInfo) subject.getPrincipal();
+//        //获取当前用户角色
+//        List<SysRole> roles = this.authService.getRolesByEmployeeID(StaffInfo.getEmployeeID());
+//        if (null != roles && roles.size() > 0) {
+//            for (SysRole sysRole : roles) {
+//                authorizationInfo.addRole(sysRole.getRoleKey());
+//                //角色对应权限数据
+//                List<MenuInfo> menus = this.authService.getMenusBySysRoleId(sysRole.getRoleId());
+//                if (null != menus && menus.size() > 0) {
+//                    for (MenuInfo menu : menus) {
+//                        authorizationInfo.addStringPermission(menu.getMenuName());
+//                    }
+//                }
+//            }
+//        }
         return authorizationInfo;
     }
 
@@ -71,16 +74,17 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws
             AuthenticationException {
-        //UsernamePasswordToken用于存放提交的登录信息
-        UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
-        // 调用数据层
-        LoginInformation loginInformation = loginMapper.findStaffByEmployeeId(token.getUsername());
-        if (loginInformation == null) {
-            // 用户不存在
-            return null;
-        } else {
-            // 密码存在
-            return new SimpleAuthenticationInfo(loginInformation, loginInformation.getPassword(), getName());
-        }
+//        //UsernamePasswordToken用于存放提交的登录信息
+//        UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
+//        // 调用数据层
+//        LoginInformation loginInformation = loginMapper.findStaffByEmployeeId(token.getUsername());
+//        if (loginInformation == null) {
+//            // 用户不存在
+//            return null;
+//        } else {
+//            // 密码存在
+//            return new SimpleAuthenticationInfo(loginInformation, loginInformation.getPassword(), getName());
+//        }
+        return null;
     }
 }
