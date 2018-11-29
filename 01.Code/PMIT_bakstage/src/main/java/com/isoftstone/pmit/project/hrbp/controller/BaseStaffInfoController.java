@@ -1,6 +1,6 @@
 package com.isoftstone.pmit.project.hrbp.controller;
 
-import com.isoftstone.pmit.project.hrbp.entity.OneStaffAllInfo;
+import com.isoftstone.pmit.project.hrbp.entity.PersonalInformation;
 import com.isoftstone.pmit.project.hrbp.service.BaseStaffInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -11,19 +11,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/staffInfo")
+@RequestMapping(value = "/baseStaff")
 @Api(value = "员工基本信息", tags = {"员工基本信息查询"})
 public class BaseStaffInfoController {
 
     @Autowired
     private BaseStaffInfoService baseStaffInfoService;
 
-    @RequestMapping(value = "/loginIn", method = { RequestMethod.POST })
+    @RequestMapping(value = "/getPersonalInfo", method = { RequestMethod.POST })
     @ApiOperation(value="单个员工", notes="查询员工基本信息")
-    public OneStaffAllInfo getBaseStaffInfoById(@RequestParam(value = "staffisstAccount", required = true) String employeeID){
-        OneStaffAllInfo info = baseStaffInfoService.getBaseStaffInfoByID(employeeID);
-
+    public PersonalInformation getBaseStaffInfoById(@RequestParam(value = "employeeId", required = true) String employeeId){
+        PersonalInformation info = baseStaffInfoService.getBaseStaffInfoByID(employeeId);
         return info;
     }
+
+    @RequestMapping(value = "/updatePersonalInfo", method = { RequestMethod.POST })
+    @ApiOperation(value="单个员工", notes="修改员工基本信息")
+    public int updatePersonalInformation(PersonalInformation personalInformation){
+        int valueNum = baseStaffInfoService.updatePersonalInformation(personalInformation);
+        return valueNum;
+    }
+
 
 }
