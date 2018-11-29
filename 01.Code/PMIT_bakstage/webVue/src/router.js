@@ -145,7 +145,7 @@ export const asyncRouterMap = [
       },
       {
         path: "relationship",
-        component: () => import("@/views/dashboard/index"),
+        component: () => import("@/views/relationTreeSettings/index"),
         name: "Relationship",
         meta: {
           title: "relationship",
@@ -185,7 +185,7 @@ export const asyncRouterMap = [
       },
       {
         path: "permission",
-        component: () => import("@/views/dashboard/index"),
+        component: () => import("@/views/authorizationSettings/index"),
         name: "Permission",
         meta: {
           title: "permission",

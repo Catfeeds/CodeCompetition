@@ -25,7 +25,7 @@ export default {
 <style scoped>
 .app-main {
   min-height: calc(100vh - 84px);
-  width: calc(100% - 30px);
+  width: 100%;
   position: relative;
   overflow: hidden;
 }

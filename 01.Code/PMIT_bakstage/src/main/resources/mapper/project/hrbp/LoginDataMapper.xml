@@ -3,22 +3,51 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.LoginMapper">
-    <resultMap type="com.isoftstone.pmit.project.hrbp.entity.LoginInformation" id="StaffResult">
+    <resultMap type="com.isoftstone.pmit.project.hrbp.entity.LoginInformation" id="UserResult">
         <id     property="loginID"         column="login_id"      />
         <result property="employeeID"       column="employee_ID"      />
         <result property="employeeName"       column="employee_name"      />
         <result property="password"       column="pass_word"      />
         <result property="roleID"       column="role_id"      />
     </resultMap>
-    <select id="findStaffByEmployeeId" parameterType="java.lang.String" resultMap="StaffResult">
+    <select id="findStaffByEmployeeId" parameterType="map" resultMap="UserResult">
         select
         login_id loginId,
         employee_ID employeeId,
         employee_name employeeName,
         pass_word password,
         role_id roleID
-        from login_information
-        where
-        employee_ID='${_parameter}'
+        where 1=1
+        <if test="employee_ID != null">
+            and employee_ID='${employeeID}'
+        </if>
+        <if test="employee_name != null">
+            and employee_name='${employeeName}'
+        </if>
     </select>
+
+    <select id="getUserInfos" parameterType="java.util.Map" resultMap="UserResult">
+        select staffISST_num,hw_number,staff_name, staffisst_account, pass_word ,create_time,
+        update_time,into_date,out_date from sys_staffbaseinfo
+        where staff_state= '${staffState}'
+        <if test="staffisstAccount != null">
+          and staffisst_account='${staffisstAccount}'
+        </if>
+        <if test="password != null">
+            and pass_word='${password}'
+        </if>
+    </select>
+    <select id="getUserRoleInfos" resultType="com.isoftstone.pmit.project.hrbp.entity.SysRole">
+      select * from sys_staffbaseinfo u, sys_role r,sys_staff_role s
+      where u.staffISST_num=s.staffISST_num and r.role_id=s.role_id and r.status='${status}'
+      <if test="staffisstAccount != null">
+          and staffisst_account='${staffisstAccount}'
+      </if>
+      <if test="roleId != null">
+          and role_id = '${roleId}'
+      </if>
+    </select>
+
+
+
 </mapper>

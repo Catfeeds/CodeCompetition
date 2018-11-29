@@ -20,5 +20,5 @@ public interface SysRoleMapper {
 
     List<SysRole> getAllRoles(Map<String, String> sysRoleParam);
 
-    SysRole getRolesByEmployeeID(String employeeID);
+    List<SysRole> getRolesByEmployeeID(String employeeID);
 }
