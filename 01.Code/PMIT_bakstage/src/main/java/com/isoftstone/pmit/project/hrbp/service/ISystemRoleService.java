@@ -30,5 +30,9 @@ public interface ISystemRoleService {
      */
     void updateSystemRole(SysRole sysRole);
 
-
+    /**
+     * 根据roleId获取角色
+     * @param roleId
+     */
+    SysRole getRoleByRoleId(Integer roleId);
 }

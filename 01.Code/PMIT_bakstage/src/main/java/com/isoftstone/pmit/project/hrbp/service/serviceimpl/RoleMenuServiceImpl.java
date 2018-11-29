@@ -1,5 +1,6 @@
 package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 
+import com.isoftstone.pmit.project.hrbp.entity.MenuInfo;
 import com.isoftstone.pmit.project.hrbp.entity.SysRole;
 import com.isoftstone.pmit.project.hrbp.mapper.RoleMenuMapper;
 import com.isoftstone.pmit.project.hrbp.mapper.SysRoleMapper;
@@ -8,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
  * @author lf
  */
 @Service
-@Transactional
 public class RoleMenuServiceImpl implements IRoleMenuService {
 
 
@@ -24,23 +25,31 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
     private SysRoleMapper sysRoleMapper;
 
     @Override
-    public int updateSystemRole(Integer roleId, Integer[] menuIds) {
+    @Transactional
+    public void updateSystemRole(SysRole sysRole, List<MenuInfo> menuInfoList) {
+        Integer roleId = sysRole.getRoleId();
         roleMenuMapper.deleteMenuByRid(roleId);
-        if (menuIds.length == 0) {
-            return 0;
+        sysRoleMapper.updateSystemRole(sysRole);
+        for (MenuInfo menuInfo : menuInfoList) {
+            Integer menuId = menuInfo.getMenuId();
+            roleMenuMapper.addMenu(roleId, menuId);
         }
-        return roleMenuMapper.addMenu(roleId, menuIds);
     }
 
     @Override
+    @Transactional
     public void deleteSystemRole(Integer roleId) {
         roleMenuMapper.deleteMenuByRid(roleId);
         roleMenuMapper.deleteRole(roleId);
     }
 
     @Override
-    public void addRole(SysRole role, Integer[] menuIds) {
-      sysRoleMapper.insertSystemRole(role);
-      roleMenuMapper.addMenu(role.getRoleId(), menuIds);
+    @Transactional
+    public void addRole(SysRole role, List<MenuInfo> menuInfoList) {
+        sysRoleMapper.insertSystemRole(role);
+        for (MenuInfo menuInfo : menuInfoList) {
+            Integer menuId = menuInfo.getMenuId();
+            roleMenuMapper.addMenu(role.getRoleId(), menuId);
+        }
     }
 }

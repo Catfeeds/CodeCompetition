@@ -8,6 +8,7 @@
 		select
 		m.menu_id as menuId,
 		m.menu_name as menuName,
+		m.parent_id as parentId,
 		m.note as note
 		FROM
 			hrbp_menu m
@@ -18,6 +19,7 @@
 		SELECT
 			m.menu_id as menuId,
 			m.menu_name as menuName,
+			m.parent_id as parentId,
 			m.note as note
 		FROM
 			hrbp_menu m 
@@ -35,6 +37,7 @@
 		SELECT
 			m.menu_id as menuId,
 			m.menu_name as menuName,
+			m.parent_id as parentId,
 			m.note as note
 		FROM
 			hrbp_menu m
@@ -47,8 +50,4 @@
 		where
 			li.employee_ID = #{employeeID}
 	</select>
-	
-	<insert id="addMenuByRoleId" parameterType="java.util.Map">
-		insert into hrbp_role_menu values (${roleId}, ${menuId})
-	</insert>
 </mapper>

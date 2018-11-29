@@ -7,12 +7,9 @@
         DELETE FROM hrbp_role_menu WHERE role_id = #{roleId}
     </delete>
     <insert id="addMenu">
-        INSERT INTO hrbp_role_menu(role_id,menu_id) VALUES
-        <foreach collection="menuIds" item="menuId" separator=",">
-            (#{roleId},#{menuId})
-        </foreach>
+        INSERT INTO hrbp_role_menu(role_id,menu_id) VALUES(#{roleId},#{menuId})
     </insert>
-    <update id="deleteRole" parameterType="java.lang.Integer">
-        update hrbp_role set status = 0  where role_id = #{roleId}
-    </update>
+    <delete id="deleteRole" parameterType="java.lang.Integer">
+        delete from hrbp_role where role_id = #{roleId}
+    </delete>
 </mapper>
