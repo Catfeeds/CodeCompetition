@@ -1,5 +1,7 @@
 import axios from "axios";
 import { Message } from "element-ui";
+axios.defaults.headers['Access-Control-Allow-Origin']='*';
+
 // import store from '@/store'
 // import { getToken } from '@/utils/auth'
 // axios.defaults.headers["Access-Control-Allow-Origin"] = "*";
