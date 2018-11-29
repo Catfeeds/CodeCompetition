@@ -1,27 +1,34 @@
 import request from "@/utils/request";
 function getRoleList() {
   return request({
-    url: "permission/getRoleList",
-    method: "get"
+    url: "hrbp/system/queryAllRoles",
+    method: "post"
+  });
+}
+function getRoleInfoById(id) {
+  return request({
+    url: "hrbp/system/querySystemRoleById",
+    method: "post",
+    data: id
   });
 }
 function addRoleInfo(roleInfo) {
   return request({
-    url: "permission/addRoleInfo",
+    url: "hrbp/system/addRole",
     method: "post",
     data: roleInfo
   });
 }
 function delRoleInfo(id) {
   return request({
-    url: "permission/delRoleInfo",
+    url: "hrbp/system/deleteSystemRole",
     method: "post",
-    data: { id: id }
+    data: id
   });
 }
 function editRoleInfo(roleInfo) {
   return request({
-    url: "permission/editRoleInfo",
+    url: "hrbp/system/updateSystemRole",
     method: "post",
     data: roleInfo
   });
@@ -55,6 +62,7 @@ function editLoginUser(userInfo) {
 }
 export default {
   getRoleList,
+  getRoleInfoById,
   addRoleInfo,
   delRoleInfo,
   editRoleInfo,

@@ -1,18 +1,18 @@
 export default {
   route: {
     dashboard: "首页",
-    overallSituation: "整体情况",
     backboneReport: "骨干报表",
-    humanModal: "人力模型",
-    roleReport: "角色报表",
     setting: "系统设置",
-    projectTeam: "项目组设置",
-    relationship: "关系树设置",
-    course: "课程设置",
+    projectGroup: "项目组设置",
+    relationTree: "关系树设置",
+    assessmentAffairs: "考核事务设置",
+    assessmentRules: "考核规则设置",
     training: "培训设置",
     examination: "考试设置",
-    import: "导入",
-    permission: "权限设置"
+    import: "成绩导入",
+    role: "角色设置",
+    loginUser: "登录用户管理",
+    courseOpen: "开班设置"
   },
   navbar: {
     logOut: "退出登录",
