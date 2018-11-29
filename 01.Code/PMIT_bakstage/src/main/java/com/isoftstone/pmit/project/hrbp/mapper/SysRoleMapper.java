@@ -37,6 +37,9 @@ public interface SysRoleMapper {
      */
     int insertSystemRole(SysRole role);
 
-
-
+    /**
+     * 根据roleId获取角色
+     * @param roleId
+     */
+    SysRole getRoleByRoleId(Integer roleId);
 }

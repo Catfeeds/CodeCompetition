@@ -12,6 +12,16 @@ public class LoginInformation {
     private String password;
     /*角色ID*/
     private String roleID;
+    /**头像*/
+    private String picture;
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
 
     public int getLoginID() {
         return loginID;

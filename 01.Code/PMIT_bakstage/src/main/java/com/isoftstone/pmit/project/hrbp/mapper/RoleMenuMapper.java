@@ -13,7 +13,7 @@ public interface RoleMenuMapper {
 
     void deleteMenuByRid(@Param("roleId")Integer roleId);
 
-    int addMenu(@Param("roleId")Integer roleId, @Param("menuIds")Integer[] menuIds);
+    int addMenu(@Param("roleId")Integer roleId, @Param("menuId")Integer menuId);
 
     void deleteRole(@Param("roleId") Integer roleId);
 }

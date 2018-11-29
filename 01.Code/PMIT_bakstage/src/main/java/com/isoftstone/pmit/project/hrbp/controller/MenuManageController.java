@@ -1,7 +1,10 @@
 package com.isoftstone.pmit.project.hrbp.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import com.isoftstone.pmit.common.util.JsonUtils;
+import com.isoftstone.pmit.project.hrbp.entity.RoleMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,7 +43,6 @@ public class MenuManageController extends AbstractController {
 	}
 	
 	@ApiOperation("根据用户角色查询菜单列表")
-//    @GetMapping(value = "/getMenuTreeByRoleId")
 	@PostMapping(value = "/getMenuTreeByRoleId")
 	public String getMenuTreeByRoleId(@RequestBody Integer roleId) {
 		logger.info("getMenuTreeByRoleId" + roleId);
@@ -53,23 +55,8 @@ public class MenuManageController extends AbstractController {
 		}
 		return AjaxResult.returnToResult(true, menuList);
 	}
-	
-	@ApiOperation("保存系统角色的菜单列表")
-//    @GetMapping(value = "/saveMenuByRoleId")
-	@PostMapping(value = "/saveMenuByRoleId")
-	public String saveMenuByRoleId(@RequestBody Integer roleId, @RequestBody List<MenuInfo> menuInfos) {
-		String message = null;
-		try {
-			message = menuManageService.saveMenuByRoleId(roleId, menuInfos);
-		} catch (Exception e) {
-			logger.info("saveMenuByRoleId ERROR" + e.getMessage());
-			return AjaxResult.returnToResult(false, e.getMessage());
-		}
-		return AjaxResult.returnToResult(true, message);
-	}
 
 	@ApiOperation("根据用户账号查询菜单列表")
-//    @GetMapping(value = "/getMenuTreeByRoleId")
 	@PostMapping(value = "/getMenuTreeByEmpID")
 	public String getMenuTreeByEmpID(@RequestBody String employeeId) {
 		logger.info("getMenuTreeByEmpID" + employeeId);
@@ -82,5 +69,4 @@ public class MenuManageController extends AbstractController {
 		}
 		return AjaxResult.returnToResult(true, menuList);
 	}
-	
 }
