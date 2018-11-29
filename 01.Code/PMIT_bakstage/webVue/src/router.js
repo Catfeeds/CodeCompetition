@@ -145,7 +145,7 @@ export const asyncRouterMap = [
       },
       {
         path: "relationship",
-        component: () => import("@/views/relationshipSettings/index"),
+        component: () => import("@/views/relationTreeSettings/index"),
         name: "Relationship",
         meta: {
           title: "relationship",

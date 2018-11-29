@@ -4,7 +4,7 @@ import appStore from "./store/modules/appStore";
 import tagsViewStore from "./store/modules/tagsViewStore";
 import userInfoStore from "./store/modules/userInfoStore";
 import projectGroupStore from "./store/modules/projectGroupStore";
-import relationshipStore from "./store/modules/relationshipStore";
+import relationTreeStore from "./store/modules/relationTreeStore";
 import authorizationStore from "./store/modules/authorizationStore";
 import getters from "./store/getters";
 
@@ -16,7 +16,7 @@ export default new Vuex.Store({
     tagsViewStore,
     userInfoStore,
     projectGroupStore,
-    relationshipStore,
+    relationTreeStore,
     authorizationStore
   },
   getters
