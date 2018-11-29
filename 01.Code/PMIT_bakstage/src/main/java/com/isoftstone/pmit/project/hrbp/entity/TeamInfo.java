@@ -23,6 +23,33 @@ public class TeamInfo {
 	/** 组内角色  */
 	private String position;
 	
+	/** 父节点工号  */
+	private String parentId;
+	
+	/** 层级  */
+	private String level;
+	
+	/** 父节点路径  */
+	private String parentPath;
+	
+	public String getParentPath() {
+		return parentPath;
+	}
+	public void setParentPath(String parentPath) {
+		this.parentPath = parentPath;
+	}
+	public String getParentId() {
+		return parentId;
+	}
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+	public String getLevel() {
+		return level;
+	}
+	public void setLevel(String level) {
+		this.level = level;
+	}
 	public String getTeamId() {
 		return teamId;
 	}
@@ -52,6 +79,35 @@ public class TeamInfo {
 	}
 	public void setPosition(String position) {
 		this.position = position;
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((staffId == null) ? 0 : staffId.hashCode());
+		result = prime * result + ((teamId == null) ? 0 : teamId.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TeamInfo other = (TeamInfo) obj;
+		if (staffId == null) {
+			if (other.staffId != null)
+				return false;
+		} else if (!staffId.equals(other.staffId))
+			return false;
+		if (teamId == null) {
+			if (other.teamId != null)
+				return false;
+		} else if (!teamId.equals(other.teamId))
+			return false;
+		return true;
 	}
 	
 }

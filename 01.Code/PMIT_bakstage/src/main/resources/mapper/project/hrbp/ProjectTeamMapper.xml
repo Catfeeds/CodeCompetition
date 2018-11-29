@@ -4,6 +4,87 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.ProjectTeamMapper">
 
+	<select id="queryProjectTeamData" parameterType="java.util.Map"  resultType="com.isoftstone.pmit.project.hrbp.entity.TeamInfo">
+		select 
+			team_id as teamId,
+			team_name as teamName,
+			staff_id as staffId,
+			staff_name as staffName,
+			position as position,
+			parent_id as parentId,
+			level as level
+		from 
+			hrbp_projectTeam
+		where 
+			team_id = ${teamId}
+	</select>
 	
-
+	<select id="queryResourcePoolData" parameterType="java.util.Map" resultType="com.isoftstone.pmit.project.hrbp.entity.TeamInfo">
+		select 
+			employeeId as staffId,
+			employeeName as staffName
+		from 
+			base_staff_info
+		where
+			1=1
+		<if test="null != pdu">
+            AND pdu = '${pdu}'
+        </if>
+        <if test="null != gender">
+            AND sex = '${gender}'
+        </if>
+        <if test="null != area">
+            AND workplace = '${area}'
+        </if>
+        <if test="null != cu">
+            AND costcenter = '${cu}'
+        </if>
+        <if test="null != name">
+            AND employeeName like '%${name}%'
+        </if>
+        <if test="null != staffId">
+            AND employeeId like '%${staffId}%'
+        </if>
+	</select>
+	
+	<select id="queryAreaAndCuBycondition" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select distinct
+			workPlaceArea as area,
+			costCenter as cu
+		from 
+			base_staff_info
+		<if test="null != pdu">
+		where 
+			pdu = '${pdu}'
+		</if>
+	</select>
+	
+	<select id="addTeamInfo" parameterType="java.util.List">
+		<foreach collection="list" index="index" item="teamInfo">
+			update base_staff_info set currentStatus = '1' where employeeId = #{teamInfo.staffId};
+			
+			insert into hrbp_projectTeam 
+				(team_id, team_name, staff_id, staff_name, parent_id, level) 
+			values
+				(#{teamInfo.teamId}, #{teamInfo.teamName}, #{teamInfo.staffId}, #{teamInfo.staffName}, #{teamInfo.parentId}, #{teamInfo.level});
+			
+			insert into hrbp_projectTeamRecord 
+				(team_id, team_name, staff_id, staff_name, parent_id, level, change_time, status) 
+			values
+				(#{teamInfo.teamId}, #{teamInfo.teamName}, #{teamInfo.staffId}, #{teamInfo.staffName}, #{teamInfo.parentId}, #{teamInfo.level}, now(), 'enter');
+		</foreach>
+	</select>
+	
+	<select id="deleteTeamInfo" parameterType="java.util.List">
+		<foreach collection="list" index="index" item="teamInfo">
+			update base_staff_info set currentStatus = '0' where employeeId = #{teamInfo.staffId};
+			
+			delete from hrbp_projectTeam where team_id = #{teamInfo.teamId} and staff_id = #{teamInfo.staffId};
+						
+			insert into hrbp_projectTeamRecord 
+				(team_id, team_name, staff_id, staff_name, parent_id, level, change_time, status) 
+			values
+				(#{teamInfo.teamId}, #{teamInfo.teamName}, #{teamInfo.staffId}, #{teamInfo.staffName}, #{teamInfo.parentId}, #{teamInfo.level}, now(), 'out');
+		</foreach>
+	</select>
 </mapper>
