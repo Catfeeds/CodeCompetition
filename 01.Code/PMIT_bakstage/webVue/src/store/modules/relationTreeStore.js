@@ -1,5 +1,5 @@
 import { getProductInfo } from "@/api/appApi";
-import { getArea, getRelationships } from "@/api/relationshipApi";
+import { getArea, getRelationships } from "@/api/relationTreeApi";
 
 let state = {
   // products:[],
