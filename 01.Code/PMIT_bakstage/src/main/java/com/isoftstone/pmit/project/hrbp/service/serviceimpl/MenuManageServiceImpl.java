@@ -17,43 +17,46 @@ import com.isoftstone.pmit.project.hrbp.service.IMenuManageService;
 
 @Service
 public class MenuManageServiceImpl implements IMenuManageService {
-	
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
-	
-	@Autowired
-	private MenuManageMapper menuManageMapper;
-	
-	@Override
-	public List<MenuInfo> getMenuListByRoleId(Integer roleId) {
-		return menuManageMapper.getMenuListByRoleId(roleId);
-	}
-	
-	/**
-	 * 
-	 * 插入菜单与角色配置信息，添加事务注解  插入数据报错时回滚
-	 * 
-	 */
-	@Transactional(rollbackOn=Exception.class)
-	@Override
-	public String saveMenuByRoleId(Integer roleId, List<MenuInfo> menuInfos) {
-		
-		try {
-			Map<String, Integer> map = new HashMap<String, Integer>();
-			for(MenuInfo menuInfo : menuInfos) {
-				map.put("roleId", roleId);
-				map.put("menuId", menuInfo.getMenuId());
-				menuManageMapper.addMenuByRoleId(map);
-			}
-		} catch (Exception e) {
-			logger.error("saveMenuByRoleId error" + e.getMessage());
-			return "saveMenuByRoleId error";
-		}
-		return "saveMenuByRoleId success";
-	}
 
-	@Override
-	public List<MenuInfo> getMenus() {
-		return menuManageMapper.getMenus();
-	}
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private MenuManageMapper menuManageMapper;
+
+    /**
+     * 插入菜单与角色配置信息，添加事务注解  插入数据报错时回滚
+     */
+    @Transactional(rollbackOn = Exception.class)
+    @Override
+    public String saveMenuByRoleId(Integer roleId, List<MenuInfo> menuInfos) {
+
+        try {
+            Map<String, Integer> map = new HashMap<String, Integer>();
+            for (MenuInfo menuInfo : menuInfos) {
+                map.put("roleId", roleId);
+                map.put("menuId", menuInfo.getMenuId());
+                menuManageMapper.addMenuByRoleId(map);
+            }
+        } catch (Exception e) {
+            logger.error("saveMenuByRoleId error" + e.getMessage());
+            return "saveMenuByRoleId error";
+        }
+        return "saveMenuByRoleId success";
+    }
+
+    @Override
+    public List<MenuInfo> getMenus() {
+        return menuManageMapper.getMenus();
+    }
+
+    @Override
+    public List<MenuInfo> getMenuListByRoleId(Integer roleId) {
+        return menuManageMapper.getMenuListByRoleId(roleId);
+    }
+
+    @Override
+    public List<MenuInfo> getMenuTreeByEmpID(String employeeId) {
+        return menuManageMapper.getMenuTreeByEmpID(employeeId);
+    }
 
 }

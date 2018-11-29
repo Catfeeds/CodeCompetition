@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 @Transactional
 public class RoleMenuServiceImpl implements IRoleMenuService {
 
+
     @Autowired
     private RoleMenuMapper roleMenuMapper;
 
@@ -39,8 +40,7 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
 
     @Override
     public void addRole(SysRole role, Integer[] menuIds) {
-        sysRoleMapper.insertSystemRole(role);
-        int roleId=role.getRoleId();
-        roleMenuMapper.addMenu(roleId, menuIds);
+      sysRoleMapper.insertSystemRole(role);
+      roleMenuMapper.addMenu(role.getRoleId(), menuIds);
     }
 }

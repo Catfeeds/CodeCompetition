@@ -16,4 +16,6 @@ public interface MenuManageMapper {
 	void addMenuByRoleId(Map<String, Integer> map);
 
 	List<MenuInfo> getMenus();
+
+	List<MenuInfo> getMenuTreeByEmpID(String employeeId);
 }

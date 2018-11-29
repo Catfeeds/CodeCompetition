@@ -36,10 +36,10 @@ public class MenuManageController extends AbstractController {
 			logger.info("QueryAllMenuList ERROR" + e.getMessage());
 			return AjaxResult.returnToResult(false, e.getMessage());
 		}
-		return AjaxResult.returnToResult(false, menuList);
+		return AjaxResult.returnToResult(true, menuList);
 	}
 	
-	@ApiOperation("根据系统角色查询菜单列表")
+	@ApiOperation("根据用户角色查询菜单列表")
 //    @GetMapping(value = "/getMenuTreeByRoleId")
 	@PostMapping(value = "/getMenuTreeByRoleId")
 	public String getMenuTreeByRoleId(@RequestBody Integer roleId) {
@@ -48,10 +48,10 @@ public class MenuManageController extends AbstractController {
 		try {
 			menuList = menuManageService.getMenuListByRoleId(roleId);
 		} catch (Exception e) {
-			logger.info("QueryAllMenuList ERROR" + e.getMessage());
+			logger.info("getMenuTreeByEmpID ERROR" + e.getMessage());
 			return AjaxResult.returnToResult(false, e.getMessage());
 		}
-		return AjaxResult.returnToResult(false, menuList);
+		return AjaxResult.returnToResult(true, menuList);
 	}
 	
 	@ApiOperation("保存系统角色的菜单列表")
@@ -62,10 +62,25 @@ public class MenuManageController extends AbstractController {
 		try {
 			message = menuManageService.saveMenuByRoleId(roleId, menuInfos);
 		} catch (Exception e) {
-			logger.info("QueryAllMenuList ERROR" + e.getMessage());
+			logger.info("saveMenuByRoleId ERROR" + e.getMessage());
 			return AjaxResult.returnToResult(false, e.getMessage());
 		}
-		return AjaxResult.returnToResult(false, message);
+		return AjaxResult.returnToResult(true, message);
+	}
+
+	@ApiOperation("根据用户账号查询菜单列表")
+//    @GetMapping(value = "/getMenuTreeByRoleId")
+	@PostMapping(value = "/getMenuTreeByEmpID")
+	public String getMenuTreeByEmpID(@RequestBody String employeeId) {
+		logger.info("getMenuTreeByEmpID" + employeeId);
+		List<MenuInfo> menuList = null;
+		try {
+			menuList = menuManageService.getMenuTreeByEmpID(employeeId);
+		} catch (Exception e) {
+			logger.info("getMenuTreeByEmpID ERROR" + e.getMessage());
+			return AjaxResult.returnToResult(false, e.getMessage());
+		}
+		return AjaxResult.returnToResult(true, menuList);
 	}
 	
 }

@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.SysRoleMapper">
-    <resultMap id="SysRoleResult" type="com.isoftstone.pmit.project.hrbp.entity.SysRole">
+  <!--  <resultMap id="SysRoleResult" type="com.isoftstone.pmit.project.hrbp.entity.SysRole">
         <id column="role_id"  property="roleId" />
         <result column="role_name"  property="roleName" />
         <result column="role_key"  property="roleKey" />
@@ -16,7 +16,7 @@
         <result column="update_time"  property="updateTime"/>
         <result column="description" property="description"/>
         <result column="remark" property="remark"/>
-    </resultMap>
+    </resultMap>-->
 
     <sql id="roleColumn">
         role_id roleId,
@@ -34,14 +34,14 @@
       select
       hr.role_id roleId,
       hr.role_name roleName,
-      hr.description
+      hr.description description
       from
       login_information li
       inner join hrbp_role hr on hr.role_id = li.role_id
       where li.employee_ID= #{employeeID}
     </select>
 
-    <insert id="insertSystemRole" parameterType="com.isoftstone.pmit.project.hrbp.entity.SysRole" keyProperty="role_id">
+    <insert id="insertSystemRole" parameterType="com.isoftstone.pmit.project.hrbp.entity.SysRole" useGeneratedKeys="true" keyProperty="roleId" >
         insert into hrbp_role(
         <if test="roleName != null and roleName != ''">role_name,</if>
         create_time,

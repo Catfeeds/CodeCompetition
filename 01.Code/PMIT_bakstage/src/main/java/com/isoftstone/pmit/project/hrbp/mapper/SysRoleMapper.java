@@ -35,7 +35,7 @@ public interface SysRoleMapper {
     /**
      * 插入角色
      */
-    void insertSystemRole(SysRole role);
+    int insertSystemRole(SysRole role);
 
 
 

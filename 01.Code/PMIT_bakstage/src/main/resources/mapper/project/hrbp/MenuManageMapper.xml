@@ -22,14 +22,31 @@
 		FROM
 			hrbp_menu m 
 			left join
-				hrbp_role_menu rm 
-			on 
+				hrbp_role_menu rm
+			on
 				m.menu_id = rm.menu_id
         where 
 			rm.role_id = '${_parameter}'
 		order by 
 			m.order_num
     </select>
+
+	<select id="getMenuTreeByEmpID" parameterType="java.lang.String" resultType="com.isoftstone.pmit.project.hrbp.entity.MenuInfo">
+		SELECT
+			m.menu_id as menuId,
+			m.menu_name as menuName,
+			m.note as note
+		FROM
+			hrbp_menu m
+		left join
+			hrbp_role_menu rm on m.menu_id = rm.menu_id
+		left join
+			hrbp_role hr on rm.role_id = hr.role_id
+		left join
+			login_information li on hr.role_id = li.role_id
+		where
+			li.employee_ID = #{employeeID}
+	</select>
 	
 	<insert id="addMenuByRoleId" parameterType="java.util.Map">
 		insert into hrbp_role_menu values (${roleId}, ${menuId})
