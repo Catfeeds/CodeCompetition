@@ -1,5 +1,5 @@
 <template>
-  <div class="role-container">
+  <div class="app-container">
     <el-row type="flex" justify="end">
       <el-button type="primary" size="mini" @click="addRole">新增</el-button>
     </el-row>

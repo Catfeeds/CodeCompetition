@@ -33,10 +33,18 @@ function editRoleInfo(roleInfo) {
     data: roleInfo
   });
 }
-function getLoginUserList() {
+function getLoginUserList(pageNum, pageSize) {
   return request({
-    url: "permission/getLoginUserList",
-    method: "get"
+    url: "hrbp/user/findEmpInformation",
+    method: "post",
+    data: { pageNum, pageSize }
+  });
+}
+function getLoginUserById(employeeID) {
+  return request({
+    url: "hrbp/user/findEmpInformationByEmpId",
+    method: "post",
+    data: { employeeID }
   });
 }
 function addLoginUser(userInfo) {
@@ -46,11 +54,11 @@ function addLoginUser(userInfo) {
     data: userInfo
   });
 }
-function delLoginUser(id) {
+function delLoginUser(employeeID) {
   return request({
     url: "permission/delLoginUser",
     method: "post",
-    data: { id: id }
+    data: { employeeID }
   });
 }
 function editLoginUser(userInfo) {
@@ -67,6 +75,7 @@ export default {
   delRoleInfo,
   editRoleInfo,
   getLoginUserList,
+  getLoginUserById,
   addLoginUser,
   delLoginUser,
   editLoginUser

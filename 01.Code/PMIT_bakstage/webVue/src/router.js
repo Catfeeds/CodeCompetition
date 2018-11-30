@@ -95,13 +95,13 @@ export const asyncRouterMap = [
       },
       {
         path: "training",
-        component: () => import("@/views/dashboard/index"),
+        component: () => import("@/views/trainingSettings/index"),
         name: "Training",
         meta: { title: "training", icon: "", noCache: true, requiresAuth: true }
       },
       {
         path: "assessmentAffairs",
-        component: () => import("@/views/dashboard/index"),
+        component: () => import("@/views/assessmentAffairsSettings/index"),
         name: "ExaminationAffairs",
         meta: {
           title: "assessmentAffairs",
@@ -112,7 +112,7 @@ export const asyncRouterMap = [
       },
       {
         path: "assessmentRules",
-        component: () => import("@/views/dashboard/index"),
+        component: () => import("@/views/assessmentRulesSettings/index"),
         name: "ExaminationRules",
         meta: {
           title: "assessmentRules",
@@ -123,7 +123,7 @@ export const asyncRouterMap = [
       },
       {
         path: "course",
-        component: () => import("@/views/dashboard/index"),
+        component: () => import("@/views/courseOpenSettings/index"),
         name: "CourseOpen",
         meta: {
           title: "courseOpen",
@@ -134,7 +134,7 @@ export const asyncRouterMap = [
       },
       {
         path: "examination",
-        component: () => import("@/views/dashboard/index"),
+        component: () => import("@/views/examSettings/index"),
         name: "Examination",
         meta: {
           title: "examination",
@@ -145,7 +145,7 @@ export const asyncRouterMap = [
       },
       {
         path: "import",
-        component: () => import("@/views/dashboard/index"),
+        component: () => import("@/views/scoreImport/index"),
         name: "Import",
         meta: { title: "import", icon: "", noCache: true, requiresAuth: true }
       },
