@@ -23,11 +23,5 @@ public interface ISystemRoleService {
      * @return
      */
     List<SysRole> queryAllRoles();
-
-    /**
-     * 根据roleId获取角色
-     *
-     * @param roleId
-     */
-    SysRole getRoleByRoleId(Integer roleId);
+    
 }

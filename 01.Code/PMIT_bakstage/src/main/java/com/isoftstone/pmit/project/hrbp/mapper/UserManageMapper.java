@@ -1,23 +1,22 @@
-package com.isoftstone.pmit.project.hrbp.service;
+package com.isoftstone.pmit.project.hrbp.mapper;
 
 import com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult;
-import com.isoftstone.pmit.project.hrbp.entity.LoginInformation;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * @author lf
  */
-public interface ILoginService {
-    /**
-     * 获取用户信息 做标示
-     * @param employeeID
-     * @return
-     */
-    LoginInformation getEmployee(String employeeID);
+@Mapper
+@Repository
+public interface UserManageMapper {
+
 
     /**
-     * 根据employeeID获取详细用户信息
+     * 根据empolyeeID获取用户具体信息
      * @param employeeID
      * @return
      */
@@ -25,7 +24,6 @@ public interface ILoginService {
 
     /**
      * 获取全部用户信息
-     * @param
      * @return
      */
     List<EmpInformationResult> findEmpInformation();
