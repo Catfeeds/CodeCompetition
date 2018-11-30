@@ -1,53 +1,54 @@
 package com.isoftstone.pmit.project.hrbp.common;
 
-import com.isoftstone.pmit.project.hrbp.entity.BaseTreeNode;
+import com.isoftstone.pmit.project.hrbp.entity.LevelTreeNode;
+import com.isoftstone.pmit.project.hrbp.entity.ProjectTreeNode;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class TreeUtil {
-    public static <T extends BaseTreeNode> void buildTreesNoLeafByPath(List<T> leafNodes, Class tClass,
-                                                                       Set<Integer> nodeIDs, T rootNode)
-            throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        Map<Integer, T> tempMap = new HashMap<Integer, T>();
-        tempMap.put(rootNode.getNodeID(), rootNode);
+//    public static <T extends BaseTreeNode> void buildTreesNoLeafByPath(List<T> leafNodes, Class tClass,
+//                                                                       Set<Integer> nodeIDs, T rootNode)
+//            throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+//        Map<Integer, T> tempMap = new HashMap<Integer, T>();
+//        tempMap.put(rootNode.getNodeID(), rootNode);
+//
+//        if (leafNodes != null) {
+//            for (T leafNode : leafNodes) {
+//                T parentNode = rootNode;
+//
+//                List<Integer> pathNodeIDs = getPathNodes(leafNode.getNodePath());
+//                for (Integer nodeID : pathNodeIDs) {
+//                    if (tempMap.get(nodeID) == null) {
+//                        T tempNode = (T) tClass.getDeclaredConstructor().newInstance();
+//                        tempNode.setNodeID(nodeID);
+//                        tempNode.setChildList(new ArrayList<T>());
+//
+//                        parentNode.getChildList().add(tempNode);
+//                        tempMap.put(tempNode.getNodeID(), tempNode);
+//                        nodeIDs.add(tempNode.getNodeID());
+//                        parentNode = tempNode;
+//                    }
+//                }
+//
+//                List<Integer> childLeafIDList = parentNode.getChildLeafIDList();
+//                if(childLeafIDList == null){
+//                    childLeafIDList = new ArrayList<Integer>();
+//                }
+//                childLeafIDList.add(leafNode.getNodeID());
+//            }
+//        }
+//    }
 
-        if (leafNodes != null) {
-            for (T leafNode : leafNodes) {
-                T parentNode = rootNode;
-
-                List<Integer> pathNodeIDs = getPathNodes(leafNode.getNodePath());
-                for (Integer nodeID : pathNodeIDs) {
-                    if (tempMap.get(nodeID) == null) {
-                        T tempNode = (T) tClass.getDeclaredConstructor().newInstance();
-                        tempNode.setNodeID(nodeID);
-                        tempNode.setChildList(new ArrayList<BaseTreeNode>());
-
-                        parentNode.getChildList().add(tempNode);
-                        tempMap.put(tempNode.getNodeID(), tempNode);
-                        nodeIDs.add(tempNode.getNodeID());
-                        parentNode = tempNode;
-                    }
-                }
-
-                List<Integer> childLeafIDList = parentNode.getChildLeafIDList();
-                if(childLeafIDList == null){
-                    childLeafIDList = new ArrayList<Integer>();
-                }
-                childLeafIDList.add(leafNode.getNodeID());
-            }
-        }
-    }
-
-    public static Set<Integer> getLeafByNode(BaseTreeNode root){
+    public static Set<Integer> getLeafByNode(ProjectTreeNode root){
         Set<Integer> projectIDs = new HashSet<Integer>();
         if (root != null) {
             if (root.getChildLeafIDList() != null) {
                 projectIDs.addAll(root.getChildLeafIDList());
             } else {
-                List<BaseTreeNode> childList = root.getChildList();
+                List<ProjectTreeNode> childList = root.getChildList();
                 if (childList != null) {
-                    for (BaseTreeNode treeNode : childList) {
+                    for (ProjectTreeNode treeNode : childList) {
                         projectIDs.addAll(getLeafByNode(treeNode));
                     }
                 }
@@ -73,9 +74,9 @@ public class TreeUtil {
         return pathNodes;
     }
     
-    public static String getParentPath(BaseTreeNode parentNode){
-        return getParentPath(parentNode.getNodePath(),parentNode.getNodeID());
-    }
+//    public static String getParentPath(BaseTreeNode parentNode){
+//        return getParentPath(parentNode.getNodePath(),parentNode.getNodeID());
+//    }
 
     public static String getParentPath(String nodePath, Integer nodeID) {
         if (nodePath == null || nodePath.isEmpty()) {
@@ -86,24 +87,24 @@ public class TreeUtil {
         return nodePath;
     }
 
-    public static <T extends BaseTreeNode> List<T> buildTree(List<T> treeNodeList,
-                                               List<Map<String, Object>> rootNodeList,Class<T> tClass)
+    public static List<LevelTreeNode> buildTree(List<LevelTreeNode> treeNodeList,
+                                                List<Map<String, Object>> rootNodeList)
             throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        List<T> result = new ArrayList<T>();
+        List<LevelTreeNode> result = new ArrayList<LevelTreeNode>();
         if (rootNodeList != null) {
-            Map<Integer, T> tempMap = new HashMap<Integer, T>();
+            Map<Integer, LevelTreeNode> tempMap = new HashMap<Integer, LevelTreeNode>();
             for (Map<String, Object> temp : rootNodeList) {
-                buildTreeNode(treeNodeList, result, tempMap, temp ,tClass);
+                buildTreeNode(treeNodeList, result, tempMap, temp);
             }
         }
         return result;
     }
 
-    private static <T extends BaseTreeNode> void buildTreeNode(List<T> treeNodeList, List<T> result,
-                               Map<Integer, T> tempMap, Map<String, Object> temp,Class<T> tClass)
+    private static void buildTreeNode(List<LevelTreeNode> treeNodeList, List<LevelTreeNode> result,
+                               Map<Integer, LevelTreeNode> tempMap, Map<String, Object> temp)
             throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         //获取一个根节点
-        T rootNode = tClass.getDeclaredConstructor().newInstance();
+        LevelTreeNode rootNode = new LevelTreeNode();
         Integer rootNodeID = (Integer) temp.get("nodeID");
         if (!treeNodeList.isEmpty()) {
             rootNode = treeNodeList.get(0);
@@ -111,7 +112,7 @@ public class TreeUtil {
             treeNodeList.remove(0);
 
             //构建这个根节点的树
-            T tempNood = tClass.getDeclaredConstructor().newInstance();
+            LevelTreeNode tempNood = new LevelTreeNode();
             while (treeNodeList != null && tempNood != null) {
                 tempNood = treeNodeList.get(0);
                 String nodePath = tempNood.getNodePath();
@@ -127,14 +128,14 @@ public class TreeUtil {
         }
     }
 
-    private static <T extends BaseTreeNode> T addTreeNode(List<T> treeNodeList, Map<Integer, T> tempMap,
-                                      T tempNood, String pathNodeID) {
+    private static LevelTreeNode addTreeNode(List<LevelTreeNode> treeNodeList, Map<Integer, LevelTreeNode> tempMap,
+                                             LevelTreeNode tempNood, String pathNodeID) {
         Integer parentNodeID = Integer.parseInt(pathNodeID);
-        T parentNode = tempMap.get(parentNodeID);
+        LevelTreeNode parentNode = tempMap.get(parentNodeID);
         if (parentNode != null) {
-            List<BaseTreeNode> childList = parentNode.getChildList();
+            List<LevelTreeNode> childList = parentNode.getChildList();
             if (childList == null) {
-                childList = new ArrayList<BaseTreeNode>();
+                childList = new ArrayList<LevelTreeNode>();
                 parentNode.setChildList(childList);
             }
 

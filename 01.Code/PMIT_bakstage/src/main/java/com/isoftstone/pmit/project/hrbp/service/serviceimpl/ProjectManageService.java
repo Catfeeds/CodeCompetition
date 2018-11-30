@@ -34,6 +34,7 @@ public class ProjectManageService implements IProjectManageService, Serializable
     public TableInfo queryProjects(ProjectTreeNode parameter) {
         Map<String, Object> queryMap = new HashMap<String, Object>();
         queryMap.put("nodeIDs", TreeUtil.getLeafByNode(parameter));
+        queryMap.put("isProject", true);
         List<ProjectTreeNode> projects = mapper.queryNodes(queryMap);
         TableInfo tableInfo = new TableInfo();
 
@@ -60,6 +61,7 @@ public class ProjectManageService implements IProjectManageService, Serializable
     private Map<Integer, ProjectTreeNode> getLevelNodesMap(ProjectTreeNode parameter, Map<String, Object> queryMap) {
         Map<Integer, ProjectTreeNode> levelNodeInfo = new HashMap<Integer, ProjectTreeNode>();
         queryMap.put("nodeIDs", getLevelNodeIDs(parameter));
+        queryMap.put("isProject", false);
         List<ProjectTreeNode> levelNodes = mapper.queryNodes(queryMap);
         if(levelNodes != null){
             for(ProjectTreeNode levelNode:levelNodes){
@@ -103,14 +105,14 @@ public class ProjectManageService implements IProjectManageService, Serializable
         return tableHeadList;
     }
 
-    private Set<Integer>  getLevelNodeIDs(BaseTreeNode root) {
+    private Set<Integer>  getLevelNodeIDs(ProjectTreeNode root) {
         Set<Integer> levelNodeIDs = new HashSet<Integer>();
         if (null != root) {
-            if (!root.isLeafNode()) {
+            if (!root.getIsLeafNode()) {
                 levelNodeIDs.add(root.getNodeID());
-                List<BaseTreeNode> childList = root.getChildList();
+                List<ProjectTreeNode> childList = root.getChildList();
                 if (childList != null) {
-                    for (BaseTreeNode temp : childList) {
+                    for (ProjectTreeNode temp : childList) {
                         levelNodeIDs.addAll(getLevelNodeIDs(temp));
                     }
                 }

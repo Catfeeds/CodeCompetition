@@ -21,7 +21,7 @@ public class LevelRlaService implements ILevelRlaService {
             throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         Map<String, Object> queryMap = buildQueryParamMap(rootNodeList);
         List<LevelTreeNode> levelNodes = mapper.queryLevelRlaNode(queryMap);
-        List<LevelTreeNode> trees = TreeUtil.buildTree(levelNodes, rootNodeList,LevelTreeNode.class);
+        List<LevelTreeNode> trees = TreeUtil.buildTree(levelNodes, rootNodeList);
         return trees;
     }
 
@@ -91,6 +91,4 @@ public class LevelRlaService implements ILevelRlaService {
         }
         return result;
     }
-
-
 }
