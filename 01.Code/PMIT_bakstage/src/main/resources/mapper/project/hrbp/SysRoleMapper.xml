@@ -53,7 +53,10 @@
     </select>
 
     <select id="getRoleByRoleId" parameterType="java.lang.Integer" resultType="com.isoftstone.pmit.project.hrbp.entity.SysRole">
-        select * from hrbp_role where role_id = #{roleId}
+        select
+        <include refid="roleColumn"/>
+        from hrbp_role
+        where role_id = '${_parameter}'
     </select>
 
 </mapper>

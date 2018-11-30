@@ -2,6 +2,7 @@ package com.isoftstone.pmit.project.hrbp.mapper;
 
 import com.isoftstone.pmit.project.hrbp.entity.SysRole;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
