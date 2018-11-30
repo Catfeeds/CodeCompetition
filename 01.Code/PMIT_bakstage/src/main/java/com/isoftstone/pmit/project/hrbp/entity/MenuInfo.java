@@ -1,44 +1,62 @@
 package com.isoftstone.pmit.project.hrbp.entity;
 
 /**
- * 
  * 前端需要的菜单项参数
- * @author zhaoye
  *
+ * @author zhaoye
  */
 public class MenuInfo {
-	
-	/** 菜单ID */
-	private Integer menuId;
-	
-	/** 菜单名称 */
-	private String menuName;
-	
-	/** 描述、备注 */
-	private String note;
 
-	public Integer getMenuId() {
-		return menuId;
-	}
+    /**
+     * 菜单ID
+     */
+    private Integer menuId;
 
-	public void setMenuId(Integer menuId) {
-		this.menuId = menuId;
-	}
+    /**
+     * 菜单名称
+     */
+    private String menuName;
 
-	public String getMenuName() {
-		return menuName;
-	}
+    /**
+     * 父节点
+     */
+    private Integer parentId;
 
-	public void setMenuName(String menuName) {
-		this.menuName = menuName;
-	}
+    /**
+     * 描述、备注
+     */
+    private String note;
 
-	public String getNote() {
-		return note;
-	}
+    public Integer getMenuId() {
+        return menuId;
+    }
 
-	public void setNote(String note) {
-		this.note = note;
-	}
-	
+    public void setMenuId(Integer menuId) {
+        this.menuId = menuId;
+    }
+
+    public String getMenuName() {
+        return menuName;
+    }
+
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
+
 }

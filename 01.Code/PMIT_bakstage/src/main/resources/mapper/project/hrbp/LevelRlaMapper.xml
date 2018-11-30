@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.LevelRlaMapper">
+    <select id="queryLevelRlaNode" parameterType="java.util.Map" resultType="LevelTreeNode">
+        SELECT
+        *
+        FROM
+        sys_level_rla
+        WHERE
+        1 = 2
+        <if test="null != nodes and '' != nodes">
+            OR nodeID in ${nodes}
+        </if>
+        <if test="paths != null">
+            <foreach collection="paths" item="item" open="OR" separator="OR">
+                nodePath LIKE '${item}%'
+            </foreach>
+        </if>
+        ORDER BY nodePath
+    </select>
+
+    <insert id="addLevelRlaNode" parameterType="java.util.Map">
+        INSERT INTO
+        sys_level_rla (nodeName,ProjectTeamID,nodePath,isLeafNode,isProjectNode)
+        VALUES
+        (
+        ${nodeName},
+        ${ProjectTeamID},
+        ${nodePath},
+        <choose>
+            <when test="null != isLeafNode">
+                ${isLeafNode},
+            </when>
+            <otherwise>
+                TRUE,
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="null != isProjectNode">
+                ${isProjectNode}
+            </when>
+            <otherwise>
+                FALSE
+            </otherwise>
+        </choose>
+        )
+    </insert>
+
+    <update id="updateIsLeafNode" parameterType="java.util.Map">
+        UPDATE
+        sys_level_rla
+        SET
+        isLeafNode = ${isLeafNode}
+        WHERE
+        nodeID = ${parentNodeID}
+    </update>
+
+    <delete id="deleteLevelRlaNode" parameterType="java.util.Map">
+        DELETE FROM
+        sys_level_rla
+        WHERE
+        nodeID = ${nodeID} OR nodePath LIKE '${nodePath}%'
+    </delete>
+
+    <update id="moveLevelRlaNode" parameterType="java.util.Map">
+
+    </update>
+
+    <update id="updateLevelRlaNode" parameterType="java.util.Map">
+
+    </update>
+</mapper>

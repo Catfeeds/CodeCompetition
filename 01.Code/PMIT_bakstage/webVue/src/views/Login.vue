@@ -150,15 +150,20 @@ export default {
           }
           vm.$store
             .dispatch("loginByUserName", vm.loginForm)
-            .then(() => {
+            .then((res) => {
+              console.log(res);
+              if (!res.status) {
+                Cookies.set("status", "logined");
+                vm.$store
+                  .dispatch("getUserInfo")
+                  .then(() => {
+                    vm.$router.push({ path: vm.redirect || "/" });
+                  })
+                  .catch(() => {});
+              } else{
+                vm.$message.error(res.message);
+              }
               vm.loading = false;
-              Cookies.set("status", "logined");
-              vm.$store
-                .dispatch("getUserInfo")
-                .then(() => {
-                  vm.$router.push({ path: vm.redirect || "/" });
-                })
-                .catch(() => {});
             })
             .catch(() => {
               vm.loading = false;

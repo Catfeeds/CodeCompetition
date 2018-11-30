@@ -1,7 +1,12 @@
 package com.isoftstone.pmit.project.hrbp.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import com.isoftstone.pmit.common.util.JsonUtils;
+import com.isoftstone.pmit.project.hrbp.entity.LoginInformation;
+import com.isoftstone.pmit.project.hrbp.entity.RoleMenu;
+import com.isoftstone.pmit.project.hrbp.entity.SysRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +31,7 @@ public class MenuManageController extends AbstractController {
 	private IMenuManageService menuManageService;
 	
 	@ApiOperation("查询的所有菜单列表")
-    @GetMapping(value = "/getAllMenuList")
+    @PostMapping(value = "/getAllMenuList")
 	public String getAllMenuList() {
 		logger.info("getAllMenuList start");
 		List<MenuInfo> menuList = null;
@@ -36,36 +41,36 @@ public class MenuManageController extends AbstractController {
 			logger.info("QueryAllMenuList ERROR" + e.getMessage());
 			return AjaxResult.returnToResult(false, e.getMessage());
 		}
-		return AjaxResult.returnToResult(false, menuList);
+		return AjaxResult.returnToResult(true, menuList);
 	}
 	
-	@ApiOperation("根据系统角色查询菜单列表")
-//    @GetMapping(value = "/getMenuTreeByRoleId")
+	@ApiOperation("根据用户角色查询菜单列表")
 	@PostMapping(value = "/getMenuTreeByRoleId")
-	public String getMenuTreeByRoleId(@RequestBody Integer roleId) {
-		logger.info("getMenuTreeByRoleId" + roleId);
+	public String getMenuTreeByRoleId(@RequestBody String parameter) {
+		SysRole sysRole = JsonUtils.readValue(parameter, SysRole.class);
+		logger.info("getMenuTreeByRoleId" + sysRole.getRoleId());
 		List<MenuInfo> menuList = null;
 		try {
-			menuList = menuManageService.getMenuListByRoleId(roleId);
+			menuList = menuManageService.getMenuListByRoleId(sysRole.getRoleId());
 		} catch (Exception e) {
-			logger.info("QueryAllMenuList ERROR" + e.getMessage());
+			logger.info("getMenuTreeByEmpID ERROR" + e.getMessage());
 			return AjaxResult.returnToResult(false, e.getMessage());
 		}
-		return AjaxResult.returnToResult(false, menuList);
+		return AjaxResult.returnToResult(true, menuList);
 	}
-	
-	@ApiOperation("保存系统角色的菜单列表")
-//    @GetMapping(value = "/saveMenuByRoleId")
-	@PostMapping(value = "/saveMenuByRoleId")
-	public String saveMenuByRoleId(@RequestBody Integer roleId, @RequestBody List<MenuInfo> menuInfos) {
-		String message = null;
+
+	@ApiOperation("根据用户账号查询菜单列表")
+	@PostMapping(value = "/getMenuTreeByEmpID")
+	public String getMenuTreeByEmpID(@RequestBody String parameter) {
+		LoginInformation loginInformation = JsonUtils.readValue(parameter, LoginInformation.class);
+		logger.info("getMenuTreeByEmpID" + loginInformation.getEmployeeID());
+		List<MenuInfo> menuList = null;
 		try {
-			message = menuManageService.saveMenuByRoleId(roleId, menuInfos);
+			menuList = menuManageService.getMenuTreeByEmpID(loginInformation.getEmployeeID());
 		} catch (Exception e) {
-			logger.info("QueryAllMenuList ERROR" + e.getMessage());
+			logger.info("getMenuTreeByEmpID ERROR" + e.getMessage());
 			return AjaxResult.returnToResult(false, e.getMessage());
 		}
-		return AjaxResult.returnToResult(false, message);
+		return AjaxResult.returnToResult(true, menuList);
 	}
-	
 }

@@ -2,6 +2,7 @@ package com.isoftstone.pmit.project.hrbp.mapper;
 
 import com.isoftstone.pmit.project.hrbp.entity.SysRole;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -35,8 +36,11 @@ public interface SysRoleMapper {
     /**
      * 插入角色
      */
-    void insertSystemRole(SysRole role);
+    int insertSystemRole(SysRole role);
 
-
-
+    /**
+     * 根据roleId获取角色
+     * @param roleId
+     */
+    SysRole getRoleByRoleId(Integer roleId);
 }

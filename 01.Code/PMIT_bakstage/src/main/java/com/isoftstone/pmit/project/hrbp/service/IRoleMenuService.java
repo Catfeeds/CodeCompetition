@@ -1,6 +1,9 @@
 package com.isoftstone.pmit.project.hrbp.service;
 
+import com.isoftstone.pmit.project.hrbp.entity.MenuInfo;
 import com.isoftstone.pmit.project.hrbp.entity.SysRole;
+
+import java.util.List;
 
 /**
  * @author lf
@@ -8,11 +11,11 @@ import com.isoftstone.pmit.project.hrbp.entity.SysRole;
 public interface IRoleMenuService {
     /**
      * 更新角色菜单
-     * @param roleId
-     * @param menuIds
+     * @param sysRole
+     * @param menuInfoList
      * @return
      */
-    int updateSystemRole(Integer roleId, Integer[] menuIds);
+    void updateSystemRole(SysRole sysRole, List<MenuInfo> menuInfoList );
 
     /**
      * 删除角色菜单
@@ -23,8 +26,8 @@ public interface IRoleMenuService {
     /**
      * 添加角色并授权
      * @param role
-     * @param menuIds
+     * @param menuInfoList
      * @return
      */
-    void addRole(SysRole role, Integer[] menuIds);
+    void addRole(SysRole role, List<MenuInfo> menuInfoList);
 }

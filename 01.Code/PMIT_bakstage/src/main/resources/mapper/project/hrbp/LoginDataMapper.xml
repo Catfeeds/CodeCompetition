@@ -4,12 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.LoginMapper">
     <resultMap type="com.isoftstone.pmit.project.hrbp.entity.LoginInformation" id="StaffResult">
-        <id     property="loginID"         column="login_id"      />
-        <result property="employeeID"       column="employee_ID"      />
-        <result property="employeeName"       column="employee_name"      />
-        <result property="password"       column="pass_word"      />
-        <result property="roleID"       column="role_id"      />
+        <id property="loginID" column="login_id"/>
+        <result property="employeeID" column="employee_ID"/>
+        <result property="employeeName" column="employee_name"/>
+        <result property="password" column="pass_word"/>
+        <result property="roleID" column="role_id"/>
     </resultMap>
+
     <select id="findStaffByEmployeeId" parameterType="java.lang.String" resultMap="StaffResult">
         select
         login_id loginId,
@@ -19,6 +20,33 @@
         role_id roleID
         from login_information
         where
-        employee_ID='${_parameter}'
+        employee_ID=#{employeeID}
     </select>
+    <select id="findEmpInformationByEmpId" parameterType="java.lang.String" resultType="com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult">
+        SELECT
+	    li.employee_name as employeeName,
+	    li.employee_ID as employeeId,
+	    si.pdu as pdu,
+	    si.positionRole as positionRole,
+        hr.role_name as roleName
+        FROM
+	    login_information li
+        LEFT JOIN base_staff_info si ON si.employeeID = li.employee_ID
+        LEFT JOIN hrbp_role hr ON li.role_id = hr.role_id
+        WHERE
+	    li.employee_ID =#{employeeID}
+    </select>
+    <select id="findEmpInformation"  resultType="com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult">
+        SELECT
+	    li.employee_name as employeeName,
+	    li.employee_ID as employeeId,
+	    si.pdu as pdu,
+	    si.positionRole as positionRole,
+        hr.role_name as roleName
+        FROM
+	    login_information li
+        LEFT JOIN base_staff_info si ON si.employeeID = li.employee_ID
+        LEFT JOIN hrbp_role hr ON li.role_id = hr.role_id
+    </select>
+
 </mapper>

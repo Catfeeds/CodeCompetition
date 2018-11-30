@@ -15,6 +15,18 @@ const authorization = {
           });
       });
     },
+    getRoleInfoById(commit, id) {
+      return new Promise((resolve, reject) => {
+        api
+          .getRoleInfoById(id)
+          .then(res => {
+            resolve(res.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
     addRoleInfo(commit, roleInfo) {
       return new Promise((resolve, reject) => {
         api

@@ -19,8 +19,8 @@ public class SystemRoleServiceImpl implements ISystemRoleService {
     private SysRoleMapper sysRoleMapper;
 
     @Override
-    public void updateSystemRole(SysRole sysRole) {
-        sysRoleMapper.updateSystemRole(sysRole);
+    public SysRole getRoleByRoleId(Integer roleId) {
+        return sysRoleMapper.getRoleByRoleId(roleId);
     }
 
     @Override

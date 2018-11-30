@@ -30,7 +30,7 @@ public class ShiroConfiguration {
         //配置shiro安全管理器 SecurityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager());
         //指定要求登录链接
-        shiroFilterFactoryBean.setLoginUrl("/auth/login");
+        shiroFilterFactoryBean.setLoginUrl("/auth/loginIn");
         //登录成功后跳转链接
         shiroFilterFactoryBean.setSuccessUrl("/home");
         // 配置未授权跳转页面

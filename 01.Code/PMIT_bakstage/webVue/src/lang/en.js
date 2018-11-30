@@ -1,20 +1,18 @@
 export default {
   route: {
     dashboard: "Dashboard",
-    overallSituation: "Overall Situation",
-    backboneReport: "Backbone Report",
-    humanModal: "Human Model",
-    roleReport: "Role Report",
-    trainingReport: "Training Report",
-    examinationReport: "Examination Report",
-    setting: "System Settings",
-    projectTeam: "Project Group Settings",
-    relationship: "Relationship Settings",
-    course: "Course Settings",
-    training: "Training Settings",
-    examination: "Examination Settings",
-    import: "Import",
-    permission: "Permission Settings"
+    backboneReport: "骨干报表",
+    setting: "系统设置",
+    projectGroup: "项目组设置",
+    relationTree: "关系树设置",
+    assessmentAffairs: "考核事务设置",
+    assessmentRules: "考核规则设置",
+    training: "培训设置",
+    examination: "考试设置",
+    import: "成绩导入",
+    role: "角色设置",
+    loginUser: "登录用户管理",
+    courseOpen: "开班设置"
   },
   navbar: {
     logOut: "Log Out",

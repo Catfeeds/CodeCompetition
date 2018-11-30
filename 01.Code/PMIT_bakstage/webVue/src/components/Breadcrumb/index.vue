@@ -37,10 +37,11 @@ export default {
           return true
         }
       })
-      const first = matched[0]
-      if (first && first.name.trim().toLocaleLowerCase() !== 'Dashboard'.toLocaleLowerCase()) {
-        matched = [{ path: '/dashboard', meta: { title: 'dashboard' }}].concat(matched)
-      }
+      // const first = matched[0]
+      // console.log('first', first)
+      // if (first && first.name.trim().toLocaleLowerCase() !== 'BackboneReport'.toLocaleLowerCase()) {
+      //   matched = [{ path: '/dashboard', meta: { title: 'backboneReport' }}].concat(matched)
+      // }
       this.levelList = matched
     }
   }
