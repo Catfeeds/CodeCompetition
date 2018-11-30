@@ -21,6 +21,16 @@ public class PersonalStyle {
     private String dislike;
     /*生活照照片路径*/
     private String photosOfLife;
+    /*证件照照片路径*/
+    private String documentPhoto;
+
+    public String getDocumentPhoto() {
+        return documentPhoto;
+    }
+
+    public void setDocumentPhoto(String documentPhoto) {
+        this.documentPhoto = documentPhoto;
+    }
 
     public String getEmployeeID() {
         return employeeID;

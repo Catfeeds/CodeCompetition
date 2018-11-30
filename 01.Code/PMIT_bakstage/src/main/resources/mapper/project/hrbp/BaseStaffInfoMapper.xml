@@ -2,10 +2,483 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.isoftstone.pmit.system.staff.mapper.StaffBaseInfoMapper">
-    <resultMap id="staffBaseInfoResult" type="com.isoftstone.pmit.system.staff.entity.StaffBaseInfo">
-        <id column="employee_id"  property="employeeId" />
-        <result column="password"  property="password"/>
+<mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.BaseStaffInfoMapper">
+
+    <resultMap type="com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo" id="StaffInfoResult">
+        <id     property="employeeID"         column="employeeID"      />
+        <result property="employeeName"       column="employeeName"      />
+        <result property="idNumber"       column="idNumber"      />
+        <result property="isoftStatus"       column="isoftStatus"      />
+        <result property="personCategory"       column="personCategory"    />
+        <result property="ifBackBone"        column="ifBackBone"        />
+        <result property="ifOffShore"       column="ifOffShore"  />
+        <result property="workPlace"        column="workPlace"     />
+        <result property="workStationNumber"   column="workStationNumber"     />
+        <result property="cooperationMode"           column="cooperationMode"     />
+        <result property="position"           column="position"     />
+        <result property="positionRole"           column="positionRole"     />
+        <result property="skill"           column="skill"     />
+        <result property="sillDirection"           column="sillDirection"     />
+        <result property="directLeaderId"           column="directLeaderId"     />
+        <result property="directLeaderName"           column="directLeaderName"     />
+        <result property="employmentDate"           column="employmentDate"     />
+        <result property="departureDate"           column="departureDate"     />
+        <result property="generalPosition"           column="generalPosition"     />
+        <result property="currentPositionDate"           column="currentPositionDate"     />
+        <result property="costCenter"           column="costCenter"     />
+        <result property="costCenterLeaderName"           column="costCenterLeaderName"     />
+        <result property="bu"           column="bu"     />
+        <result property="du"           column="du"     />
+        <result property="pdu"           column="pdu"     />
+        <result property="workPlaceArea"           column="workPlaceArea"     />
+        <result property="sex"           column="sex"     />
+        <result property="telephone"           column="telephone"     />
+        <result property="isoftEmai"           column="isoftEmai"     />
+        <result property="graduationSchool"           column="graduationSchool"     />
+        <result property="graduationMajor"           column="graduationMajor"     />
+        <result property="graduationTime"           column="graduationTime"     />
+        <result property="if211"           column="if211"     />
+        <result property="ifUnderGraduates"           column="ifUnderGraduates"     />
+        <result property="ifAbvoveTwoInstitutions"           column="ifAbvoveTwoInstitutions"     />
+        <result property="education"           column="education"     />
+        <result property="degree"           column="degree"     />
+        <result property="ifGraduate"           column="ifGraduate"     />
+        <result property="educationMode"           column="educationMode"     />
+        <result property="nation"           column="nation"     />
+        <result property="nativePlace"           column="nativePlace"     />
+        <result property="political"           column="political"     />
+        <result property="domainUserName"           column="domainUserName"     />
+        <result property="projectTeamId"           column="projectTeamId"     />
+        <result property="currentStatus"           column="currentStatus"     />
+        <result property="lengthOfService"           column="lengthOfService"     />
+        <result property="divisionAge"           column="divisionAge"     />
     </resultMap>
-    
-    </mapper>
+    <resultMap type="FamilyInformation" id="familyInformation">
+        <id     property="employeeID"         column="employeeID"      />
+        <result property="birthdayDate"       column="birthdayDate"      />
+        <result property="nationality"       column="nationality"      />
+        <result property="birthplace"       column="birthplace"      />
+        <result property="isPartyMember"       column="isPartyMember"      />
+        <result property="heigh"       column="heigh"      />
+        <result property="weight"       column="weight"      />
+        <result property="currentHomeAddress"       column="currentHomeAddress"      />
+        <result property="emergencyContact"       column="emergencyContact"      />
+        <result property="emergencyContactRelation"       column="emergencyContactRelation"      />
+        <result property="emergencyContactAdress"       column="emergencyContactAdress"      />
+        <result property="emergencyContactPhone"       column="emergencyContactPhone"      />
+        <result property="maritalStatus"       column="maritalStatus"      />
+        <result property="childInformation"       column="childInformation"      />
+        <result property="wayToWork"       column="wayToWork"      />
+        <result property="workingHour"       column="workingHour"      />
+        <result property="isbuyHouse"       column="isbuyHouse"      />
+        <result property="dayOfBuyHouse"       column="dayOfBuyHouse"      />
+        <result property="propertyAddress"       column="propertyAddress"      />
+    </resultMap>
+    <resultMap id="companyQualification" type="CompanyQualification">
+        <id     property="employeeID"         column="employeeID"      />
+        <result property="qualificationID"       column="qualificationID"      />
+        <result property="qualificationName"       column="qualificationName"      />
+        <result property="qualificationType"       column="qualificationType"      />
+        <result property="certificationLevel"       column="certificationLevel"      />
+        <result property="passDate"       column="passDate"      />
+    </resultMap>
+    <resultMap id="personalStyle" type="PersonalStyle">
+        <id     property="employeeID"         column="employeeID"/>
+        <result property="food"       column="food" />
+        <result property="game"       column="game" />
+        <result property="motion"       column="motion" />
+        <result property="book"       column="book" />
+        <result property="movie"       column="movie" />
+        <result property="music"       column="music" />
+        <result property="dislike"       column="dislike" />
+        <result property="oneSentence"       column="oneSentence" />
+        <result property="documentPhoto"       column="documentPhoto" />
+        <result property="photosOfLife"       column="photosOfLife" />
+    </resultMap>
+    <resultMap id="technicallInformation" type="TechnicalInformation">
+        <id     property="employeeID"         column="employeeID"/>
+        <result property="technologyPlatform"       column="technologyPlatform" />
+        <result property="technologyGrade"       column="technologyGrade" />
+        <result property="areasOfExpertise"       column="areasOfExpertise" />
+    </resultMap>
+    <select id="getBaseStaffInfoById" resultType="com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo" parameterType="java.lang.String">
+        SELECT
+	employeeID,
+	employeeName,
+	idNumber,
+	isoftStatus,
+	personCategory,
+	ifBackBone,
+	ifOffShore,
+	workPlace,
+	workStationNumber,
+	cooperationMode,
+	positionRole,
+	skill,
+	sillDirection,
+	directLeaderId,
+	directLeaderName,
+	employmentDate,
+	departureDate,
+	generalPosition,
+	currentPositionDate,
+	costCenter,
+	costCenterLeaderName,
+	bu,
+	du,
+	pdu,
+	workPlaceArea,
+	sex,
+	graduationSchool,
+	graduationTime,
+	ifUnderGraduates,
+	education,
+	degree,
+	if211,
+	ifGraduate,
+	graduationMajor,
+	ifAbvoveTwoInstitutions,
+	educationMode,
+	isoftEmai,
+	telephone,
+	domainUserName,
+	nation,
+	nativePlace,
+	political,
+	projectTeamId,
+	currentStatus,
+	TIMESTAMPDIFF(YEAR,graduationTime,utc_date()) AS lengthOfService,
+	TIMESTAMPDIFF(YEAR,departureDate,utc_date()) AS divisionAge
+  FROM
+	base_staff_info where employeeID=#{employeeID} and currentStatus != -1
+    </select>
+    <select id="getFamilyInfomationById" resultMap="familyInformation" parameterType="java.lang.String">
+        SELECT
+	employeeID,
+	birthdayDate,
+	nationality,
+	birthplace,
+	isPartyMember,
+	heigh,
+	weight,
+	currentHomeAddress,
+	emergencyContact,
+	emergencyContactRelation,
+	emergencyContactAdress,
+	emergencyContactPhone,
+	maritalStatus,
+	childInformation,
+	wayToWork,
+	workingHour,
+	isbuyHouse,
+	dayOfBuyHouse,
+	propertyAddress
+FROM
+	family_information
+  where employeeID=#{employeeID}
+    </select>
+    <select id="getCompanyQualificationById" parameterType="java.lang.String" resultMap="companyQualification">
+      SELECT
+            qualificationName,
+            qualificationType,
+            certificationLevel,
+            passDate,
+            qualificationID,
+            employeeID
+      FROM
+	    company_qualification
+	  where employeeID=#{employeeID}
+    </select>
+    <select id="getPersonalStyleById" parameterType="java.lang.String" resultMap="personalStyle">
+        SELECT
+            employeeID,
+            food,
+            game,
+            motion,
+            book,
+            movie,
+            music,
+            oneSentence,
+            dislike,
+            photosOfLife,
+            documentPhoto
+        FROM
+	        personal_style
+	    where employeeID=#{employeeID}
+    </select>
+    <select id="getTechicalInforationById" resultMap="technicallInformation" parameterType="java.lang.String">
+        SELECT
+            employeeID,
+            technologyPlatform,
+            technologyGrade,
+            areasOfExpertise
+        FROM
+	      technical_information
+	    where employeeID=#{employeeID}
+    </select>
+
+    <update id="updateBaseStaffInfo" parameterType="BaseStaffInfo">
+        update base_staff_info
+        <set>
+            <if test="workPlace != null ">
+                workPlace = #{workPlace}
+            </if>
+            ,
+            <if test="telephone != null">
+                telephone = #{telephone}
+            </if>
+        </set>
+        <where>
+            employeeID = #{employeeID}
+        </where>
+    </update>
+    <update id="updateTechnicalInformation" parameterType="java.util.List" >
+        <foreach collection="list" item="technicalInformation" index="index"  separator=";">
+            update technical_information
+            set
+             <if test="null != technicalInformation.areasOfExpertise ">
+                    areasofexpertise = #{technicalInformation.areasOfExpertise}
+               </if>
+            where
+             <if test="null !=  technicalInformation.employeeID ">
+                    employeeid = #{technicalInformation.employeeID}
+             </if>
+        </foreach>
+    </update>
+    <update id="updateFamilyInformation" parameterType="FamilyInformation">
+        update family_information set
+        <if test="nationality != null">
+            nationality = #{nationality}
+        </if>
+        ,
+        <if test="birthplace != null">
+            birthplace =#{birthplace}
+        </if>
+        ,
+        <if test="isPartyMember != null">
+            isPartyMember = #{isPartyMember}
+        </if>
+        ,
+        <if test="heigh != null">
+            heigh = #{heigh}
+        </if>
+        ,
+        <if test="weight != null">
+            weight = #{weight}
+        </if>
+        ,
+        <if test="currentHomeAddress != null">
+            currentHomeAddress = #{currentHomeAddress}
+        </if>
+        ,
+        <if test="emergencyContact != null">
+            emergencyContact = #{emergencyContact}
+        </if>
+        ,
+        <if test="emergencyContactRelation != null">
+            emergencyContactRelation = #{emergencyContactRelation}
+        </if>
+        ,
+        <if test="emergencyContactAdress != null">
+            emergencyContactAdress = #{emergencyContactAdress}
+        </if>
+        ,
+        <if test="emergencyContactPhone != null">
+            emergencyContactPhone = #{emergencyContactPhone}
+        </if>
+        ,
+        <if test="maritalStatus != null">
+            maritalStatus = #{maritalStatus}
+        </if>
+        ,
+        <if test="childInformation != null">
+            childInformation = #{childInformation}
+        </if>
+        ,
+        <if test="wayToWork != null">
+            wayToWork = #{wayToWork}
+        </if>
+        ,
+        <if test="workingHour != null">
+            workingHour = #{workingHour}
+        </if>
+        ,
+        <if test="isbuyHouse != null">
+            isbuyHouse = #{isbuyHouse}
+        </if>
+        ,
+        <if test="dayOfBuyHouse != null">
+            dayOfBuyHouse = #{dayOfBuyHouse}
+        </if>
+        ,
+        <if test="propertyAddress != null">
+            propertyAddress =#{propertyAddress}
+        </if>
+
+        <where>
+            <if test="employeeID != null">
+                employeeID = #{employeeID}
+            </if>
+        </where>
+    </update>
+    <update id="updatePersonalStyle" parameterType="PersonalStyle">
+        update personal_style set 
+        <if test="food != null">
+            food = #{food}
+        </if>
+        ,
+        <if test="game != null">
+            game = #{game}
+        </if>
+        ,
+        <if test="motion != null">
+            motion = #{motion}
+        </if>
+        ,
+        <if test="book != null">
+            book = #{book}
+        </if>
+        ,
+        <if test="movie != movie">
+            movie = #{movie}
+        </if>
+        <if test="music != null">
+            music = #{music}
+        </if>
+        ,
+        <if test="oneSentence != null">
+            oneSentence = #{oneSentence}
+        </if>
+        <where>
+            <if test="employeeID != null">
+                employeeID = #{employeeID}
+            </if>
+        </where>
+    </update>
+
+    <delete id="deletePersonalInformationById" parameterType="java.lang.String">
+        delete from base_staff_info where  employeeID = #{employeeID};
+        delete  from company_qualification where employeeID = #{employeeID};
+        delete  from family_information where employeeID = #{employeeID};
+        delete  from personal_style where employeeID = #{employeeID};
+        delete  from technical_information where employeeID = #{employeeID};
+    </delete>
+    <delete id="deletePersonalInformationsByList" parameterType="java.util.List">
+        <foreach collection="list" item="employeeIdList" separator="," >
+            delete from base_staff_info where  employeeID = #{employeeIdList};
+            delete  from company_qualification where employeeID = #{employeeIdList};
+            delete  from family_information where employeeID = #{employeeIdList};
+            delete  from personal_style where employeeID = #{employeeIdList};
+            delete  from technical_information where employeeID = #{employeeIdList};
+        </foreach>
+    </delete>
+
+    <insert id="insertBaseStaffInfo" parameterType="com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo">
+        insert into base_staff_info values(
+            #{employeeID},
+            #{employeeName},
+            #{idNumber},
+            #{isoftStatus},
+            #{personCategory},
+            #{ifBackBone},
+            #{ifOffShore},
+            #{workPlace},
+            #{workStationNumber},
+            #{cooperationMode},
+            #{positionRole},
+            #{skill},
+            #{sillDirection},
+            #{directLeaderId},
+            #{directLeaderName},
+            #{employmentDate},
+            #{departureDate},
+            #{generalPosition},
+            #{currentPositionDate},
+            #{costCenter},
+            #{costCenterLeaderName},
+            #{bu},
+            #{du},
+            #{pdu},
+            #{workPlaceArea},
+            #{sex},
+            #{graduationSchool},
+            #{graduationTime},
+            #{ifUnderGraduates},
+            #{education},
+            #{degree},
+            #{if211},
+            #{ifGraduate},
+            #{graduationMajor},
+            #{ifAbvoveTwoInstitutions},
+            #{educationMode},
+            #{isoftEmai},
+            #{telephone},
+            #{domainUserName},
+            #{nation},
+            #{nativePlace},
+            #{political},
+            #{projectTeamId},
+            #{currentStatus}
+        )
+    </insert>
+    <insert id="insertPersonalStyle" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalStyle">
+        insert into personal_style values (
+          #{employeeID},
+          #{food},
+          #{game},
+          #{motion},
+          #{book},
+          #{movie},
+          #{music},
+          #{oneSentence},
+          #{dislike},
+          #{photosOfLife},
+          #{documentPhoto}
+        )
+    </insert>
+    <insert id="insertFamilyInformation" parameterType="com.isoftstone.pmit.project.hrbp.entity.FamilyInformation">
+        insert into family_information values (
+          #{employeeID},
+          #{birthdayDate},
+          #{nationality},
+          #{birthplace},
+          #{isPartyMember},
+          #{heigh},
+          #{weight},
+          #{currentHomeAddress},
+          #{emergencyContact},
+          #{emergencyContactRelation},
+          #{emergencyContactAdress},
+          #{emergencyContactPhone},
+          #{maritalStatus},
+          #{childInformation},
+          #{wayToWork},
+          #{workingHour},
+          #{isbuyHouse},
+          #{dayOfBuyHouse},
+          #{propertyAddress}
+        )
+    </insert>
+    <insert id="insertTechnicalInformation" parameterType="com.isoftstone.pmit.project.hrbp.entity.TechnicalInformation">
+        <foreach collection="list" item="tech" separator=";">
+            insert  into  technical_information values (
+            #{tech.employeeID},
+            #{tech.technologyPlatform},
+            #{tech.technologyGrade},
+            #{tech.areasOfExpertise}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertCompanyQualification" parameterType="com.isoftstone.pmit.project.hrbp.entity.CompanyQualification">
+        <foreach collection="list" item="company" separator=";">
+            insert into company_qualification values  (
+                #{company.qualificationName},
+                #{company.qualificationType},
+                #{company.certificationLevel},
+                #{company.passDate},
+                #{company.qualificationID},
+                #{company.employeeID}
+            )
+        </foreach>
+    </insert>
+</mapper>

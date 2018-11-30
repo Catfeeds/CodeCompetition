@@ -26,4 +26,13 @@ public interface BaseStaffInfoMapper {
     void updateFamilyInformation(FamilyInformation familyInformation);
     void updateTechnicalInformation(List<TechnicalInformation> technicalInformation);
 
+    void deletePersonalInformationById(String employeeID);
+    void deletePersonalInformationsByList(List<String> employeeIdList);
+
+    void insertBaseStaffInfo(BaseStaffInfo info);
+    void insertPersonalStyle(PersonalStyle personalStyle);
+    void insertFamilyInformation(FamilyInformation familyInformation);
+    void insertTechnicalInformation(List<TechnicalInformation> technicalInformation);
+    void insertCompanyQualification(List<CompanyQualification> companyQualifications);
+
 }

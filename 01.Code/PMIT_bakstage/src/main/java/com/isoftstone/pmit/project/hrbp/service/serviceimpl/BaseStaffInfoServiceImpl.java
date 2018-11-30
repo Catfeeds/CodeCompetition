@@ -3,6 +3,7 @@ package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 import com.isoftstone.pmit.project.hrbp.entity.*;
 import com.isoftstone.pmit.project.hrbp.mapper.BaseStaffInfoMapper;
 import com.isoftstone.pmit.project.hrbp.service.BaseStaffInfoService;
+import org.apache.ibatis.jdbc.Null;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
 
     @Override
     public PersonalInformation getBaseStaffInfoByID(String employeeID) {
-        if (employeeID ==null){
+        if (null == employeeID ){
             throw new NullPointerException();
         }
         BaseStaffInfo baseStaffInfo = baseStaffInfoMapper.getBaseStaffInfoById(employeeID);
@@ -33,7 +34,8 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
         log.info("person"+baseStaffInfo);
         List<TechnicalInformation> techicalInforation = baseStaffInfoMapper.getTechicalInforationById(employeeID);
         log.info("techical"+techicalInforation);
-        if (baseStaffInfo==null){
+        if (null == baseStaffInfo){
+            log.info("该员工不存在");
             throw new NullPointerException();
         }
         PersonalInformation staffInfo =new PersonalInformation();
@@ -48,16 +50,57 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
     @Override
     @Transactional
     public void updatePersonalInformation(PersonalInformation personalInformation) {
-        BaseStaffInfo baseStaffInfo = personalInformation.getBaseStaffInfo();
-        if (baseStaffInfo == null){
+        if (null == personalInformation.getBaseStaffInfo()
+                || null == personalInformation.getCompanyQualifications()
+                || null == personalInformation.getFamilyInformations()
+                || null == personalInformation.getPersonalStyle()
+                || null == personalInformation.getTechnicalInformation()){
             throw new NullPointerException();
         }
-        baseStaffInfoMapper.updateBaseStaffInfo(baseStaffInfo);
+        List<TechnicalInformation> technicalInformation = personalInformation.getTechnicalInformation();
+        baseStaffInfoMapper.updateBaseStaffInfo(personalInformation.getBaseStaffInfo());
         baseStaffInfoMapper.updateFamilyInformation(personalInformation.getFamilyInformations());
         baseStaffInfoMapper.updatePersonalStyle(personalInformation.getPersonalStyle());
-        baseStaffInfoMapper.updateTechnicalInformation(personalInformation.getTechnicalInformation());
+        baseStaffInfoMapper.updateTechnicalInformation(technicalInformation);
 
     }
+
+    @Override
+    public void deletePersonalInformationById(String employeeID) {
+        if (null == employeeID) {
+            throw new NullPointerException();
+        }
+        baseStaffInfoMapper.deletePersonalInformationById(employeeID);
+    }
+
+    @Override
+    public void deletePersonalInformationByList(List<String> employeeIdList) {
+        if (null == employeeIdList){
+            throw new NullPointerException();
+        }
+        baseStaffInfoMapper.deletePersonalInformationsByList(employeeIdList);
+
+    }
+
+    @Override
+    @Transactional
+    public void insertPersonalInformation(PersonalInformation  personalInformation) {
+
+        if (null == personalInformation.getBaseStaffInfo()
+                || null == personalInformation.getCompanyQualifications()
+                || null == personalInformation.getFamilyInformations()
+                || null == personalInformation.getPersonalStyle()
+                || null == personalInformation.getTechnicalInformation()){
+            throw new NullPointerException();
+        }
+
+        baseStaffInfoMapper.insertBaseStaffInfo(personalInformation.getBaseStaffInfo());
+        baseStaffInfoMapper.insertCompanyQualification(personalInformation.getCompanyQualifications());
+        baseStaffInfoMapper.insertFamilyInformation(personalInformation.getFamilyInformations());
+        baseStaffInfoMapper.insertTechnicalInformation(personalInformation.getTechnicalInformation());
+        baseStaffInfoMapper.insertPersonalStyle(personalInformation.getPersonalStyle());
+    }
+
 
 
 }

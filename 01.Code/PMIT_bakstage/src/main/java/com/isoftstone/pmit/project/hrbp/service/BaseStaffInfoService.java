@@ -2,6 +2,8 @@ package com.isoftstone.pmit.project.hrbp.service;
 
 import com.isoftstone.pmit.project.hrbp.entity.PersonalInformation;
 
+import java.util.List;
+
 public interface BaseStaffInfoService {
 
 
@@ -14,4 +16,19 @@ public interface BaseStaffInfoService {
      * 修改员工的详细信息
      * */
     void updatePersonalInformation(PersonalInformation personalInformation);
+    /*
+    * 删除一个员工信息
+    * */
+    void deletePersonalInformationById(String employeeID);
+
+    /*
+    * 删除多个员工的信息
+    * */
+    void deletePersonalInformationByList(List<String> employeeIdList);
+
+    /*
+    * 增加一个员工的所有信息
+    * */
+    void  insertPersonalInformation(PersonalInformation personalInformation);
+
 }
