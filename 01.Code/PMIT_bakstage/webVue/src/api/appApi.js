@@ -1,12 +1,19 @@
 import request from "@/utils/request";
 export function getAllMenuInfo() {
-  return request({ url: "hrbp/menuManage/getAllMenuList", method: "get" });
+  return request({ url: "hrbp/menuManage/getAllMenuList", method: "post" });
 }
-export function getMenuInfoByRole(roleId) {
+export function getMenuInfoByEmployeeId(employeeID) {
   return request({
-    url: "hrbp/menuManage/getMenuList",
-    method: "get",
-    param: { role: roleId }
+    url: "hrbp/menuManage/getMenuTreeByEmpID",
+    method: "post",
+    data: { employeeID }
+  });
+}
+export function getMenuInfoByRoleId(roleId) {
+  return request({
+    url: "hrbp/menuManage/getMenuTreeByRoleId",
+    method: "post",
+    data: { roleId }
   });
 }
 export function getProductInfo() {

@@ -6,7 +6,9 @@ const getters = {
   visitedViews: state => state.tagsViewStore.visitedViews,
   cachedViews: state => state.tagsViewStore.cachedViews,
   token: state => state.userInfoStore.token,
-  avatar: state => state.userInfoStore.avatar,
+  avatar: state =>
+    state.userInfoStore.avatar ||
+    "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
   name: state => state.userInfoStore.name,
   introduction: state => state.userInfoStore.introduction,
   status: state => state.userInfoStore.status,

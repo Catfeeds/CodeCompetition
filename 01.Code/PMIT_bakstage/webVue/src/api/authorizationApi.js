@@ -5,11 +5,11 @@ function getRoleList() {
     method: "post"
   });
 }
-function getRoleInfoById(id) {
+function getRoleInfoById(roleId) {
   return request({
     url: "hrbp/system/querySystemRoleById",
     method: "post",
-    data: id
+    data: { roleId }
   });
 }
 function addRoleInfo(roleInfo) {
@@ -19,11 +19,11 @@ function addRoleInfo(roleInfo) {
     data: roleInfo
   });
 }
-function delRoleInfo(id) {
+function delRoleInfo(roleId) {
   return request({
     url: "hrbp/system/deleteSystemRole",
     method: "post",
-    data: id
+    data: { roleId }
   });
 }
 function editRoleInfo(roleInfo) {

@@ -1,6 +1,10 @@
 import Cookies from "js-cookie";
 import { constantRouterMap, asyncRouterMap } from "@/router";
-import { getMenuInfoByRole, getAllMenuInfo } from "@/api/appApi";
+import {
+  getMenuInfoByEmployeeId,
+  getAllMenuInfo,
+  getMenuInfoByRoleId
+} from "@/api/appApi";
 /**
  * 递归过滤异步路由表，根据后台返回的菜单列表过滤后的路由表
  * @param routes asyncRouterMap
@@ -84,17 +88,29 @@ const app = {
     setSize({ commit }, size) {
       commit("setSize", size);
     },
-    //根据角色查询菜单
-    getMenuInfoByRole({ commit }, role) {
+    //根据登录用户ID查询菜单
+    getMenuInfoByEmployeeId({ commit }, role) {
       return new Promise((resolve, reject) => {
-        getMenuInfoByRole(role)
+        getMenuInfoByEmployeeId(role)
           .then(response => {
             let accessedRouters = filterAsyncRouter(
               asyncRouterMap,
-              response.data
+              response.data.data
             );
             commit("setRouters", accessedRouters);
             resolve();
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    //根据角色ID查询菜单
+    getMenuInfoByRoleId(commit, role) {
+      return new Promise((resolve, reject) => {
+        getMenuInfoByRoleId(role)
+          .then(response => {
+            resolve(response.data.data);
           })
           .catch(error => {
             reject(error);
@@ -106,7 +122,7 @@ const app = {
       return new Promise((resolve, reject) => {
         getAllMenuInfo()
           .then(res => {
-            resolve(res.data);
+            resolve(res.data.data);
           })
           .catch(error => {
             reject(error);

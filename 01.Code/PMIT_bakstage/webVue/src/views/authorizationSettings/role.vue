@@ -14,7 +14,7 @@
       height="450px"
       style="width: 100%;margin-top:15px;"
     >
-      <el-table-column header-align="center" :label="$t('table.id')" width="80">
+      <el-table-column header-align="center" align="center" :label="$t('table.id')" width="80">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
         </template>
@@ -37,7 +37,7 @@
             type="primary"
             size="mini"
             icon="el-icon-edit"
-            @click="handleEdit(scope.row.roleId)"
+            @click="handleEdit(scope.row)"
           >编辑</el-button>
           <el-button
             type="primary"
@@ -53,7 +53,7 @@
         <el-form-item label="角色名称" prop="roleName">
           <el-input v-model="roleForm.roleName" autocomplete="off" required maxlength="64"></el-input>
         </el-form-item>
-        <el-form-item label="角色描述">
+        <el-form-item label="角色描述" prop="description">
           <el-input v-model="roleForm.description" autocomplete="off" maxlength="128"></el-input>
         </el-form-item>
         <el-form-item label="菜单项" prop="menuTree">
@@ -66,6 +66,7 @@
                 node-key="id"
                 default-expand-all
                 :props="defaultProps"
+                :default-checked-keys="selectedNodes"
                 ref="tree"
               ></el-tree>
             </el-scrollbar>
@@ -85,10 +86,12 @@ export default {
   data() {
     let vm = this;
     let validMenuTree = (rule, value, callback) => {
-      vm.roleForm.meunIds = vm.$refs.tree.getCheckedNodes().map(item => {
-        return item.id;
+      vm.roleForm.menuIds = vm.$refs.tree.getCheckedNodes().map(item => {
+        return {
+          menuId: item.id
+        };
       });
-      if (vm.roleForm.meunIds.length <= 0) {
+      if (vm.roleForm.menuIds.length <= 0) {
         callback(new Error(rule.message));
       } else {
         callback();
@@ -99,6 +102,7 @@ export default {
       loading: false,
       dialogVisible: false,
       tableData: [],
+      selectedNodes: [],
       roleForm: {
         roleName: "",
         description: "",
@@ -111,6 +115,9 @@ export default {
       rules: {
         roleName: [
           { required: true, message: "请输入角色名称", trigger: "blur" }
+        ],
+        description: [
+          { required: true, message: "请输入角色描述", trigger: "blur" }
         ],
         menuTree: [
           {
@@ -125,17 +132,7 @@ export default {
     };
   },
   mounted() {
-    this.loading = true;
-    this.$store
-      .dispatch("getRoleList")
-      .then(data => {
-        this.tableData = data;
-        this.loading = false;
-      })
-      .catch(error => {
-        console.log(error);
-        this.loading = false;
-      });
+    this.getRoleList();
     this.$store.dispatch("getAllMenuInfo").then(data => {
       this.menuTreeData = data
         .filter(item => !item.parentId)
@@ -156,6 +153,22 @@ export default {
     });
   },
   methods: {
+    getRoleList() {
+      this.loading = true;
+      this.$store
+        .dispatch("getRoleList")
+        .then(data => {
+          this.tableData = data.map((item, index) => {
+            item.id = index + 1;
+            return item;
+          });
+          this.loading = false;
+        })
+        .catch(error => {
+          console.log(error);
+          this.loading = false;
+        });
+    },
     handleDel(id) {
       let vm = this;
       vm.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
@@ -164,50 +177,80 @@ export default {
         type: "warning"
       }).then(() => {
         vm.$store.dispatch("delRoleInfo", id).then(res => {
-          if (!res.data.code) {
-            vm.$message({
-              type: "success",
-              message: "删除成功!"
-            });
+          if (!res.code) {
+            vm.$message.success(res.msg);
+            vm.getRoleList();
           } else {
-            vm.$message({
-              type: "error",
-              message: "删除失败!"
-            });
+            vm.$message.error(res.msg);
           }
         });
       });
     },
-    handleEdit(id) {
+    handleEdit(rowData) {
       let vm = this;
-      vm.$store.dispatch("getRoleInfoById", id).then(res=>{
-        if(res.data) {
-          vm.roleForm.roleName = res.data.roleName;
-          vm.roleForm.description = res.data.description;
+      vm.$store.dispatch("getMenuInfoByRoleId", rowData.roleId).then(res => {
+        if (res) {
+          vm.roleForm.roleName = rowData.roleName;
+          vm.roleForm.description = rowData.description;
+          vm.roleForm.roleId = rowData.roleId;
           vm.dialogTitle = "编辑角色";
           vm.dialogVisible = true;
+          if (!vm.$refs.tree) {
+            vm.selectedNodes = res.map(item => item.menuId);
+          } else {
+            vm.clearValidate("roleForm");
+            vm.$refs.tree.setCheckedNodes(
+              res.map(item => {
+                return { id: item.menuId, name: item.note };
+              })
+            );
+          }
         }
-      })
+      });
     },
     addRole() {
       this.dialogVisible = true;
       this.dialogTitle = "添加角色";
       this.roleForm.roleName = "";
       this.roleForm.description = "";
-      this.$refs.tree.setCheckedKeys([]);
+      this.roleForm.roleId = -1;
+      if (this.$refs.tree) {
+        this.clearValidate("roleForm");
+        this.$refs.tree.setCheckedKeys([]);
+      }
     },
     submtForm(formName) {
-      this.$refs[formName].validate(valid => {
+      let vm = this;
+      vm.$refs[formName].validate(valid => {
         if (valid) {
-          this.$store.dispatch("addRoleInfo", this.roleForm).then(res => {
-            if (res) {
-              this.$message.success("角色添加成功");
+          let formData = {
+            sysRole: {
+              roleName: vm.roleForm.roleName,
+              description: vm.roleForm.description
+            },
+            menuInfoList: vm.roleForm.menuIds
+          };
+          let requestName = "addRoleInfo"
+          if(vm.roleForm.roleId >= 0) {
+            requestName = "editRoleInfo";
+            formData.sysRole.roleId = vm.roleForm.roleId;
+          }
+          vm.$store.dispatch(requestName, formData).then(res => {
+            if (res.success) {
+              vm.$message.success(res.message);
+              vm.dialogVisible = false;
+              vm.getRoleList();
+            } else {
+              vm.$message.error(res.message);
             }
           });
         } else {
           return false;
         }
       });
+    },
+    clearValidate(formName) {
+      this.$refs[formName].clearValidate();
     }
   }
 };

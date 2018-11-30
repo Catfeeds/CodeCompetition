@@ -10,11 +10,13 @@ import Cookies from "js-cookie";
 import "@/styles/index.scss"; // global css
 import i18n from "./lang"; // Internationalization
 import "./icons"; // icon
-import "./mock/index";
+// import "./mock/index";
 Vue.config.productionTip = false;
 Vue.use(elmentui);
 router.beforeEach((to, from, next) => {
-  store.dispatch("getUserInfo");
+  // if (to.name !== "login") {
+  //   store.dispatch("getUserInfo");
+  // }
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (Cookies.get("status") !== "logined") {
       next({

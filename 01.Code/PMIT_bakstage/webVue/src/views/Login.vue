@@ -153,13 +153,17 @@ export default {
             .then((res) => {
               console.log(res);
               if (!res.status) {
+                Cookies.set("loginName", vm.loginForm.userName);
                 Cookies.set("status", "logined");
-                vm.$store
-                  .dispatch("getUserInfo")
-                  .then(() => {
-                    vm.$router.push({ path: vm.redirect || "/" });
-                  })
-                  .catch(() => {});
+                vm.$router.push({ path: vm.redirect || "/" });
+                // vm.$store
+                //   .dispatch("getUserInfo")
+                //   .then(() => {
+                //     vm.$router.push({ path: vm.redirect || "/" });
+                //   })
+                //   .catch(() => {
+                //     vm.$router.push({ path: vm.redirect || "/" });
+                //   });
               } else{
                 vm.$message.error(res.message);
               }
