@@ -1,10 +1,8 @@
 package com.isoftstone.pmit.project.hrbp.entity;
 
 import com.isoftstone.pmit.common.util.JsonUtils;
-import sun.applet.Main;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 /**

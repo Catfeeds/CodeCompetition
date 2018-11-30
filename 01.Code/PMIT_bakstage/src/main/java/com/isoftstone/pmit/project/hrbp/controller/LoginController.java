@@ -33,7 +33,7 @@ public class LoginController extends AbstractController {
 
     @RequestMapping(value = "/loginIn", method = { RequestMethod.POST })
     @ApiOperation(value="登陆模块", notes="查询用户信息登陆")
-    public LoginInfo loginIn(@RequestParam(value = "staffisstAccount", required = true) String staffisstAccount,
+    public LoginInfo loginIn(@RequestParam(value = "employeeID", required = true) String employeeID,
                              @RequestParam(value = "password", required = true) String password) {
         LoginInfo reJson = new LoginInfo();
         // shiro认证
@@ -41,7 +41,7 @@ public class LoginController extends AbstractController {
         String md5HexPassword = DigestUtils.md5Hex(password);
         //MD5Utils加密
 //      String md5Password = MD5Utils.MD5(password);
-        UsernamePasswordToken token = new UsernamePasswordToken(staffisstAccount, md5HexPassword);
+        UsernamePasswordToken token = new UsernamePasswordToken(employeeID, md5HexPassword);
         try {
             subject.login(token);
         } catch (UnknownAccountException e) {
