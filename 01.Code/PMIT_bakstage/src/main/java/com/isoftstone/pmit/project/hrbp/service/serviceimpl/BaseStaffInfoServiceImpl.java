@@ -35,7 +35,7 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
         List<TechnicalInformation> techicalInforation = baseStaffInfoMapper.getTechicalInforationById(employeeID);
         log.info("techical"+techicalInforation);
         if (null == baseStaffInfo){
-            log.info("该员工不存在");
+            log.info("该员工已离职");
             throw new NullPointerException();
         }
         PersonalInformation staffInfo =new PersonalInformation();
