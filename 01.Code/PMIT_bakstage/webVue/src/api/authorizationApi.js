@@ -56,7 +56,7 @@ function addLoginUser(userInfo) {
 }
 function delLoginUser(employeeID) {
   return request({
-    url: "permission/delLoginUser",
+    url: "hrbp/user/deleteUserRole",
     method: "post",
     data: { employeeID }
   });
@@ -66,6 +66,13 @@ function editLoginUser(userInfo) {
     url: "permission/editLoginUser",
     method: "post",
     data: userInfo
+  });
+}
+function searchEmployeeInfo(keyword) {
+  return request({
+    url: "hrbp/user/queryUserByKeyword",
+    method: "post",
+    data: { keyword }
   });
 }
 export default {
@@ -78,5 +85,6 @@ export default {
   getLoginUserById,
   addLoginUser,
   delLoginUser,
-  editLoginUser
+  editLoginUser,
+  searchEmployeeInfo
 };

@@ -122,6 +122,18 @@ const authorization = {
             reject(error);
           });
       });
+    },
+    searchEmployeeInfo(commit, keyword) {
+      return new Promise((resolve, reject) => {
+        api
+          .searchEmployeeInfo(keyword)
+          .then(response => {
+            resolve(response.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
     }
   }
 };
