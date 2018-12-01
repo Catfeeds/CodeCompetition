@@ -49,7 +49,7 @@ function getLoginUserById(employeeID) {
 }
 function addLoginUser(userInfo) {
   return request({
-    url: "permission/addLoginUser",
+    url: "hrbp/user/insertUserRole",
     method: "post",
     data: userInfo
   });
@@ -63,7 +63,7 @@ function delLoginUser(employeeID) {
 }
 function editLoginUser(userInfo) {
   return request({
-    url: "permission/editLoginUser",
+    url: "hrbp/user/updateUserRole",
     method: "post",
     data: userInfo
   });

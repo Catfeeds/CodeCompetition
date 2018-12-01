@@ -82,7 +82,8 @@
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="30%">
       <el-form :model="loginForm" size="mini" label-width="80px" ref="loginForm" :rules="rules">
         <el-form-item label="姓名" prop="employeeName">
-          <el-autocomplete
+          <el-input v-if="isEdit" v-model="loginForm.employeeName" autocomplete="off" disabled></el-input>
+          <el-autocomplete v-else
             popper-class="my-autocomplete"
             v-model="loginForm.employeeName"
             :trigger-on-focus="false"
@@ -98,7 +99,8 @@
           </el-autocomplete>
         </el-form-item>
         <el-form-item label="工号" prop="employeeId">
-          <el-autocomplete
+          <el-input v-if="isEdit" v-model="loginForm.employeeId" autocomplete="off" disabled></el-input>
+          <el-autocomplete v-else
             popper-class="my-autocomplete"
             v-model="loginForm.employeeId"
             :trigger-on-focus="false"
@@ -148,9 +150,7 @@ export default {
       loading: false,
       dialogVisible: false,
       tableData: [],
-      deptOptions: [],
       roleOptions: [],
-      postOptions: [],
       searchForm: {
         keyword: ""
       },
@@ -182,6 +182,14 @@ export default {
   mounted() {
     this.page.currentPage = 1;
     this.getLogiUserList();
+    this.$store.dispatch("getRoleList").then(res => {
+      this.roleOptions = res.map(item => {
+        return {
+          label: item.roleName,
+          value: item.roleId
+        };
+      });
+    });
   },
   methods: {
     getLogiUserList() {
@@ -228,9 +236,9 @@ export default {
     handleEdit(rowData) {
       let vm = this;
       vm.$store.dispatch("getLoginUserById", rowData.employeeID).then(res => {
-        if (res.data) {
+        if (res.success) {
           vm.loginForm.employeeName = res.data.employeeName;
-          vm.loginForm.userId = res.data.employeeID;
+          vm.loginForm.employeeId = res.data.employeeID;
           vm.loginForm.department = res.data.pdu;
           vm.loginForm.post = res.data.positionRole;
           vm.loginForm.systemRole = res.data.roleName;
@@ -261,15 +269,25 @@ export default {
       vm.$refs[formName].validate(valid => {
         if (valid) {
           let requestName = "addLoginUser";
+          let formData = {
+            employeeID: vm.loginForm.employeeId,
+            employeeName: vm.loginForm.employeeName,
+            roleID: vm.loginForm.systemRole
+          };
           if (vm.isEdit) {
             requestName = "editLoginUser";
+            formData = {
+              employeeID: vm.loginForm.employeeId,
+              roleID: vm.loginForm.systemRole
+            };
           }
-          vm.$store.dispatch(requestName, vm.loginForm).then(res => {
-            if (res) {
-              vm.$message.success("登录用户添加成功");
+          vm.$store.dispatch(requestName, formData).then(res => {
+            if (!res.code) {
+              vm.$message.success(res.msg);
+              vm.dialogVisible = false;
               vm.getLogiUserList();
             } else {
-              vm.$message.error("登录用户添加失败");
+              vm.$message.error(res.msg);
             }
           });
         } else {
