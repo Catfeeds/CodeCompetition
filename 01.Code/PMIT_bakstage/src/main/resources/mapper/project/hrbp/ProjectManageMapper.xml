@@ -8,19 +8,25 @@
         nodeID,
         nodePath,
         nodeName,
-        projcetID,
+        projectID,
         projectName,
         pmID,
         pmName
       FROM
         sys_project_level
       WHERE
-        isProject = TRUE
+        isProject = #{isProject}
         <if test="null != nodeIDs">
             AND nodeID IN
             <foreach collection="nodeIDs" separator="," open="(" item="item" close=")">
                 #{item}
             </foreach>
+        </if>
+        <if test="null != pmName and '' != pmName">
+            AND pmName LIKE '%#{pmName}%'
+        </if>
+        <if test="null != projectName and '' != projectName">
+            AND pmName LIKE '%#{projectName}%'
         </if>
     </select>
 </mapper>

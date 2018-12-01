@@ -33,7 +33,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("getMenuInfoByRole", Cookies.get("userName"));
+    this.$store.dispatch("getMenuInfoByEmployeeId", Cookies.get("loginName"));
   }
 };
 </script>

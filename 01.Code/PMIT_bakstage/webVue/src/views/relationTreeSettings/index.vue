@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="app-container">
         <el-form :inline="true" :model="formInline">
             <el-form-item label="产品线">
                 <el-select v-model="product" placeholder="产品线" @change="productChange">

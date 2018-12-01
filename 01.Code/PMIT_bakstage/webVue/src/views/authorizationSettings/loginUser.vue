@@ -1,5 +1,5 @@
 <template>
-  <div class="loginUser-container">
+  <div class="app-container">
     <el-row type="flex" justify="end">
       <el-button type="primary" size="mini" @click="handleAdd">新增</el-button>
     </el-row>
@@ -14,7 +14,7 @@
       highlight-current-row
       style="width: 100%;margin:15px 0px;"
     >
-      <el-table-column header-align="center" :label="$t('table.id')" width="80">
+      <el-table-column header-align="center" align="center" :label="$t('table.id')" width="80">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
         </template>
@@ -22,28 +22,28 @@
 
       <el-table-column min-width="150px" header-align="center" label="姓名" sortable>
         <template slot-scope="scope">
-          <span>{{ scope.row.roleName }}</span>
+          <span>{{ scope.row.employeeName }}</span>
         </template>
       </el-table-column>
 
       <el-table-column min-width="150px" header-align="center" label="工号" sortable>
         <template slot-scope="scope">
-          <span>{{ scope.row.roleDesc }}</span>
+          <span>{{ scope.row.employeeID }}</span>
         </template>
       </el-table-column>
-      <el-table-column min-width="150px" header-align="center" label="部门" sortable>
+      <el-table-column min-width="200px" header-align="center" label="部门" sortable>
         <template slot-scope="scope">
-          <span>{{ scope.row.roleDesc }}</span>
+          <span>{{ scope.row.pdu }}</span>
         </template>
       </el-table-column>
-      <el-table-column min-width="150px" header-align="center" label="岗位" sortable>
+      <el-table-column min-width="100px" header-align="center" label="岗位" sortable>
         <template slot-scope="scope">
-          <span>{{ scope.row.roleDesc }}</span>
+          <span>{{ scope.row.positionRole }}</span>
         </template>
       </el-table-column>
       <el-table-column min-width="150px" header-align="center" label="系统角色" sortable>
         <template slot-scope="scope">
-          <span>{{ scope.row.roleDesc }}</span>
+          <span>{{ scope.row.roleName }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" width="200" header-align="center" :label="$t('table.option')">
@@ -52,13 +52,13 @@
             type="primary"
             size="mini"
             icon="el-icon-edit"
-            @click="handleEdit(scope.row.roleId)"
+            @click="handleEdit(scope.row)"
           >编辑</el-button>
           <el-button
             type="primary"
             size="mini"
             icon="el-icon-delete"
-            @click="handleDel(scope.row.roleId)"
+            @click="handleDel(scope.row.employeeID)"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -66,11 +66,10 @@
     <el-row type="flex" justify="end">
       <el-pagination
         @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="100"
+        :current-page="page.currentPage"
+        :page-size="page.pageSize"
         layout="total, slot, prev, pager, next, jumper"
-        :total="totalPage"
+        :total="page.totalPage"
       ></el-pagination>
     </el-row>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="30%">
@@ -79,37 +78,37 @@
           <el-input v-model="loginForm.userName" autocomplete="off" required maxlength="64"></el-input>
         </el-form-item>
         <el-form-item label="工号" prop="userId">
-          <el-input v-model="loginForm.userId" autocomplete="off" maxlength="128"></el-input>
+          <el-input v-model="loginForm.userId" autocomplete="off" maxlength="128" :disabled="isEdit"></el-input>
         </el-form-item>
         <el-form-item label="部门" prop="department">
-          <el-select v-model="loginForm.department" size="mini" placeholder="请选择" @change="changeDU">
-              <el-option
-                v-for="item in deptOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
+          <el-select v-model="loginForm.department" size="mini" placeholder="请选择">
+            <el-option
+              v-for="item in deptOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="岗位" prop="post">
-          <el-select v-model="loginForm.post" size="mini" placeholder="请选择" @change="changeDU">
-              <el-option
-                v-for="item in postOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
+          <el-select v-model="loginForm.post" size="mini" placeholder="请选择">
+            <el-option
+              v-for="item in postOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="系统角色" prop="systemRole">
-          <el-select v-model="loginForm.systemRole" size="mini" placeholder="请选择" @change="changeDU">
-              <el-option
-                v-for="item in roleOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
+          <el-select v-model="loginForm.systemRole" size="mini" placeholder="请选择">
+            <el-option
+              v-for="item in roleOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -125,8 +124,7 @@ export default {
   data() {
     let vm = this;
     return {
-      currentPage: 1,
-      totalPage: 0,
+      isEdit: false,
       dialogTitle: "",
       loading: false,
       dialogVisible: false,
@@ -142,40 +140,51 @@ export default {
         systemRole: ""
       },
       rules: {
-        userName: [
-          { required: true, message: "请输入名称", trigger: "blur" }
-        ],
-        userId: [
-          { required: true, message: "请输入工号", trigger: "blur" }
-        ],
+        userName: [{ required: true, message: "请输入名称", trigger: "blur" }],
+        userId: [{ required: true, message: "请输入工号", trigger: "blur" }],
         department: [
           { required: true, message: "请选择部门", trigger: "change" }
         ],
-        post: [
-          { required: true, message: "请选择岗位", trigger: "change" }
-        ],
+        post: [{ required: true, message: "请选择岗位", trigger: "change" }],
         systemRole: [
           { required: true, message: "请选择系统角色", trigger: "change" }
         ]
+      },
+      page: {
+        currentPage: 1,
+        totalPage: 0,
+        pageSize: 10
       }
     };
   },
   mounted() {
-    this.loading = true;
-    this.$store
-      .dispatch("getLoginUserList")
-      .then(data => {
-        this.tableData = data;
-        this.loading = false;
-      })
-      .catch(error => {
-        console.log(error);
-        this.loading = false;
-      });
+    this.page.currentPage = 1;
+    this.getLogiUserList();
   },
   methods: {
+    getLogiUserList() {
+      let vm = this;
+      vm.loading = true;
+      vm.$store
+        .dispatch("getLoginUserList", vm.page)
+        .then(data => {
+          if (data.success) {
+            vm.tableData = data.data.list.map((item, index) => {
+              item.id = index + 1;
+              return item;
+            });
+            vm.page.totalPage = data.data.total;
+          }
+          vm.loading = false;
+        })
+        .catch(error => {
+          console.log(error);
+          vm.loading = false;
+        });
+    },
     handleCurrentChange(val) {
-
+      this.page.currentPage = val;
+      this.getLogiUserList();
     },
     handleDel(id) {
       let vm = this;
@@ -184,45 +193,55 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        vm.$store.dispatch("delRoleInfo", id).then(res => {
+        vm.$store.dispatch("delLoginUser", id).then(res => {
           if (!res.data.code) {
-            vm.$message({
-              type: "success",
-              message: "删除成功!"
-            });
+            vm.$message.success("删除成功");
+            vm.getLogiUserList();
           } else {
-            vm.$message({
-              type: "error",
-              message: "删除失败!"
-            });
+            vm.$message.error("删除失败");
           }
         });
       });
     },
-    handleEdit(id) {
+    handleEdit(rowData) {
       let vm = this;
-      vm.$store.dispatch("getRoleInfoById", id).then(res => {
+      vm.$store.dispatch("getLoginUserById", rowData.employeeID).then(res => {
         if (res.data) {
-          vm.roleForm.roleName = res.data.roleName;
-          vm.roleForm.description = res.data.description;
-          vm.dialogTitle = "编辑角色";
+          vm.loginForm.userName = res.data.employeeName;
+          vm.loginForm.userId = res.data.employeeID;
+          vm.loginForm.department = res.data.pdu;
+          vm.loginForm.post = res.data.positionRole;
+          vm.loginForm.systemRole = res.data.roleName;
+          vm.dialogTitle = "编辑登录用户";
           vm.dialogVisible = true;
+          vm.isEdit = true;
         }
       });
     },
     handleAdd() {
       this.dialogVisible = true;
       this.dialogTitle = "添加登录用户";
-      this.roleForm.roleName = "";
-      this.roleForm.description = "";
-      this.$refs.tree.setCheckedKeys([]);
+      this.loginForm.userName = "";
+      this.loginForm.userId = "";
+      this.loginForm.department = "";
+      this.loginForm.post = "";
+      this.loginForm.systemRole = "";
+      this.isEdit = false;
     },
     submtForm(formName) {
-      this.$refs[formName].validate(valid => {
+      let vm = this;
+      vm.$refs[formName].validate(valid => {
         if (valid) {
-          this.$store.dispatch("addRoleInfo", this.roleForm).then(res => {
+          let requestName = "addLoginUser"
+          if(vm.isEdit) {
+            requestName = "editLoginUser";
+          }
+          vm.$store.dispatch(requestName, vm.loginForm).then(res => {
             if (res) {
-              this.$message.success("角色添加成功");
+              vm.$message.success("登录用户添加成功");
+              vm.getLogiUserList();
+            }else{
+              vm.$message.error("登录用户添加失败")
             }
           });
         } else {
@@ -235,8 +254,6 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-.loginUser-container {
-  margin: 15px;
-}
+
 </style>
 

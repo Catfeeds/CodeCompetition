@@ -2,6 +2,8 @@ package com.isoftstone.pmit.project.hrbp.entity;
 public class FamilyInformation {
 
 
+    /*员工工号*/
+    private String employeeID;
     /*出生年月*/
     private String birthdayDate;
     /*民族*/
@@ -38,6 +40,14 @@ public class FamilyInformation {
     private String dayOfBuyHouse;
     /*房产地址*/
     private String propertyAddress;
+
+    public String getEmployeeID() {
+        return employeeID;
+    }
+
+    public void setEmployeeID(String employeeID) {
+        this.employeeID = employeeID;
+    }
 
     public String getBirthdayDate() {
         return birthdayDate;

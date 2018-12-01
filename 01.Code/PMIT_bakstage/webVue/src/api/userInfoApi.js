@@ -1,11 +1,10 @@
 import request from "@/utils/request";
 
-export function loginByUserName(userName, password) {
-  const data = { staffisstAccount: userName, password: password };
+export function loginByUserName(employeeID, password) {
   return request({
     url: "auth/loginIn",
     method: "post",
-    data: data
+    data: { employeeID, password }
   });
 }
 
@@ -16,10 +15,10 @@ export function logout() {
   });
 }
 
-export function getUserInfo(token) {
+export function getUserInfo(employeeID) {
   return request({
-    url: "/user/info",
-    method: "get",
-    params: { token }
+    url: "/auth/getEmployee",
+    method: "post",
+    data: { employeeID }
   });
 }

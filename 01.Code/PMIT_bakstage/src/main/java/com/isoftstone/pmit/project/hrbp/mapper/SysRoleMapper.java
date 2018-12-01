@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 
 @Mapper
@@ -37,9 +36,4 @@ public interface SysRoleMapper {
      */
     int insertSystemRole(SysRole role);
 
-    /**
-     * 根据roleId获取角色
-     * @param roleId
-     */
-    SysRole getRoleByRoleId(Integer roleId);
 }

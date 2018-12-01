@@ -1,35 +1,38 @@
 package com.isoftstone.pmit.project.hrbp.mapper;
 
-import com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo;
-import com.isoftstone.pmit.project.hrbp.entity.OneStaffAllInfo;
-import com.isoftstone.pmit.system.staff.entity.StaffBaseInfo;
+import com.isoftstone.pmit.project.hrbp.entity.*;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author lf
  */
 @Mapper
-@Repository
 public interface BaseStaffInfoMapper {
 
-    /*
-     * 通过ID获取一个员工的详细信息
-     * */
-    OneStaffAllInfo getBaseStaffInfoByID(String employeeID);
+    BaseStaffInfo getBaseStaffInfoById(String employeeID);
 
-    /*
-     * 通过ID修改个人员工的详细信息
-     * */
-    OneStaffAllInfo updateBaseStaffInfoByID(String employeeID);
+    List<CompanyQualification> getCompanyQualificationById(String employeeID);
 
-    /*
-     * 增加新员工信息
-     * */
-    int insertBaseStaffInfo(OneStaffAllInfo oneStaffAllInfo);
+    PersonalStyle getPersonalStyleById(String employeeID);
 
-    /*
-     * 删除一个员工信息
-     * */
-    int deleteBaseStaffInfo(String employeeID);
+    FamilyInformation getFamilyInfomationById(String employeeID);
+
+    List<TechnicalInformation> getTechicalInforationById(String employeeID);
+
+    void updateBaseStaffInfo(BaseStaffInfo info);
+    void updatePersonalStyle(PersonalStyle personalStyle);
+    void updateFamilyInformation(FamilyInformation familyInformation);
+    void updateTechnicalInformation(List<TechnicalInformation> technicalInformation);
+
+    void deletePersonalInformationById(String employeeID);
+    void deletePersonalInformationsByList(List<String> employeeIdList);
+
+    void insertBaseStaffInfo(BaseStaffInfo info);
+    void insertPersonalStyle(PersonalStyle personalStyle);
+    void insertFamilyInformation(FamilyInformation familyInformation);
+    void insertTechnicalInformation(List<TechnicalInformation> technicalInformation);
+    void insertCompanyQualification(List<CompanyQualification> companyQualifications);
+
 }

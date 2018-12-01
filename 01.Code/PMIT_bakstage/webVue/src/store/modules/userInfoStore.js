@@ -42,9 +42,9 @@ const user = {
         loginByUserName(userName, userInfo.password)
           .then(response => {
             const data = response.data;
-            commit("setToken", data.token);
-            setToken(response.data.token);
-            resolve(response.data);
+            commit("setToken", userName);
+            setToken(userName);
+            resolve(data);
           })
           .catch(error => {
             reject(error);

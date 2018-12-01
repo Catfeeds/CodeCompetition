@@ -2,15 +2,15 @@ package com.isoftstone.pmit.project.hrbp.entity;
 
 
 public class LoginInformation {
-    /*登陆id*/
+    /**登陆id*/
     private int loginID;
-    /*软通工号*/
+    /**软通工号*/
     private String employeeID;
-    /*员工姓名*/
+    /**员工姓名*/
     private String employeeName;
-    /*密码*/
+    /**密码*/
     private String password;
-    /*角色ID*/
+    /**角色ID*/
     private String roleID;
     /**头像*/
     private String picture;

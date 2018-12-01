@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 @Service
@@ -17,11 +16,10 @@ public class LevelRlaService implements ILevelRlaService {
     private LevelRlaMapper mapper;
 
     @Override
-    public List<LevelTreeNode> queryLevelRlaNode(List<Map<String, Object>> rootNodeList)
-            throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    public List<LevelTreeNode> queryLevelRlaNode(List<Map<String, Object>> rootNodeList){
         Map<String, Object> queryMap = buildQueryParamMap(rootNodeList);
         List<LevelTreeNode> levelNodes = mapper.queryLevelRlaNode(queryMap);
-        List<LevelTreeNode> trees = TreeUtil.buildTree(levelNodes, rootNodeList,LevelTreeNode.class);
+        List<LevelTreeNode> trees = buildTree(levelNodes, rootNodeList);
         return trees;
     }
 
@@ -93,4 +91,61 @@ public class LevelRlaService implements ILevelRlaService {
     }
 
 
+    private List<LevelTreeNode> buildTree(List<LevelTreeNode> treeNodeList,
+                                                List<Map<String, Object>> rootNodeList){
+        List<LevelTreeNode> result = new ArrayList<LevelTreeNode>();
+        if (rootNodeList != null) {
+            Map<Integer, LevelTreeNode> tempMap = new HashMap<Integer, LevelTreeNode>();
+            for (Map<String, Object> temp : rootNodeList) {
+                buildTreeNode(treeNodeList, result, tempMap, temp);
+            }
+        }
+        return result;
+    }
+    private void buildTreeNode(List<LevelTreeNode> treeNodeList, List<LevelTreeNode> result,
+                                      Map<Integer, LevelTreeNode> tempMap, Map<String, Object> temp) {
+        //获取一个根节点
+        LevelTreeNode rootNode = new LevelTreeNode();
+        Integer rootNodeID = (Integer) temp.get("nodeID");
+        if (!treeNodeList.isEmpty()) {
+            rootNode = treeNodeList.get(0);
+            tempMap.put(rootNode.getNodeID(), rootNode);
+            treeNodeList.remove(0);
+
+            //构建这个根节点的树
+            LevelTreeNode tempNood = new LevelTreeNode();
+            while (treeNodeList != null && tempNood != null) {
+                tempNood = treeNodeList.get(0);
+                String nodePath = tempNood.getNodePath();
+                String[] pathNodeIDs = nodePath.split(":");
+                if (pathNodeIDs.length > 1) {
+                    tempNood = addTreeNode(treeNodeList, tempMap, tempNood, pathNodeIDs[pathNodeIDs.length - 1]);
+                } else {
+                    tempNood = null;
+                }
+            }
+
+            result.add(rootNode);
+        }
+    }
+
+    private LevelTreeNode addTreeNode(List<LevelTreeNode> treeNodeList, Map<Integer, LevelTreeNode> tempMap,
+                                             LevelTreeNode tempNood, String pathNodeID) {
+        Integer parentNodeID = Integer.parseInt(pathNodeID);
+        LevelTreeNode parentNode = tempMap.get(parentNodeID);
+        if (parentNode != null) {
+            List<LevelTreeNode> childList = parentNode.getChildList();
+            if (childList == null) {
+                childList = new ArrayList<LevelTreeNode>();
+                parentNode.setChildList(childList);
+            }
+
+            childList.add(tempNood);
+            tempMap.put(tempNood.getNodeID(), tempNood);
+            treeNodeList.remove(0);
+        }
+
+        tempNood = parentNode;
+        return tempNood;
+    }
 }
