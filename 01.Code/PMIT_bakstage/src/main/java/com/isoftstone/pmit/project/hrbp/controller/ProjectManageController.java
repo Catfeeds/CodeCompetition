@@ -1,6 +1,7 @@
 package com.isoftstone.pmit.project.hrbp.controller;
 
 
+import com.isoftstone.pmit.common.paramresolver.JsonParam;
 import com.isoftstone.pmit.common.util.AjaxResult;
 import com.isoftstone.pmit.common.util.JsonUtils;
 import com.isoftstone.pmit.project.hrbp.entity.ProjectTreeNode;
@@ -14,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/hrbp/projectManage")
@@ -27,13 +25,31 @@ public class ProjectManageController {
     @Autowired
     private IProjectManageService service;
 
+    @ApiOperation(value = "项目组层级关系查询接口", notes = "项目组层级关系查询接口")
+    @PostMapping(value = "/queryProjectLevel")
+    public String queryProjectLevel(@RequestBody Map<String,Object> parameter) {
+        Set<String> projectIDs = new HashSet<String>();
+        // TODO: 2018/11/30 查询用户有权限的项目组（可能通过其他的service） 
+
+        ProjectTreeNode root;
+        try {
+            root = service.queryProjectLevel(projectIDs);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.returnToMessage(false, e.getMessage());
+        }
+        return AjaxResult.returnToResult(true, root);
+    }
+
     @ApiOperation(value = "项目组查询接口", notes = "项目组级查询接口")
     @PostMapping(value = "/queryProjects")
-    public String queryProjects(@RequestBody ProjectTreeNode parameter) {
+    public String queryProjects(@JsonParam(value = "project") ProjectTreeNode parameter,
+                                @JsonParam(value = "pmName") String pmName,
+                                @JsonParam(value = "projectName") String projectName) {
         TableInfo result = new TableInfo();
 
         try {
-            result = service.queryProjects(parameter);
+            result = service.queryProjects(parameter,pmName,projectName);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());

@@ -2,12 +2,11 @@ package com.isoftstone.pmit.project.hrbp.service;
 
 import com.isoftstone.pmit.project.hrbp.entity.LevelTreeNode;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 
 public interface ILevelRlaService {
-    public List<LevelTreeNode> queryLevelRlaNode(List<Map<String, Object>> nodeList) throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException;
+    public List<LevelTreeNode> queryLevelRlaNode(List<Map<String, Object>> nodeList);
 
     public void addLevelRlaNode(Map<String,Object> queryMap);
 

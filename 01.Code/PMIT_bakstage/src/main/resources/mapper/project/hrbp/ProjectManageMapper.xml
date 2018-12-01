@@ -22,5 +22,11 @@
                 #{item}
             </foreach>
         </if>
+        <if test="null != pmName and '' != pmName">
+            AND pmName LIKE '%#{pmName}%'
+        </if>
+        <if test="null != projectName and '' != projectName">
+            AND pmName LIKE '%#{projectName}%'
+        </if>
     </select>
 </mapper>
