@@ -28,7 +28,45 @@
 	    login_information li
         LEFT JOIN base_staff_info si ON si.employeeID = li.employee_ID
         LEFT JOIN hrbp_role hr ON li.role_id = hr.role_id
-
+    </select>
+    <select id="queryUserByEmployeeName" parameterType="EmpInformationResult" resultType="com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult">
+        SELECT
+        si.employeeName employeeName,
+        si.employeeID employeeID,
+        si.pdu pdu,
+        si.positionRole positionRole
+        FROM
+        base_staff_info si
+        where 1=1
+        <if test="null != employeeName">
+            AND employeeName like '%${employeeName}%'
+        </if>
+        <if test="null != employeeID">
+            AND employeeID = #{employeeID}
+        </if>
+        <if test="null != pdu ">
+            AND pdu like '%${pdu}%'
+        </if>
+        <if test=" null != positionRole">
+          AND positionRole = '%${positionRole}%'
+        </if>
     </select>
 
+    <delete id="deleteUserRole" parameterType="java.lang.String">
+        delete from login_information where employee_ID = #{employeeID}
+    </delete>
+
+    <insert id="insertUserRole" parameterType="LoginInformation">
+        insert into login_information(
+        <if test="employeeID != null and employeeID != ''">employee_ID,</if>
+        <if test="employeeName != null and employeeName != ''">employee_name,</if>
+        pass_word,
+        <if test="roleID != null and roleID != ''">role_id</if>
+        )values (
+        <if test="employeeID != null and employeeID != ''">#{employeeID},</if>
+        <if test="employeeName != null and employeeName != ''">#{employeeName},</if>
+        #{password},
+        <if test="roleID != null and roleID != ''">#{roleID}</if>
+        )
+    </insert>
 </mapper>

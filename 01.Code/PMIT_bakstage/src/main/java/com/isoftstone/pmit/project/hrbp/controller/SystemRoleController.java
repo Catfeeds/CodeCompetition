@@ -3,7 +3,6 @@ package com.isoftstone.pmit.project.hrbp.controller;
 import com.isoftstone.pmit.common.util.AjaxResult;
 import com.isoftstone.pmit.common.util.JsonUtils;
 import com.isoftstone.pmit.common.web.controller.AbstractController;
-import com.isoftstone.pmit.project.hrbp.entity.LoginInformation;
 import com.isoftstone.pmit.project.hrbp.entity.MenuInfo;
 import com.isoftstone.pmit.project.hrbp.entity.RoleMenu;
 import com.isoftstone.pmit.project.hrbp.entity.SysRole;
@@ -11,7 +10,6 @@ import com.isoftstone.pmit.project.hrbp.service.IRoleMenuService;
 import com.isoftstone.pmit.project.hrbp.service.ISystemRoleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-//import jdk.nashorn.internal.runtime.JSONFunctions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult;
 import com.isoftstone.pmit.project.hrbp.entity.LoginInformation;
 
+import java.util.List;
+
 /**
  * @author lf
  */
@@ -28,4 +30,29 @@ public interface IUserManageService {
      * @return
      */
     PageInfo<EmpInformationResult> findEmpInformation(Integer pageNum, Integer pageSize);
+
+    /**
+     * 根据姓名模糊查询用户信息
+     * @param empInformationResult
+     * @return
+     */
+    List<EmpInformationResult> queryUserByEmployeeName(EmpInformationResult empInformationResult);
+
+    /**
+     * 删除用户角色
+     * @param employeeID
+     */
+    void deleteUserRole(String employeeID);
+
+    /**
+     * 添加用户角色
+     * @param loginInformation
+     */
+    void insertUserRole(LoginInformation loginInformation);
+
+    /**
+     * 更新用户信息
+     * @param loginInformation
+     */
+    void updateUserRole(LoginInformation loginInformation);
 }

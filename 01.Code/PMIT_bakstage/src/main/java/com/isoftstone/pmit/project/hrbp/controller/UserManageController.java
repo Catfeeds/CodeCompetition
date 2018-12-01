@@ -6,15 +6,15 @@ import com.isoftstone.pmit.common.util.JsonUtils;
 import com.isoftstone.pmit.common.web.controller.AbstractController;
 import com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult;
 import com.isoftstone.pmit.project.hrbp.entity.LoginInformation;
+import com.isoftstone.pmit.project.hrbp.entity.SysRole;
 import com.isoftstone.pmit.project.hrbp.service.IUserManageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -73,5 +73,63 @@ public class UserManageController extends AbstractController {
         }
         return AjaxResult.returnToResult(true,resultList);
     }
+
+    @RequestMapping(value = "/queryUserByEmpInformation", method = { RequestMethod.POST })
+    @ApiOperation(value="模糊查询用户信息", notes="模糊查询用户信息,可选employeeID,employeeName,pdu,positionRole")
+    public String queryUserByEmployeeName(@RequestBody String parameter){
+        EmpInformationResult empInformationResult = JsonUtils.readValue(parameter, EmpInformationResult.class);
+        List<EmpInformationResult> information;
+        try {
+            information = userManageService.queryUserByEmployeeName(empInformationResult);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.returnToResult(false, e.getMessage());
+        }
+        return AjaxResult.returnToResult(true,information);
+    }
+
+    @ApiOperation(value = "删除用户角色", notes = "删除用户角色")
+    @PostMapping(value = "/deleteUserRole")
+    public AjaxResult deleteUserRole(@RequestBody String parameter) {
+        LoginInformation loginInformation = JsonUtils.readValue(parameter, LoginInformation.class);
+        try {
+            userManageService.deleteUserRole(loginInformation.getEmployeeID());
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("====deleteUserRole error=============" + e);
+            return AjaxResult.error();
+        }
+        return AjaxResult.success();
+    }
+
+    @ApiOperation(value = "添加用户角色", notes = "添加用户角色")
+    @PostMapping(value = "/insertUserRole")
+    public AjaxResult insertUserRole(@RequestBody String parameter) {
+        LoginInformation loginInformation = JsonUtils.readValue(parameter, LoginInformation.class);
+        try {
+            loginInformation.setPassword(DigestUtils.md5Hex("123456"));
+            userManageService.insertUserRole(loginInformation);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("====insertUserRole error=============" + e);
+            return AjaxResult.error();
+        }
+        return AjaxResult.success();
+    }
+
+    @ApiOperation(value = "更新用户角色", notes = "更新用户角色")
+    @PostMapping(value = "/insertUserRole")
+    public AjaxResult updateUserRole(@RequestBody String parameter) {
+        LoginInformation loginInformation = JsonUtils.readValue(parameter, LoginInformation.class);
+        try {
+            userManageService.updateUserRole(loginInformation);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("====insertUserRole error=============" + e);
+            return AjaxResult.error();
+        }
+        return AjaxResult.success();
+    }
+
 
 }
