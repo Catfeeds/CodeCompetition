@@ -10,8 +10,8 @@
         sys_level_rla
         WHERE
         1 = 2
-        <if test="null != nodes and '' != nodes">
-            OR nodeID in ${nodes}
+        <if test="'' != nodes">
+            OR nodeID in #{nodes}
         </if>
         <if test="paths != null">
             <foreach collection="paths" item="item" open="OR" separator="OR">
@@ -23,15 +23,30 @@
 
     <insert id="addLevelRlaNode" parameterType="java.util.Map">
         INSERT INTO
-        sys_level_rla (nodeName,ProjectTeamID,nodePath,isLeafNode,isProjectNode)
+        sys_level_rla
+        (
+        nodePath,
+        <if test="null != nodeName">
+            nodeName,
+        </if>
+        <if test="null != relationID">
+            relationID,
+        </if>
+        isLeafNode,
+        isRelationNode
+        )
         VALUES
         (
-        ${nodeName},
-        ${ProjectTeamID},
-        ${nodePath},
+        #{nodePath},
+        <if test="null != nodeName">
+            #{nodeName},
+        </if>
+        <if test="null != relationID">
+            #{relationID},
+        </if>
         <choose>
             <when test="null != isLeafNode">
-                ${isLeafNode},
+                #{isLeafNode},
             </when>
             <otherwise>
                 TRUE,
@@ -39,7 +54,7 @@
         </choose>
         <choose>
             <when test="null != isProjectNode">
-                ${isProjectNode}
+                #{isProjectNode}
             </when>
             <otherwise>
                 FALSE
@@ -52,16 +67,16 @@
         UPDATE
         sys_level_rla
         SET
-        isLeafNode = ${isLeafNode}
+        isLeafNode = #{isLeafNode}
         WHERE
-        nodeID = ${parentNodeID}
+        nodeID = #{parentNodeID}
     </update>
 
     <delete id="deleteLevelRlaNode" parameterType="java.util.Map">
         DELETE FROM
         sys_level_rla
         WHERE
-        nodeID = ${nodeID} OR nodePath LIKE '${nodePath}%'
+        nodeID = #{nodeID} OR nodePath LIKE '${nodePath}%'
     </delete>
 
     <update id="moveLevelRlaNode" parameterType="java.util.Map">

@@ -29,4 +29,36 @@
             AND pmName LIKE '%#{projectName}%'
         </if>
     </select>
+
+    <insert id="addProjectNode" parameterType="java.util.Map">
+        INSERT INTO
+        sys_project_level
+        (
+        nodePath,
+        projectID,
+        pmID,
+        <if test="null != projectName">
+            projectName,
+        </if>
+        <if test="null != pmName">
+            pmName,
+        </if>
+        isLeafNode,
+        isProject
+        )
+        VALUES
+        (
+        #{nodePath},
+        #{projectID},
+        #{pmID},
+        <if test="null != projectName">
+            #{projectName},
+        </if>
+        <if test="null != pmName">
+            #{pmName},
+        </if>
+        TRUE,
+        TRUE
+        )
+    </insert>
 </mapper>

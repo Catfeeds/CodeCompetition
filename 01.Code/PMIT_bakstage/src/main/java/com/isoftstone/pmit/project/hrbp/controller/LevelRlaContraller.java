@@ -37,7 +37,6 @@ public class LevelRlaContraller {
         nodeList.add(map);
         //---------测试代码
 
-
         List<LevelTreeNode> treeList;
         try {
             treeList = service.queryLevelRlaNode(nodeList);

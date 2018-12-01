@@ -62,8 +62,8 @@ public class ProjectManageController {
     public String addProjectNode(@RequestBody String parameter) {
         Map<String, Object> paramMap = JsonUtils.readValue(parameter, Map.class);
         Map<String, Object> queryMap = new HashMap<String, Object>();
-        queryMap.put("parentID", paramMap.get("parentID"));
-        queryMap.put("treePath", paramMap.get("treePath"));
+        queryMap.put("nodePath", paramMap.get("nodePath"));
+        queryMap.put("projectID", paramMap.get("projectID"));
         queryMap.put("projectName", paramMap.get("projectName"));
         queryMap.put("pmID", paramMap.get("pmID"));
         queryMap.put("pmName", paramMap.get("pmName"));

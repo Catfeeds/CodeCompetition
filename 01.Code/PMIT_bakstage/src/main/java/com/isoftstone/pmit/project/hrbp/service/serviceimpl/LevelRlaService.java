@@ -85,7 +85,7 @@ public class LevelRlaService implements ILevelRlaService {
             nodes.append(")");
 
             result.put("paths", paths);
-            result.put("nodes", nodes);
+            result.put("nodes", nodes.toString());
         }
         return result;
     }

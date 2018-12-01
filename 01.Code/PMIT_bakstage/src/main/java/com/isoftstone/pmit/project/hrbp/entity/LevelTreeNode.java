@@ -7,11 +7,11 @@ public class LevelTreeNode{
     private int nodeID;
     private String nodePath;
     private String nodeName;
-    private List<LevelTreeNode> childList;
     private boolean isLeafNode;
-    private boolean isProjectNode;
-    private Integer ProjectTeamID;
+    private boolean isRelationNode;
+    private Integer relationID;
 
+    private List<LevelTreeNode> childList;
 
     public int getNodeID() {
         return nodeID;
@@ -37,35 +37,35 @@ public class LevelTreeNode{
         this.nodeName = nodeName;
     }
 
+    public boolean getIsLeafNode() {
+        return isLeafNode;
+    }
+
+    public void setIsLeafNode(boolean isLeafNode) {
+        this.isLeafNode = isLeafNode;
+    }
+
+    public boolean getIsRelationNode() {
+        return isRelationNode;
+    }
+
+    public void setIsRelationNode(boolean isRelationNode) {
+        this.isRelationNode = isRelationNode;
+    }
+
+    public Integer getRelationID() {
+        return relationID;
+    }
+
+    public void setRelationID(Integer relationID) {
+        this.relationID = relationID;
+    }
+
     public List<LevelTreeNode> getChildList() {
         return childList;
     }
 
     public void setChildList(List<LevelTreeNode> childList) {
         this.childList = childList;
-    }
-
-    public boolean isLeafNode() {
-        return isLeafNode;
-    }
-
-    public void setLeafNode(boolean leafNode) {
-        isLeafNode = leafNode;
-    }
-
-    public boolean isProjectNode() {
-        return isProjectNode;
-    }
-
-    public void setProjectNode(boolean projectNode) {
-        isProjectNode = projectNode;
-    }
-
-    public Integer getProjectTeamID() {
-        return ProjectTeamID;
-    }
-
-    public void setProjectTeamID(Integer projectTeamID) {
-        ProjectTeamID = projectTeamID;
     }
 }
