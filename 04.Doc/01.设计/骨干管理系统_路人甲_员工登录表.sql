@@ -28,10 +28,3 @@ CREATE TABLE `login_information` (
   PRIMARY KEY (`login_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- ----------------------------
--- Records of login_information
--- ----------------------------
-INSERT INTO `login_information` VALUES ('1', '100004', '贾渊博', 'e10adc3949ba59abbe56e057f20f883e', '1');
-INSERT INTO `login_information` VALUES ('2', '100379', '韩伟', 'e10adc3949ba59abbe56e057f20f883e', '2');
-INSERT INTO `login_information` VALUES ('3', '100553', '赵为波', 'e10adc3949ba59abbe56e057f20f883e', '3');
-INSERT INTO `login_information` VALUES ('4', '100178', '罗发雷', 'e10adc3949ba59abbe56e057f20f883e', '4');

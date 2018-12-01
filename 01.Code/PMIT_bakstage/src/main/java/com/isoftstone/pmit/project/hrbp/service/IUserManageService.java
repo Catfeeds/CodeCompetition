@@ -12,6 +12,7 @@ import java.util.List;
 public interface IUserManageService {
     /**
      * 获取用户信息 做标示
+     *
      * @param employeeID
      * @return
      */
@@ -19,6 +20,7 @@ public interface IUserManageService {
 
     /**
      * 根据employeeID获取详细用户信息
+     *
      * @param employeeID
      * @return
      */
@@ -26,32 +28,37 @@ public interface IUserManageService {
 
     /**
      * 获取全部用户信息
+     *
      * @param
      * @return
      */
     PageInfo<EmpInformationResult> findEmpInformation(Integer pageNum, Integer pageSize);
 
     /**
-     * 根据姓名模糊查询用户信息
-     * @param empInformationResult
+     * 模糊查询用户信息
+     *
+     * @param parameter
      * @return
      */
-    List<EmpInformationResult> queryUserByEmployeeName(EmpInformationResult empInformationResult);
+    List<EmpInformationResult> queryUserByKeyword(String parameter);
 
     /**
      * 删除用户角色
+     *
      * @param employeeID
      */
     void deleteUserRole(String employeeID);
 
     /**
      * 添加用户角色
+     *
      * @param loginInformation
      */
     void insertUserRole(LoginInformation loginInformation);
 
     /**
      * 更新用户信息
+     *
      * @param loginInformation
      */
     void updateUserRole(LoginInformation loginInformation);

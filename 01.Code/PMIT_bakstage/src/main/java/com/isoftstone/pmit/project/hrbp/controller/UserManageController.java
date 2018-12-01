@@ -6,7 +6,6 @@ import com.isoftstone.pmit.common.util.JsonUtils;
 import com.isoftstone.pmit.common.web.controller.AbstractController;
 import com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult;
 import com.isoftstone.pmit.project.hrbp.entity.LoginInformation;
-import com.isoftstone.pmit.project.hrbp.entity.SysRole;
 import com.isoftstone.pmit.project.hrbp.service.IUserManageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -59,7 +58,7 @@ public class UserManageController extends AbstractController {
     }
 
     @RequestMapping(value = "/findEmpInformation", method = { RequestMethod.POST })
-    @ApiOperation(value="获取所有用户信息", notes="获取所有用户信息")
+    @ApiOperation(value="获取所有用户信息", notes="获取所有用户信息,输入pageNum,pageSize")
     public String findEmpInformation(@RequestBody String parameter){
         Map<String,String> paramMap = JsonUtils.readValue(parameter, Map.class);
         int pageNum= Integer.parseInt(String.valueOf(paramMap.get("pageNum")));
@@ -74,13 +73,14 @@ public class UserManageController extends AbstractController {
         return AjaxResult.returnToResult(true,resultList);
     }
 
-    @RequestMapping(value = "/queryUserByEmpInformation", method = { RequestMethod.POST })
-    @ApiOperation(value="模糊查询用户信息", notes="模糊查询用户信息,可选employeeID,employeeName,pdu,positionRole")
-    public String queryUserByEmployeeName(@RequestBody String parameter){
-        EmpInformationResult empInformationResult = JsonUtils.readValue(parameter, EmpInformationResult.class);
+    @RequestMapping(value = "/queryUserByKeyword", method = { RequestMethod.POST })
+    @ApiOperation(value="模糊查询用户信息", notes="模糊查询用户信息,可选employeeID,employeeName")
+    public String queryUserByKeyword(@RequestBody String parameter){
+        Map<String,String> mapParam = JsonUtils.readValue(parameter, Map.class);
+        String keyword = mapParam.get("keyword");
         List<EmpInformationResult> information;
         try {
-            information = userManageService.queryUserByEmployeeName(empInformationResult);
+            information = userManageService.queryUserByKeyword(keyword);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToResult(false, e.getMessage());
@@ -118,7 +118,7 @@ public class UserManageController extends AbstractController {
     }
 
     @ApiOperation(value = "更新用户角色", notes = "更新用户角色")
-    @PostMapping(value = "/insertUserRole")
+    @PostMapping(value = "/updateUserRole")
     public AjaxResult updateUserRole(@RequestBody String parameter) {
         LoginInformation loginInformation = JsonUtils.readValue(parameter, LoginInformation.class);
         try {

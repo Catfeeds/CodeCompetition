@@ -3,6 +3,7 @@ package com.isoftstone.pmit.project.hrbp.mapper;
 import com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult;
 import com.isoftstone.pmit.project.hrbp.entity.LoginInformation;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,11 +30,11 @@ public interface UserManageMapper {
     List<EmpInformationResult> findEmpInformation();
 
     /**
-     * 模糊查询用户信息
-     * @param empInformationResult
+     * 根据关键字模糊查询用户信息
+     * @param keyword
      * @return
      */
-    List<EmpInformationResult> queryUserByEmployeeName(EmpInformationResult empInformationResult);
+    List<EmpInformationResult> queryUserByKeyword(@Param("keyword") String keyword);
 
     /**
      * 删除用户角色

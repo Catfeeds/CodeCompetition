@@ -29,27 +29,18 @@
         LEFT JOIN base_staff_info si ON si.employeeID = li.employee_ID
         LEFT JOIN hrbp_role hr ON li.role_id = hr.role_id
     </select>
-    <select id="queryUserByEmployeeName" parameterType="EmpInformationResult" resultType="com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult">
-        SELECT
-        si.employeeName employeeName,
-        si.employeeID employeeID,
-        si.pdu pdu,
-        si.positionRole positionRole
-        FROM
-        base_staff_info si
-        where 1=1
-        <if test="null != employeeName">
-            AND employeeName like '%${employeeName}%'
-        </if>
-        <if test="null != employeeID">
-            AND employeeID = #{employeeID}
-        </if>
-        <if test="null != pdu ">
-            AND pdu like '%${pdu}%'
-        </if>
-        <if test=" null != positionRole">
-          AND positionRole = '%${positionRole}%'
-        </if>
+    <select id="queryUserByKeyword" parameterType="java.lang.String" resultType="com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult">
+    SELECT
+    si.employeeName employeeName,
+    si.employeeID employeeID,
+    si.pdu pdu,
+    si.positionRole positionRole
+    FROM
+    base_staff_info si
+    where 1=1
+    <if test="null != keyword">
+        AND si.employeeName like CONCAT('%',#{keyword},'%') or si.employeeID like CONCAT('%',#{keyword},'%')
+    </if>
     </select>
 
     <delete id="deleteUserRole" parameterType="java.lang.String">
@@ -69,4 +60,11 @@
         <if test="roleID != null and roleID != ''">#{roleID}</if>
         )
     </insert>
+    <update id="updateUserRole" parameterType="LoginInformation">
+        update login_information
+        <set>
+            <if test="roleID != null and roleID != ''">role_id = #{roleID}</if>
+        </set>
+        where employee_ID = #{employeeID}
+    </update>
 </mapper>

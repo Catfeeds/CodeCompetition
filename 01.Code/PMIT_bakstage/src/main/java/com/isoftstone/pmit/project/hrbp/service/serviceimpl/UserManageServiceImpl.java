@@ -26,16 +26,18 @@ public class UserManageServiceImpl implements IUserManageService {
 
     /**
      * 获取登录信息坐标示
+     *
      * @param employeeID
      * @return
      */
     @Override
     public LoginInformation getEmployee(String employeeID) {
-        return loginMapper.findStaffByEmployeeId(employeeID) ;
+        return loginMapper.findStaffByEmployeeId(employeeID);
     }
 
     /**
      * 获取登录用户信息
+     *
      * @param employeeID
      * @return
      */
@@ -46,13 +48,14 @@ public class UserManageServiceImpl implements IUserManageService {
 
     /**
      * 获取所有登录用户信息
+     *
      * @param pageNum
      * @param pageSize
      * @return
      */
     @Override
     public PageInfo<EmpInformationResult> findEmpInformation(Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum, pageSize);
         List<EmpInformationResult> empInformationResults = userManageMapper.findEmpInformation();
         PageInfo<EmpInformationResult> empInformationResultPageInfo = new PageInfo<>(empInformationResults);
         return empInformationResultPageInfo;
@@ -60,12 +63,13 @@ public class UserManageServiceImpl implements IUserManageService {
 
     /**
      * 模糊查询用户信息
-     * @param empInformationResult
+     *
+     * @param parameter
      * @return
      */
     @Override
-    public List<EmpInformationResult> queryUserByEmployeeName(EmpInformationResult empInformationResult) {
-        return userManageMapper.queryUserByEmployeeName(empInformationResult);
+    public List<EmpInformationResult> queryUserByKeyword(String parameter) {
+        return userManageMapper.queryUserByKeyword(parameter);
     }
 
     @Override
@@ -82,5 +86,4 @@ public class UserManageServiceImpl implements IUserManageService {
     public void updateUserRole(LoginInformation loginInformation) {
         userManageMapper.updateUserRole(loginInformation);
     }
-
 }
