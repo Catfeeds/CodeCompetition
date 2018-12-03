@@ -55,9 +55,9 @@ public class TrainingSettingController extends AbstractController {
 	
 	@ApiOperation("根据ID查询培训列表")
 	@PostMapping("/queryTrainingInfoByTrainingId")
-	public String queryTrainingInfoByTrainingId(@RequestBody Integer trainingId) {
-		TrainingInfo trainingInfo = trainingSettingService.queryTrainingInfoByTrainingId(trainingId);
-		return AjaxResult.returnToResult(false, trainingInfo);
+	public String queryTrainingInfoByTrainingId(@RequestBody TrainingInfo trainingInfo) {
+		TrainingInfo result = trainingSettingService.queryTrainingInfoByTrainingId(trainingInfo.getTrainingId());
+		return AjaxResult.returnToResult(false, result);
 	}
 	
 	@ApiOperation("新增/修改培训信息")
@@ -75,9 +75,9 @@ public class TrainingSettingController extends AbstractController {
 	
 	@ApiOperation("删除培训信息")
 	@PostMapping("/deleteTrainingInfo")
-	public String deleteTrainingInfo(@RequestBody Integer trainingId) {
+	public String deleteTrainingInfo(@RequestBody TrainingInfo trainingInfo) {
 		try {
-			trainingSettingService.deleteTrainingInfo(trainingId);
+			trainingSettingService.deleteTrainingInfo(trainingInfo.getTrainingId());
 		} catch (Exception e) {
 			logger.error("deleteTrainingInfo error" + e.getMessage());
 			return "fail";
