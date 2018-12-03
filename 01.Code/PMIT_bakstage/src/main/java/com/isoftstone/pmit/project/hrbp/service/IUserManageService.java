@@ -62,4 +62,10 @@ public interface IUserManageService {
      * @param loginInformation
      */
     void updateUserRole(LoginInformation loginInformation);
+
+    /**
+     * 查询所有用户信息
+     * @return
+     */
+    List<EmpInformationResult> findEmpInformation();
 }

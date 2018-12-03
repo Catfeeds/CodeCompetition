@@ -26,7 +26,6 @@ public class UserManageServiceImpl implements IUserManageService {
 
     /**
      * 获取登录信息坐标示
-     *
      * @param employeeID
      * @return
      */
@@ -37,7 +36,6 @@ public class UserManageServiceImpl implements IUserManageService {
 
     /**
      * 获取登录用户信息
-     *
      * @param employeeID
      * @return
      */
@@ -48,7 +46,6 @@ public class UserManageServiceImpl implements IUserManageService {
 
     /**
      * 获取所有登录用户信息
-     *
      * @param pageNum
      * @param pageSize
      * @return
@@ -63,7 +60,6 @@ public class UserManageServiceImpl implements IUserManageService {
 
     /**
      * 模糊查询用户信息
-     *
      * @param parameter
      * @return
      */
@@ -85,5 +81,10 @@ public class UserManageServiceImpl implements IUserManageService {
     @Override
     public void updateUserRole(LoginInformation loginInformation) {
         userManageMapper.updateUserRole(loginInformation);
+    }
+
+    @Override
+    public List<EmpInformationResult> findEmpInformation() {
+        return userManageMapper.findEmpInformation();
     }
 }

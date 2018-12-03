@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50560
 File Encoding         : 65001
 
-Date: 2018-11-29 17:50:20
+Date: 2018-12-03 17:12:09
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,28 +27,38 @@ CREATE TABLE `hrbp_role_menu` (
 -- ----------------------------
 -- Records of hrbp_role_menu
 -- ----------------------------
-INSERT INTO `hrbp_role_menu` VALUES ('1', '1');
 INSERT INTO `hrbp_role_menu` VALUES ('1', '2');
+INSERT INTO `hrbp_role_menu` VALUES ('1', '3');
+INSERT INTO `hrbp_role_menu` VALUES ('1', '4');
+INSERT INTO `hrbp_role_menu` VALUES ('1', '5');
+INSERT INTO `hrbp_role_menu` VALUES ('1', '6');
+INSERT INTO `hrbp_role_menu` VALUES ('1', '7');
 INSERT INTO `hrbp_role_menu` VALUES ('1', '201');
-INSERT INTO `hrbp_role_menu` VALUES ('1', '202');
-INSERT INTO `hrbp_role_menu` VALUES ('1', '203');
-INSERT INTO `hrbp_role_menu` VALUES ('1', '204');
-INSERT INTO `hrbp_role_menu` VALUES ('1', '205');
-INSERT INTO `hrbp_role_menu` VALUES ('1', '206');
-INSERT INTO `hrbp_role_menu` VALUES ('1', '207');
-INSERT INTO `hrbp_role_menu` VALUES ('1', '209');
-INSERT INTO `hrbp_role_menu` VALUES ('1', '208');
-INSERT INTO `hrbp_role_menu` VALUES ('1', '210');
-INSERT INTO `hrbp_role_menu` VALUES ('2', '1');
-INSERT INTO `hrbp_role_menu` VALUES ('2', '2');
-INSERT INTO `hrbp_role_menu` VALUES ('2', '201');
-INSERT INTO `hrbp_role_menu` VALUES ('2', '202');
-INSERT INTO `hrbp_role_menu` VALUES ('2', '203');
-INSERT INTO `hrbp_role_menu` VALUES ('2', '204');
-INSERT INTO `hrbp_role_menu` VALUES ('2', '205');
-INSERT INTO `hrbp_role_menu` VALUES ('2', '206');
-INSERT INTO `hrbp_role_menu` VALUES ('2', '207');
-INSERT INTO `hrbp_role_menu` VALUES ('2', '208');
+INSERT INTO `hrbp_role_menu` VALUES ('1', '301');
+INSERT INTO `hrbp_role_menu` VALUES ('1', '401');
+INSERT INTO `hrbp_role_menu` VALUES ('1', '501');
+INSERT INTO `hrbp_role_menu` VALUES ('1', '502');
+INSERT INTO `hrbp_role_menu` VALUES ('1', '601');
+INSERT INTO `hrbp_role_menu` VALUES ('1', '602');
+INSERT INTO `hrbp_role_menu` VALUES ('1', '603');
+INSERT INTO `hrbp_role_menu` VALUES ('1', '604');
+INSERT INTO `hrbp_role_menu` VALUES ('1', '605');
+INSERT INTO `hrbp_role_menu` VALUES ('1', '606');
+INSERT INTO `hrbp_role_menu` VALUES ('1', '701');
+INSERT INTO `hrbp_role_menu` VALUES ('1', '702');
+INSERT INTO `hrbp_role_menu` VALUES ('2', '3');
+INSERT INTO `hrbp_role_menu` VALUES ('2', '4');
+INSERT INTO `hrbp_role_menu` VALUES ('2', '5');
+INSERT INTO `hrbp_role_menu` VALUES ('2', '6');
+INSERT INTO `hrbp_role_menu` VALUES ('2', '301');
+INSERT INTO `hrbp_role_menu` VALUES ('2', '401');
+INSERT INTO `hrbp_role_menu` VALUES ('2', '501');
+INSERT INTO `hrbp_role_menu` VALUES ('2', '502');
+INSERT INTO `hrbp_role_menu` VALUES ('2', '601');
+INSERT INTO `hrbp_role_menu` VALUES ('2', '602');
+INSERT INTO `hrbp_role_menu` VALUES ('2', '603');
+INSERT INTO `hrbp_role_menu` VALUES ('2', '604');
+INSERT INTO `hrbp_role_menu` VALUES ('2', '605');
+INSERT INTO `hrbp_role_menu` VALUES ('2', '606');
 INSERT INTO `hrbp_role_menu` VALUES ('3', '2');
-INSERT INTO `hrbp_role_menu` VALUES ('3', '208');
-INSERT INTO `hrbp_role_menu` VALUES ('4', '1');
+INSERT INTO `hrbp_role_menu` VALUES ('3', '201');

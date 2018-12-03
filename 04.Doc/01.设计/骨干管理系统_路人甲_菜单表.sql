@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50560
 File Encoding         : 65001
 
-Date: 2018-11-29 17:50:28
+Date: 2018-12-03 17:11:57
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,15 +31,23 @@ CREATE TABLE `hrbp_menu` (
 -- ----------------------------
 -- Records of hrbp_menu
 -- ----------------------------
-INSERT INTO `hrbp_menu` VALUES ('1', 'BackboneReport', '0', '100', '骨干报表');
-INSERT INTO `hrbp_menu` VALUES ('2', 'System', '0', '200', '系统设置');
-INSERT INTO `hrbp_menu` VALUES ('201', 'ProjectTeam', '2', '201', '项目组设置');
-INSERT INTO `hrbp_menu` VALUES ('202', 'RelationTree', '2', '202', '关系树设置');
-INSERT INTO `hrbp_menu` VALUES ('203', 'Training', '2', '203', '培训设置');
-INSERT INTO `hrbp_menu` VALUES ('204', 'ExaminationAffairs', '2', '204', '考核事务设置');
-INSERT INTO `hrbp_menu` VALUES ('205', 'ExaminationRules', '2', '205', '考核规则设置');
-INSERT INTO `hrbp_menu` VALUES ('206', 'CourseOpen', '2', '206', '开班设置');
-INSERT INTO `hrbp_menu` VALUES ('207', 'Examination', '2', '207', '考试设置');
-INSERT INTO `hrbp_menu` VALUES ('208', 'Import', '2', '208', '成绩导入');
-INSERT INTO `hrbp_menu` VALUES ('209', 'Role', '2', '209', '角色设置');
-INSERT INTO `hrbp_menu` VALUES ('210', 'Login', '2', '210', '登录用户设置');
+INSERT INTO `hrbp_menu` VALUES ('1', 'Login', '0', '100', '登录');
+INSERT INTO `hrbp_menu` VALUES ('2', 'ReportShow', '0', '200', '报表展示');
+INSERT INTO `hrbp_menu` VALUES ('3', 'StaffManagement', '0', '300', '人员管理');
+INSERT INTO `hrbp_menu` VALUES ('4', 'ProjectManagement', '0', '400', '项目管理');
+INSERT INTO `hrbp_menu` VALUES ('5', 'OrganizationStructure', '0', '500', '组织架构');
+INSERT INTO `hrbp_menu` VALUES ('6', 'TrainingPlan', '0', '600', '培养计划');
+INSERT INTO `hrbp_menu` VALUES ('7', 'System', '0', '700', '骨干报表');
+INSERT INTO `hrbp_menu` VALUES ('201', 'StoneReport', '2', '201', '骨干报表');
+INSERT INTO `hrbp_menu` VALUES ('301', 'StaffInformation', '3', '301', '员工详情');
+INSERT INTO `hrbp_menu` VALUES ('401', 'ProjectSetUp', '4', '401', '项目组设置');
+INSERT INTO `hrbp_menu` VALUES ('501', 'BusinessSystem', '5', '501', '业务体系');
+INSERT INTO `hrbp_menu` VALUES ('502', 'StaffSystem', '5', '502', '人力体系');
+INSERT INTO `hrbp_menu` VALUES ('601', 'TrainSetUp', '6', '601', '培养设置');
+INSERT INTO `hrbp_menu` VALUES ('602', 'ExaminationAffairsSetUp', '6', '602', '考核事务设置');
+INSERT INTO `hrbp_menu` VALUES ('603', 'ExaminationRoleSetUp', '6', '603', '考核规则设置');
+INSERT INTO `hrbp_menu` VALUES ('604', 'OpeningSetUp', '6', '604', '开班设置');
+INSERT INTO `hrbp_menu` VALUES ('605', 'ExaminationSetUp', '6', '605', '考试设置');
+INSERT INTO `hrbp_menu` VALUES ('606', 'ResultShow', '6', '606', '成绩展示');
+INSERT INTO `hrbp_menu` VALUES ('701', 'RoleSetUp', '7', '701', '角色设置');
+INSERT INTO `hrbp_menu` VALUES ('702', 'UserManagement', '7', '702', '登录用户管理');

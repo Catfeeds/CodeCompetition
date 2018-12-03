@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.ExaminationAffairMapper">
+    <select id="findAllAffair" resultType="com.isoftstone.pmit.project.hrbp.entity.ExaminationAffair">
+        select
+        affair_id as affairID,
+        affair_name as affairName,
+        system as system,
+        series as series,
+        du as du,
+        create_by as createBy,
+        update_by as updateBy,
+        update_time as updateTime
+        from
+        hrbp_examination_affair
+    </select>
+    <delete id="deleteAffair" parameterType="java.lang.Integer">
+       DELETE ea,ad,ed
+       FROM hrbp_examination_affair ea
+       LEFT OUTER JOIN hrbp_affair_dimension ad
+       ON ea.affair_id = ad.affair_id
+       LEFT OUTER JOIN hrbp_examination_dimension ed
+       ON ad.dimension_id = ed.dimension_id
+       WHERE ea.affair_id = #{affairID}
+    </delete>
+    <update id="updateAffair" parameterType="ExaminationAffair">
+        update hrbp_examination_affair
+        <set>
+            <if test="affairName != null and affairName != ''">affair_name = #{affairName},</if>
+            <if test="system != null and system != ''">system = #{system},</if>
+            <if test="series != null and series != ''">series = #{series},</if>
+            <if test="du != null and du != ''">du = #{du},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = now()
+        </set>
+        where affair_id = #{affairID}
+    </update>
+    <select id="findExamAffairByAffairId" parameterType="java.lang.Integer" resultType="ExaminationAffair">
+        select
+        affair_id as affairID,
+        affair_name as affairName,
+        system as system,
+        series as series,
+        du as du,
+        create_by as createBy,
+        update_by as updateBy,
+        update_time as updateTime
+        from
+        hrbp_examination_affair
+        where affair_id = #{affairID}
+    </select>
+    <insert id="insertAffair" parameterType="ExaminationAffair">
+        insert into hrbp_examination_affair(
+        <if test="affairName != null and affairName != ''">affair_name,</if>
+        <if test="system != null and system != ''">system,</if>
+        <if test="series != null and series != ''">series,</if>
+        <if test="du != null and du != ''">du,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        update_time
+        )values (
+        <if test="affairName != null and affairName != ''">#{affairName},</if>
+        <if test="system != null and system != ''">#{system},</if>
+        <if test="series != null and series != ''">#{series},</if>
+        <if test="du != null and du != ''">#{du},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        now()
+        )
+    </insert>
+    <select id="findExamAffairSystem" parameterType="ExaminationAffair" resultType="ExaminationAffair">
+        select
+        DISTINCT(system)
+        from hrbp_examination_affair
+        where 1=1
+        <if test="null != system">
+            and system like CONCAT('%',#{system},'%')
+        </if>
+    </select>
+</mapper>

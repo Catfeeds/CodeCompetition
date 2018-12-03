@@ -104,17 +104,27 @@ public class UserManageController extends AbstractController {
 
     @ApiOperation(value = "添加用户角色", notes = "添加用户角色")
     @PostMapping(value = "/insertUserRole")
-    public AjaxResult insertUserRole(@RequestBody String parameter) {
+    public String insertUserRole(@RequestBody String parameter) {
         LoginInformation loginInformation = JsonUtils.readValue(parameter, LoginInformation.class);
+        //获得前台传递过来的employeeID;
+        String insertEmployeeID = loginInformation.getEmployeeID();
+        List<EmpInformationResult> loginInformationList =  userManageService.findEmpInformation();
+        for (EmpInformationResult empInformationResult : loginInformationList) {
+            //获得数据库所有employeeID
+            String employeeID = empInformationResult.getEmployeeID();
+            if(insertEmployeeID.equals(employeeID)){
+                return AjaxResult.returnToMessage(false, "用户已存在");
+            }
+        }
         try {
             loginInformation.setPassword(DigestUtils.md5Hex("123456"));
             userManageService.insertUserRole(loginInformation);
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("====insertUserRole error=============" + e);
-            return AjaxResult.error();
+            return AjaxResult.returnToMessage(false, "添加失败");
         }
-        return AjaxResult.success();
+        return AjaxResult.returnToMessage(true, "添加成功");
     }
 
     @ApiOperation(value = "更新用户角色", notes = "更新用户角色")
@@ -125,11 +135,12 @@ public class UserManageController extends AbstractController {
             userManageService.updateUserRole(loginInformation);
         } catch (Exception e) {
             e.printStackTrace();
-            logger.info("====insertUserRole error=============" + e);
+            logger.info("====updateUserRole error=============" + e);
             return AjaxResult.error();
         }
         return AjaxResult.success();
     }
+
 
 
 }
