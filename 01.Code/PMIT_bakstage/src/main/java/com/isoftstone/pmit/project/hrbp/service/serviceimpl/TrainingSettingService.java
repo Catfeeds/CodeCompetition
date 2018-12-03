@@ -1,6 +1,5 @@
 package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +31,7 @@ public class TrainingSettingService implements ITrainingSettingService {
 		map.put("trainingName", param.getTrainingName());
 		map.put("series", param.getSeries());
 		map.put("sort", param.getSort());
-		map.put("type", param.getType());
+		map.put("classType", param.getClassType());
 		map.put("bu", param.getBu());
 		List<TrainingInfo> trainingInfos = trainingSettingMapper.queryTrainingList(map);
 		return trainingInfos;

@@ -38,7 +38,7 @@
             AND sort = '${sort}'
         </if>
 		<if test="null != classType and classType != ''">
-            AND type = '${type}'
+            AND class_type = '${classType}'
         </if>
 		<if test="null != bu and bu != ''">
             AND bu = '${bu}'
@@ -60,7 +60,7 @@
 			series, 
 			sort, 
 			type, 
-			class_type
+			class_type,
 			bu, 
 			creator_id, 
 			creator_name, 
@@ -89,7 +89,7 @@
 			series = #{series},
 			sort = #{sort},
 			type = #{type},
-			class_type = #{class_Type},
+			class_type = #{classType},
 			bu = #{bu},
 			updater_id = #{updaterId},
 			updater_name = #{updaterName},

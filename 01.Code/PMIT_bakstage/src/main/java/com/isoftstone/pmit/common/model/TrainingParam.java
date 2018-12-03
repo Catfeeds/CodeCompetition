@@ -6,6 +6,9 @@ public class TrainingParam extends CommonParam {
 	private String sort;
 	
 	/** 课程类型 */
+	private String classType;
+	
+	/** 培训类型 */
 	private String type;
 	
 	/** 培训名称 */
@@ -20,12 +23,6 @@ public class TrainingParam extends CommonParam {
 	public void setSort(String sort) {
 		this.sort = sort;
 	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
 	public String getTrainingName() {
 		return trainingName;
 	}
@@ -37,6 +34,18 @@ public class TrainingParam extends CommonParam {
 	}
 	public void setSeries(String series) {
 		this.series = series;
+	}
+	public String getClassType() {
+		return classType;
+	}
+	public void setClassType(String classType) {
+		this.classType = classType;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	
 }
