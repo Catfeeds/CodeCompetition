@@ -28,7 +28,7 @@
 			creator_name ascreatorName,
 			create_time as createTime,
 			updater_id as updaterId,
-			update_name as updateName
+			updater_name as updateName
 		from 
 			training_info 
 		where 
@@ -52,7 +52,7 @@
 	
 	<select id="addTrainingInfo" parameterType="java.util.Map">
 		insert into training_info (training_name, series, sort, type, bu, creator_id, creator_name, create_time, training_des, training_duration) values
-		(#{trainingName}, #{series}, #{sort}, #{type}, #{bu}, #{creatorId}, #{creatorName}, now(), #{trainingDes}, {trainingDuration}) 
+		(#{trainingName}, #{series}, #{sort}, #{type}, #{bu}, #{creatorId}, #{creatorName}, now(), #{trainingDes}, #{trainingDuration}) 
 	</select>
 	
 	<select id="updateTrainingInfo" parameterType="java.util.Map">
