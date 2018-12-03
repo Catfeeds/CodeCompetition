@@ -2,34 +2,57 @@ package com.isoftstone.pmit.project.hrbp.entity;
 
 import java.util.Date;
 
+/**
+ * 培训列表展示实体类
+ * 
+ */
 public class TrainingInfo {
 	
+	/** 培训ID  数据库自增主键  新增培训的时候无此参数 */
 	private Integer trainingId;
-	private String trainingName;
-	private String series;
-	private String sort;
-	private String type;
-	private String bu;
-	private String creatorId;
-	private String creatorName;
-	private Date createTime;
-	private String updaterId;
-	private String updateName;
-	private String trainingDesc;
 	
-	public String getTrainingDesc() {
-		return trainingDesc;
-	}
-	public void setTrainingDesc(String trainingDesc) {
-		this.trainingDesc = trainingDesc;
-	}
+	/** 培训名称  */
+	private String trainingName;
+	
+	/** 所属系列  */
+	private String series;
+	
+	/** 所属类别  */
+	private String sort;
+	
+	/** 所属培训类型  */
+	private String type;
+	
+	/** 所属产品线  */
+	private String bu;
+	
+	/** 创建人工号  */
+	private String creatorId;
+	
+	/** 创建人名字  */
+	private String creatorName;
+	
+	/** 创建时间  */
+	private Date createTime;
+	
+	/** 最后更新人工号  */
+	private String updaterId;
+	
+	/** 最后更新人名称  */
+	private String updateName;
+	
+	/** 培训简介 */
+	private String trainingDes;
+	
+	/** 培训时长  */
+	private String trainingDuration;
+	
 	public String getTrainingDuration() {
 		return trainingDuration;
 	}
 	public void setTrainingDuration(String trainingDuration) {
 		this.trainingDuration = trainingDuration;
 	}
-	private String trainingDuration;
 	
 	public Integer getTrainingId() {
 		return trainingId;
@@ -96,6 +119,12 @@ public class TrainingInfo {
 	}
 	public void setUpdateName(String updateName) {
 		this.updateName = updateName;
+	}
+	public String getTrainingDes() {
+		return trainingDes;
+	}
+	public void setTrainingDes(String trainingDes) {
+		this.trainingDes = trainingDes;
 	}
 	
 }

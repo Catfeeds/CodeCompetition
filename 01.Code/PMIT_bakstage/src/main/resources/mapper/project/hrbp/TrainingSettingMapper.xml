@@ -8,6 +8,14 @@
 		select distinct bu from base_staff_info
 	</select>
 	
+	<select id="querySort" resultType="java.lang.String">
+		select distinct sort from training_info
+	</select>
+	
+	<select id="querySeries" resultType="java.lang.String">
+		select distinct series from training_info
+	</select>
+	
 	<select id="queryTrainingList" parameterType="java.util.Map" resultType="com.isoftstone.pmit.project.hrbp.entity.TrainingInfo">
 		select 
 			training_id as trainingId,
@@ -43,8 +51,8 @@
 	</select>
 	
 	<select id="addTrainingInfo" parameterType="java.util.Map">
-		insert into training_info (training_name, series, sort, type, bu, creator_id, creator_name, create_time, training_desc, training_duration) values
-		(#{trainingName}, #{series}, #{sort}, #{type}, #{bu}, #{creatorId}, #{creatorName}, now(), #{trainingDesc}, {trainingDuration}) 
+		insert into training_info (training_name, series, sort, type, bu, creator_id, creator_name, create_time, training_des, training_duration) values
+		(#{trainingName}, #{series}, #{sort}, #{type}, #{bu}, #{creatorId}, #{creatorName}, now(), #{trainingDes}, {trainingDuration}) 
 	</select>
 	
 	<select id="updateTrainingInfo" parameterType="java.util.Map">
@@ -58,7 +66,7 @@
 			bu = #{bu},
 			updater_id = #{updaterId},
 			updater_name = #{updaterName},
-			training_desc = #{trainingDesc},
+			training_des = #{trainingDes},
 			training_duration = #{trainingDuration}
 		where 
 			training_id = #{trainingId}

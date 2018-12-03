@@ -20,4 +20,8 @@ public interface TrainingSettingMapper {
 
 	void deleteTrainingInfo(Integer trainingId);
 
+	List<String> querySort();
+
+	List<String> querySeries();
+
 }

@@ -48,7 +48,7 @@ public class TrainingSettingService implements ITrainingSettingService {
 		map.put("bu", param.getBu());
 		map.put("creatorId", param.getCreatorId());
 		map.put("creatorName", param.getCreatorName());
-		map.put("trainingDesc", param.getTrainingDesc());
+		map.put("trainingDes", param.getTrainingDes());
 		map.put("trainingDuration", param.getTrainingDuration());
 		
 		if (null == param.getTrainingId()) {
@@ -62,6 +62,16 @@ public class TrainingSettingService implements ITrainingSettingService {
 	@Override
 	public void deleteTrainingInfo(Integer trainingId) {
 		trainingSettingMapper.deleteTrainingInfo(trainingId);
+	}
+
+	@Override
+	public List<String> querySort() {
+		return trainingSettingMapper.querySort();
+	}
+
+	@Override
+	public List<String> querySeries() {
+		return trainingSettingMapper.querySeries();
 	}
 	
 }
