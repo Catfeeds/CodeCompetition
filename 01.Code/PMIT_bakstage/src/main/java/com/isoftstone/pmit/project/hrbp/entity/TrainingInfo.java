@@ -20,6 +20,9 @@ public class TrainingInfo {
 	/** 所属类别  */
 	private String sort;
 	
+	/** 课程类型  */
+	private String classType;
+	
 	/** 所属培训类型  */
 	private String type;
 	
@@ -125,6 +128,12 @@ public class TrainingInfo {
 	}
 	public void setTrainingDes(String trainingDes) {
 		this.trainingDes = trainingDes;
+	}
+	public String getClassType() {
+		return classType;
+	}
+	public void setClassType(String classType) {
+		this.classType = classType;
 	}
 	
 }

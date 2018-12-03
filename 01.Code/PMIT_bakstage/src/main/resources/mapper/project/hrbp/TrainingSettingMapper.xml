@@ -23,6 +23,7 @@
 			series,
 			sort,
 			type,
+			class_type as classType,
 			bu,
 			creator_id as creatorId,
 			creator_name ascreatorName,
@@ -33,29 +34,51 @@
 			training_info 
 		where 
 			1=1
-		<if test="null != sort">
+		<if test="null != sort and sort != ''">
             AND sort = '${sort}'
         </if>
-		<if test="null != type">
+		<if test="null != classType and classType != ''">
             AND type = '${type}'
         </if>
-		<if test="null != bu">
+		<if test="null != bu and bu != ''">
             AND bu = '${bu}'
         </if>
-		<if test="null != pdu">
-            AND trainingName like '%${trainingName}%'
+		<if test="null != trainingName and trainingName != ''">
+            AND training_name like '%${trainingName}%'
         </if>
-		<if test="null != series">
+		<if test="null != series and series != ''">
             AND series like '%${series}%'
         </if>
-		<if test="null != series">
+		<if test="null != trainingId and trainingId != ''">
             AND training_id = #{trainingId}
         </if>
 	</select>
 	
 	<select id="addTrainingInfo" parameterType="java.util.Map">
-		insert into training_info (training_name, series, sort, type, bu, creator_id, creator_name, create_time, training_des, training_duration) values
-		(#{trainingName}, #{series}, #{sort}, #{type}, #{bu}, #{creatorId}, #{creatorName}, now(), #{trainingDes}, #{trainingDuration}) 
+		insert into training_info 
+			(training_name, 
+			series, 
+			sort, 
+			type, 
+			class_type
+			bu, 
+			creator_id, 
+			creator_name, 
+			create_time, 
+			training_des, 
+			training_duration) 
+		values
+			(#{trainingName}, 
+			#{series}, 
+			#{sort}, 
+			#{type}, 
+			#{classType},
+			#{bu}, 
+			#{creatorId}, 
+			#{creatorName}, 
+			now(), 
+			#{trainingDes}, 
+			#{trainingDuration}) 
 	</select>
 	
 	<select id="updateTrainingInfo" parameterType="java.util.Map">
@@ -66,6 +89,7 @@
 			series = #{series},
 			sort = #{sort},
 			type = #{type},
+			class_type = #{class_Type},
 			bu = #{bu},
 			updater_id = #{updaterId},
 			updater_name = #{updaterName},

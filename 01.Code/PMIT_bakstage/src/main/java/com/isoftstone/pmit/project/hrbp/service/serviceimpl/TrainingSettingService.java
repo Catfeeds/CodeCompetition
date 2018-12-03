@@ -44,9 +44,11 @@ public class TrainingSettingService implements ITrainingSettingService {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("trainingName", param.getTrainingName());
+		map.put("trainingId", param.getTrainingId());
 		map.put("series", param.getSeries());
 		map.put("sort", param.getSort());
 		map.put("type", param.getType());
+		map.put("classType", param.getClassType());
 		map.put("bu", param.getBu());
 		map.put("creatorId", param.getCreatorId());
 		map.put("creatorName", param.getCreatorName());
