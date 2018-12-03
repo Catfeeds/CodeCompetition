@@ -53,6 +53,13 @@ public class TrainingSettingController extends AbstractController {
 		return AjaxResult.returnToResult(false, trainingInfos);
 	}
 	
+	@ApiOperation("根据ID查询培训列表")
+	@PostMapping("/queryTrainingInfoByTrainingId")
+	public String queryTrainingInfoByTrainingId(@RequestBody Integer trainingId) {
+		TrainingInfo trainingInfo = trainingSettingService.queryTrainingInfoByTrainingId(trainingId);
+		return AjaxResult.returnToResult(false, trainingInfo);
+	}
+	
 	@ApiOperation("新增/修改培训信息")
 	@PostMapping("/saveTrainingInfo")
 	public String saveTrainingInfo(@RequestBody TrainingInfo trainingInfo) {

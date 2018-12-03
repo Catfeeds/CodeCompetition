@@ -1,5 +1,6 @@
 package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.isoftstone.pmit.common.model.TrainingParam;
+import com.isoftstone.pmit.common.util.ListUtils;
 import com.isoftstone.pmit.project.hrbp.entity.TrainingInfo;
 import com.isoftstone.pmit.project.hrbp.mapper.TrainingSettingMapper;
 import com.isoftstone.pmit.project.hrbp.service.ITrainingSettingService;
@@ -72,6 +74,17 @@ public class TrainingSettingService implements ITrainingSettingService {
 	@Override
 	public List<String> querySeries() {
 		return trainingSettingMapper.querySeries();
+	}
+
+	@Override
+	public TrainingInfo queryTrainingInfoByTrainingId(Integer trainingId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("trainingId", trainingId);
+		List<TrainingInfo> trainingInfos = trainingSettingMapper.queryTrainingList(map);
+		if (ListUtils.isEmpty(trainingInfos)) {
+			return null;
+		}
+		return trainingInfos.get(0);
 	}
 	
 }

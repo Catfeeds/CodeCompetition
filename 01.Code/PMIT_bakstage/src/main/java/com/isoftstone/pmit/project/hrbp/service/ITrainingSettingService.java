@@ -19,4 +19,6 @@ public interface ITrainingSettingService {
 
 	List<String> querySeries();
 
+	TrainingInfo queryTrainingInfoByTrainingId(Integer trainingId);
+
 }

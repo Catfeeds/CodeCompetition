@@ -48,6 +48,9 @@
 		<if test="null != series">
             AND series like '%${series}%'
         </if>
+		<if test="null != series">
+            AND training_id = #{trainingId}
+        </if>
 	</select>
 	
 	<select id="addTrainingInfo" parameterType="java.util.Map">
