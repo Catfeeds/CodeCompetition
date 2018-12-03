@@ -4,11 +4,15 @@ import com.isoftstone.pmit.project.hrbp.common.TreeUtil;
 import com.isoftstone.pmit.project.hrbp.entity.LevelTreeNode;
 import com.isoftstone.pmit.project.hrbp.mapper.LevelRlaMapper;
 import com.isoftstone.pmit.project.hrbp.service.ILevelRlaService;
+import org.apache.ibatis.type.JdbcType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class LevelRlaService implements ILevelRlaService {
@@ -16,51 +20,11 @@ public class LevelRlaService implements ILevelRlaService {
     private LevelRlaMapper mapper;
 
     @Override
-    public List<LevelTreeNode> queryLevelRlaNode(List<Map<String, Object>> rootNodeList){
+    public List<LevelTreeNode> queryLevelRlaNode(List<Map<String, Object>> rootNodeList) {
         Map<String, Object> queryMap = buildQueryParamMap(rootNodeList);
         List<LevelTreeNode> levelNodes = mapper.queryLevelRlaNode(queryMap);
         List<LevelTreeNode> trees = buildTree(levelNodes, rootNodeList);
         return trees;
-    }
-
-    @Override
-    @Transactional
-    public void addLevelRlaNode(Map<String, Object> queryMap) {
-        Integer parentNodeID = (Integer) queryMap.get("parentNodeID");
-        String parentNodePath = (String) queryMap.get("parentNodePath");
-        String nodePath = TreeUtil.getParentPath(parentNodePath, parentNodeID);
-        queryMap.put("nodePath", nodePath);
-        mapper.addLevelRlaNode(queryMap);
-
-        queryMap.put("isLeafNode", false);
-        mapper.updateIsLeafNode(queryMap);
-    }
-
-    @Override
-    public void deleteLevelRlaNode(String nodePath, Integer nodeID) {
-        Map<String, Object> deleteParamMap = new HashMap<String, Object>();
-        deleteParamMap.put("nodeID", nodeID);
-        deleteParamMap.put("nodePath", TreeUtil.getParentPath(nodePath, nodeID));
-        mapper.deleteLevelRlaNode(deleteParamMap);
-    }
-
-    @Override
-    @Transactional
-    public void moveLevelRlaNode(Map<String, Object> queryMap) {
-        Integer targetNodeID = (Integer) queryMap.get("targetNodeID");
-        String targetNodePath = (String) queryMap.get("targetNodePath");
-        Integer nodeID = (Integer) queryMap.get("nodeID");
-        String nodePath = (String) queryMap.get("nodePath");
-
-        String replacePath = TreeUtil.getParentPath(targetNodePath,targetNodeID);
-
-
-        // TODO: 2018/11/29 移动节点信息
-    }
-
-    @Override
-    public void updateLevelRlaNode(Map<String, Object> queryMap) {
-        // TODO: 2018/11/29 更新节点信息
     }
 
     private Map<String, Object> buildQueryParamMap(List<Map<String, Object>> nodeList) {
@@ -90,9 +54,8 @@ public class LevelRlaService implements ILevelRlaService {
         return result;
     }
 
-
     private List<LevelTreeNode> buildTree(List<LevelTreeNode> treeNodeList,
-                                                List<Map<String, Object>> rootNodeList){
+                                          List<Map<String, Object>> rootNodeList) {
         List<LevelTreeNode> result = new ArrayList<LevelTreeNode>();
         if (rootNodeList != null) {
             Map<Integer, LevelTreeNode> tempMap = new HashMap<Integer, LevelTreeNode>();
@@ -102,26 +65,26 @@ public class LevelRlaService implements ILevelRlaService {
         }
         return result;
     }
+
     private void buildTreeNode(List<LevelTreeNode> treeNodeList, List<LevelTreeNode> result,
-                                      Map<Integer, LevelTreeNode> tempMap, Map<String, Object> temp) {
+                               Map<Integer, LevelTreeNode> tempMap, Map<String, Object> temp) {
         //获取一个根节点
         LevelTreeNode rootNode = new LevelTreeNode();
-        Integer rootNodeID = (Integer) temp.get("nodeID");
         if (!treeNodeList.isEmpty()) {
             rootNode = treeNodeList.get(0);
             tempMap.put(rootNode.getNodeID(), rootNode);
             treeNodeList.remove(0);
 
             //构建这个根节点的树
-            LevelTreeNode tempNood = new LevelTreeNode();
-            while (treeNodeList != null && tempNood != null) {
-                tempNood = treeNodeList.get(0);
-                String nodePath = tempNood.getNodePath();
+            LevelTreeNode tempNode = new LevelTreeNode();
+            while (!treeNodeList.isEmpty() && tempNode != null) {
+                tempNode = treeNodeList.get(0);
+                String nodePath = tempNode.getNodePath();
                 String[] pathNodeIDs = nodePath.split(":");
                 if (pathNodeIDs.length > 1) {
-                    tempNood = addTreeNode(treeNodeList, tempMap, tempNood, pathNodeIDs[pathNodeIDs.length - 1]);
+                    tempNode = addTreeNode(treeNodeList, tempMap, tempNode, pathNodeIDs[pathNodeIDs.length - 1]);
                 } else {
-                    tempNood = null;
+                    tempNode = null;
                 }
             }
 
@@ -130,7 +93,7 @@ public class LevelRlaService implements ILevelRlaService {
     }
 
     private LevelTreeNode addTreeNode(List<LevelTreeNode> treeNodeList, Map<Integer, LevelTreeNode> tempMap,
-                                             LevelTreeNode tempNood, String pathNodeID) {
+                                      LevelTreeNode tempNood, String pathNodeID) {
         Integer parentNodeID = Integer.parseInt(pathNodeID);
         LevelTreeNode parentNode = tempMap.get(parentNodeID);
         if (parentNode != null) {
@@ -147,5 +110,57 @@ public class LevelRlaService implements ILevelRlaService {
 
         tempNood = parentNode;
         return tempNood;
+    }
+
+    @Override
+    @Transactional
+    public void addLevelRlaNode(Map<String, Object> queryMap) {
+        Integer parentNodeID = (Integer) queryMap.get("parentNodeID");
+        String parentNodePath = (String) queryMap.get("parentNodePath");
+        String nodePath = TreeUtil.getParentPath(parentNodePath, parentNodeID);
+        queryMap.put("nodePath", nodePath);
+        mapper.addLevelRlaNode(queryMap);
+
+        queryMap = new HashMap<String, Object>();
+        queryMap.put("nodeID", parentNodeID);
+        queryMap.put("isLeafNode", false);
+        queryMap.put("isRelationNode", false);
+        mapper.updateLevelRlaNode(queryMap);
+    }
+
+    @Override
+    public void deleteLevelRlaNode(String nodePath, Integer nodeID) {
+        Map<String, Object> deleteParamMap = new HashMap<String, Object>();
+        deleteParamMap.put("nodeID", nodeID);
+        deleteParamMap.put("nodePath", TreeUtil.getParentPath(nodePath, nodeID));
+        mapper.deleteLevelRlaNode(deleteParamMap);
+    }
+
+    @Override
+    public void updateLevelRlaNode(Map<String, Object> queryMap) {
+        mapper.updateLevelRlaNode(queryMap);
+    }
+
+    @Override
+    @Transactional
+    public void moveLevelRlaNode(Map<String, Object> paramMap) {
+        Integer targetNodeID = (Integer) paramMap.get("targetNodeID");
+        String targetNodePath = (String) paramMap.get("targetNodePath");
+        Integer moveNodeID = (Integer) paramMap.get("moveNodeID");
+        String moveNodePath = (String) paramMap.get("moveNodePath");
+
+        Map<String, Object> queryMap = new HashMap<String, Object>();
+        queryMap.put("moveNodeID", moveNodeID);
+        String replaceSourcePath = TreeUtil.getParentPath(moveNodePath, moveNodeID);
+        queryMap.put("replaceSourcePath", replaceSourcePath);
+
+        String replaceParentPath = TreeUtil.getParentPath(targetNodePath, targetNodeID);
+        queryMap.put("replaceParentPath", replaceParentPath);
+        String replaceTargetPath = TreeUtil.getParentPath(replaceParentPath, moveNodeID);
+        queryMap.put("replaceTargetPath", replaceTargetPath);
+
+        String operaString = "REPLACE(nodePath,'" + replaceSourcePath + "','" + replaceTargetPath + "')";
+        queryMap.put("operaString",operaString);
+        mapper.moveLevelRlaNode(queryMap);
     }
 }

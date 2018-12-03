@@ -14,11 +14,9 @@ public interface LevelRlaMapper {
 
     public void addLevelRlaNode(Map<String, Object> queryMap);
 
-    public void updateIsLeafNode(Map<String, Object> queryMap);
-
     public void deleteLevelRlaNode(Map<String, Object> queryMap);
 
-    public void moveLevelRlaNode(Map<String, Object> queryMap);
-
     public void updateLevelRlaNode(Map<String, Object> queryMap);
+
+    public void moveLevelRlaNode(Map<String, Object> queryMap);
 }
