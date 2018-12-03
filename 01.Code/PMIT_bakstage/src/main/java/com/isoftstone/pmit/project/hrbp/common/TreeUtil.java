@@ -25,12 +25,13 @@ public class TreeUtil {
     }
 
     public static String getParentPath(String nodePath, Integer nodeID) {
+        String parentPath;
         if (nodePath == null || nodePath.isEmpty()) {
-            nodePath = ":" + nodeID + ":";
+            parentPath = ":" + nodeID + ":";
         } else {
-            nodePath = nodePath + nodeID + ":";
+            parentPath = nodePath + nodeID + ":";
         }
-        return nodePath;
+        return parentPath;
     }
     
 //    public static String getParentPath(BaseTreeNode parentNode){

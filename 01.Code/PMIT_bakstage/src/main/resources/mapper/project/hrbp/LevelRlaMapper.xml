@@ -92,11 +92,11 @@
         nodeID = #{nodeID}
     </update>
 
-    <update id="moveLevelRlaNode" parameterType="java.util.Map">
+    <select id="moveLevelRlaNode" parameterType="java.util.Map">
         UPDATE
         sys_level_rla
         SET
-        nodePath = ${operaString}
+        nodePath = REPLACE(nodePath,#{replaceSourcePath},#{replaceTargetPath})
         WHERE
         nodePath LIKE '${replaceSourcePath}%';
 
@@ -106,5 +106,5 @@
         nodePath = #{replaceParentPath}
         WHERE
         nodeID = #{moveNodeID};
-    </update>
+    </select>
 </mapper>

@@ -159,8 +159,6 @@ public class LevelRlaService implements ILevelRlaService {
         String replaceTargetPath = TreeUtil.getParentPath(replaceParentPath, moveNodeID);
         queryMap.put("replaceTargetPath", replaceTargetPath);
 
-        String operaString = "REPLACE(nodePath,'" + replaceSourcePath + "','" + replaceTargetPath + "')";
-        queryMap.put("operaString",operaString);
         mapper.moveLevelRlaNode(queryMap);
     }
 }
