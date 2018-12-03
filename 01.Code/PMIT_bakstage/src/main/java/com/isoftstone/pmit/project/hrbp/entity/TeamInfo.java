@@ -31,7 +31,27 @@ public class TeamInfo {
 	
 	/** 父节点路径  */
 	private String parentPath;
-	
+
+	private String status;
+
+	private  String changeTime;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getChangeTime() {
+		return changeTime;
+	}
+
+	public void setChangeTime(String changeTime) {
+		this.changeTime = changeTime;
+	}
+
 	public String getParentPath() {
 		return parentPath;
 	}

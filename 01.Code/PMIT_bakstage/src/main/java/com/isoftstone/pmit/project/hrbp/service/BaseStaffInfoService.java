@@ -1,8 +1,11 @@
 package com.isoftstone.pmit.project.hrbp.service;
 
+import com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo;
+import com.isoftstone.pmit.project.hrbp.entity.PersonInfoAndPageInfo;
 import com.isoftstone.pmit.project.hrbp.entity.PersonalInformation;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BaseStaffInfoService {
 
@@ -29,6 +32,11 @@ public interface BaseStaffInfoService {
     /*
     * 增加一个员工的所有信息
     * */
-    void  insertPersonalInformation(PersonalInformation personalInformation);
+    void   insertPersonalInformation(PersonalInformation personalInformation);
+
+    /*
+    * 模糊查询全员查询
+    * */
+    List<BaseStaffInfo> getPersonalInfoByFuzzyQuery(PersonInfoAndPageInfo paramter);
 
 }

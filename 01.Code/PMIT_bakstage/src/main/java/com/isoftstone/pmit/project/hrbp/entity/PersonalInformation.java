@@ -13,6 +13,16 @@ public class PersonalInformation {
     private List<CompanyQualification> companyQualifications;
     /*技能信息*/
     private List<TechnicalInformation> technicalInformation;
+    /*个人履历信息*/
+    private List<TeamInfo> teamInfos;
+
+    public List<TeamInfo> getTeamInfos() {
+        return teamInfos;
+    }
+
+    public void setTeamInfos(List<TeamInfo> teamInfos) {
+        this.teamInfos = teamInfos;
+    }
 
     public List<TechnicalInformation> getTechnicalInformation() {
         return technicalInformation;

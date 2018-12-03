@@ -216,7 +216,16 @@ FROM
 	      technical_information
 	    where employeeID=#{employeeID}
     </select>
-
+    <select id="getTeamInfoById" resultType="com.isoftstone.pmit.project.hrbp.entity.TeamInfo" parameterType="java.lang.String">
+        select
+            change_time,
+            status,
+            staff_name,
+            staff_id,
+            team_name,
+            team_id
+        from hrbp_projectteamrecord where staff_id = #{employeeId}
+    </select>
     <update id="updateBaseStaffInfo" parameterType="BaseStaffInfo">
         update base_staff_info
         <set>
@@ -481,4 +490,57 @@ FROM
             )
         </foreach>
     </insert>
+
+    <select id="getPersonalInfoByFuzzyQuery" parameterType="java.util.Map" resultType="com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo">
+        select
+          employeeID,
+          employeeName,
+          idNumber,
+          ifBackBone,
+          ifOffShore,
+          workPlace,
+          cooperationMode,
+          directLeaderId,
+          directLeaderName,
+          employmentDate,
+          departureDate,
+          generalPosition,
+          nation,
+          political,
+          bu,
+          du,
+          pdu,
+          sex,
+          telephone,
+          isoftEmai,
+          costCenter,
+          generalPosition,
+          directLeaderId,
+          directLeaderId
+        from
+          base_staff_info
+        where
+
+          <if test="bu != null">
+              bu = #{bu}
+          </if>
+
+          <if test="du != null">
+              and  du = #{du}
+          </if>
+
+          <if test="pdu != null">
+              and   pdu = #{pdu}
+          </if>
+
+          <if test="employeeID != null">
+              and  employeeID like '%${employeeID}%'
+          </if>
+
+          <if test=" employeeName != null ">
+              or   employeeName like  '%${employeeName}%'
+          </if>
+          limit #{currIndex} ,#{pageSize}
+
+    </select>
 </mapper>

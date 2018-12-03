@@ -3,19 +3,21 @@ package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 import com.isoftstone.pmit.project.hrbp.entity.*;
 import com.isoftstone.pmit.project.hrbp.mapper.BaseStaffInfoMapper;
 import com.isoftstone.pmit.project.hrbp.service.BaseStaffInfoService;
-import org.apache.ibatis.jdbc.Null;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
 
-    private Logger log = LoggerFactory.getLogger(BaseStaffInfoServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BaseStaffInfoServiceImpl.class);
     @Autowired
     private BaseStaffInfoMapper baseStaffInfoMapper;
 
@@ -25,18 +27,31 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
             throw new NullPointerException();
         }
         BaseStaffInfo baseStaffInfo = baseStaffInfoMapper.getBaseStaffInfoById(employeeID);
-        log.info("base"+baseStaffInfo);
-        List<CompanyQualification> qualification = baseStaffInfoMapper.getCompanyQualificationById(employeeID);
-        log.info("qua"+qualification);
-        FamilyInformation familyInfomation = baseStaffInfoMapper.getFamilyInfomationById(employeeID);
-        log.info("family"+familyInfomation);
-        PersonalStyle personalStyle = baseStaffInfoMapper.getPersonalStyleById(employeeID);
-        log.info("person"+baseStaffInfo);
-        List<TechnicalInformation> techicalInforation = baseStaffInfoMapper.getTechicalInforationById(employeeID);
-        log.info("techical"+techicalInforation);
         if (null == baseStaffInfo){
-            log.info("该员工已离职");
-            throw new NullPointerException();
+            LOGGER.info("该员工已离职");
+            new BaseStaffInfo();
+        }
+        List<CompanyQualification> qualification = baseStaffInfoMapper.getCompanyQualificationById(employeeID);
+        if (null == qualification ){
+            qualification = new ArrayList<CompanyQualification>();
+        }
+
+        FamilyInformation familyInfomation = baseStaffInfoMapper.getFamilyInfomationById(employeeID);
+        if (null == familyInfomation){
+            familyInfomation = new FamilyInformation();
+        }
+        PersonalStyle personalStyle = baseStaffInfoMapper.getPersonalStyleById(employeeID);
+        if (null == personalStyle){
+            personalStyle = new PersonalStyle();
+        }
+        List<TechnicalInformation> techicalInforation = baseStaffInfoMapper.getTechicalInforationById(employeeID);
+        if (null == techicalInforation){
+            techicalInforation = new ArrayList<TechnicalInformation>();
+        }
+        List<TeamInfo> teamInfoList = baseStaffInfoMapper.getTeamInfoById(employeeID);
+
+        if (null == teamInfoList){
+            teamInfoList = new ArrayList<>();
         }
         PersonalInformation staffInfo =new PersonalInformation();
         staffInfo.setBaseStaffInfo(baseStaffInfo);
@@ -44,6 +59,7 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
         staffInfo.setFamilyInformations(familyInfomation);
         staffInfo.setPersonalStyle(personalStyle);
         staffInfo.setTechnicalInformation(techicalInforation);
+        staffInfo.setTeamInfos(teamInfoList);
         return staffInfo;
     }
 
@@ -91,7 +107,7 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
                 || null == personalInformation.getFamilyInformations()
                 || null == personalInformation.getPersonalStyle()
                 || null == personalInformation.getTechnicalInformation()){
-            throw new NullPointerException();
+             new PersonalInformation();
         }
 
         baseStaffInfoMapper.insertBaseStaffInfo(personalInformation.getBaseStaffInfo());
@@ -101,6 +117,31 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
         baseStaffInfoMapper.insertPersonalStyle(personalInformation.getPersonalStyle());
     }
 
+    @Override
+    public List<BaseStaffInfo> getPersonalInfoByFuzzyQuery(PersonInfoAndPageInfo paramter) {
+
+        Map<String,Object> paramterMap = new HashMap<String, Object>();
+        if (null == paramter){
+            new PersonInfoAndPageInfo();
+        }
+        if (null == paramter.getPageInfo() ){
+            new PageInfo();
+        }
+
+        paramterMap.put("currIndex",(paramter.getPageInfo().getCurrPage()-1)*paramter.getPageInfo().getPageSize());
+        paramterMap.put("pageSize",paramter.getPageInfo().getPageSize());
+        paramterMap.put("bu",paramter.getBaseStaffInfo().getBu());
+        paramterMap.put("pdu",paramter.getBaseStaffInfo().getPdu());
+        paramterMap.put("du",paramter.getBaseStaffInfo().getDu());
+        paramterMap.put("employeeId",paramter.getBaseStaffInfo().getEmployeeID());
+        paramterMap.put("employeeName",paramter.getBaseStaffInfo().getEmployeeName());
+        if (null == paramterMap){
+            new HashMap<String,Object>();
+        }
+
+        List<BaseStaffInfo> staffInfos = baseStaffInfoMapper.getPersonalInfoByFuzzyQuery(paramterMap);
+        return staffInfos;
+    }
 
 
 }
