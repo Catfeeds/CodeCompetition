@@ -83,8 +83,8 @@
       <el-form :model="loginForm" size="mini" label-width="80px" ref="loginForm" :rules="rules">
         <el-form-item label="姓名" prop="employeeName">
           <el-input v-if="isEdit" v-model="loginForm.employeeName" autocomplete="off" disabled></el-input>
-          <el-autocomplete v-else
-            popper-class="my-autocomplete"
+          <el-autocomplete
+            v-else
             v-model="loginForm.employeeName"
             :trigger-on-focus="false"
             :fetch-suggestions="searchEmployee"
@@ -93,15 +93,16 @@
           >
             <i class="el-icon-delete el-input__icon" slot="suffix" @click="handleClear"></i>
             <template slot-scope="{ item }">
-              <div class="name">{{ item.employeeName }}</div>
-              <span class="addr">{{ item.employeeID }}</span>
+              <div style="float:left;margin-right:15px;">{{ item.employeeName }}</div>
+              <span style="margin-right:15px">{{ item.employeeID }}</span>
+              <span>{{item.pdu}}</span>
             </template>
           </el-autocomplete>
         </el-form-item>
         <el-form-item label="工号" prop="employeeId">
           <el-input v-if="isEdit" v-model="loginForm.employeeId" autocomplete="off" disabled></el-input>
-          <el-autocomplete v-else
-            popper-class="my-autocomplete"
+          <el-autocomplete
+            v-else
             v-model="loginForm.employeeId"
             :trigger-on-focus="false"
             :fetch-suggestions="searchEmployee"
@@ -110,8 +111,9 @@
           >
             <i class="el-icon-delete el-input__icon" slot="suffix" @click="handleClear"></i>
             <template slot-scope="{ item }">
-              <div class="name">{{ item.employeeName }}</div>
-              <span class="addr">{{ item.employeeID }}</span>
+              <div style="float:left;margin-right:15px;">{{ item.employeeName }}</div>
+              <span style="margin-right:15px">{{ item.employeeID }}</span>
+              <span>{{item.pdu}}</span>
             </template>
           </el-autocomplete>
         </el-form-item>

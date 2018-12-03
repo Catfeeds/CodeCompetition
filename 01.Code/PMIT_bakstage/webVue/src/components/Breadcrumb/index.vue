@@ -37,11 +37,12 @@ export default {
           return true
         }
       })
-      // const first = matched[0]
-      // console.log('first', first)
-      // if (first && first.name.trim().toLocaleLowerCase() !== 'BackboneReport'.toLocaleLowerCase()) {
-      //   matched = [{ path: '/dashboard', meta: { title: 'backboneReport' }}].concat(matched)
-      // }
+      const first = matched[0]
+      if (first && first.name.trim().toLocaleLowerCase() !== 'StoneReport'.toLocaleLowerCase()) {
+        matched = [{ path: '/dashboard', meta: { title: 'reportDisplay' }}].concat(matched)
+      }else{
+        matched = [{ path: '', meta: { title: 'reportDisplay' }}].concat(matched)
+      }
       this.levelList = matched
     }
   }

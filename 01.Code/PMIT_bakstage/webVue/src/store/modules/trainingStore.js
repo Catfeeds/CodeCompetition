@@ -1,12 +1,12 @@
-import api from "@/api/authorizationApi";
-const authorization = {
+import api from "@/api/trainingApi";
+export default {
   state: {},
   mutations: {},
   actions: {
-    getRoleList() {
+    getTrainingList(commit, page) {
       return new Promise((resolve, reject) => {
         api
-          .getRoleList()
+          .getTrainingList(page)
           .then(response => {
             resolve(response.data.data);
           })
@@ -15,10 +15,10 @@ const authorization = {
           });
       });
     },
-    getRoleInfoById(commit, id) {
+    getTrainingById(commit, trainId) {
       return new Promise((resolve, reject) => {
         api
-          .getRoleInfoById(id)
+          .getTrainingById(trainId)
           .then(res => {
             resolve(res.data);
           })
@@ -27,10 +27,10 @@ const authorization = {
           });
       });
     },
-    addRoleInfo(commit, roleInfo) {
+    saveTrainingInfo(commit, trainInfo) {
       return new Promise((resolve, reject) => {
         api
-          .addRoleInfo(roleInfo)
+          .saveTrainingInfo(trainInfo)
           .then(response => {
             resolve(response.data);
           })
@@ -39,10 +39,10 @@ const authorization = {
           });
       });
     },
-    delRoleInfo(commit, roleId) {
+    delTraining(commit, trainId) {
       return new Promise((resolve, reject) => {
         api
-          .delRoleInfo(roleId)
+          .delTraining(trainId)
           .then(response => {
             resolve(response.data);
           })
@@ -51,10 +51,10 @@ const authorization = {
           });
       });
     },
-    editRoleInfo(commit, roleInfo) {
+    querySeries() {
       return new Promise((resolve, reject) => {
         api
-          .editRoleInfo(roleInfo)
+          .querySeries()
           .then(response => {
             resolve(response.data);
           })
@@ -63,58 +63,10 @@ const authorization = {
           });
       });
     },
-    getLoginUserList(commit, pageInfo) {
+    querySystem() {
       return new Promise((resolve, reject) => {
         api
-          .getLoginUserList(pageInfo.currentPage, pageInfo.pageSize)
-          .then(response => {
-            resolve(response.data);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
-    getLoginUserById(commit, employeeID) {
-      return new Promise((resolve, reject) => {
-        api
-          .getLoginUserById(employeeID)
-          .then(response => {
-            resolve(response.data);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
-    addLoginUser(commit, userInfo) {
-      return new Promise((resolve, reject) => {
-        api
-          .addLoginUser(userInfo)
-          .then(response => {
-            resolve(response.data);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
-    delLoginUser(commit, userId) {
-      return new Promise((resolve, reject) => {
-        api
-          .delLoginUser(userId)
-          .then(response => {
-            resolve(response.data);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
-    editLoginUser(commit, userInfo) {
-      return new Promise((resolve, reject) => {
-        api
-          .editLoginUser(userInfo)
+          .querySystem()
           .then(response => {
             resolve(response.data);
           })
@@ -125,4 +77,3 @@ const authorization = {
     }
   }
 };
-export default authorization;

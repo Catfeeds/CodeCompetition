@@ -1,0 +1,144 @@
+{
+  "roleList": {
+    "data": [
+      {
+        "roleId": 1,
+        "roleName": "管理员",
+        "roleKey": "admin",
+        "roleSort": 1,
+        "createTime": 1543126180000,
+        "description": "系统设置"
+      },
+      {
+        "roleId": 2,
+        "roleName": "骨干员工",
+        "roleKey": "main",
+        "roleSort": 2,
+        "createTime": 1543126180000,
+        "description": "系统维护"
+      },
+      {
+        "roleId": 3,
+        "roleName": "信息录入员",
+        "roleKey": "pm",
+        "roleSort": 3,
+        "createTime": 1543126180000,
+        "description": "负责成绩导入"
+      },
+      {
+        "roleId": 4,
+        "roleName": "guess",
+        "roleKey": "guess",
+        "roleSort": 4,
+        "createTime": 1543396994000,
+        "description": "查看报表"
+      },
+      {
+        "roleId": 7,
+        "roleName": "test",
+        "roleKey": null,
+        "roleSort": null,
+        "createTime": 1543559406000,
+        "description": "wwww"
+      }
+    ],
+    "success": true
+  },
+  "loginUserList": {
+    "data": {
+      "pageNum": 1,
+      "pageSize": 10,
+      "size": 4,
+      "startRow": 1,
+      "endRow": 4,
+      "total": 4,
+      "pages": 1,
+      "list": [
+        {
+          "employeeName": "贾渊博",
+          "employeeID": "100004",
+          "pdu": "SEP开发部",
+          "positionRole": "开发",
+          "roleName": "管理员"
+        },
+        {
+          "employeeName": "韩伟",
+          "employeeID": "100379",
+          "pdu": "网络安全与隐私保护实验室（CSPL）",
+          "positionRole": "开发",
+          "roleName": "骨干员工"
+        },
+        {
+          "employeeName": "赵为波",
+          "employeeID": "100553",
+          "pdu": "GENEX产品部",
+          "positionRole": "其他",
+          "roleName": "信息录入员"
+        },
+        {
+          "employeeName": "罗发雷",
+          "employeeID": "100178",
+          "pdu": "欧拉部",
+          "positionRole": "测试",
+          "roleName": "guess"
+        }
+      ],
+      "prePage": 0,
+      "nextPage": 0,
+      "isFirstPage": true,
+      "isLastPage": true,
+      "hasPreviousPage": false,
+      "hasNextPage": false,
+      "navigatePages": 8,
+      "navigatepageNums": [1],
+      "navigateFirstPage": 1,
+      "navigateLastPage": 1,
+      "lastPage": 1,
+      "firstPage": 1
+    },
+    "success": true
+  },
+  "loginUserInfo": {
+    "data": {
+      "employeeName": "罗发雷",
+      "employeeID": "100178",
+      "pdu": "欧拉部",
+      "positionRole": "测试",
+      "roleName": "guess"
+    },
+    "success": true
+  },
+  "findLoginUser": {
+    "data": [
+      {
+        "employeeName": "李海涛",
+        "employeeID": "103964",
+        "pdu": "欧拉部",
+        "positionRole": "测试",
+        "roleName": null
+      },
+      {
+        "employeeName": "臧海涛",
+        "employeeID": "114011",
+        "pdu": "研发工具部",
+        "positionRole": "测试",
+        "roleName": null
+      },
+      {
+        "employeeName": "沈海涛",
+        "employeeID": "608648",
+        "pdu": "SEQ产品部",
+        "positionRole": "开发",
+        "roleName": null
+      },
+      {
+        "employeeName": "阮海涛",
+        "employeeID": "91046",
+        "pdu": "GENEX产品部",
+        "positionRole": "测试",
+        "roleName": null
+      }
+    ],
+    "success": true
+  }
+}

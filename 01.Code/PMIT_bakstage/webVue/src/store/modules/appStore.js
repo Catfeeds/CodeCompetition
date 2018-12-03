@@ -3,7 +3,8 @@ import { constantRouterMap, asyncRouterMap } from "@/router";
 import {
   getMenuInfoByEmployeeId,
   getAllMenuInfo,
-  getMenuInfoByRoleId
+  getMenuInfoByRoleId,
+  getProductInfo
 } from "@/api/appApi";
 /**
  * 递归过滤异步路由表，根据后台返回的菜单列表过滤后的路由表
@@ -20,7 +21,7 @@ function filterAsyncRouter(routes, menus) {
         res.push(tmp);
       }
     } else {
-      let isFlag = menus.some(menu => menu.name == route.menuName);
+      let isFlag = menus.some(menu => menu.menuName == route.name);
       if (isFlag) {
         res.push(tmp);
       }
@@ -98,7 +99,7 @@ const app = {
               response.data.data
             );
             commit("setRouters", accessedRouters);
-            resolve();
+            resolve(accessedRouters);
           })
           .catch(error => {
             reject(error);
@@ -123,6 +124,27 @@ const app = {
         getAllMenuInfo()
           .then(res => {
             resolve(res.data.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    getProductInfo({ commit }) {
+      return new Promise((resolve, reject) => {
+        getProductInfo()
+          .then(res => {
+            let data = [];
+            if (res.data.data) {
+              data = res.data.data.map(item => {
+                return {
+                  label: item,
+                  value: item
+                };
+              });
+            }
+            commit("setProductList", data);
+            resolve();
           })
           .catch(error => {
             reject(error);

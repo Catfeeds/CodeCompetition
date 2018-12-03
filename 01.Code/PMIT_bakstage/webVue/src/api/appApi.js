@@ -18,7 +18,7 @@ export function getMenuInfoByRoleId(roleId) {
 }
 export function getProductInfo() {
   return request({
-    url: "projectGroup/getProductInfo",
-    method: "get"
+    url: "hrbp/trainingsetting/queryBu",
+    method: "post"
   });
 }

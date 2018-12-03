@@ -1,10 +1,4 @@
 import request from "@/utils/request";
-function getProductInfo() {
-  return request({
-    url: "projectGroup/getProductInfo",
-    method: "get"
-  });
-}
 function getDUInfo(product) {
   return request({
     url: "projectGroup/getDUInfo",
@@ -27,7 +21,6 @@ function getProjectGroupInfo(param) {
   });
 }
 export default {
-  getProductInfo,
   getDUInfo,
   getPDUInfo,
   getProjectGroupInfo

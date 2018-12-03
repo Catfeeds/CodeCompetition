@@ -1,42 +1,49 @@
 import request from "@/utils/request";
-function getTrainingList() {
+function getTrainingList(condition) {
   return request({
-    url: "hrbp/user/findEmpInformation",
+    url: "hrbp/trainingsetting/queryTrainingList",
+    method: "post",
+    data: condition
+  });
+}
+function getTrainingById(trainingId) {
+  return request({
+    url: "/hrbp/trainingsetting/queryTrainingInfoByTrainingId",
+    method: "post",
+    data: { trainingId }
+  });
+}
+function delTraining(trainingId) {
+  return request({
+    url: "hrbp/trainingsetting/deleteTrainingInfo",
+    method: "post",
+    data: { trainingId }
+  });
+}
+function saveTrainingInfo(trainInfo) {
+  return request({
+    url: "hrbp/trainingsetting/saveTrainingInfo",
+    method: "post",
+    data: trainInfo
+  });
+}
+function querySeries() {
+  return request({
+    url: "hrbp/trainingsetting/querySeries",
     method: "post"
   });
 }
-function getTrainingById(trainId) {
+function querySystem() {
   return request({
-    url: "hrbp/user/findEmpInformationByEmpId",
-    method: "post",
-    data: { trainId }
-  });
-}
-function addTraining(trainInfo) {
-  return request({
-    url: "permission/addLoginUser",
-    method: "post",
-    data: trainInfo
-  });
-}
-function delTraining(trainId) {
-  return request({
-    url: "permission/delLoginUser",
-    method: "post",
-    data: { trainId }
-  });
-}
-function editTraining(trainInfo) {
-  return request({
-    url: "permission/editLoginUser",
-    method: "post",
-    data: trainInfo
+    url: "hrbp/trainingsetting/querySort",
+    method: "post"
   });
 }
 export default {
   getTrainingList,
   getTrainingById,
-  addTraining,
+  saveTrainingInfo,
   delTraining,
-  editTraining
+  querySeries,
+  querySystem
 };

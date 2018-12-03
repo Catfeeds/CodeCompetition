@@ -30,25 +30,6 @@ const projectGroup = {
     }
   },
   actions: {
-    getProductInfo({ commit }) {
-      return new Promise((resolve, reject) => {
-        api
-          .getProductInfo()
-          .then(response => {
-            const data = _.map(response.data, function(item) {
-              return {
-                label: item.name,
-                value: item.id
-              };
-            });
-            commit("setProductList", data);
-            resolve();
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
     getDUInfo({ commit }, product) {
       return new Promise((resolve, reject) => {
         api

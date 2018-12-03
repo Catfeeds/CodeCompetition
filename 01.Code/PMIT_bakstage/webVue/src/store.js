@@ -6,6 +6,7 @@ import userInfoStore from "./store/modules/userInfoStore";
 import projectGroupStore from "./store/modules/projectGroupStore";
 import relationTreeStore from "./store/modules/relationTreeStore";
 import authorizationStore from "./store/modules/authorizationStore";
+import trainingStore from "./store/modules/trainingStore";
 import getters from "./store/getters";
 
 Vue.use(Vuex);
@@ -17,7 +18,8 @@ export default new Vuex.Store({
     userInfoStore,
     projectGroupStore,
     relationTreeStore,
-    authorizationStore
+    authorizationStore,
+    trainingStore
   },
   getters
 });

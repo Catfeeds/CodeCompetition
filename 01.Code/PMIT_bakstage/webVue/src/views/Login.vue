@@ -151,7 +151,6 @@ export default {
           vm.$store
             .dispatch("loginByUserName", vm.loginForm)
             .then((res) => {
-              console.log(res);
               if (!res.status) {
                 Cookies.set("loginName", vm.loginForm.userName);
                 Cookies.set("status", "logined");
