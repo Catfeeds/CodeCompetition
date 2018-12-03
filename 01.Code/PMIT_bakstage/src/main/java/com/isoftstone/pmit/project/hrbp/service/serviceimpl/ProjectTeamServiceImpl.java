@@ -7,7 +7,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.isoftstone.pmit.common.model.QueryParam;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.isoftstone.pmit.common.model.CommonParam;
+import com.isoftstone.pmit.common.model.TeamParam;
 import com.isoftstone.pmit.common.util.ListUtils;
 import com.isoftstone.pmit.project.hrbp.entity.TeamInfo;
 import com.isoftstone.pmit.project.hrbp.mapper.ProjectTeamMapper;
@@ -20,7 +23,7 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 	private ProjectTeamMapper projectTeamMapper;
 
 	@Override
-	public List<TeamInfo> getProjectTeamData(QueryParam param) {
+	public List<TeamInfo> getProjectTeamData(TeamParam param) {
 		Map<String, Object> queryMap = new HashMap<>();
 		queryMap.put("teamId", param.getTeamId());
 		List<TeamInfo> teamInfos = projectTeamMapper.queryProjectTeamData(queryMap);
@@ -28,7 +31,7 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 	}
 
 	@Override
-	public List<TeamInfo> searchEmployeeInfos(QueryParam param) {
+	public List<TeamInfo> searchEmployeeInfos(TeamParam param) {
 		Map<String, Object> queryMap = new HashMap<>();
 		queryMap.put("pdu", param.getPdu());
 		queryMap.put("gender", param.getGender());
@@ -41,14 +44,14 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 	}
 
 	@Override
-	public List<Map<String, String>> queryAreaAndCuBycondition(QueryParam param) {
+	public List<Map<String, String>> queryAreaAndCuBycondition(TeamParam param) {
 		Map<String, Object> queryMap = new HashMap<>();
 		queryMap.put("pdu", param.getPdu());
 		List<Map<String, String>> result = projectTeamMapper.queryAreaAndCuBycondition(queryMap);
 		return result;
 	}
 	
-//	@Transactional(rollbackFor=Exception.class)
+	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public String saveProjectTeamData(List<TeamInfo> teamInfos) {
 		Map<String, Object> queryMap = new HashMap<>();
@@ -76,6 +79,25 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 		result.put("addTeamInfos", temp);
 		result.put("deleteTeamInfos", oldTeamInfos);
 		return result;
+	}
+	
+	@Transactional(rollbackFor=Exception.class)
+	@Override
+	public String saveProjectTeamRole(TeamInfo teamInfo) {
+		try {
+			projectTeamMapper.saveProjectTeamRole(teamInfo);
+		} catch (Exception e) {
+			
+		}
+		return "";
+	}
+
+	@Override
+	public void teamRelatedPo(String teamId, String projectId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("teamId", teamId);
+		map.put("projectId", projectId);
+		projectTeamMapper.teamRelatedPo(map);
 	}
 
 }
