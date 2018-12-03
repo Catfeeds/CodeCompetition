@@ -19,5 +19,9 @@ public interface ProjectTeamMapper {
 	void addTeamInfo(List<TeamInfo> addTeamInfos);
 
 	void deleteTeamInfo(List<TeamInfo> deleteTeamInfos);
+
+	void saveProjectTeamRole(TeamInfo teamInfo);
+
+	void teamRelatedPo(Map<String, Object> map);
 	
 }

@@ -62,7 +62,6 @@ public class PmitApplication extends WebMvcConfigurerAdapter implements CommandL
         return restTemplate;
     }
 
-
     @Override
     public void run(String... strings) throws Exception {
 //        statistics.refresh();
@@ -73,6 +72,5 @@ public class PmitApplication extends WebMvcConfigurerAdapter implements CommandL
         argumentResolvers.add(new JsonParamResolver());
         super.addArgumentResolvers(argumentResolvers);
     }
-
 
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.isoftstone.pmit.common.model.QueryParam;
+import com.isoftstone.pmit.common.model.TeamParam;
 import com.isoftstone.pmit.common.util.AjaxResult;
 import com.isoftstone.pmit.common.util.ListUtils;
 import com.isoftstone.pmit.common.web.controller.AbstractController;
@@ -29,7 +29,7 @@ public class ProjectTeamController extends AbstractController {
 	
 	@ApiOperation("查询区域和成本中心")
 	@PostMapping("/queryAreaAndCuBycondition")
-	public String queryAreaAndCuBycondition(@RequestBody QueryParam param) {
+	public String queryAreaAndCuBycondition(@RequestBody TeamParam param) {
 		List<Map<String, String>> list = null;
 		try {
 			list = projectTeamService.queryAreaAndCuBycondition(param);
@@ -41,7 +41,7 @@ public class ProjectTeamController extends AbstractController {
 	
 	@ApiOperation("查询资源池人员信息")
 	@PostMapping("/searchEmployeeInfos")
-	public String searchEmployeeInfos(@RequestBody QueryParam param) {
+	public String searchEmployeeInfos(@RequestBody TeamParam param) {
 		List<TeamInfo> teamData = null;
 		try {
 			teamData = projectTeamService.searchEmployeeInfos(param);
@@ -53,7 +53,7 @@ public class ProjectTeamController extends AbstractController {
 	
 	@ApiOperation("查询项目组人员信息")
 	@PostMapping("/getTeamInfos")
-	public String getProjectTeamData(@RequestBody QueryParam param) {
+	public String getProjectTeamData(@RequestBody TeamParam param) {
 		List<TeamInfo> teamData = null;
 		try {
 			teamData = projectTeamService.getProjectTeamData(param);
@@ -72,6 +72,30 @@ public class ProjectTeamController extends AbstractController {
 		String status = null;
 		try {
 			status = projectTeamService.saveProjectTeamData(teamInfos);
+		} catch (Exception e) {
+			
+		}
+		return AjaxResult.returnToResult(false, status);
+	}
+	
+	@ApiOperation("保存项目组人员角色信息")
+	@PostMapping("/saveProjectTeamRole")
+	public String saveProjectTeamRole(@RequestBody TeamInfo teamInfo) {
+		String status = null;
+		try {
+			status = projectTeamService.saveProjectTeamRole(teamInfo);
+		} catch (Exception e) {
+			
+		}
+		return AjaxResult.returnToResult(false, status);
+	}
+	
+	@ApiOperation("项目组关联项目")
+	@PostMapping("/teamRelatedPo")
+	public String teamRelatedPo(@RequestBody String teamId, String projectId) {
+		String status = null;
+		try {
+			projectTeamService.teamRelatedPo(teamId, projectId);
 		} catch (Exception e) {
 			
 		}

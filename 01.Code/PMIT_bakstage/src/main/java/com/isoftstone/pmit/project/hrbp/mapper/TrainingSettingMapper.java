@@ -1,0 +1,23 @@
+package com.isoftstone.pmit.project.hrbp.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import com.isoftstone.pmit.project.hrbp.entity.TrainingInfo;
+
+@Mapper
+public interface TrainingSettingMapper {
+
+	List<String> queryBu();
+
+	List<TrainingInfo> queryTrainingList(Map<String, Object> map);
+
+	void addTrainingInfo(Map<String, Object> map);
+
+	void updateTrainingInfo(Map<String, Object> map);
+
+	void deleteTrainingInfo(Integer trainingId);
+
+}

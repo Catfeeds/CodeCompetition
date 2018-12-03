@@ -87,4 +87,21 @@
 				(#{teamInfo.teamId}, #{teamInfo.teamName}, #{teamInfo.staffId}, #{teamInfo.staffName}, #{teamInfo.parentId}, #{teamInfo.level}, now(), 'out');
 		</foreach>
 	</select>
+	
+	<select id="saveProjectTeamRole" parameterType="com.isoftstone.pmit.project.hrbp.entity.TeamInfo">
+		update 
+			hrbp_projectTeam 
+		set 
+			position = #{teamInfo.position} 
+		where 
+			staff_id = #{teamInfo.staffId} and team_id = #{teamInfo.teamId};
+		
+		insert into hrbp_projectTeamRecord 
+	</select>
+	
+	<select id="teamRelatedPo" parameterType="java.util.Map">
+		insert into team_related_po values (#{teamId}, #{projectId})
+	</select>
+	
+	
 </mapper>
