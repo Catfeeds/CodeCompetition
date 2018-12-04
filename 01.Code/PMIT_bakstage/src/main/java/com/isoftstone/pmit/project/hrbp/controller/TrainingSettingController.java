@@ -66,7 +66,7 @@ public class TrainingSettingController extends AbstractController {
 		String result = null;
 		try {
 			result = trainingSettingService.saveTrainingInfo(trainingInfo);
-			if (result.equals("fail")) {
+			if (result.equals("DuplicateName")) {
 				return AjaxResult.returnToMessage(false, result);
 			}
 		} catch (Exception e) {

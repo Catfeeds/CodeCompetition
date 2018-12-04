@@ -45,7 +45,7 @@ public class TrainingSettingService implements ITrainingSettingService {
 		map.put("trainingName", param.getTrainingName());
 		Integer count = trainingSettingMapper.queryTrainingByName(map);
 		if (count > 0) {
-			return "fail";
+			return "DuplicateName";
 		}
 		
 		map.put("trainingId", param.getTrainingId());
