@@ -61,12 +61,10 @@ public class UserManageController extends AbstractController {
     @RequestMapping(value = "/findEmpInformation", method = { RequestMethod.POST })
     @ApiOperation(value="获取所有用户信息", notes="获取所有用户信息")
     public String findEmpInformation(@RequestBody String parameter){
-        EmpAndPageInfo empAndPageInfo = JsonUtils.readValue(parameter, EmpAndPageInfo.class);
-        EmpInformationResult empInformationResult = empAndPageInfo.getEmpInformationResult();
-        com.isoftstone.pmit.project.hrbp.entity.PageInfo pageInfo = empAndPageInfo.getPageInfo();
+        com.isoftstone.pmit.project.hrbp.entity.PageInfo pageInfo = JsonUtils.readValue(parameter, com.isoftstone.pmit.project.hrbp.entity.PageInfo.class);
         PageInfo resultList;
         try {
-            resultList = userManageService.findEmpInformation(pageInfo,empInformationResult);
+            resultList = userManageService.findEmpInformation(pageInfo);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToResult(false, e.getMessage());
@@ -141,7 +139,4 @@ public class UserManageController extends AbstractController {
         }
         return AjaxResult.returnToMessage(true, "更新成功");
     }
-
-
-
 }

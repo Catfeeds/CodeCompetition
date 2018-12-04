@@ -28,6 +28,7 @@ public class UserManageServiceImpl implements IUserManageService {
 
     /**
      * 获取登录信息坐标示
+     *
      * @param employeeID
      * @return
      */
@@ -38,6 +39,7 @@ public class UserManageServiceImpl implements IUserManageService {
 
     /**
      * 获取登录用户信息
+     *
      * @param employeeID
      * @return
      */
@@ -48,27 +50,26 @@ public class UserManageServiceImpl implements IUserManageService {
 
     /**
      * 获取所有登录用户信息
+     *
      * @param pageInfo
-     * @param empInformationResult
      * @return
      */
     @Override
-    public PageInfo<EmpInformationResult> findEmpInformation(com.isoftstone.pmit.project.hrbp.entity.PageInfo pageInfo,EmpInformationResult empInformationResult) {
+    public PageInfo<EmpInformationResult> findEmpInformation(com.isoftstone.pmit.project.hrbp.entity.PageInfo pageInfo) {
         PageHelper.startPage(pageInfo.getCurrPage(), pageInfo.getPageSize());
-        Map<String, Object> queryMap = new HashMap<>();
-        queryMap.put("order",pageInfo.getOrder());
-        queryMap.put("empolyeeID",empInformationResult.getEmployeeID());
-        queryMap.put("employeeName",empInformationResult.getEmployeeName());
-        queryMap.put("positionRole",empInformationResult.getPositionRole());
-        queryMap.put("pdu",empInformationResult.getPdu());
-        queryMap.put("roleName",empInformationResult.getRoleName());
-        List<EmpInformationResult> empInformationResults = userManageMapper.findEmpInformation(queryMap);
+        String sortColumn = pageInfo.getSortColumn();
+        String sortType = pageInfo.getSortType();
+        if (null != sortColumn && sortColumn!="" &&sortType!="" && null != sortType) {
+            PageHelper.orderBy(sortColumn + " " + sortType);
+        }
+        List<EmpInformationResult> empInformationResults = userManageMapper.findEmpInformations();
         PageInfo<EmpInformationResult> empInformationResultPageInfo = new PageInfo<>(empInformationResults);
         return empInformationResultPageInfo;
     }
 
     /**
      * 模糊查询用户信息
+     *
      * @param parameter
      * @return
      */

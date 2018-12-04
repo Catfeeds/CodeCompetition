@@ -3,14 +3,25 @@ package com.isoftstone.pmit.project.hrbp.entity;
 public class PageInfo {
     private int currPage;
     private int pageSize;
-    /** 排序 */
-    private String order;
-    public String getOrder() {
-        return order;
+    /** 排序列 */
+    private String sortColumn;
+    /** 排序方式 */
+    private String sortType;
+
+    public String getSortColumn() {
+        return sortColumn;
     }
 
-    public void setOrder(String order) {
-        this.order = order;
+    public void setSortColumn(String sortColumn) {
+        this.sortColumn = sortColumn;
+    }
+
+    public String getSortType() {
+        return sortType;
+    }
+
+    public void setSortType(String sortType) {
+        this.sortType = sortType;
     }
 
     public int getCurrPage() {

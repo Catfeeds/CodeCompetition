@@ -11,8 +11,6 @@ public class ExaminationDimension {
     private String dimensionName;
     /** 分数 */
     private Double mark;
-    /** 权重 */
-    private Double coefficient;
     /** 考核说明 */
     private String explanation;
 
@@ -38,14 +36,6 @@ public class ExaminationDimension {
 
     public void setMark(Double mark) {
         this.mark = mark;
-    }
-
-    public Double getCoefficient() {
-        return coefficient;
-    }
-
-    public void setCoefficient(Double coefficient) {
-        this.coefficient = coefficient;
     }
 
     public String getExplanation() {

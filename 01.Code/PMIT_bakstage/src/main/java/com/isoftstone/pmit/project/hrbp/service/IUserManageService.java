@@ -31,7 +31,7 @@ public interface IUserManageService {
      * @param
      * @return
      */
-    PageInfo<EmpInformationResult> findEmpInformation(com.isoftstone.pmit.project.hrbp.entity.PageInfo pageInfo,EmpInformationResult empInformationResult);
+    PageInfo<EmpInformationResult> findEmpInformation(com.isoftstone.pmit.project.hrbp.entity.PageInfo pageInfo);
 
     /**
      * 模糊查询用户信息

@@ -2,12 +2,12 @@ package com.isoftstone.pmit.project.hrbp.mapper;
 
 import com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult;
 import com.isoftstone.pmit.project.hrbp.entity.LoginInformation;
+import com.isoftstone.pmit.project.hrbp.entity.PageInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author lf
@@ -27,7 +27,7 @@ public interface UserManageMapper {
      * 获取全部用户信息
      * @return
      */
-    List<EmpInformationResult> findEmpInformation(Map<String, Object> queryMap);
+    List<EmpInformationResult> findEmpInformation(PageInfo pageInfo);
 
     /**
      * 根据关键字模糊查询用户信息
