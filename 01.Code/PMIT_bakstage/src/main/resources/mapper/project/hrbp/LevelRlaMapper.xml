@@ -8,7 +8,7 @@
         SELECT
         *
         FROM
-        sys_level_rla
+        ${tableName}
         WHERE
         1 = 2
         <if test="'' != nodes">
@@ -24,7 +24,7 @@
 
     <insert id="addLevelRlaNode" parameterType="java.util.Map">
         INSERT INTO
-        sys_level_rla
+        ${tableName}
         (
         nodePath,
         <if test="null != nodeName and '' != nodeName">
@@ -66,14 +66,14 @@
 
     <delete id="deleteLevelRlaNode" parameterType="java.util.Map">
         DELETE FROM
-        sys_level_rla
+        ${tableName}
         WHERE
         nodeID = #{nodeID} OR nodePath LIKE '${nodePath}%'
     </delete>
 
     <update id="updateLevelRlaNode" parameterType="java.util.Map">
         UPDATE
-        sys_level_rla
+        ${tableName}
         <set>
             <if test="null != nodeName and '' != nodeName">
                 nodeName = #{nodeName},
@@ -94,14 +94,14 @@
 
     <select id="moveLevelRlaNode" parameterType="java.util.Map">
         UPDATE
-        sys_level_rla
+        ${tableName}
         SET
         nodePath = REPLACE(nodePath,#{replaceSourcePath},#{replaceTargetPath})
         WHERE
         nodePath LIKE '${replaceSourcePath}%';
 
         UPDATE
-        sys_level_rla
+        ${tableName}
         SET
         nodePath = #{replaceParentPath}
         WHERE

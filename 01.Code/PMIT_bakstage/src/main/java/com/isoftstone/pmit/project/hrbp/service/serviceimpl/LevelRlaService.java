@@ -20,8 +20,9 @@ public class LevelRlaService implements ILevelRlaService {
     private LevelRlaMapper mapper;
 
     @Override
-    public List<LevelTreeNode> queryLevelRlaNode(List<Map<String, Object>> rootNodeList) {
+    public List<LevelTreeNode> queryLevelRlaNode(List<Map<String, Object>> rootNodeList, String tableName) {
         Map<String, Object> queryMap = buildQueryParamMap(rootNodeList);
+        queryMap.put("tableName", tableName);
         List<LevelTreeNode> levelNodes = mapper.queryLevelRlaNode(queryMap);
         List<LevelTreeNode> trees = buildTree(levelNodes, rootNodeList);
         return trees;
@@ -114,7 +115,7 @@ public class LevelRlaService implements ILevelRlaService {
 
     @Override
     @Transactional
-    public void addLevelRlaNode(Map<String, Object> queryMap) {
+    public void addLevelRlaNode(Map<String, Object> queryMap, String tableName) {
         Integer parentNodeID = (Integer) queryMap.get("parentNodeID");
         String parentNodePath = (String) queryMap.get("parentNodePath");
         String nodePath = TreeUtil.getParentPath(parentNodePath, parentNodeID);
@@ -122,6 +123,7 @@ public class LevelRlaService implements ILevelRlaService {
         mapper.addLevelRlaNode(queryMap);
 
         queryMap = new HashMap<String, Object>();
+        queryMap.put("tableName", tableName);
         queryMap.put("nodeID", parentNodeID);
         queryMap.put("isLeafNode", false);
         queryMap.put("isRelationNode", false);
@@ -129,27 +131,31 @@ public class LevelRlaService implements ILevelRlaService {
     }
 
     @Override
-    public void deleteLevelRlaNode(String nodePath, Integer nodeID) {
+    public void deleteLevelRlaNode(String nodePath, Integer nodeID, String tableName) {
         Map<String, Object> deleteParamMap = new HashMap<String, Object>();
+        deleteParamMap.put("tableName", tableName);
         deleteParamMap.put("nodeID", nodeID);
         deleteParamMap.put("nodePath", TreeUtil.getParentPath(nodePath, nodeID));
         mapper.deleteLevelRlaNode(deleteParamMap);
     }
 
     @Override
-    public void updateLevelRlaNode(Map<String, Object> queryMap) {
+    public void updateLevelRlaNode(Map<String, Object> queryMap, String tableName) {
+        queryMap.put("tableName", tableName);
         mapper.updateLevelRlaNode(queryMap);
     }
 
     @Override
     @Transactional
-    public void moveLevelRlaNode(Map<String, Object> paramMap) {
+    public void moveLevelRlaNode(Map<String, Object> paramMap, String tableName) {
         Integer targetNodeID = (Integer) paramMap.get("targetNodeID");
         String targetNodePath = (String) paramMap.get("targetNodePath");
         Integer moveNodeID = (Integer) paramMap.get("moveNodeID");
         String moveNodePath = (String) paramMap.get("moveNodePath");
 
         Map<String, Object> queryMap = new HashMap<String, Object>();
+        queryMap.put("tableName", tableName);
+
         queryMap.put("moveNodeID", moveNodeID);
         String replaceSourcePath = TreeUtil.getParentPath(moveNodePath, moveNodeID);
         queryMap.put("replaceSourcePath", replaceSourcePath);

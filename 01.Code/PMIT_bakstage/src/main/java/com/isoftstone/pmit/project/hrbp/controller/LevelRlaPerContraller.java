@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.*;
 
 @RestController
-@RequestMapping("/hrbp/levelRelationship")
+@RequestMapping("/hrbp/levelPersonRelationship")
 @Api(value = "层级关系设置", tags = {"层级关系设置"})
-public class LevelRlaContraller {
+public class LevelRlaPerContraller {
     @Autowired
     private ILevelRlaService service;
 
@@ -57,24 +57,25 @@ public class LevelRlaContraller {
 
     /**
      * 通过登录用户信息查询层级树结构
+     *
      * @param params
      * @return 层级树结构，可能有多棵
      */
     @ApiOperation(value = "层级关系查询BY用户", notes = "层级关系查询BY用户")
     @PostMapping(value = "/queryLevelRlaNodeByUser")
-    public String queryLevelRlaNodeByUser(@RequestBody Map<String,Object> params) {
+    public String queryLevelRlaNodeByUser(@RequestBody Map<String, Object> params) {
         // TODO: 2018/11/27  通过下发参数获取员工对应层级关系树中的节点权限nodeList
 
         List<Map<String, Object>> nodeList = new ArrayList<Map<String, Object>>();
 
         //------------------测试代码------------------
         String user = String.valueOf(params.get("loginUser"));
-        nodeList= testMap.get(user);
+        nodeList = testMap.get(user);
         //------------------测试代码------------------
 
         List<LevelTreeNode> treeList = null;
         try {
-            treeList = service.queryLevelRlaNode(nodeList);
+            treeList = service.queryLevelRlaNode(nodeList, "sys_level_rla_per");
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
@@ -84,15 +85,16 @@ public class LevelRlaContraller {
 
     /**
      * 通过下发的节点ID，节点路径查询层级树结构
+     *
      * @param nodeList
      * @return 层级树结构，可能有多棵
      */
     @ApiOperation(value = "层级关系查询BY节点", notes = "层级关系查询BY节点")
     @PostMapping(value = "/queryLevelRlaNodeByNode")
-    public String queryLevelRlaNodeByNode(@JsonParam(value = "nodeList") List<Map<String,Object>> nodeList) {
+    public String queryLevelRlaNodeByNode(@JsonParam(value = "nodeList") List<Map<String, Object>> nodeList) {
         List<LevelTreeNode> treeList;
         try {
-            treeList = service.queryLevelRlaNode(nodeList);
+            treeList = service.queryLevelRlaNode(nodeList, "sys_level_rla_per");
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
@@ -102,14 +104,15 @@ public class LevelRlaContraller {
 
     /**
      * 添加节点，只能添加叶子节点，节点信息选填
+     *
      * @param params
      * @return
      */
     @ApiOperation(value = "层级关系节点添加", notes = "层级关系节点添加")
     @PostMapping(value = "/addLevelRlaNode")
-    public String addLevelRlaNode(@RequestBody Map<String,Object> params) {
+    public String addLevelRlaNode(@RequestBody Map<String, Object> params) {
         try {
-            service.addLevelRlaNode(params);
+            service.addLevelRlaNode(params, "sys_level_rla_per");
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
@@ -119,17 +122,18 @@ public class LevelRlaContraller {
 
     /**
      * 节点删除，同时删除节点的所有子节点，需要前台提示
+     *
      * @param params
      * @return
      */
     @ApiOperation(value = "层级关系节点更新", notes = "层级关系节点删除")
     @PostMapping(value = "/deleteLevelRlaNode")
-    public String deleteLevelRlaNode(@RequestBody Map<String,Object> params) {
+    public String deleteLevelRlaNode(@RequestBody Map<String, Object> params) {
         String nodePath = (String) params.get("nodePath");
         Integer nodeID = (Integer) params.get("nodeID");
 
         try {
-            service.deleteLevelRlaNode(nodePath, nodeID);
+            service.deleteLevelRlaNode(nodePath, nodeID, "sys_level_rla_per");
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
@@ -139,15 +143,16 @@ public class LevelRlaContraller {
 
     /**
      * 节点信息更新，支持更新部分内容
+     *
      * @param params
      * @return
      */
     @ApiOperation(value = "层级关系节点更新", notes = "层级关系节点更新")
     @PostMapping(value = "/updateLevelRlaNode")
-    public String updateLevelRlaNode(@RequestBody Map<String,Object> params) {
+    public String updateLevelRlaNode(@RequestBody Map<String, Object> params) {
 
         try {
-            service.updateLevelRlaNode(params);
+            service.updateLevelRlaNode(params, "sys_level_rla_per");
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
@@ -156,15 +161,14 @@ public class LevelRlaContraller {
     }
 
     /**
-     *
-     * @param parameter
+     * @param params
      * @return
      */
     @ApiOperation(value = "层级关系节点移动", notes = "层级关系节点移动")
     @PostMapping(value = "/moveLevelRlaNode")
-    public String moveLevelRlaNode(@RequestBody Map<String,Object> params) {
+    public String moveLevelRlaNode(@RequestBody Map<String, Object> params) {
         try {
-            service.moveLevelRlaNode(params);
+            service.moveLevelRlaNode(params, "sys_level_rla_per");
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
