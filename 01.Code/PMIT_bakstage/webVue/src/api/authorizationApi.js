@@ -33,11 +33,11 @@ function editRoleInfo(roleInfo) {
     data: roleInfo
   });
 }
-function getLoginUserList(pageNum, pageSize) {
+function getLoginUserList(pageInfo) {
   return request({
     url: "hrbp/user/findEmpInformation",
     method: "post",
-    data: { pageNum, pageSize }
+    data: pageInfo
   });
 }
 function getLoginUserById(employeeID) {

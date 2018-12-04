@@ -1,63 +1,68 @@
 <template>
-  <div class="app-container">
-    <el-form :inline="true" :model="searchForm" size="mini">
-      <el-row>
-        <el-col :span="4">
-          <el-form-item label="所属体系">
-            <el-select v-model="searchForm.system" clearable placeholder="请选择">
-              <el-option
-                v-for="item in systemOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="4">
-          <el-form-item label="课程类型">
-            <el-select v-model="searchForm.courseType" clearable size="mini" placeholder="请选择">
-              <el-option
-                v-for="item in courseTypeOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="4">
-          <el-form-item label="所属产品线">
-            <el-select v-model="searchForm.product" clearable size="mini" placeholder="请选择">
-              <el-option
-                v-for="item in productOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item label="培训名称">
-            <el-input v-model="searchForm.trainName" size="mini" placeholder="请输入"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="4">
-          <el-form-item label="所属系列">
-            <el-input v-model="searchForm.series" size="mini" placeholder="请输入"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="3">
-          <el-form-item>
-            <el-button type="primary" size="mini" @click="query">查询</el-button>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
-    <el-row type="flex" justify="end">
-      <el-button type="primary" size="mini" @click="addTraining">新增</el-button>
-    </el-row>
+  <div class="app-container affairs-container">
+    <div class="filter-container">
+      <el-select
+        size="mini"
+        v-model="searchForm.system"
+        clearable
+        class="filter-item"
+        style="width: 130px"
+        placeholder="所属体系"
+      >
+        <el-option
+          v-for="item in systemOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        ></el-option>
+      </el-select>
+      <el-select
+        v-model="searchForm.product"
+        clearable
+        size="mini"
+        class="filter-item"
+        style="width: 130px"
+        placeholder="所属产品线"
+      >
+        <el-option
+          v-for="item in productOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        ></el-option>
+      </el-select>
+      <el-input
+        v-model="searchForm.affairsName"
+        size="mini"
+        clearable
+        class="filter-item"
+        style="width: 130px"
+        placeholder="事务名称"
+      ></el-input>
+      <el-input
+        v-model="searchForm.series"
+        size="mini"
+        clearable
+        class="filter-item"
+        style="width: 130px"
+        placeholder="所属系列"
+      ></el-input>
+      <el-button
+        class="filter-item"
+        type="primary"
+        size="mini"
+        icon="el-icon-search"
+        @click="handleFilter"
+      >{{ $t('table.search') }}</el-button>
+      <el-button
+        class="filter-item"
+        style="margin-left: 10px;"
+        type="primary"
+        size="mini"
+        icon="el-icon-plus"
+        @click="handleCreate"
+      >{{ $t('table.add') }}</el-button>
+    </div>
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -65,73 +70,49 @@
       fit
       size="mini"
       stripe
+      max-height="420"
       highlight-current-row
-      style="width: 100%;margin-top:15px"
+      style="width: 100%;"
     >
       <el-table-column
         header-align="center"
         align="center"
         :label="$t('table.id')"
         width="80"
-        sortable="true"
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column min-width="150px" header-align="center" label="培训名称" sortable>
-        <template slot-scope="scope">
-          <span>{{ scope.row.trainingName }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column min-width="150px" header-align="center" label="所属系列" sortable>
-        <template slot-scope="scope">
-          <span>{{ scope.row.series }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column min-width="150px" header-align="center" label="所属体系" sortable>
-        <template slot-scope="scope">
-          <span>{{ scope.row.sort }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="课程类型" header-align="center" min-width="110" sortable>
-        <template slot-scope="scope">
-          <span>{{scope.row.type}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column width="100px" label="所属产品线" header-align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.bu }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="创建人" header-align="center" width="110" sortable>
-        <template slot-scope="scope">
-          <span>{{scope.row.creatorName}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="创建时间" header-align="center" min-width="140" sortable>
-        <template slot-scope="scope">
-          <span>{{scope.row.createTime | formatDate}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="最后更新人" header-align="center" min-width="110" sortable>
-        <template slot-scope="scope">
-          <span>{{scope.row.updateName}}</span>
-        </template>
-      </el-table-column>
+        prop="id"
+      ></el-table-column>
+      <el-table-column min-width="150px" header-align="center" label="所属体系" sortable prop="system"></el-table-column>
       <el-table-column
-        align="center"
-        fixed="right"
-        :label="$t('table.option')"
-        width="280"
+        min-width="150px"
         header-align="center"
+        label="事务名称"
+        sortable
+        prop="affairName"
+      ></el-table-column>
+
+      <el-table-column min-width="150px" header-align="center" label="所属系列" sortable prop="series"></el-table-column>
+      <el-table-column width="120px" header-align="center" label="所属产品线" sortable prop="du"></el-table-column>
+      <el-table-column width="110" header-align="center" label="创建人" sortable prop="createBy"></el-table-column>
+      <el-table-column min-width="110" header-align="center" label="最后更新人" sortable prop="updateBy"></el-table-column>
+      <el-table-column
+        min-width="140"
+        header-align="center"
+        label="最后更新时间"
+        sortable
+        prop="updateTime"
       >
         <template slot-scope="scope">
+          <span>{{scope.row.updateTime | formatDate}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" :label="$t('table.option')" width="360" header-align="center">
+        <template slot-scope="scope">
+          <el-button
+            type="primary"
+            size="mini"
+            icon="el-icon-setting"
+            @click="handleSet(scope.row)"
+          >设置</el-button>
           <el-button
             type="primary"
             size="mini"
@@ -142,135 +123,176 @@
             type="primary"
             size="mini"
             icon="el-icon-delete"
-            @click="handleDel(scope.row.trainingId)"
+            @click="handleDel(scope.row.affairID)"
           >删除</el-button>
           <el-button
             type="primary"
             size="mini"
             icon="el-icon-search"
-            @click="handleDetail(scope.row)"
+            @click="handleView(scope.row)"
           >查看</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="45%">
-      <el-form :model="trainForm" size="mini" label-width="120px" ref="trainForm" :rules="rules">
-        <el-row>
-          <el-col v-if="!isAdd||isDetail">
-            <el-form-item label="培训编号" prop="trainId">
-              <el-input v-model="trainForm.trainId" autocomplete="off" disabled></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col>
-            <el-form-item label="培训名称" prop="trainName">
-              <el-input v-model="trainForm.trainName" autocomplete="off" required maxlength="64" :disabled="isDetail"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="所属系列" prop="series">
-              <el-input v-if="isDetail" v-model="trainForm.series" autocomplete="off" required maxlength="64" disabled></el-input>
-              <el-select v-else
-                v-model="trainForm.series"
-                filterable
-                allow-create
-                default-first-option
-                placeholder="请选择"
-              >
-                <el-option
-                  v-for="item in seriesOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="所属体系" prop="system">
-              <el-input v-if="isDetail" v-model="trainForm.system" autocomplete="off" required maxlength="64" disabled></el-input>
-              <el-select v-else
-                v-model="trainForm.system"
-                filterable
-                allow-create
-                default-first-option
-                placeholder="请选择"
-              >
-                <el-option
-                  v-for="item in systemOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="课程类型" prop="courseType">
-              <el-input v-if="isDetail" v-model="trainForm.courseType" autocomplete="off" required maxlength="64" disabled></el-input>
-              <el-select v-model="trainForm.courseType" placeholder="请选择" v-else>
-                <el-option
-                  v-for="item in courseTypeOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="培训类型" prop="trainType">
-              <el-input v-if="isDetail" v-model="trainForm.trainType" autocomplete="off" required maxlength="64" disabled></el-input>
-              <el-select v-model="trainForm.trainType" placeholder="请选择" v-else>
-                <el-option
-                  v-for="item in trainTypeOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="培训时长(小时)" prop="trainTime">
-              <el-input v-model="trainForm.trainTime" autocomplete="off" :disabled="isDetail" maxlength="4"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="所属产品线" prop="product">
-              <el-input v-if="isDetail" v-model="trainForm.product" autocomplete="off" required maxlength="64" disabled></el-input>
-              <el-select v-model="trainForm.product" placeholder="请选择" v-else>
-                <el-option
-                  v-for="item in productOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-form-item label="培训简介" prop="description">
+    <el-row type="flex" justify="end">
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :current-page="page.currentPage"
+        :page-size="page.pageSize"
+        layout="total, slot, prev, pager, next"
+        :total="page.totalRecord"
+        prev-text="上一页"
+        next-text="下一页"
+      ></el-pagination>
+    </el-row>
+    <el-dialog :title="dialogBaseTitle" :visible.sync="dialogBaseVisible" width="30%">
+      <el-form
+        :model="affairsForm"
+        size="mini"
+        label-width="120px"
+        ref="affairsForm"
+        :rules="rules"
+      >
+        <el-form-item label="事务编号" prop="affairsId" v-if="isEdit">
+          <el-input v-model="affairsForm.affairsId" autocomplete="off" disabled></el-input>
+        </el-form-item>
+        <el-form-item label="事务名称" prop="affairsName">
+          <el-input v-model="affairsForm.affairsName" autocomplete="off" required maxlength="64"></el-input>
+        </el-form-item>
+        <el-form-item label="所属系列" prop="series">
+          <el-select
+            v-model="affairsForm.series"
+            filterable
+            allow-create
+            default-first-option
+            placeholder="请选择"
+          >
+            <el-option
+              v-for="item in seriesOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="所属体系" prop="system">
+          <el-select
+            v-model="affairsForm.system"
+            filterable
+            allow-create
+            default-first-option
+            placeholder="请选择"
+          >
+            <el-option
+              v-for="item in systemOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="所属产品线" prop="product">
+          <el-select v-model="affairsForm.product" placeholder="请选择">
+            <el-option
+              v-for="item in productOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogBaseVisible = false" size="mini">取 消</el-button>
+        <el-button type="primary" @click="submtForm()" size="mini">确 定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog :title="dialogSetTitle" :visible="dialogSetVisible" width="50%" @close="dialogSetVisible = false">
+      <el-row>
+        <el-button v-if="!isView"
+          type="primary"
+          size="mini"
+          icon="el-icon-search"
+          @click="handleDelDimension"
+        >{{ $t('table.delete') }}</el-button>
+        <el-button v-if="!isView"
+          style="margin-left: 10px;"
+          type="primary"
+          size="mini"
+          icon="el-icon-plus"
+          @click="handleAddDimension"
+        >{{ $t('table.add') }}</el-button>
+        <span style="float:right;line-height:28px">说明：合计的总分=各考核维度的分数*系数之和</span>
+      </el-row>
+      <el-table
+        ref="multipleTable"
+        @selection-change="handleSelectionChange"
+        :data="dimensionList"
+        border
+        fit
+        size="mini"
+        stripe
+        tooltip-effect="dark"
+        highlight-current-row
+        style="width: 100%; margin:10px 0px"
+      >
+        <el-table-column type="selection" width="55" v-if="!isView"></el-table-column>
+        <el-table-column
+          header-align="center"
+          align="center"
+          :label="$t('table.id')"
+          width="80"
+          prop="id"
+        ></el-table-column>
+        <el-table-column prop="dimension" header-align="center" label="考核维度" width="150"></el-table-column>
+        <el-table-column prop="score" header-align="center" label="分数" width="100"></el-table-column>
+        <el-table-column prop="coefficient" header-align="center" label="系数" width="50"></el-table-column>
+        <el-table-column
+          prop="description"
+          header-align="center"
+          label="考核点说明"
+          show-overflow-tooltip
+        ></el-table-column>
+      </el-table>
+      <el-row type="flex" justify="home">
+        <template>
+          <span>合计</span>
+          <span style="margin-left:20px;">{{totalScore}}</span>
+        </template>
+      </el-row>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="handleSave()" size="mini">保 存</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog :title="dialogDimensionTitle" :visible.sync="dialogDimensionVisible" width="30%">
+      <el-form
+        :model="dimensionForm"
+        size="mini"
+        label-width="120px"
+        ref="dimensionForm"
+        :rules="rules"
+      >
+        <el-form-item label="考核维度" prop="dimension">
+          <el-input v-model="dimensionForm.dimension" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="分数" prop="score">
+          <el-input v-model="dimensionForm.score" autocomplete="off" required maxlength="3"></el-input>
+        </el-form-item>
+        <el-form-item label="系数" prop="coefficient">
+          <el-input v-model="dimensionForm.coefficient" autocomplete="off" required maxlength="3"></el-input>
+        </el-form-item>
+        <el-form-item label="考核点说明" prop="description">
           <el-input
-            :disabled="isDetail"
             type="textarea"
-            v-model="trainForm.description"
+            v-model="dimensionForm.description"
             :autosize="{ minRows: 2, maxRows: 4}"
             resize="none"
           ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false" size="mini" v-if="!isDetail">取 消</el-button>
-        <el-button @click="dialogVisible = false" size="mini" v-if="isDetail">关闭</el-button>
-        <el-button type="primary" @click="submtForm('trainForm')" size="mini" v-if="!isDetail">确 定</el-button>
+        <el-button @click="dialogBaseVisible = false" size="mini">取 消</el-button>
+        <el-button type="primary" @click="submtForm()" size="mini">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -287,15 +309,6 @@ export default {
     }
   },
   data() {
-    let validaNumer = (rule, value, callback) => {
-      if (!value) {
-        return callback(new Error("请输入培训时长"));
-      }
-      if (isNaN(value)) {
-        return callback(new Error("只能输入整数和小数"));
-      }
-      return callback();
-    };
     return {
       systemOptions: [],
       courseTypeOptions: [
@@ -310,53 +323,50 @@ export default {
       seriesOptions: [],
       searchForm: {
         system: "",
-        courseType: "",
         product: "",
-        trainName: "",
+        affairsName: "",
         series: ""
       },
-      trainForm: {
-        trainId: "",
-        trainName: "",
-        description: "",
+      affairsForm: {
+        affairsId: "",
+        affairsName: "",
         series: "",
         system: "",
-        courseType: "",
-        trainType: "",
-        trainTime: "",
         product: ""
       },
+      dimensionForm: {
+        dimension: "",
+        score: "",
+        coefficient: "",
+        description: ""
+      },
       list: null,
+      initList: [],
       listLoading: false,
+      dimensionList: [],
       page: {
         pageNum: 1,
-        pageSize: 100
+        pageSize: 10,
+        totalRecord: 0
       },
-      dialogTitle: "添加培训信息",
-      dialogVisible: false,
-      isAdd: true,
-      isDetail: false,
+      dialogBaseTitle: "添加考核事务信息",
+      dialogBaseVisible: false,
+      dialogSetTitle: "考核事务维度设置",
+      dialogSetVisible: false,
+      dialogDimensionTitle: "添加考试事务维度",
+      dialogDimensionVisible: false,
+      isEdit: false,
+      isView: false,
+      totalScore: 0,
       rules: {
-        trainName: [
+        affairsName: [
           { required: true, message: "请输入培训名称", trigger: "blur" }
-        ],
-        description: [
-          { required: true, message: "请输入培训简介", trigger: "blur" }
         ],
         series: [
           { required: true, message: "请选择/输入所属系列", trigger: "change" }
         ],
         system: [
           { required: true, message: "请选择/输入所属体系", trigger: "change" }
-        ],
-        courseType: [
-          { required: true, message: "请选择课程类型", trigger: "change" }
-        ],
-        trainType: [
-          { required: true, message: "请选择培训类型", trigger: "change" }
-        ],
-        trainTime: [
-          { trigger: "blur", validator: validaNumer, required: true }
         ],
         product: [
           { required: true, message: "请选择产品线", trigger: "change" }
@@ -368,94 +378,9 @@ export default {
     this.getProductInfo();
     this.getSeries();
     this.getSystem();
-    this.getTrainingList();
+    this.getAffairsList();
   },
   methods: {
-    query() {
-      this.getTrainingList();
-    },
-    getTrainingList() {
-      let vm = this;
-      let condition = {
-        bu: vm.searchForm.product,
-        series: vm.searchForm.series,
-        sort: vm.searchForm.system,
-        trainingName: vm.searchForm.trainName,
-        classType: vm.searchForm.courseType
-      };
-      vm.listLoading = true;
-      vm.$store
-        .dispatch("getTrainingList", condition)
-        .then(data => {
-          if (data) {
-            vm.list = data.map((item, index) => {
-              item.id = index + 1;
-              return item;
-            });
-          } else {
-            vm.list = [];
-          }
-          vm.listLoading = false;
-        })
-        .catch(() => {
-          vm.list = [];
-          vm.listLoading = false;
-        });
-    },
-    addTraining() {
-      this.trainForm.trainId = "";
-      this.trainForm.trainName = "";
-      this.trainForm.description = "";
-      this.trainForm.series = "";
-      this.trainForm.system = "";
-      this.trainForm.courseType = "";
-      this.trainForm.trainType = "";
-      this.trainForm.trainTime = "";
-      this.trainForm.product = "";
-      this.dialogTitle = "添加培训信息";
-      this.dialogVisible = true;
-      this.isAdd = true;
-      this.clearValidate();
-      this.getProductInfo();
-      this.getSeries();
-      this.getSystem();
-    },
-    submtForm() {
-      let vm = this;
-      vm.$refs.trainForm.validate(valid => {
-        if (valid) {
-          let formData = {
-            bu: vm.trainForm.product,
-            series: vm.trainForm.series,
-            sort: vm.trainForm.system,
-            trainingName: vm.trainForm.trainName,
-            trainingDesc: vm.trainForm.description,
-            trainingDuration: vm.trainForm.trainTime,
-            type: vm.trainForm.trainType
-          };
-          if (vm.isAdd) {
-            formData.creatorId = Cookies.get("loginName");
-          } else {
-            formData.trainingId = vm.trainForm.trainId;
-            formData.updaterId = Cookies.get("loginName");
-          }
-          vm.$store.dispatch("saveTrainingInfo", formData).then(res => {
-            if (res) {
-              vm.$message.success("提交成功");
-              vm.dialogVisible = false;
-              vm.getTrainingList();
-            }
-          });
-        } else {
-          return false;
-        }
-      });
-    },
-    clearValidate() {
-      if (this.$refs.trainForm) {
-        this.$refs.trainForm.clearValidate();
-      }
-    },
     getProductInfo() {
       let vm = this;
       vm.$store.dispatch("getProductInfo").then(() => {
@@ -497,6 +422,97 @@ export default {
         }
       });
     },
+    getAffairsList() {
+      let vm = this;
+      let condition = {
+        du: vm.searchForm.product,
+        series: vm.searchForm.series,
+        system: vm.searchForm.system,
+        affairName: vm.searchForm.affairsName
+      };
+      vm.listLoading = true;
+      vm.$store
+        .dispatch("getAffairsList", condition)
+        .then(data => {
+          if (data) {
+            vm.initList = data.map((item, index) => {
+              item.id = index + 1;
+              return item;
+            });
+            vm.list = vm.initList.slice(0, vm.page.pageSize);
+            vm.page.totalRecord = data.length;
+          } else {
+            vm.list = [];
+            vm.page.totalRecord = 0;
+          }
+          vm.listLoading = false;
+        })
+        .catch(() => {
+          vm.list = [];
+          vm.listLoading = false;
+        });
+    },
+    submtForm() {
+      let vm = this;
+      vm.$refs.affairsForm.validate(valid => {
+        if (valid) {
+          let formData = {
+            du: vm.affairsForm.product,
+            series: vm.affairsForm.series,
+            system: vm.affairsForm.system,
+            affairName: vm.affairsForm.affairsName,
+            employeeID: Cookies.get("loginName")
+          };
+          let methodName = "addAffairsInfo";
+          if (vm.isEdit) {
+            formData.affairID = vm.affairsForm.affairsId;
+            methodName = "editAffairsInfo";
+          }
+          vm.$store.dispatch(methodName, formData).then(res => {
+            if (res.success) {
+              vm.$message.success(res.message);
+              vm.dialogBaseVisible = false;
+              vm.getAffairsList();
+            } else {
+              vm.$message.error(res.message);
+            }
+          });
+        } else {
+          return false;
+        }
+      });
+    },
+    clearValidate(formName) {
+      if (this.$refs[formName]) {
+        this.$refs[formName].clearValidate();
+      }
+    },
+    handleCurrentChange(val) {
+      let vm = this;
+      vm.page.currentPage = val;
+      vm.list = vm.initList.slice(
+        (val - 1) * vm.page.pageSize,
+        val * vm.page.pageSize
+      );
+    },
+    handleFilter() {
+      this.page.currentPage = 1;
+      this.getAffairsList();
+    },
+    handleCreate() {
+      this.isEdit = false;
+      this.affairsForm.affairsId = "";
+      this.affairsForm.affairsName = "";
+      this.affairsForm.series = "";
+      this.affairsForm.system = "";
+      this.affairsForm.product = "";
+      this.dialogBaseTitle = "添加考核事务信息";
+      this.dialogBaseVisible = true;
+      this.clearValidate("affairsForm");
+      this.getProductInfo();
+      this.getSeries();
+      this.getSystem();
+    },
     handleDel(id) {
       let vm = this;
       vm.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
@@ -504,50 +520,61 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        vm.$store.dispatch("delTraining", id).then(res => {
-          if (res === "success") {
-            vm.$message.success("操作成功");
-            vm.getTrainingList();
+        vm.$store.dispatch("delAffairsInfo", id).then(res => {
+          if (res.success) {
+            vm.$message.success(res.message);
+            vm.getAffairsList();
           } else {
-            vm.$message.error("操作失败");
+            vm.$message.error(res.message);
           }
         });
       });
     },
     handleEdit(rowData) {
+      this.isEdit = true;
       this.getProductInfo();
       this.getSeries();
       this.getSystem();
-      this.trainForm.trainId = rowData.trainingId;
-      this.trainForm.trainName = rowData.trainingName;
-      this.trainForm.description = rowData.trainingDesc;
-      this.trainForm.series = rowData.series;
-      this.trainForm.system = rowData.sort;
-      // this.trainForm.courseType = rowData.type;
-      this.trainForm.trainType = rowData.type;
-      this.trainForm.trainTime = rowData.trainingDuration;
-      this.trainForm.product = rowData.bu;
-      this.dialogTitle = "修改培训信息";
-      this.dialogVisible = true;
-      this.clearValidate();
+      this.affairsForm.affairsId = rowData.affairID;
+      this.affairsForm.affairsName = rowData.affairName;
+      this.affairsForm.series = rowData.series;
+      this.affairsForm.system = rowData.system;
+      this.affairsForm.product = rowData.du;
+      this.dialogBaseTitle = "修改考核事务信息";
+      this.dialogBaseVisible = true;
+      this.clearValidate("affairsForm");
     },
-    handleDetail(rowData) {
-      this.trainForm.trainId = rowData.trainingId;
-      this.trainForm.trainName = rowData.trainingName;
-      this.trainForm.description = rowData.trainingDesc;
-      this.trainForm.series = rowData.series;
-      this.trainForm.system = rowData.sort;
-      // this.trainForm.courseType = rowData.type;
-      this.trainForm.trainType = rowData.type;
-      this.trainForm.trainTime = rowData.trainingDuration;
-      this.trainForm.product = rowData.bu;
-      this.dialogTitle = "查看培训信息";
-      this.dialogVisible = true;
-      this.isDetail = true;
-      this.clearValidate();
+    handleView(rowData) {
+      let vm = this;
+      vm.dialogSetTitle = "查看考核事务维度";
+      vm.dialogSetVisible = true;
+      vm.isView = true;
+    },
+    handleSet() {
+      let vm = this;
+      vm.dialogSetTitle = "考核事务维度设置";
+      vm.dialogSetVisible = true;
+      vm.isView = false;
+    },
+    handleSave() {},
+    handleSelectionChange() {},
+    handleDelDimension() {},
+    handleAddDimension() {
+      let vm = this;
+      vm.dialogDimensionVisible = true;
+      vm.dimensionForm.dimension = "";
+      vm.dimensionForm.score = "";
+      vm.dimensionForm.coefficient = "";
+      vm.dimensionForm.description = "";
+      vm.clearValidate("dimensionForm");
     }
   }
 };
 </script>
 <style rel="stylesheet/scss" lang="scss">
+.affairs-container {
+  .el-select {
+    width: 249px;
+  }
+}
 </style>

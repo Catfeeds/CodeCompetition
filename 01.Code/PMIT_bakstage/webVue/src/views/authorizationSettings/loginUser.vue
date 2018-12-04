@@ -11,42 +11,55 @@
         fit
         size="mini"
         stripe
-        height="400px"
+        max-height="400"
         highlight-current-row
         style="width: 100%;margin:15px 0px;"
+        @sort-change="handleSort"
       >
-        <el-table-column header-align="center" align="center" :label="$t('table.id')" width="80">
-          <template slot-scope="scope">
-            <span>{{ scope.row.id }}</span>
-          </template>
-        </el-table-column>
+        <el-table-column
+          header-align="center"
+          align="center"
+          :label="$t('table.id')"
+          width="80"
+          prop="id"
+        ></el-table-column>
 
-        <el-table-column min-width="150px" header-align="center" label="姓名" sortable>
-          <template slot-scope="scope">
-            <span>{{ scope.row.employeeName }}</span>
-          </template>
-        </el-table-column>
+        <el-table-column
+          min-width="150px"
+          header-align="center"
+          label="姓名"
+          sortable="custom"
+          prop="employeeName"
+        ></el-table-column>
 
-        <el-table-column min-width="150px" header-align="center" label="工号" sortable>
-          <template slot-scope="scope">
-            <span>{{ scope.row.employeeID }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column min-width="200px" header-align="center" label="部门" sortable>
-          <template slot-scope="scope">
-            <span>{{ scope.row.pdu }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column min-width="100px" header-align="center" label="岗位" sortable>
-          <template slot-scope="scope">
-            <span>{{ scope.row.positionRole }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column min-width="150px" header-align="center" label="系统角色" sortable>
-          <template slot-scope="scope">
-            <span>{{ scope.row.roleName }}</span>
-          </template>
-        </el-table-column>
+        <el-table-column
+          min-width="150px"
+          header-align="center"
+          label="工号"
+          sortable="custom"
+          prop="employeeID"
+        ></el-table-column>
+        <el-table-column
+          min-width="200px"
+          header-align="center"
+          label="部门"
+          sortable="custom"
+          prop="pdu"
+        ></el-table-column>
+        <el-table-column
+          min-width="100px"
+          header-align="center"
+          label="岗位"
+          sortable="custom"
+          prop="positionRole"
+        ></el-table-column>
+        <el-table-column
+          min-width="150px"
+          header-align="center"
+          label="系统角色"
+          sortable="custom"
+          prop="roleName"
+        ></el-table-column>
         <el-table-column
           align="center"
           width="200"
@@ -75,8 +88,10 @@
         @current-change="handleCurrentChange"
         :current-page="page.currentPage"
         :page-size="page.pageSize"
-        layout="total, slot, prev, pager, next, jumper"
-        :total="page.totalPage"
+        layout="total, slot, prev, pager, next"
+        :total="page.totalRecord"
+        prev-text="上一页"
+        next-text="下一页"
       ></el-pagination>
     </el-row>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="30%">
@@ -176,8 +191,10 @@ export default {
       },
       page: {
         currentPage: 1,
-        totalPage: 0,
-        pageSize: 10
+        totalRecord: 0,
+        pageSize: 10,
+        sortColumn: "employeeName",
+        sortType: "asc"
       }
     };
   },
@@ -197,15 +214,21 @@ export default {
     getLogiUserList() {
       let vm = this;
       vm.loading = true;
+      let pageInfo = {
+        currPage: vm.page.currentPage,
+        pageSize: vm.page.pageSize,
+        sortColumn: vm.page.sortColumn,
+        sortType: vm.page.sortType
+      };
       vm.$store
-        .dispatch("getLoginUserList", vm.page)
+        .dispatch("getLoginUserList", pageInfo)
         .then(data => {
           if (data.success) {
             vm.tableData = data.data.list.map((item, index) => {
               item.id = index + 1;
               return item;
             });
-            vm.page.totalPage = data.data.total;
+            vm.page.totalRecord = data.data.total;
           }
           vm.loading = false;
         })
@@ -217,6 +240,13 @@ export default {
     handleCurrentChange(val) {
       this.page.currentPage = val;
       this.getLogiUserList();
+    },
+    handleSort(column) {
+      if (column.prop) {
+        this.page.sortColumn = column.prop;
+        this.page.sortType = column.order === "descending" ? "desc" : "asc";
+        this.getLogiUserList();
+      }
     },
     handleDel(id) {
       let vm = this;
@@ -284,12 +314,12 @@ export default {
             };
           }
           vm.$store.dispatch(requestName, formData).then(res => {
-            if (!res.code) {
-              vm.$message.success(res.msg);
+            if (res.success) {
+              vm.$message.success(res.message);
               vm.dialogVisible = false;
               vm.getLogiUserList();
             } else {
-              vm.$message.error(res.msg);
+              vm.$message.error(res.message);
             }
           });
         } else {

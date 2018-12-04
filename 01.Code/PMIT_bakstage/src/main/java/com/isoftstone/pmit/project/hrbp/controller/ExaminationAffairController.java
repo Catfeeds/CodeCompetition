@@ -48,7 +48,7 @@ public class ExaminationAffairController extends AbstractController {
             logger.info("====deleteAffair error=============" + e);
             return AjaxResult.returnToMessage(false, "删除失败");
         }
-        return AjaxResult.returnToMessage(false, "删除成功");
+        return AjaxResult.returnToMessage(true, "删除成功");
     }
 
     @RequestMapping(value = "/findExamAffairByAffairId", method = { RequestMethod.POST })
@@ -78,7 +78,7 @@ public class ExaminationAffairController extends AbstractController {
             logger.info("====updateAffair error=============" + e);
             return AjaxResult.returnToMessage(false, "修改失败");
         }
-        return AjaxResult.returnToMessage(false, "修改成功");
+        return AjaxResult.returnToMessage(true, "修改成功");
     }
 
     @ApiOperation(value = "添加考核事务", notes = "添加考核事务")
@@ -92,7 +92,7 @@ public class ExaminationAffairController extends AbstractController {
             logger.info("====insertAffair error=============" + e);
             return AjaxResult.returnToMessage(false, "添加失败");
         }
-        return AjaxResult.returnToMessage(false, "添加成功");
+        return AjaxResult.returnToMessage(true, "添加成功");
     }
 
     @RequestMapping(value = "/findExamAffairSystem", method = { RequestMethod.POST })

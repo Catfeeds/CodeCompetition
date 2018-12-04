@@ -66,7 +66,7 @@ const authorization = {
     getLoginUserList(commit, pageInfo) {
       return new Promise((resolve, reject) => {
         api
-          .getLoginUserList(pageInfo.currentPage, pageInfo.pageSize)
+          .getLoginUserList(pageInfo)
           .then(response => {
             resolve(response.data);
           })

@@ -78,7 +78,9 @@ export default {
     option: "Option",
     delete: "Delete",
     cancel: "Cancel",
-    confirm: "Confirm"
+    confirm: "Confirm",
+    search: "Search",
+    add: "Add"
   },
   errorLog: {
     tips: "Please click the bug icon in the upper right corner",

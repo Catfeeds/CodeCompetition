@@ -14,22 +14,13 @@
       height="450px"
       style="width: 100%;margin-top:15px;"
     >
-      <el-table-column header-align="center" align="center" :label="$t('table.id')" width="80">
-        <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
-        </template>
+      <el-table-column header-align="center" align="center" :label="$t('table.id')" prop="id" width="80">
       </el-table-column>
 
-      <el-table-column min-width="150px" header-align="center" label="角色名称" sortable>
-        <template slot-scope="scope">
-          <span>{{ scope.row.roleName }}</span>
-        </template>
+      <el-table-column min-width="150px" header-align="center" label="角色名称" prop="roleName">
       </el-table-column>
 
-      <el-table-column min-width="150px" header-align="center" label="角色描述" sortable>
-        <template slot-scope="scope">
-          <span>{{ scope.row.description }}</span>
-        </template>
+      <el-table-column min-width="150px" header-align="center" label="角色描述" prop="description">
       </el-table-column>
       <el-table-column align="center" :label="$t('table.option')" width="200" header-align="center">
         <template slot-scope="scope">
