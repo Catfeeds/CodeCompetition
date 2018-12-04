@@ -11,34 +11,16 @@ export const constantRouterMap = [
     component: () => import("@/views/Login.vue"),
     hidden: true
   },
-  // {
-  //   path: "",
-  //   component: Layout,
-  //   redirect: "dashboard",
-  //   children: [
-  //     {
-  //       path: "dashboard",
-  //       component: () => import("@/views/dashboard/index"),
-  //       name: "Dashboard",
-  //       meta: {
-  //         title: "dashboard",
-  //         icon: "home",
-  //         noCache: true,
-  //         requiresAuth: true
-  //       }
-  //     }
-  //   ]
-  // },
   {
     path: "",
     component: Layout,
     redirect: "dashboard",
-    meta: { title: "backboneReport", icon: "Viewlist", noCache: true },
+    meta: { title: "reportDisplay", icon: "table", noCache: true },
     children: [
       {
         path: "dashboard",
         component: () => import("@/views/dashboard/index"),
-        name: "BackboneReport",
+        name: "StoneReport",
         meta: {
           title: "backboneReport",
           icon: "",
@@ -65,44 +47,98 @@ export const constantRouterMap = [
 ];
 export const asyncRouterMap = [
   {
-    path: "/setting",
+    path: "/personnelManagement",
     component: Layout,
-    redirect: "/setting/projectGroup",
-    name: "Setting",
-    meta: { title: "setting", icon: "set", noCache: true },
+    redirect: "noredirect",
+    name: "StaffManagement",
+    meta: { title: "personnelManagement", icon: "peoples", noCache: true },
     children: [
       {
-        path: "projectGroup",
+        path: "empolyeeDetail",
+        component: () => import("@/views/dashboard/index"),
+        name: "StaffInformation",
+        meta: {
+          title: "empolyeeDetail",
+          icon: "",
+          noCache: true,
+          requiresAuth: true
+        }
+      }
+    ]
+  },
+  {
+    path: "/projectManagement",
+    component: Layout,
+    redirect: "noredirect",
+    name: "ProjectManagement",
+    meta: { title: "projectManagement", icon: "component", noCache: true },
+    children: [
+      {
+        path: "projectGroupConfiguration",
         component: () => import("@/views/projectGroupSettings/index"),
-        name: "ProjectTeam",
+        name: "ProjectSetUp",
         meta: {
-          title: "projectGroup",
+          title: "projectGroupConfiguration",
           icon: "",
           noCache: true,
           requiresAuth: true
         }
-      },
+      }
+    ]
+  },
+  {
+    path: "/organizationalStructure",
+    component: Layout,
+    redirect: "/organizationalStructure/businessSystem",
+    name: "OrganizationalStructure",
+    meta: { title: "organizationalStructure", icon: "tree", noCache: true },
+    children: [
       {
-        path: "relationTree",
+        path: "businessSystem",
         component: () => import("@/views/relationTreeSettings/index"),
-        name: "RelationTree",
+        name: "BusinessSystem",
         meta: {
-          title: "relationTree",
+          title: "businessSystem",
           icon: "",
           noCache: true,
           requiresAuth: true
         }
       },
       {
-        path: "training",
+        path: "humanSystem",
+        component: () => import("@/views/dashboard/index"),
+        name: "StaffSystem",
+        meta: {
+          title: "humanSystem",
+          icon: "",
+          noCache: true,
+          requiresAuth: true
+        }
+      }
+    ]
+  },
+  {
+    path: "/training",
+    component: Layout,
+    redirect: "/training/trainingSetting",
+    name: "TrainingPlan",
+    meta: { title: "training", icon: "form", noCache: true },
+    children: [
+      {
+        path: "trainingSetting",
         component: () => import("@/views/trainingSettings/index"),
-        name: "Training",
-        meta: { title: "training", icon: "", noCache: true, requiresAuth: true }
+        name: "TrainSetUp",
+        meta: {
+          title: "trainingSetting",
+          icon: "",
+          noCache: true,
+          requiresAuth: true
+        }
       },
       {
         path: "assessmentAffairs",
         component: () => import("@/views/assessmentAffairsSettings/index"),
-        name: "ExaminationAffairs",
+        name: "ExaminationAffairsSetUp",
         meta: {
           title: "assessmentAffairs",
           noCache: true,
@@ -113,7 +149,7 @@ export const asyncRouterMap = [
       {
         path: "assessmentRules",
         component: () => import("@/views/assessmentRulesSettings/index"),
-        name: "ExaminationRules",
+        name: "ExaminationRoleSetUp",
         meta: {
           title: "assessmentRules",
           noCache: true,
@@ -124,7 +160,7 @@ export const asyncRouterMap = [
       {
         path: "course",
         component: () => import("@/views/courseOpenSettings/index"),
-        name: "CourseOpen",
+        name: "OpeningSetUp",
         meta: {
           title: "courseOpen",
           noCache: true,
@@ -135,7 +171,7 @@ export const asyncRouterMap = [
       {
         path: "examination",
         component: () => import("@/views/examSettings/index"),
-        name: "Examination",
+        name: "ExaminationSetUp",
         meta: {
           title: "examination",
           icon: "",
@@ -144,15 +180,24 @@ export const asyncRouterMap = [
         }
       },
       {
-        path: "import",
+        path: "score",
         component: () => import("@/views/scoreImport/index"),
-        name: "Import",
-        meta: { title: "import", icon: "", noCache: true, requiresAuth: true }
-      },
+        name: "ResultShow",
+        meta: { title: "score", icon: "", noCache: true, requiresAuth: true }
+      }
+    ]
+  },
+  {
+    path: "/setting",
+    component: Layout,
+    redirect: "/setting/projectGroup",
+    name: "System",
+    meta: { title: "setting", icon: "set", noCache: true },
+    children: [
       {
         path: "role",
         component: () => import("@/views/authorizationSettings/role.vue"),
-        name: "Role",
+        name: "RoleSetUp",
         meta: {
           title: "role",
           icon: "",
@@ -163,7 +208,7 @@ export const asyncRouterMap = [
       {
         path: "loginUser",
         component: () => import("@/views/authorizationSettings/loginUser.vue"),
-        name: "Login",
+        name: "UserManagement",
         meta: {
           title: "loginUser",
           icon: "",

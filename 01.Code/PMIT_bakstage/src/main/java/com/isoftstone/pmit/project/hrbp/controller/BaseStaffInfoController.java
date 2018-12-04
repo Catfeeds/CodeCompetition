@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/baseStaff")
+@RequestMapping(value = "/hrbp/baseStaff")
 @Api(value = "员工基本信息", tags = {"员工基本信息查询"})
 public class BaseStaffInfoController {
     private static final Logger LOG = LoggerFactory.getLogger(BaseStaffInfoController.class);

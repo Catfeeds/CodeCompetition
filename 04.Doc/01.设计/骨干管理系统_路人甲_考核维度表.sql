@@ -25,13 +25,12 @@ CREATE TABLE `hrbp_examination_dimension` (
   `mark` decimal(8,2) NOT NULL COMMENT '分数',
   `coefficient` decimal(8,2) NOT NULL COMMENT '权重',
   `explanation` varchar(16) DEFAULT NULL COMMENT '考核说明',
-  `dimensionsum` varchar(16) NOT NULL COMMENT '维度总分数',
   PRIMARY KEY (`dimension_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of hrbp_examination_dimension
 -- ----------------------------
-INSERT INTO `hrbp_examination_dimension` VALUES ('1', '晓光评价', '2.50', '4.00', '晓光评价', '10');
-INSERT INTO `hrbp_examination_dimension` VALUES ('2', '晓光来评价', '2.00', '2.00', '晓光来评价', '4');
-INSERT INTO `hrbp_examination_dimension` VALUES ('3', '啦啦啦啦', '2.00', '3.00', null, '6');
+INSERT INTO `hrbp_examination_dimension` VALUES ('1', '晓光评价', '2.50', '4.00', '晓光评价');
+INSERT INTO `hrbp_examination_dimension` VALUES ('2', '晓光来评价', '2.00', '2.00', '晓光来评价');
+INSERT INTO `hrbp_examination_dimension` VALUES ('3', '啦啦啦啦', '2.00', '3.00', null);

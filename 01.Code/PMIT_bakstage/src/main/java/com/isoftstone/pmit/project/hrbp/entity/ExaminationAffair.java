@@ -17,12 +17,22 @@ public class ExaminationAffair {
     private String series;
     /** 所属产业线 */
     private String du;
+    /** 操作人ID */
+    private String employeeID;
     /** 创建人 */
     private String createBy;
     /** 更新人 */
     private String updateBy;
     /** 更新时间 */
     private Date updateTime;
+
+    public String getEmployeeID() {
+        return employeeID;
+    }
+
+    public void setEmployeeID(String employeeID) {
+        this.employeeID = employeeID;
+    }
 
     public int getAffairID() {
         return affairID;

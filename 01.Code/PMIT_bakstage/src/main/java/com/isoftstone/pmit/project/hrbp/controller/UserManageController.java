@@ -6,6 +6,7 @@ import com.isoftstone.pmit.common.util.JsonUtils;
 import com.isoftstone.pmit.common.web.controller.AbstractController;
 import com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult;
 import com.isoftstone.pmit.project.hrbp.entity.LoginInformation;
+import com.isoftstone.pmit.project.hrbp.entity.EmpAndPageInfo;
 import com.isoftstone.pmit.project.hrbp.service.IUserManageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -58,14 +59,14 @@ public class UserManageController extends AbstractController {
     }
 
     @RequestMapping(value = "/findEmpInformation", method = { RequestMethod.POST })
-    @ApiOperation(value="获取所有用户信息", notes="获取所有用户信息,输入pageNum,pageSize")
+    @ApiOperation(value="获取所有用户信息", notes="获取所有用户信息")
     public String findEmpInformation(@RequestBody String parameter){
-        Map<String,String> paramMap = JsonUtils.readValue(parameter, Map.class);
-        int pageNum= Integer.parseInt(String.valueOf(paramMap.get("pageNum")));
-        int pageSize= Integer.parseInt(String.valueOf(paramMap.get("pageSize")));
+        EmpAndPageInfo empAndPageInfo = JsonUtils.readValue(parameter, EmpAndPageInfo.class);
+        EmpInformationResult empInformationResult = empAndPageInfo.getEmpInformationResult();
+        com.isoftstone.pmit.project.hrbp.entity.PageInfo pageInfo = empAndPageInfo.getPageInfo();
         PageInfo resultList;
         try {
-            resultList = userManageService.findEmpInformation(pageNum,pageSize);
+            resultList = userManageService.findEmpInformation(pageInfo,empInformationResult);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToResult(false, e.getMessage());
@@ -90,16 +91,16 @@ public class UserManageController extends AbstractController {
 
     @ApiOperation(value = "删除用户角色", notes = "删除用户角色")
     @PostMapping(value = "/deleteUserRole")
-    public AjaxResult deleteUserRole(@RequestBody String parameter) {
+    public String deleteUserRole(@RequestBody String parameter) {
         LoginInformation loginInformation = JsonUtils.readValue(parameter, LoginInformation.class);
         try {
             userManageService.deleteUserRole(loginInformation.getEmployeeID());
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("====deleteUserRole error=============" + e);
-            return AjaxResult.error();
+            return AjaxResult.returnToMessage(false, "删除失败");
         }
-        return AjaxResult.success();
+        return AjaxResult.returnToMessage(false, "删除成功");
     }
 
     @ApiOperation(value = "添加用户角色", notes = "添加用户角色")
@@ -129,16 +130,16 @@ public class UserManageController extends AbstractController {
 
     @ApiOperation(value = "更新用户角色", notes = "更新用户角色")
     @PostMapping(value = "/updateUserRole")
-    public AjaxResult updateUserRole(@RequestBody String parameter) {
+    public String updateUserRole(@RequestBody String parameter) {
         LoginInformation loginInformation = JsonUtils.readValue(parameter, LoginInformation.class);
         try {
             userManageService.updateUserRole(loginInformation);
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("====updateUserRole error=============" + e);
-            return AjaxResult.error();
+            return AjaxResult.returnToMessage(false, "更新失败");
         }
-        return AjaxResult.success();
+        return AjaxResult.returnToMessage(true, "更新成功");
     }
 
 

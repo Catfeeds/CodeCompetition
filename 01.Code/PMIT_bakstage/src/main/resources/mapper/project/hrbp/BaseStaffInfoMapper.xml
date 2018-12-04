@@ -224,8 +224,12 @@ FROM
             staff_id,
             team_name,
             team_id
-        from hrbp_projectteamrecord where staff_id = #{employeeId}
+        from hrbp_projectteamrecord
+        where
+          staff_id = #{employeeId}
+
     </select>
+
     <update id="updateBaseStaffInfo" parameterType="BaseStaffInfo">
         update base_staff_info
         <set>

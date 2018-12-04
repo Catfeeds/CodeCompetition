@@ -22,6 +22,8 @@ import java.lang.reflect.Type;
 public class JsonParamResolver implements HandlerMethodArgumentResolver {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final JavaType stringType =
+            TypeFactory.defaultInstance().constructParametricType(String.class, new JavaType[0]);
 
     //判断是否是要转换的参数（加了注解的参数）
     @Override
@@ -48,7 +50,11 @@ public class JsonParamResolver implements HandlerMethodArgumentResolver {
         } else {
             Type type = parameter.getGenericParameterType();
             JavaType javaType = getJavaType(type);
-            param = objectMapper.readValue(jsonObject.getString(value), javaType);
+            String paramValue = jsonObject.getString(value);
+            if (javaType.equals(stringType)) {
+                paramValue = JSONObject.toJSONString(paramValue);
+            }
+            param = objectMapper.readValue(paramValue, javaType);
         }
         return param;
     }
@@ -59,7 +65,7 @@ public class JsonParamResolver implements HandlerMethodArgumentResolver {
         if (jsonBody == null) {
             try {
                 InputStream ss = servletRequest.getInputStream();
-                jsonBody = IOUtils.toString(ss,"UTF-8");
+                jsonBody = IOUtils.toString(ss, "UTF-8");
                 ss.close();
                 servletRequest.setAttribute("JSON_REQUEST_BODY", jsonBody);
             } catch (IOException e) {

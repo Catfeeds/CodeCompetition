@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container role-container">
     <el-row type="flex" justify="end">
       <el-button type="primary" size="mini" @click="addRole">新增</el-button>
     </el-row>
@@ -258,7 +258,6 @@ export default {
 
 <style rel="stylesheet/scss" lang="scss">
 .role-container {
-  margin: 15px;
   .el-scrollbar {
     height: 100%;
     .el-scrollbar__wrap {

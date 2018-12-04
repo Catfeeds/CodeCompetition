@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.DimensionMapper">
+    <insert id="insertDimension" parameterType="ExaminationDimension" keyProperty="dimensionID" useGeneratedKeys="true">
+        insert into hrbp_examination_dimension(
+        <if test="dimensionName != null and dimensionName != ''">dimension_name,</if>
+        <if test="mark != null and mark != ''">mark,</if>
+        <if test="coefficient != null and coefficient != ''">coefficient,</if>
+        <if test="explanation != null and explanation != ''">explanation</if>
+        )values (
+        <if test="dimensionName != null and dimensionName != ''">#{dimensionName},</if>
+        <if test="mark != null and mark != ''">#{mark},</if>
+        <if test="coefficient != null and coefficient != ''">#{coefficient},</if>
+        <if test="explanation != null and explanation != ''">#{explanation}</if>
+        )
+    </insert>
+    <insert id="insertAffairDimension">
+        insert into hrbp_affair_dimension(affair_id,dimension_id)values (#{affairID},#{dimensionId})
+    </insert>
+    <select id="queryDimension" parameterType="java.lang.Integer" resultType="ExaminationDimension">
+        select
+        ed.dimension_name as dimensionName,
+        ed.mark as mark,
+        ed.coefficient as coefficient,
+        ed.explanation as explanation
+        FROM
+        hrbp_examination_dimension ed
+        LEFT JOIN hrbp_affair_dimension ad
+        ON ed.dimension_id = ad.dimension_id
+        LEFT JOIN hrbp_examination_affair ea
+        on ad.affair_id = ea.affair_id
+        where ea.affair_id = #{affairID}
+    </select>
+</mapper>

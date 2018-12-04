@@ -15,8 +15,6 @@ public class ExaminationDimension {
     private Double coefficient;
     /** 考核说明 */
     private String explanation;
-    /** 维度总分 */
-    private Double dimensionsum;
 
     public Integer getDimensionID() {
         return dimensionID;
@@ -58,11 +56,4 @@ public class ExaminationDimension {
         this.explanation = explanation;
     }
 
-    public Double getDimensionsum() {
-        return dimensionsum;
-    }
-
-    public void setDimensionsum(Double dimensionsum) {
-        this.dimensionsum = dimensionsum;
-    }
 }

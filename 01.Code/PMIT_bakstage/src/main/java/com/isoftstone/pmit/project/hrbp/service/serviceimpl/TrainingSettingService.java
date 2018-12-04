@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.isoftstone.pmit.common.model.TrainingParam;
+import com.isoftstone.pmit.common.util.ListUtils;
 import com.isoftstone.pmit.project.hrbp.entity.TrainingInfo;
 import com.isoftstone.pmit.project.hrbp.mapper.TrainingSettingMapper;
 import com.isoftstone.pmit.project.hrbp.service.ITrainingSettingService;
@@ -30,7 +31,7 @@ public class TrainingSettingService implements ITrainingSettingService {
 		map.put("trainingName", param.getTrainingName());
 		map.put("series", param.getSeries());
 		map.put("sort", param.getSort());
-		map.put("type", param.getType());
+		map.put("classType", param.getClassType());
 		map.put("bu", param.getBu());
 		List<TrainingInfo> trainingInfos = trainingSettingMapper.queryTrainingList(map);
 		return trainingInfos;
@@ -38,16 +39,34 @@ public class TrainingSettingService implements ITrainingSettingService {
 	
 	@Transactional(rollbackFor=Exception.class)
 	@Override
-	public void saveTrainingInfo(TrainingInfo param) {
+	public String saveTrainingInfo(TrainingInfo param) {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("trainingName", param.getTrainingName());
+		Integer count = trainingSettingMapper.queryTrainingByName(map);
+		if (count > 0) {
+			return "DuplicateName";
+		}
+		
+		map.put("trainingId", param.getTrainingId());
 		map.put("series", param.getSeries());
 		map.put("sort", param.getSort());
 		map.put("type", param.getType());
+		map.put("classType", param.getClassType());
 		map.put("bu", param.getBu());
 		map.put("creatorId", param.getCreatorId());
-		map.put("creatorName", param.getCreatorName());
+		String creatorName = null;
+		if(null != param.getCreatorId() && param.getCreatorId() != "") {
+			creatorName = trainingSettingMapper.queryNameByID(param.getCreatorId());
+		}
+		map.put("creatorName", creatorName);
+		
+		map.put("updaterId", param.getUpdaterId());
+		String updaterName = null;
+		if(null != param.getUpdaterId() && param.getUpdaterId() != "") {
+			updaterName = trainingSettingMapper.queryNameByID(param.getUpdateName());
+		}
+		map.put("updaterName", updaterName);
 		map.put("trainingDes", param.getTrainingDes());
 		map.put("trainingDuration", param.getTrainingDuration());
 		
@@ -56,6 +75,7 @@ public class TrainingSettingService implements ITrainingSettingService {
 		} else {
 			trainingSettingMapper.updateTrainingInfo(map);
 		}
+		return "success";
 	}
 	
 	@Transactional(rollbackFor=Exception.class)
@@ -72,6 +92,17 @@ public class TrainingSettingService implements ITrainingSettingService {
 	@Override
 	public List<String> querySeries() {
 		return trainingSettingMapper.querySeries();
+	}
+
+	@Override
+	public TrainingInfo queryTrainingInfoByTrainingId(Integer trainingId) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("trainingId", trainingId);
+		List<TrainingInfo> trainingInfos = trainingSettingMapper.queryTrainingList(map);
+		if (ListUtils.isEmpty(trainingInfos)) {
+			return null;
+		}
+		return trainingInfos.get(0);
 	}
 	
 }

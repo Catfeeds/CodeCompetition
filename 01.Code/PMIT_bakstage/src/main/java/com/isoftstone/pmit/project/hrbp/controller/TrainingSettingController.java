@@ -53,28 +53,39 @@ public class TrainingSettingController extends AbstractController {
 		return AjaxResult.returnToResult(false, trainingInfos);
 	}
 	
+	@ApiOperation("根据ID查询培训列表")
+	@PostMapping("/queryTrainingInfoByTrainingId")
+	public String queryTrainingInfoByTrainingId(@RequestBody TrainingInfo trainingInfo) {
+		TrainingInfo result = trainingSettingService.queryTrainingInfoByTrainingId(trainingInfo.getTrainingId());
+		return AjaxResult.returnToResult(false, result);
+	}
+	
 	@ApiOperation("新增/修改培训信息")
 	@PostMapping("/saveTrainingInfo")
 	public String saveTrainingInfo(@RequestBody TrainingInfo trainingInfo) {
-		
+		String result = null;
 		try {
-			trainingSettingService.saveTrainingInfo(trainingInfo);
+			result = trainingSettingService.saveTrainingInfo(trainingInfo);
+			if (result.equals("DuplicateName")) {
+				return AjaxResult.returnToMessage(false, result);
+			}
 		} catch (Exception e) {
 			logger.error("saveTrainingInfo error" + e.getMessage());
-			return "fail";
+			return AjaxResult.returnToMessage(false, result);
 		}
-		return "success";
+		return AjaxResult.returnToMessage(true, result);
 	}
 	
 	@ApiOperation("删除培训信息")
 	@PostMapping("/deleteTrainingInfo")
-	public String deleteTrainingInfo(@RequestBody Integer trainingId) {
+	public String deleteTrainingInfo(@RequestBody TrainingInfo trainingInfo) {
 		try {
-			trainingSettingService.deleteTrainingInfo(trainingId);
+			trainingSettingService.deleteTrainingInfo(trainingInfo.getTrainingId());
 		} catch (Exception e) {
 			logger.error("deleteTrainingInfo error" + e.getMessage());
-			return "fail";
+			return AjaxResult.returnToMessage(false, "fail");
 		}
-		return "success";
+		return AjaxResult.returnToMessage(true, "success");
 	}
+	
 }

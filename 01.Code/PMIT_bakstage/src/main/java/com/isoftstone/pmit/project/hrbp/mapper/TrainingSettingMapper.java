@@ -24,4 +24,8 @@ public interface TrainingSettingMapper {
 
 	List<String> querySeries();
 
+	Integer queryTrainingByName(Map<String, Object> map);
+
+	String queryNameByID(String Id);
+
 }

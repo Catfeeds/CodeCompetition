@@ -1,0 +1,134 @@
+{
+  "menu": {
+    "data": [
+      { "menuId": 1, "menuName": "Login", "parentId": 0, "note": "登录" },
+      {
+        "menuId": 2,
+        "menuName": "ReportShow",
+        "parentId": 0,
+        "note": "报表展示"
+      },
+      {
+        "menuId": 201,
+        "menuName": "StoneReport",
+        "parentId": 2,
+        "note": "骨干报表"
+      },
+      {
+        "menuId": 3,
+        "menuName": "StaffManagement",
+        "parentId": 0,
+        "note": "人员管理"
+      },
+      {
+        "menuId": 301,
+        "menuName": "StaffInformation",
+        "parentId": 3,
+        "note": "员工详情"
+      },
+      {
+        "menuId": 4,
+        "menuName": "ProjectManagement",
+        "parentId": 0,
+        "note": "项目管理"
+      },
+      {
+        "menuId": 401,
+        "menuName": "ProjectSetUp",
+        "parentId": 4,
+        "note": "项目组设置"
+      },
+      {
+        "menuId": 5,
+        "menuName": "OrganizationStructure",
+        "parentId": 0,
+        "note": "组织架构"
+      },
+      {
+        "menuId": 501,
+        "menuName": "BusinessSystem",
+        "parentId": 5,
+        "note": "业务体系"
+      },
+      {
+        "menuId": 502,
+        "menuName": "StaffSystem",
+        "parentId": 5,
+        "note": "人力体系"
+      },
+      {
+        "menuId": 6,
+        "menuName": "TrainingPlan",
+        "parentId": 0,
+        "note": "培养计划"
+      },
+      {
+        "menuId": 601,
+        "menuName": "TrainSetUp",
+        "parentId": 6,
+        "note": "培养设置"
+      },
+      {
+        "menuId": 602,
+        "menuName": "ExaminationAffairsSetUp",
+        "parentId": 6,
+        "note": "考核事务设置"
+      },
+      {
+        "menuId": 603,
+        "menuName": "ExaminationRoleSetUp",
+        "parentId": 6,
+        "note": "考核规则设置"
+      },
+      {
+        "menuId": 604,
+        "menuName": "OpeningSetUp",
+        "parentId": 6,
+        "note": "开班设置"
+      },
+      {
+        "menuId": 605,
+        "menuName": "ExaminationSetUp",
+        "parentId": 6,
+        "note": "考试设置"
+      },
+      {
+        "menuId": 606,
+        "menuName": "ResultShow",
+        "parentId": 6,
+        "note": "成绩展示"
+      },
+      { "menuId": 7, "menuName": "System", "parentId": 0, "note": "骨干报表" },
+      {
+        "menuId": 701,
+        "menuName": "RoleSetUp",
+        "parentId": 7,
+        "note": "角色设置"
+      },
+      {
+        "menuId": 702,
+        "menuName": "UserManagement",
+        "parentId": 7,
+        "note": "登录用户管理"
+      }
+    ],
+    "success": true
+  },
+  "menuByRole": {
+    "data": [
+      {
+        "menuId": 604,
+        "menuName": "OpeningSetUp",
+        "parentId": 6,
+        "note": "开班设置"
+      },
+      {
+        "menuId": 605,
+        "menuName": "ExaminationSetUp",
+        "parentId": 6,
+        "note": "考试设置"
+      }
+    ],
+    "success": true
+  }
+}

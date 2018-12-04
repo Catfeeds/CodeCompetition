@@ -6,15 +6,16 @@ import com.isoftstone.pmit.common.util.AjaxResult;
 import com.isoftstone.pmit.common.util.JsonUtils;
 import com.isoftstone.pmit.project.hrbp.entity.LevelTreeNode;
 import com.isoftstone.pmit.project.hrbp.entity.ProjectTreeNode;
-import com.isoftstone.pmit.system.dict.entity.DictData;
-import com.isoftstone.pmit.system.test.entity.TestData;
 import com.isoftstone.pmit.system.test.service.ITestSevice;
-import com.isoftstone.pmit.system.test.service.impl.TestService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +68,7 @@ public class TestController {
         System.out.println(param2);
         System.out.println();
     }
+
 
     @ApiOperation(value = "testParam3", notes = "testParam3")
     @PostMapping(value = "/testParam3")

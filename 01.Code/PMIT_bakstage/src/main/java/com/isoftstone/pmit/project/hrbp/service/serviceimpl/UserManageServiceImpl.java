@@ -10,7 +10,9 @@ import com.isoftstone.pmit.project.hrbp.service.IUserManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lf
@@ -46,14 +48,21 @@ public class UserManageServiceImpl implements IUserManageService {
 
     /**
      * 获取所有登录用户信息
-     * @param pageNum
-     * @param pageSize
+     * @param pageInfo
+     * @param empInformationResult
      * @return
      */
     @Override
-    public PageInfo<EmpInformationResult> findEmpInformation(Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<EmpInformationResult> empInformationResults = userManageMapper.findEmpInformation();
+    public PageInfo<EmpInformationResult> findEmpInformation(com.isoftstone.pmit.project.hrbp.entity.PageInfo pageInfo,EmpInformationResult empInformationResult) {
+        PageHelper.startPage(pageInfo.getCurrPage(), pageInfo.getPageSize());
+        Map<String, Object> queryMap = new HashMap<>();
+        queryMap.put("order",pageInfo.getOrder());
+        queryMap.put("empolyeeID",empInformationResult.getEmployeeID());
+        queryMap.put("employeeName",empInformationResult.getEmployeeName());
+        queryMap.put("positionRole",empInformationResult.getPositionRole());
+        queryMap.put("pdu",empInformationResult.getPdu());
+        queryMap.put("roleName",empInformationResult.getRoleName());
+        List<EmpInformationResult> empInformationResults = userManageMapper.findEmpInformation(queryMap);
         PageInfo<EmpInformationResult> empInformationResultPageInfo = new PageInfo<>(empInformationResults);
         return empInformationResultPageInfo;
     }
@@ -85,6 +94,7 @@ public class UserManageServiceImpl implements IUserManageService {
 
     @Override
     public List<EmpInformationResult> findEmpInformation() {
-        return userManageMapper.findEmpInformation();
+        return userManageMapper.findEmpInformations();
     }
+
 }

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lf
@@ -14,7 +15,6 @@ import java.util.List;
 @Mapper
 @Repository
 public interface UserManageMapper {
-
 
     /**
      * 根据empolyeeID获取用户具体信息
@@ -27,7 +27,7 @@ public interface UserManageMapper {
      * 获取全部用户信息
      * @return
      */
-    List<EmpInformationResult> findEmpInformation();
+    List<EmpInformationResult> findEmpInformation(Map<String, Object> queryMap);
 
     /**
      * 根据关键字模糊查询用户信息
@@ -53,4 +53,10 @@ public interface UserManageMapper {
      * @param loginInformation
      */
     void updateUserRole(LoginInformation loginInformation);
+
+    /**
+     * 去重查询用户信息
+     * @return
+     */
+    List<EmpInformationResult> findEmpInformations();
 }

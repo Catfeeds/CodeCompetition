@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.ExaminationAffairMapper">
-    <select id="findAllAffair" resultType="com.isoftstone.pmit.project.hrbp.entity.ExaminationAffair">
+    <select id="findAllAffair" parameterType="ExaminationAffair" resultType="com.isoftstone.pmit.project.hrbp.entity.ExaminationAffair">
         select
         affair_id as affairID,
         affair_name as affairName,
@@ -15,6 +15,19 @@
         update_time as updateTime
         from
         hrbp_examination_affair
+        where 1=1
+        <if test="null != affairName">
+            and affair_name like CONCAT('%',#{affairName},'%')
+        </if>
+        <if test="null != system">
+            and system = #{system}
+        </if>
+        <if test="null != series">
+            and series = like CONCAT('%',#{series},'%')
+        </if>
+        <if test="null != du">
+            and du  = #{du}
+        </if>
     </select>
     <delete id="deleteAffair" parameterType="java.lang.Integer">
        DELETE ea,ad,ed
@@ -68,13 +81,9 @@
         now()
         )
     </insert>
-    <select id="findExamAffairSystem" parameterType="ExaminationAffair" resultType="ExaminationAffair">
+    <select id="findExamAffairSystem" resultType="ExaminationAffair">
         select
         DISTINCT(system)
         from hrbp_examination_affair
-        where 1=1
-        <if test="null != system">
-            and system like CONCAT('%',#{system},'%')
-        </if>
     </select>
 </mapper>

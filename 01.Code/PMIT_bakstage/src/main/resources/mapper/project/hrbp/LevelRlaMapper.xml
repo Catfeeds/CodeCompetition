@@ -3,15 +3,16 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.LevelRlaMapper">
+
     <select id="queryLevelRlaNode" parameterType="java.util.Map" resultType="LevelTreeNode">
         SELECT
         *
         FROM
-        sys_level_rla
+        ${tableName}
         WHERE
         1 = 2
         <if test="'' != nodes">
-            OR nodeID in #{nodes}
+            OR nodeID in ${nodes}
         </if>
         <if test="paths != null">
             <foreach collection="paths" item="item" open="OR" separator="OR">
@@ -23,10 +24,10 @@
 
     <insert id="addLevelRlaNode" parameterType="java.util.Map">
         INSERT INTO
-        sys_level_rla
+        ${tableName}
         (
         nodePath,
-        <if test="null != nodeName">
+        <if test="null != nodeName and '' != nodeName">
             nodeName,
         </if>
         <if test="null != relationID">
@@ -38,7 +39,7 @@
         VALUES
         (
         #{nodePath},
-        <if test="null != nodeName">
+        <if test="null != nodeName and '' != nodeName">
             #{nodeName},
         </if>
         <if test="null != relationID">
@@ -53,8 +54,8 @@
             </otherwise>
         </choose>
         <choose>
-            <when test="null != isProjectNode">
-                #{isProjectNode}
+            <when test="null != isRelationNode">
+                #{isRelationNode}
             </when>
             <otherwise>
                 FALSE
@@ -63,27 +64,47 @@
         )
     </insert>
 
-    <update id="updateIsLeafNode" parameterType="java.util.Map">
-        UPDATE
-        sys_level_rla
-        SET
-        isLeafNode = #{isLeafNode}
-        WHERE
-        nodeID = #{parentNodeID}
-    </update>
-
     <delete id="deleteLevelRlaNode" parameterType="java.util.Map">
         DELETE FROM
-        sys_level_rla
+        ${tableName}
         WHERE
         nodeID = #{nodeID} OR nodePath LIKE '${nodePath}%'
     </delete>
 
-    <update id="moveLevelRlaNode" parameterType="java.util.Map">
-
-    </update>
-
     <update id="updateLevelRlaNode" parameterType="java.util.Map">
-
+        UPDATE
+        ${tableName}
+        <set>
+            <if test="null != nodeName and '' != nodeName">
+                nodeName = #{nodeName},
+            </if>
+            <if test="null != isLeafNode">
+                isLeafNode = #{isLeafNode},
+            </if>
+            <if test="null != isRelationNode">
+                isRelationNode = #{isRelationNode},
+            </if>
+            <if test="null != relationID and '' != relationID">
+                relationID = #{relationID},
+            </if>
+        </set>
+        WHERE
+        nodeID = #{nodeID}
     </update>
+
+    <select id="moveLevelRlaNode" parameterType="java.util.Map">
+        UPDATE
+        ${tableName}
+        SET
+        nodePath = REPLACE(nodePath,#{replaceSourcePath},#{replaceTargetPath})
+        WHERE
+        nodePath LIKE '${replaceSourcePath}%';
+
+        UPDATE
+        ${tableName}
+        SET
+        nodePath = #{replaceParentPath}
+        WHERE
+        nodeID = #{moveNodeID};
+    </select>
 </mapper>

@@ -5,7 +5,6 @@ import com.isoftstone.pmit.project.hrbp.entity.PersonInfoAndPageInfo;
 import com.isoftstone.pmit.project.hrbp.entity.PersonalInformation;
 
 import java.util.List;
-import java.util.Map;
 
 public interface BaseStaffInfoService {
 
