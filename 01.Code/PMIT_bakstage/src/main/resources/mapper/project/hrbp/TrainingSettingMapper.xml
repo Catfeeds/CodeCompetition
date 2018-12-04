@@ -98,7 +98,8 @@
 			updater_id = #{updaterId},
 			updater_name = #{updaterName},
 			training_des = #{trainingDes},
-			training_duration = #{trainingDuration}
+			training_duration = #{trainingDuration},
+			create_time = now()
 		where 
 			training_id = #{trainingId}
 	</select>
