@@ -53,6 +53,7 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
         if (null == teamInfoList){
             teamInfoList = new ArrayList<>();
         }
+
         PersonalInformation staffInfo =new PersonalInformation();
         staffInfo.setBaseStaffInfo(baseStaffInfo);
         staffInfo.setCompanyQualifications(qualification);
@@ -62,6 +63,7 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
         staffInfo.setTeamInfos(teamInfoList);
         return staffInfo;
     }
+
 
     @Override
     @Transactional

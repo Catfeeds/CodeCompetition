@@ -6,7 +6,7 @@ package com.isoftstone.pmit.project.hrbp.entity;
  * @author zhaoye
  *
  */
-public class TeamInfo {
+public class TeamInfo{
 	
 	/** 项目组ID */
 	private String teamId;
