@@ -66,6 +66,9 @@ public class TrainingSettingController extends AbstractController {
 		String result = null;
 		try {
 			result = trainingSettingService.saveTrainingInfo(trainingInfo);
+			if (result.equals("fail")) {
+				return AjaxResult.returnToMessage(false, result);
+			}
 		} catch (Exception e) {
 			logger.error("saveTrainingInfo error" + e.getMessage());
 			return AjaxResult.returnToMessage(false, result);
