@@ -28,12 +28,11 @@
         login_information li
         LEFT JOIN base_staff_info si ON si.employeeID = li.employee_ID
         LEFT JOIN hrbp_role hr ON li.role_id = hr.role_id
-        order by li.login_id
-        <if test="null != employeeID and null != order">,#{employeeID} #{order}</if>
-        <if test="null != employeeName and null != order">,#{employeeName} #{order}</if>
-        <if test="null != pdu and null != order">,#{pdu} #{order}</if>
-        <if test="null != positionRole and null != order">,#{positionRole} #{order}</if>
-        <if test="null != roleName and null != order">,#{roleName} #{order}</if>
+        <if test="null != employeeID and null != order"> order by #{employeeID} #{order}</if>
+        <if test="null != employeeName and null != order">order by #{employeeName} #{order}</if>
+        <if test="null != pdu and null != order">order by #{pdu} #{order}</if>
+        <if test="null != positionRole and null != order">order by #{positionRole} #{order}</if>
+        <if test="null != roleName and null != order">order by #{roleName} #{order}</if>
     </select>
     <select id="queryUserByKeyword" parameterType="java.lang.String" resultType="com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult">
     SELECT

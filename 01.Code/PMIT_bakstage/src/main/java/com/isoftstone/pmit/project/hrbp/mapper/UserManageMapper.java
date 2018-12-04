@@ -59,5 +59,4 @@ public interface UserManageMapper {
      * @return
      */
     List<EmpInformationResult> findEmpInformations();
-
 }
