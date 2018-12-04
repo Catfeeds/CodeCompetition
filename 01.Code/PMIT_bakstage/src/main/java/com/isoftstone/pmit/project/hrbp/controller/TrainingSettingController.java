@@ -68,9 +68,9 @@ public class TrainingSettingController extends AbstractController {
 			result = trainingSettingService.saveTrainingInfo(trainingInfo);
 		} catch (Exception e) {
 			logger.error("saveTrainingInfo error" + e.getMessage());
-			return "fail";
+			return AjaxResult.returnToMessage(false, result);
 		}
-		return result;
+		return AjaxResult.returnToMessage(true, result);
 	}
 	
 	@ApiOperation("删除培训信息")
@@ -80,8 +80,9 @@ public class TrainingSettingController extends AbstractController {
 			trainingSettingService.deleteTrainingInfo(trainingInfo.getTrainingId());
 		} catch (Exception e) {
 			logger.error("deleteTrainingInfo error" + e.getMessage());
-			return "fail";
+			return AjaxResult.returnToMessage(false, "fail");
 		}
-		return "success";
+		return AjaxResult.returnToMessage(true, "success");
 	}
+	
 }
