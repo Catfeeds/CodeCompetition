@@ -11,7 +11,7 @@ public interface ITrainingSettingService {
 
 	List<TrainingInfo> queryTrainingList(TrainingParam param);
 
-	void saveTrainingInfo(TrainingInfo trainingInfo);
+	String saveTrainingInfo(TrainingInfo trainingInfo);
 
 	void deleteTrainingInfo(Integer trainingId);
 

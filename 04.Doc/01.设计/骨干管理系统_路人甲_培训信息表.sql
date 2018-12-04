@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS `training_info`;
 
 CREATE TABLE `training_info` (
   `training_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '培训ID',
-  `training_name` varchar(20) DEFAULT NULL COMMENT '培训名称',
+  `training_name` varchar(20) NOT NULL COMMENT '培训名称',
   `series` varchar(20) DEFAULT NULL COMMENT '所属系列',
   `sort` varchar(20) DEFAULT NULL COMMENT '所属体系',
   `type` varchar(20) DEFAULT NULL COMMENT '所属类别',
@@ -15,5 +15,7 @@ CREATE TABLE `training_info` (
   `updater_name` varchar(20) DEFAULT NULL COMMENT '最后更新人名称',
   `training_des` varchar(255) DEFAULT NULL COMMENT '培训简介',
   `training_duration` varchar(20) DEFAULT NULL COMMENT '培训时长',
-  PRIMARY KEY (`training_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+  `status` int(11) DEFAULT '0' COMMENT '是否删除  0表示正常  1表示已删除',
+  PRIMARY KEY (`training_id`,`training_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8
+

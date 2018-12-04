@@ -39,10 +39,15 @@ public class TrainingSettingService implements ITrainingSettingService {
 	
 	@Transactional(rollbackFor=Exception.class)
 	@Override
-	public void saveTrainingInfo(TrainingInfo param) {
+	public String saveTrainingInfo(TrainingInfo param) {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("trainingName", param.getTrainingName());
+		Integer count = trainingSettingMapper.queryTrainingByName(map);
+		if (count > 0) {
+			return "fail";
+		}
+		
 		map.put("trainingId", param.getTrainingId());
 		map.put("series", param.getSeries());
 		map.put("sort", param.getSort());
@@ -50,7 +55,18 @@ public class TrainingSettingService implements ITrainingSettingService {
 		map.put("classType", param.getClassType());
 		map.put("bu", param.getBu());
 		map.put("creatorId", param.getCreatorId());
-		map.put("creatorName", param.getCreatorName());
+		String creatorName = null;
+		if(null != param.getCreatorId() && param.getCreatorId() != "") {
+			creatorName = trainingSettingMapper.queryNameByID(param.getCreatorId());
+		}
+		map.put("creatorName", creatorName);
+		
+		map.put("updaterId", param.getUpdaterId());
+		String updaterName = null;
+		if(null != param.getUpdaterId() && param.getUpdaterId() != "") {
+			updaterName = trainingSettingMapper.queryNameByID(param.getUpdateName());
+		}
+		map.put("updaterName", updaterName);
 		map.put("trainingDes", param.getTrainingDes());
 		map.put("trainingDuration", param.getTrainingDuration());
 		
@@ -59,6 +75,7 @@ public class TrainingSettingService implements ITrainingSettingService {
 		} else {
 			trainingSettingMapper.updateTrainingInfo(map);
 		}
+		return "success";
 	}
 	
 	@Transactional(rollbackFor=Exception.class)

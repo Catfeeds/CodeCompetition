@@ -63,14 +63,14 @@ public class TrainingSettingController extends AbstractController {
 	@ApiOperation("新增/修改培训信息")
 	@PostMapping("/saveTrainingInfo")
 	public String saveTrainingInfo(@RequestBody TrainingInfo trainingInfo) {
-		
+		String result = null;
 		try {
-			trainingSettingService.saveTrainingInfo(trainingInfo);
+			result = trainingSettingService.saveTrainingInfo(trainingInfo);
 		} catch (Exception e) {
 			logger.error("saveTrainingInfo error" + e.getMessage());
 			return "fail";
 		}
-		return "success";
+		return result;
 	}
 	
 	@ApiOperation("删除培训信息")

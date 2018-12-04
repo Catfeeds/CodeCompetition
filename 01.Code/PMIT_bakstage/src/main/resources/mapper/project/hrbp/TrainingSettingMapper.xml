@@ -30,10 +30,14 @@
 			create_time as createTime,
 			updater_id as updaterId,
 			updater_name as updateName
+			<if test="null != trainingId and trainingId != ''">
+           	, training_des as trainingDes
+           	, training_duration as trainingDuration
+       		</if>
 		from 
 			training_info 
 		where 
-			1=1
+			status=0
 		<if test="null != sort and sort != ''">
             AND sort = '${sort}'
         </if>
@@ -100,7 +104,15 @@
 	</select>
 	
 	<select id="deleteTrainingInfo" parameterType="java.lang.Integer">
-		delete from training_info where training_id = #{trainingId}
+		update training_info set status = 1 where training_id = #{trainingId}
+	</select>
+	
+	<select id="queryNameByID" parameterType="java.lang.String" resultType="java.lang.String">
+		select employeeName from base_staff_info where employeeId = #{id}
+	</select>
+	
+	<select id="queryTrainingByName" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(1) from training_info where status = 0 and training_name = #{trainingName}
 	</select>
 	
 </mapper>
