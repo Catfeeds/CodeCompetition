@@ -1,7 +1,5 @@
 package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.isoftstone.pmit.project.hrbp.entity.ExaminationAffair;
 import com.isoftstone.pmit.project.hrbp.mapper.ExaminationAffairMapper;
 import com.isoftstone.pmit.project.hrbp.service.IExaminationAffairService;
@@ -20,11 +18,8 @@ public class ExaminationAffairServiceImpl implements IExaminationAffairService {
     private ExaminationAffairMapper examinationAffairMapper;
 
     @Override
-    public PageInfo findAllAffair(Integer pageNum, Integer pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
-        List<ExaminationAffair> examinationAffairList = examinationAffairMapper.findAllAffair();
-        PageInfo<ExaminationAffair> examinationAffairPageInfo = new PageInfo<>(examinationAffairList);
-        return examinationAffairPageInfo;
+    public List<ExaminationAffair> findAllAffair(ExaminationAffair examinationAffair) {
+        return  examinationAffairMapper.findAllAffair(examinationAffair);
     }
 
     @Override
@@ -48,7 +43,7 @@ public class ExaminationAffairServiceImpl implements IExaminationAffairService {
     }
 
     @Override
-    public List<ExaminationAffair> findExamAffairSystem(ExaminationAffair examinationAffair) {
-        return  examinationAffairMapper.findExamAffairSystem(examinationAffair);
+    public List<ExaminationAffair> findExamAffairSystem() {
+        return  examinationAffairMapper.findExamAffairSystem();
     }
 }

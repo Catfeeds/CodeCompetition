@@ -19,15 +19,21 @@
     </select>
     <select id="findEmpInformation"  resultType="com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult">
         SELECT
-	    li.employee_name as employeeName,
-	    li.employee_ID as employeeId,
-	    si.pdu as pdu,
-	    si.positionRole as positionRole,
+        li.employee_name as employeeName,
+        li.employee_ID as employeeId,
+        si.pdu as pdu,
+        si.positionRole as positionRole,
         hr.role_name as roleName
         FROM
-	    login_information li
+        login_information li
         LEFT JOIN base_staff_info si ON si.employeeID = li.employee_ID
         LEFT JOIN hrbp_role hr ON li.role_id = hr.role_id
+        order by li.login_id
+        <if test="null != employeeID and null != order">,#{employeeID} #{order}</if>
+        <if test="null != employeeName and null != order">,#{employeeName} #{order}</if>
+        <if test="null != pdu and null != order">,#{pdu} #{order}</if>
+        <if test="null != positionRole and null != order">,#{positionRole} #{order}</if>
+        <if test="null != roleName and null != order">,#{roleName} #{order}</if>
     </select>
     <select id="queryUserByKeyword" parameterType="java.lang.String" resultType="com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult">
     SELECT
@@ -67,4 +73,16 @@
         </set>
         where employee_ID = #{employeeID}
     </update>
+    <select id="findEmpInformations"  resultType="com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult">
+        SELECT
+	    li.employee_name as employeeName,
+	    li.employee_ID as employeeId,
+	    si.pdu as pdu,
+	    si.positionRole as positionRole,
+        hr.role_name as roleName
+        FROM
+	    login_information li
+        LEFT JOIN base_staff_info si ON si.employeeID = li.employee_ID
+        LEFT JOIN hrbp_role hr ON li.role_id = hr.role_id
+    </select>
 </mapper>

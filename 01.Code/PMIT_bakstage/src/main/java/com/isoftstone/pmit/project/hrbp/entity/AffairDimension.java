@@ -1,8 +1,5 @@
 package com.isoftstone.pmit.project.hrbp.entity;
 
-import com.isoftstone.pmit.common.util.JsonUtils;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**

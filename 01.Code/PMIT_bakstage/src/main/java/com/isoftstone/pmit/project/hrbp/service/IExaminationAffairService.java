@@ -1,6 +1,5 @@
 package com.isoftstone.pmit.project.hrbp.service;
 
-import com.github.pagehelper.PageInfo;
 import com.isoftstone.pmit.project.hrbp.entity.ExaminationAffair;
 
 import java.util.List;
@@ -11,11 +10,10 @@ import java.util.List;
 public interface IExaminationAffairService {
     /**
      * 获取所有事务
-     * @param pageNum
-     * @param pageSize
+     * @param examinationAffair
      * @return
      */
-    PageInfo<ExaminationAffair> findAllAffair(Integer pageNum, Integer pageSize);
+    List<ExaminationAffair> findAllAffair(ExaminationAffair examinationAffair);
 
     /**
      * 删除事务
@@ -42,9 +40,8 @@ public interface IExaminationAffairService {
     void insertAffair(ExaminationAffair examinationAffair);
 
     /**
-     * 模糊查询
-     * @param examinationAffair
+     * 事务所属体系接口
      * @return
      */
-    List<ExaminationAffair> findExamAffairSystem(ExaminationAffair examinationAffair);
+    List<ExaminationAffair> findExamAffairSystem();
 }

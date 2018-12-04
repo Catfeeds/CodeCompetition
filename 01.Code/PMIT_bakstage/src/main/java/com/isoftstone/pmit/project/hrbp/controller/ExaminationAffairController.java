@@ -1,6 +1,5 @@
 package com.isoftstone.pmit.project.hrbp.controller;
 
-import com.github.pagehelper.PageInfo;
 import com.isoftstone.pmit.common.util.AjaxResult;
 import com.isoftstone.pmit.common.util.JsonUtils;
 import com.isoftstone.pmit.common.web.controller.AbstractController;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author lf
@@ -26,14 +24,12 @@ public class ExaminationAffairController extends AbstractController {
     private IExaminationAffairService examinationAffairService;
 
     @RequestMapping(value = "/findAllAffair", method = {RequestMethod.POST})
-    @ApiOperation(value = "获取所有考核事务", notes = "获取所有考核事务,输入pageNum,pageSize")
+    @ApiOperation(value = "获取所有考核事务", notes = "获取所有考核事务")
     public String findAllAffair(@RequestBody String parameter) {
-        Map<String, String> paramMap = JsonUtils.readValue(parameter, Map.class);
-        int pageNum = Integer.parseInt(String.valueOf(paramMap.get("pageNum")));
-        int pageSize = Integer.parseInt(String.valueOf(paramMap.get("pageSize")));
-        PageInfo resultList;
+        ExaminationAffair examinationAffair = JsonUtils.readValue(parameter, ExaminationAffair.class);
+        List<ExaminationAffair> resultList;
         try {
-            resultList = examinationAffairService.findAllAffair(pageNum, pageSize);
+            resultList = examinationAffairService.findAllAffair(examinationAffair);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToResult(false, e.getMessage());
@@ -43,16 +39,16 @@ public class ExaminationAffairController extends AbstractController {
 
     @ApiOperation(value = "删除考核事务", notes = "删除考核事务")
     @PostMapping(value = "/deleteAffair")
-    public AjaxResult deleteUserRole(@RequestBody String parameter) {
+    public String deleteUserRole(@RequestBody String parameter) {
         ExaminationAffair examinationAffair = JsonUtils.readValue(parameter, ExaminationAffair.class);
         try {
             examinationAffairService.deleteAffair(examinationAffair.getAffairID());
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("====deleteAffair error=============" + e);
-            return AjaxResult.error();
+            return AjaxResult.returnToMessage(false, "删除失败");
         }
-        return AjaxResult.success();
+        return AjaxResult.returnToMessage(false, "删除成功");
     }
 
     @RequestMapping(value = "/findExamAffairByAffairId", method = { RequestMethod.POST })
@@ -73,39 +69,38 @@ public class ExaminationAffairController extends AbstractController {
 
     @ApiOperation(value = "修改考核事务", notes = "修改考核事务")
     @PostMapping(value = "/updateAffair")
-    public AjaxResult updateAffair(@RequestBody String parameter) {
+    public String updateAffair(@RequestBody String parameter) {
         ExaminationAffair examinationAffair = JsonUtils.readValue(parameter, ExaminationAffair.class);
         try {
             examinationAffairService.updateAffair(examinationAffair);
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("====updateAffair error=============" + e);
-            return AjaxResult.error();
+            return AjaxResult.returnToMessage(false, "修改失败");
         }
-        return AjaxResult.success();
+        return AjaxResult.returnToMessage(false, "修改成功");
     }
 
     @ApiOperation(value = "添加考核事务", notes = "添加考核事务")
     @PostMapping(value = "/insertAffair")
-    public AjaxResult insertAffair(@RequestBody String parameter){
+    public String insertAffair(@RequestBody String parameter){
         ExaminationAffair examinationAffair = JsonUtils.readValue(parameter, ExaminationAffair.class);
         try {
             examinationAffairService.insertAffair(examinationAffair);
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("====insertAffair error=============" + e);
-            return AjaxResult.error();
+            return AjaxResult.returnToMessage(false, "添加失败");
         }
-        return AjaxResult.success();
+        return AjaxResult.returnToMessage(false, "添加成功");
     }
 
     @RequestMapping(value = "/findExamAffairSystem", method = { RequestMethod.POST })
-    @ApiOperation(value="模糊查询", notes="模糊查询所属体系")
-    public String findExamAffairSystem(@RequestBody String parameter){
-        ExaminationAffair examinationAffair = JsonUtils.readValue(parameter, ExaminationAffair.class);
+    @ApiOperation(value="事务所属体系接口", notes="事务所属体系接口")
+    public String findExamAffairSystem(){
         List<ExaminationAffair> examinationAffairResult;
         try {
-            examinationAffairResult = examinationAffairService.findExamAffairSystem(examinationAffair);
+            examinationAffairResult = examinationAffairService.findExamAffairSystem();
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("====findExamAffairSystem error=============" + e);

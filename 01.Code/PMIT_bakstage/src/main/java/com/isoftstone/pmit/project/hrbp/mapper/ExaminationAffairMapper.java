@@ -17,7 +17,7 @@ public interface ExaminationAffairMapper {
      * 获取所有事务
      * @return
      */
-    List<ExaminationAffair> findAllAffair();
+    List<ExaminationAffair> findAllAffair(ExaminationAffair examinationAffair);
 
     /**
      * 删除事务
@@ -45,9 +45,8 @@ public interface ExaminationAffairMapper {
     void insertAffair(ExaminationAffair examinationAffair);
 
     /**
-     * 模糊查询所属体系
-     * @param examinationAffair
+     * 事务所属体系接口
      * @return
      */
-    List<ExaminationAffair> findExamAffairSystem(ExaminationAffair examinationAffair);
+    List<ExaminationAffair> findExamAffairSystem();
 }
