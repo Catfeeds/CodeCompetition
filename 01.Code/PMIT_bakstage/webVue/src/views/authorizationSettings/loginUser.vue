@@ -11,7 +11,7 @@
         fit
         size="mini"
         stripe
-        max-height="400"
+        max-height="375"
         highlight-current-row
         style="width: 100%;margin:15px 0px;"
         @sort-change="handleSort"
@@ -62,7 +62,7 @@
         ></el-table-column>
         <el-table-column
           align="center"
-          width="200"
+          width="130"
           header-align="center"
           :label="$t('table.option')"
         >
@@ -71,14 +71,16 @@
               type="primary"
               size="mini"
               icon="el-icon-edit"
+              title="编辑"
               @click="handleEdit(scope.row)"
-            >编辑</el-button>
+            ></el-button>
             <el-button
               type="primary"
               size="mini"
               icon="el-icon-delete"
+              title="删除"
               @click="handleDel(scope.row.employeeID)"
-            >删除</el-button>
+            ></el-button>
           </template>
         </el-table-column>
       </el-table>

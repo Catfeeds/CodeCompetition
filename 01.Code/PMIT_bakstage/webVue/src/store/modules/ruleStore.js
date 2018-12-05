@@ -1,12 +1,12 @@
-import api from "@/api/authorizationApi";
-const authorization = {
+import api from "@/api/ruleApi";
+export default {
   state: {},
   mutations: {},
   actions: {
-    getSysRoleList() {
+    getRoleList(commit, condition) {
       return new Promise((resolve, reject) => {
         api
-          .getSysRoleList()
+          .getRoleList(condition)
           .then(response => {
             resolve(response.data.data);
           })
@@ -15,34 +15,10 @@ const authorization = {
           });
       });
     },
-    getSysRoleInfoById(commit, id) {
+    addRoleInfo(commit, roleInfo) {
       return new Promise((resolve, reject) => {
         api
-          .getSysRoleInfoById(id)
-          .then(res => {
-            resolve(res.data);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
-    addSysRoleInfo(commit, roleInfo) {
-      return new Promise((resolve, reject) => {
-        api
-          .addSysRoleInfo(roleInfo)
-          .then(response => {
-            resolve(response.data);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
-    delSysRoleInfo(commit, roleId) {
-      return new Promise((resolve, reject) => {
-        api
-          .delSysRoleInfo(roleId)
+          .addRoleInfo(roleInfo)
           .then(response => {
             resolve(response.data);
           })
@@ -54,7 +30,7 @@ const authorization = {
     editRoleInfo(commit, roleInfo) {
       return new Promise((resolve, reject) => {
         api
-          .editSysRoleInfo(roleInfo)
+          .editRoleInfo(roleInfo)
           .then(response => {
             resolve(response.data);
           })
@@ -63,10 +39,10 @@ const authorization = {
           });
       });
     },
-    getLoginUserList(commit, pageInfo) {
+    delRoleInfo(commit, roleId) {
       return new Promise((resolve, reject) => {
         api
-          .getLoginUserList(pageInfo)
+          .delRoleInfo(roleId)
           .then(response => {
             resolve(response.data);
           })
@@ -75,10 +51,22 @@ const authorization = {
           });
       });
     },
-    getLoginUserById(commit, employeeID) {
+    getRuleList(commit, condition) {
       return new Promise((resolve, reject) => {
         api
-          .getLoginUserById(employeeID)
+          .getRuleList(condition)
+          .then(response => {
+            resolve(response.data.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    addRuleInfo(commit, ruleInfo) {
+      return new Promise((resolve, reject) => {
+        api
+          .addRuleInfo(ruleInfo)
           .then(response => {
             resolve(response.data);
           })
@@ -87,10 +75,10 @@ const authorization = {
           });
       });
     },
-    addLoginUser(commit, userInfo) {
+    editRuleInfo(commit, ruleInfo) {
       return new Promise((resolve, reject) => {
         api
-          .addLoginUser(userInfo)
+          .editRuleInfo(ruleInfo)
           .then(response => {
             resolve(response.data);
           })
@@ -99,36 +87,12 @@ const authorization = {
           });
       });
     },
-    delLoginUser(commit, userId) {
+    delRuleInfo(commit, ruleId) {
       return new Promise((resolve, reject) => {
         api
-          .delLoginUser(userId)
+          .delRuleInfo(ruleId)
           .then(response => {
-            resolve(response.data);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
-    editLoginUser(commit, userInfo) {
-      return new Promise((resolve, reject) => {
-        api
-          .editLoginUser(userInfo)
-          .then(response => {
-            resolve(response.data);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
-    searchEmployeeInfo(commit, keyword) {
-      return new Promise((resolve, reject) => {
-        api
-          .searchEmployeeInfo(keyword)
-          .then(response => {
-            resolve(response.data);
+            resolve(response.data.data);
           })
           .catch(error => {
             reject(error);
@@ -137,4 +101,3 @@ const authorization = {
     }
   }
 };
-export default authorization;

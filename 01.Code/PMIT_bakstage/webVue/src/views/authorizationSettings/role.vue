@@ -11,7 +11,7 @@
       size="mini"
       stripe
       highlight-current-row
-      height="450px"
+      max-height="450px"
       style="width: 100%;margin-top:15px;"
     >
       <el-table-column header-align="center" align="center" :label="$t('table.id')" type="index" width="80">
@@ -22,20 +22,22 @@
 
       <el-table-column min-width="150px" header-align="center" label="角色描述" prop="description">
       </el-table-column>
-      <el-table-column align="center" :label="$t('table.option')" width="200" header-align="center">
+      <el-table-column align="center" :label="$t('table.option')" width="130" header-align="center">
         <template slot-scope="scope">
           <el-button
             type="primary"
             size="mini"
             icon="el-icon-edit"
+            title="编辑"
             @click="handleEdit(scope.row)"
-          >编辑</el-button>
+          ></el-button>
           <el-button
             type="primary"
             size="mini"
             icon="el-icon-delete"
+            title="删除"
             @click="handleDel(scope.row.roleId)"
-          >删除</el-button>
+          ></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -147,7 +149,7 @@ export default {
     getRoleList() {
       this.loading = true;
       this.$store
-        .dispatch("getRoleList")
+        .dispatch("getSysRoleList")
         .then(data => {
           this.tableData = data;
           this.loading = false;
@@ -164,7 +166,7 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        vm.$store.dispatch("delRoleInfo", id).then(res => {
+        vm.$store.dispatch("delSysRoleInfo", id).then(res => {
           if (!res.code) {
             vm.$message.success(res.msg);
             vm.getRoleList();
@@ -218,9 +220,9 @@ export default {
             },
             menuInfoList: vm.roleForm.menuIds
           };
-          let requestName = "addRoleInfo"
+          let requestName = "addSysRoleInfo"
           if(vm.roleForm.roleId >= 0) {
-            requestName = "editRoleInfo";
+            requestName = "editSysRoleInfo";
             formData.sysRole.roleId = vm.roleForm.roleId;
           }
           vm.$store.dispatch(requestName, formData).then(res => {

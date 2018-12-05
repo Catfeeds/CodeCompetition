@@ -8,6 +8,7 @@ import relationTreeStore from "./store/modules/relationTreeStore";
 import authorizationStore from "./store/modules/authorizationStore";
 import trainingStore from "./store/modules/trainingStore";
 import affairsStore from "./store/modules/affairsStore";
+import ruleStore from "./store/modules/ruleStore";
 import getters from "./store/getters";
 
 Vue.use(Vuex);
@@ -21,7 +22,8 @@ export default new Vuex.Store({
     relationTreeStore,
     authorizationStore,
     trainingStore,
-    affairsStore
+    affairsStore,
+    ruleStore
   },
   getters
 });

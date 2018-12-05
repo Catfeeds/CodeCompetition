@@ -105,32 +105,36 @@
           <span>{{scope.row.updateTime | formatDate}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" :label="$t('table.option')" width="360" header-align="center">
+      <el-table-column align="center" :label="$t('table.option')" width="230" header-align="center">
         <template slot-scope="scope">
           <el-button
             type="primary"
             size="mini"
-            icon="el-icon-setting"
-            @click="handleSet(scope.row.affairID)"
-          >设置</el-button>
-          <el-button
-            type="primary"
-            size="mini"
             icon="el-icon-edit"
+            title="编辑"
             @click="handleEdit(scope.row)"
-          >编辑</el-button>
+          ></el-button>
           <el-button
             type="primary"
             size="mini"
             icon="el-icon-delete"
+            title="删除"
             @click="handleDel(scope.row.affairID)"
-          >删除</el-button>
+          ></el-button>
+          <el-button
+            type="primary"
+            size="mini"
+            icon="el-icon-setting"
+            title="考核事务维度设置"
+            @click="handleSet(scope.row.affairID)"
+          ></el-button>
           <el-button
             type="primary"
             size="mini"
             icon="el-icon-search"
+            title="考核事务维度查看"
             @click="handleView(scope.row.affairID)"
-          >查看</el-button>
+          ></el-button>
         </template>
       </el-table-column>
     </el-table>
