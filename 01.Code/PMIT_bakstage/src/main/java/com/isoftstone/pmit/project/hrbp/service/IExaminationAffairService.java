@@ -50,4 +50,10 @@ public interface IExaminationAffairService {
      * @return
      */
     List<ExaminationAffair> findExamAffairSeries();
+
+    /**
+     * 查询所有事务名称用作去重
+     * @return
+     */
+    List<ExaminationAffair> findAllAffairName();
 }

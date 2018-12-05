@@ -55,4 +55,10 @@ public interface ExaminationAffairMapper {
      * @return
      */
     List<ExaminationAffair> findExamAffairSeries();
+
+    /**
+     * 查询所有事务名称用于去重
+     * @return
+     */
+    List<ExaminationAffair> findAllAffairName();
 }

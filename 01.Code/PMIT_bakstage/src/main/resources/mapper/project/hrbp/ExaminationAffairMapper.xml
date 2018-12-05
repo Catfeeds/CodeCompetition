@@ -91,4 +91,9 @@
         DISTINCT(series)
         from hrbp_examination_affair
     </select>
+    <select id="findAllAffairName" resultType="ExaminationAffair">
+        select
+        DISTINCT(affairName)
+        from hrbp_examination_affair
+    </select>
 </mapper>

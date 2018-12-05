@@ -30,4 +30,10 @@
         on ad.affair_id = ea.affair_id
         where ea.affair_id = #{affairID}
     </select>
+    <delete id="deleteAffairAndDimension" parameterType="ExaminationAffair">
+        delete from hrbp_affair_dimension where affair_id = #{affairID}
+    </delete>
+    <delete id="deleteDimension" parameterType="ExaminationDimension">
+         delete from hrbp_affair_dimension where dimension_id = #{dimensionId}
+    </delete>
 </mapper>

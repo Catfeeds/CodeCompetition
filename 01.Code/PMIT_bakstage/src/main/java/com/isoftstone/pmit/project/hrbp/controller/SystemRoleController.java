@@ -87,6 +87,16 @@ public class SystemRoleController extends AbstractController {
         SysRole role = roleMenu.getSysRole();
         List<MenuInfo> menuInfoList = roleMenu.getMenuInfoList();
         logger.debug("添加角色并授权！角色数据role：" + role + "，权限数据permIds：" + menuInfoList);
+        //获取输入角色名称
+        String insertRoleName = role.getRoleName();
+        List<SysRole> sysRoles = systemRoleService.queryAllRoles();
+        for (SysRole sysRole : sysRoles) {
+            //获取数据
+            String tempRoleName = sysRole.getRoleName();
+            if(insertRoleName.equals(tempRoleName)){
+                return AjaxResult.returnToMessage(false, "该角色已存在");
+            }
+        }
         try {
             if (null == role) {
                 return AjaxResult.returnToMessage(false, "请您填写完整的角色数据");

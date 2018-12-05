@@ -1,5 +1,6 @@
 package com.isoftstone.pmit.project.hrbp.mapper;
 
+import com.isoftstone.pmit.project.hrbp.entity.ExaminationAffair;
 import com.isoftstone.pmit.project.hrbp.entity.ExaminationDimension;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -32,4 +33,11 @@ public interface DimensionMapper {
      * @return
      */
     List<ExaminationDimension> queryDimension(Integer affairID);
+
+    /**
+     * 删除事务下已有维度
+     * @param examinationAffair
+     */
+    void deleteAffairAndDimension(ExaminationAffair examinationAffair);
+    void deleteDimension(ExaminationDimension examinationDimension);
 }
