@@ -6,12 +6,12 @@
     <insert id="insertDimension" parameterType="ExaminationDimension" keyProperty="dimensionID" useGeneratedKeys="true">
         insert into hrbp_examination_dimension(
         <if test="dimensionName != null and dimensionName != ''">dimension_name,</if>
-        <if test="mark != null and mark != ''">mark,</if>
-        <if test="explanation != null and explanation != ''">explanation</if>
+        <if test="mark != null and mark != ''">mark</if>
+        <if test="explanation != null and explanation != ''">,explanation</if>
         )values (
         <if test="dimensionName != null and dimensionName != ''">#{dimensionName},</if>
-        <if test="mark != null and mark != ''">#{mark},</if>
-        <if test="explanation != null and explanation != ''">#{explanation}</if>
+        <if test="mark != null and mark != ''">#{mark}</if>
+        <if test="explanation != null and explanation != ''">,#{explanation}</if>
         )
     </insert>
     <insert id="insertAffairDimension">

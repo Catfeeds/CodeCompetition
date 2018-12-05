@@ -36,14 +36,28 @@ function editAffairsInfo(affairsInfo) {
 }
 function querySeries() {
   return request({
-    url: "hrbp/trainingsetting/querySeries",
+    url: "hrbp/affair/findExamAffairSeries",
     method: "post"
   });
 }
 function querySystem() {
   return request({
-    url: "hrbp/trainingsetting/querySort",
+    url: "hrbp/affair/findExamAffairSystem",
     method: "post"
+  });
+}
+function addDimensionInfo(dimensionInfo) {
+  return request({
+    url: "hrbp/dimension/insertDimension",
+    method: "post",
+    data: dimensionInfo
+  });
+}
+function getDimensionInfo(affairID) {
+  return request({
+    url: "hrbp/dimension/queryDimension",
+    method: "post",
+    data: { affairID }
   });
 }
 export default {
@@ -53,5 +67,7 @@ export default {
   editAffairsInfo,
   delAffairsInfo,
   querySeries,
-  querySystem
+  querySystem,
+  addDimensionInfo,
+  getDimensionInfo
 };

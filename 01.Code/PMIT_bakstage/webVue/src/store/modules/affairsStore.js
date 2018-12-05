@@ -3,10 +3,10 @@ export default {
   state: {},
   mutations: {},
   actions: {
-    getAffairsList(commit, page) {
+    getAffairsList(commit, condition) {
       return new Promise((resolve, reject) => {
         api
-          .getAffairsList(page)
+          .getAffairsList(condition)
           .then(response => {
             resolve(response.data.data);
           })
@@ -15,10 +15,10 @@ export default {
           });
       });
     },
-    getAffairsInfoById(commit, trainId) {
+    getAffairsInfoById(commit, affairId) {
       return new Promise((resolve, reject) => {
         api
-          .getAffairsInfoById(trainId)
+          .getAffairsInfoById(affairId)
           .then(res => {
             resolve(res.data);
           })
@@ -27,10 +27,10 @@ export default {
           });
       });
     },
-    addAffairsInfo(commit, trainInfo) {
+    addAffairsInfo(commit, affairInfo) {
       return new Promise((resolve, reject) => {
         api
-          .addAffairsInfo(trainInfo)
+          .addAffairsInfo(affairInfo)
           .then(response => {
             resolve(response.data);
           })
@@ -39,10 +39,10 @@ export default {
           });
       });
     },
-    editAffairsInfo(commit, trainInfo) {
+    editAffairsInfo(commit, affairInfo) {
       return new Promise((resolve, reject) => {
         api
-          .editAffairsInfo(trainInfo)
+          .editAffairsInfo(affairInfo)
           .then(response => {
             resolve(response.data);
           })
@@ -51,10 +51,10 @@ export default {
           });
       });
     },
-    delAffairsInfo(commit, trainId) {
+    delAffairsInfo(commit, affairId) {
       return new Promise((resolve, reject) => {
         api
-          .delAffairsInfo(trainId)
+          .delAffairsInfo(affairId)
           .then(response => {
             resolve(response.data);
           })
@@ -81,6 +81,30 @@ export default {
           .querySystem()
           .then(response => {
             resolve(response.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    addDimensionInfo(commit, dimensionInfo) {
+      return new Promise((resolve, reject) => {
+        api
+          .addDimensionInfo(dimensionInfo)
+          .then(response => {
+            resolve(response.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    getDimensionInfo(commit, affairId) {
+      return new Promise((resolve, reject) => {
+        api
+          .getDimensionInfo(affairId)
+          .then(response => {
+            resolve(response.data.data);
           })
           .catch(error => {
             reject(error);

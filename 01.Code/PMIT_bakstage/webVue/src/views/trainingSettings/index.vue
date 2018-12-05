@@ -94,7 +94,7 @@
         align="center"
         :label="$t('table.id')"
         width="80"
-        prop="id"
+        type="index"
       ></el-table-column>
 
       <el-table-column
@@ -329,7 +329,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false" size="mini" v-if="!isDetail">取 消</el-button>
-        <el-button @click="dialogVisible = false" size="mini" v-if="isDetail">关闭</el-button>
+        <el-button @click="dialogVisible = false" size="mini" v-if="isDetail">关 闭</el-button>
         <el-button type="primary" @click="submtForm('trainForm')" size="mini" v-if="!isDetail">确 定</el-button>
       </div>
     </el-dialog>
@@ -459,10 +459,7 @@ export default {
         .dispatch("getTrainingList", condition)
         .then(data => {
           if (data) {
-            vm.initList = data.map((item, index) => {
-              item.id = index + 1;
-              return item;
-            });
+            vm.initList = data;
             vm.list = vm.initList.slice(0, vm.page.pageSize);
             vm.page.totalRecord = data.length;
           } else {

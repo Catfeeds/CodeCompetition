@@ -79,7 +79,7 @@
         align="center"
         :label="$t('table.id')"
         width="80"
-        prop="id"
+        type="index"
       ></el-table-column>
       <el-table-column min-width="150px" header-align="center" label="所属体系" sortable prop="system"></el-table-column>
       <el-table-column
@@ -111,7 +111,7 @@
             type="primary"
             size="mini"
             icon="el-icon-setting"
-            @click="handleSet(scope.row)"
+            @click="handleSet(scope.row.affairID)"
           >设置</el-button>
           <el-button
             type="primary"
@@ -129,7 +129,7 @@
             type="primary"
             size="mini"
             icon="el-icon-search"
-            @click="handleView(scope.row)"
+            @click="handleView(scope.row.affairID)"
           >查看</el-button>
         </template>
       </el-table-column>
@@ -207,33 +207,40 @@
         <el-button type="primary" @click="submtForm()" size="mini">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog :title="dialogSetTitle" :visible="dialogSetVisible" width="50%" @close="dialogSetVisible = false">
+    <el-dialog
+      :title="dialogSetTitle"
+      :visible="dialogSetVisible"
+      width="50%"
+      @close="dialogSetVisible = false"
+    >
       <el-row>
-        <el-button v-if="!isView"
+        <el-button
+          v-if="!isView"
           type="primary"
           size="mini"
           icon="el-icon-search"
           @click="handleDelDimension"
         >{{ $t('table.delete') }}</el-button>
-        <el-button v-if="!isView"
+        <el-button
+          v-if="!isView"
           style="margin-left: 10px;"
           type="primary"
           size="mini"
           icon="el-icon-plus"
           @click="handleAddDimension"
         >{{ $t('table.add') }}</el-button>
-        <span style="float:right;line-height:28px">说明：合计的总分=各考核维度的分数*系数之和</span>
       </el-row>
       <el-table
         ref="multipleTable"
-        @selection-change="handleSelectionChange"
         :data="dimensionList"
         border
         fit
         size="mini"
         stripe
+        max-height="185"
         tooltip-effect="dark"
         highlight-current-row
+        @selection-change="handleSelectionChange"
         style="width: 100%; margin:10px 0px"
       >
         <el-table-column type="selection" width="55" v-if="!isView"></el-table-column>
@@ -242,11 +249,10 @@
           align="center"
           :label="$t('table.id')"
           width="80"
-          prop="id"
+          type="index"
         ></el-table-column>
         <el-table-column prop="dimension" header-align="center" label="考核维度" width="150"></el-table-column>
         <el-table-column prop="score" header-align="center" label="分数" width="100"></el-table-column>
-        <el-table-column prop="coefficient" header-align="center" label="系数" width="50"></el-table-column>
         <el-table-column
           prop="description"
           header-align="center"
@@ -254,14 +260,9 @@
           show-overflow-tooltip
         ></el-table-column>
       </el-table>
-      <el-row type="flex" justify="home">
-        <template>
-          <span>合计</span>
-          <span style="margin-left:20px;">{{totalScore}}</span>
-        </template>
-      </el-row>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleSave()" size="mini">保 存</el-button>
+        <el-button @click="dialogSetVisible = false" size="mini" v-if="isView">关 闭</el-button>
+        <el-button type="primary" @click="handleSave()" size="mini" v-else>保 存</el-button>
       </div>
     </el-dialog>
     <el-dialog :title="dialogDimensionTitle" :visible.sync="dialogDimensionVisible" width="30%">
@@ -278,9 +279,6 @@
         <el-form-item label="分数" prop="score">
           <el-input v-model="dimensionForm.score" autocomplete="off" required maxlength="3"></el-input>
         </el-form-item>
-        <el-form-item label="系数" prop="coefficient">
-          <el-input v-model="dimensionForm.coefficient" autocomplete="off" required maxlength="3"></el-input>
-        </el-form-item>
         <el-form-item label="考核点说明" prop="description">
           <el-input
             type="textarea"
@@ -291,8 +289,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogBaseVisible = false" size="mini">取 消</el-button>
-        <el-button type="primary" @click="submtForm()" size="mini">确 定</el-button>
+        <el-button @click="dialogDimensionVisible = false" size="mini">取 消</el-button>
+        <el-button type="primary" @click="handleSaveDimension()" size="mini">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -309,6 +307,25 @@ export default {
     }
   },
   data() {
+    let vm = this;
+    let validaNumer = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("请输入分数"));
+      }
+      if (isNaN(value)) {
+        return callback(new Error("只能输入整数和小数"));
+      }
+      return callback();
+    };
+    let validaName = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("请输入考核维度"));
+      }
+      if (vm.dimensionList.find(item => item.dimension === value)) {
+        return callback(new Error("考核维度重复"));
+      }
+      return callback();
+    };
     return {
       systemOptions: [],
       courseTypeOptions: [
@@ -335,6 +352,7 @@ export default {
         product: ""
       },
       dimensionForm: {
+        affairsId: "",
         dimension: "",
         score: "",
         coefficient: "",
@@ -357,7 +375,8 @@ export default {
       dialogDimensionVisible: false,
       isEdit: false,
       isView: false,
-      totalScore: 0,
+      multipleTable: [],
+      selectedIds: [],
       rules: {
         affairsName: [
           { required: true, message: "请输入培训名称", trigger: "blur" }
@@ -370,7 +389,9 @@ export default {
         ],
         product: [
           { required: true, message: "请选择产品线", trigger: "change" }
-        ]
+        ],
+        dimension: [{ required: true, validator: validaName, trigger: "blur" }],
+        score: [{ required: true, validator: validaNumer, trigger: "blur" }]
       }
     };
   },
@@ -394,12 +415,12 @@ export default {
     },
     getSeries() {
       let vm = this;
-      vm.$store.dispatch("querySeries").then(res => {
+      vm.$store.dispatch("queryAffairsSeries").then(res => {
         if (res.data) {
           vm.seriesOptions = res.data.map(item => {
             return {
-              label: item,
-              value: item
+              label: item.series,
+              value: item.series
             };
           });
         } else {
@@ -409,12 +430,12 @@ export default {
     },
     getSystem() {
       let vm = this;
-      vm.$store.dispatch("querySystem").then(res => {
+      vm.$store.dispatch("queryAffairsSystem").then(res => {
         if (res.data) {
           vm.systemOptions = res.data.map(item => {
             return {
-              label: item,
-              value: item
+              label: item.system,
+              value: item.system
             };
           });
         } else {
@@ -435,10 +456,7 @@ export default {
         .dispatch("getAffairsList", condition)
         .then(data => {
           if (data) {
-            vm.initList = data.map((item, index) => {
-              item.id = index + 1;
-              return item;
-            });
+            vm.initList = data;
             vm.list = vm.initList.slice(0, vm.page.pageSize);
             vm.page.totalRecord = data.length;
           } else {
@@ -450,6 +468,29 @@ export default {
         .catch(() => {
           vm.list = [];
           vm.listLoading = false;
+        });
+    },
+    getDimensionInfo(affairId) {
+      let vm = this;
+      vm.$store
+        .dispatch("getDimensionInfo", affairId)
+        .then(res => {
+          if (res) {
+            vm.dimensionList = res.map((item, index) => {
+              return {
+                id: index+1,
+                dimensionId: item.dimensionID,
+                dimension: item.dimensionName,
+                score: item.mark,
+                description: item.explanation
+              }
+            });
+          } else {
+            vm.dimensionList = [];
+          }
+        })
+        .catch(() => {
+          vm.dimensionList = [];
         });
     },
     submtForm() {
@@ -544,21 +585,59 @@ export default {
       this.dialogBaseVisible = true;
       this.clearValidate("affairsForm");
     },
-    handleView(rowData) {
+    handleView(affairId) {
       let vm = this;
       vm.dialogSetTitle = "查看考核事务维度";
       vm.dialogSetVisible = true;
       vm.isView = true;
+      vm.getDimensionInfo(affairId);
     },
-    handleSet() {
+    handleSet(affairId) {
       let vm = this;
+      vm.dimensionForm.affairsId = affairId;
       vm.dialogSetTitle = "考核事务维度设置";
       vm.dialogSetVisible = true;
       vm.isView = false;
+      vm.multipleTable = [];
+      vm.getDimensionInfo(affairId);
     },
-    handleSave() {},
-    handleSelectionChange() {},
-    handleDelDimension() {},
+    handleSave() {
+      let vm = this;
+      if (vm.dimensionList.length <= 0) {
+        vm.$message.warning("请添加考核维度");
+        return;
+      }
+      let param = {
+        examinationAffair: { affairID: vm.dimensionForm.affairsId },
+        examinationDimensionList: vm.dimensionList.map(item => {
+          return {
+            dimensionName: item.dimension,
+            mark: item.score,
+            explanation: item.description
+          };
+        })
+      };
+      vm.$store.dispatch("addDimensionInfo", param).then(res => {
+        if (res.success) {
+          vm.$message.success(res.message);
+        } else {
+          vm.$message.error(res.message);
+        }
+        vm.dialogSetVisible = false;
+      }).catch((error)=>{
+        vm.dialogSetVisible = false;
+      });
+    },
+    handleDelDimension() {
+      let vm = this;
+      if (vm.selectedIds.length <= 0) {
+        vm.$message.warning("请选择要删除的数据");
+        return;
+      }
+      vm.dimensionList = vm.dimensionList.filter(item => {
+        return vm.selectedIds.indexOf(item.id) < 0;
+      });
+    },
     handleAddDimension() {
       let vm = this;
       vm.dialogDimensionVisible = true;
@@ -567,6 +646,25 @@ export default {
       vm.dimensionForm.coefficient = "";
       vm.dimensionForm.description = "";
       vm.clearValidate("dimensionForm");
+    },
+    handleSaveDimension() {
+      let vm = this;
+      vm.$refs.dimensionForm.validate(valid => {
+        if (valid) {
+          vm.dimensionList.push({
+            id: vm.dimensionList.length + 1,
+            dimension: vm.dimensionForm.dimension,
+            score: vm.dimensionForm.score,
+            description: vm.dimensionForm.description
+          });
+          vm.dialogDimensionVisible = false;
+        } else {
+          return false;
+        }
+      });
+    },
+    handleSelectionChange(selection) {
+      this.selectedIds = selection.map(item => item.id);
     }
   }
 };

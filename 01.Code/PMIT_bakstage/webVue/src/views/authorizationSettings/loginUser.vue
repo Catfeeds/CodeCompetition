@@ -21,7 +21,7 @@
           align="center"
           :label="$t('table.id')"
           width="80"
-          prop="id"
+          type="index"
         ></el-table-column>
 
         <el-table-column
@@ -224,10 +224,7 @@ export default {
         .dispatch("getLoginUserList", pageInfo)
         .then(data => {
           if (data.success) {
-            vm.tableData = data.data.list.map((item, index) => {
-              item.id = index + 1;
-              return item;
-            });
+            vm.tableData = data.data.list;
             vm.page.totalRecord = data.data.total;
           }
           vm.loading = false;

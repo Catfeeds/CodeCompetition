@@ -14,7 +14,7 @@
       height="450px"
       style="width: 100%;margin-top:15px;"
     >
-      <el-table-column header-align="center" align="center" :label="$t('table.id')" prop="id" width="80">
+      <el-table-column header-align="center" align="center" :label="$t('table.id')" type="index" width="80">
       </el-table-column>
 
       <el-table-column min-width="150px" header-align="center" label="角色名称" prop="roleName">
@@ -149,10 +149,7 @@ export default {
       this.$store
         .dispatch("getRoleList")
         .then(data => {
-          this.tableData = data.map((item, index) => {
-            item.id = index + 1;
-            return item;
-          });
+          this.tableData = data;
           this.loading = false;
         })
         .catch(error => {
