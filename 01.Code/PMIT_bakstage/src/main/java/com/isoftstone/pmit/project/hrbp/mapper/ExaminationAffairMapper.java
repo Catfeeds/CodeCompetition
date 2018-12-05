@@ -49,4 +49,10 @@ public interface ExaminationAffairMapper {
      * @return
      */
     List<ExaminationAffair> findExamAffairSystem();
+
+    /**
+     * 查询所属系列
+     * @return
+     */
+    List<ExaminationAffair> findExamAffairSeries();
 }

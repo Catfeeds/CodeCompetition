@@ -86,4 +86,9 @@
         DISTINCT(system)
         from hrbp_examination_affair
     </select>
+    <select id="findExamAffairSeries" resultType="ExaminationAffair">
+        select
+        DISTINCT(series)
+        from hrbp_examination_affair
+    </select>
 </mapper>

@@ -54,4 +54,9 @@ public class ExaminationAffairServiceImpl implements IExaminationAffairService {
     public List<ExaminationAffair> findExamAffairSystem() {
         return  examinationAffairMapper.findExamAffairSystem();
     }
+
+    @Override
+    public List<ExaminationAffair> findExamAffairSeries() {
+        return  examinationAffairMapper.findExamAffairSeries();
+    }
 }

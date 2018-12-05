@@ -10,9 +10,7 @@ import com.isoftstone.pmit.project.hrbp.service.IUserManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author lf
@@ -59,7 +57,7 @@ public class UserManageServiceImpl implements IUserManageService {
         PageHelper.startPage(pageInfo.getCurrPage(), pageInfo.getPageSize());
         String sortColumn = pageInfo.getSortColumn();
         String sortType = pageInfo.getSortType();
-        if (null != sortColumn && sortColumn!="" &&sortType!="" && null != sortType) {
+        if (null != sortColumn && sortColumn != "" &&sortType != "" && null != sortType) {
             PageHelper.orderBy(sortColumn + " " + sortType);
         }
         List<EmpInformationResult> empInformationResults = userManageMapper.findEmpInformations();

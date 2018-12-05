@@ -109,4 +109,17 @@ public class ExaminationAffairController extends AbstractController {
         return AjaxResult.returnToResult(true,examinationAffairResult);
     }
 
+    @RequestMapping(value = "/findExamAffairSeries", method = { RequestMethod.POST })
+    @ApiOperation(value="事务所属系列接口", notes="事务所属系列接口")
+    public String findExamAffairSeries() {
+        List<ExaminationAffair> examinationAffairResult;
+        try {
+            examinationAffairResult = examinationAffairService.findExamAffairSeries();
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("====findExamAffairSeries error=============" + e);
+            return AjaxResult.returnToResult(false, e.getMessage());
+        }
+        return AjaxResult.returnToResult(true, examinationAffairResult);
+    }
 }

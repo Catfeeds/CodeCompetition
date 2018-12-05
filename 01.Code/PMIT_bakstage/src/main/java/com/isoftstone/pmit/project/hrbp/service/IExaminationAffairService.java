@@ -44,4 +44,10 @@ public interface IExaminationAffairService {
      * @return
      */
     List<ExaminationAffair> findExamAffairSystem();
+
+    /**
+     * 事务所属系列接口
+     * @return
+     */
+    List<ExaminationAffair> findExamAffairSeries();
 }
