@@ -8,6 +8,8 @@ import java.util.Map;
 public interface ILevelRlaService {
     public List<LevelTreeNode> queryLevelRlaNode(List<Map<String, Object>> nodeList, String tableName);
 
+    public List<LevelTreeNode> queryLevelRlaLeafNode(List<Map<String, Object>> nodeList, String tableName);
+
     public void addLevelRlaNode(Map<String, Object> queryMap, String tableName);
 
     public void deleteLevelRlaNode(String nodePath, Integer nodeID, String tableName);

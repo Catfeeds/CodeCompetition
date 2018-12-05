@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.MainstayReportMapper">
+
+    <select id="queryMainstayLevel" resultType="java.util.Map">
+        SELECT DISTINCT
+          bu,
+          workPlaceArea,
+          pdu
+        FROM
+          base_staff_info
+    </select>
+
+    <select id="queryMainstayProportionChart"  parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+          SUM(CASE WHEN po_role.po_role_id IS NULL THEN 0 ELSE 1 END) AS backnonenum,
+          SUM(CASE WHEN po_role.po_role_id IS NULL THEN 1 ELSE 0 END) AS nobacknonenum
+        FROM
+          base_staff_info
+        LEFT JOIN
+          (
+          SELECT
+            staff_id,
+            po_role_id
+          FROM
+            po_staff_info,po_temp
+          WHERE
+            po_staff_info.project_id =po_temp.poID
+            AND
+            po_temp.endDate >= CURRENT_DATE
+          ) po_role
+        ON base_staff_info.employeeID = po_role.staff_id
+        <where>
+            <if test="null != bu and '' != bu">
+                base_staff_info.bu = #{bu}
+            </if>
+            <if test="null != workPlaceArea and '' != workPlaceArea">
+                AND base_staff_info.workPlaceArea = #{workPlaceArea}
+            </if>
+            <if test="null != pdu and '' != pdu">
+                AND base_staff_info.pdu = #{pdu}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryCostCenterMainstay" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+          base_staff_info.costCenter AS name,
+          COUNT(*) AS number
+        FROM
+          base_staff_info
+        LEFT JOIN
+          (
+          SELECT
+            staff_id,
+            po_role_id
+          FROM
+            po_staff_info,po_temp
+          WHERE
+            po_staff_info.project_id =po_temp.poID
+            AND
+            po_temp.endDate >= CURRENT_DATE
+          ) po_role
+        ON base_staff_info.employeeID = po_role.staff_id
+        <where>
+            <choose>
+                <when test="null == isBacknone OR isBacknone">
+                    po_role.po_role_id IS NOT NULL
+                </when>
+                <otherwise>
+                    po_role.po_role_id IS NULL
+                </otherwise>
+            </choose>
+            <if test="null != bu and '' != bu">
+                AND base_staff_info.bu = #{bu}
+            </if>
+            <if test="null != workPlaceArea and '' != workPlaceArea">
+                AND base_staff_info.workPlaceArea = #{workPlaceArea}
+            </if>
+            <if test="null != pdu and '' != pdu">
+                AND base_staff_info.pdu = #{pdu}
+            </if>
+        </where>
+        GROUP BY base_staff_info.costCenter
+    </select>
+
+    <select id="queryMainstayByPost" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+          po_role.po_role_id AS name,
+          COUNT(*) AS number
+        FROM
+          base_staff_info
+        LEFT JOIN
+          (
+          SELECT
+            staff_id,
+            po_role_id
+          FROM
+            po_staff_info,po_temp
+          WHERE
+            po_staff_info.project_id =po_temp.poID
+            AND
+            po_temp.endDate >= CURRENT_DATE
+          ) po_role
+        ON base_staff_info.employeeID = po_role.staff_id
+        <where>
+            <choose>
+                <when test="null == isBacknone OR isBacknone">
+                    po_role.po_role_id IS NOT NULL
+                </when>
+                <otherwise>
+                    po_role.po_role_id IS NULL
+                </otherwise>
+            </choose>
+            <if test="null != bu and '' != bu">
+                AND base_staff_info.bu = #{bu}
+            </if>
+            <if test="null != workPlaceArea and '' != workPlaceArea">
+                AND base_staff_info.workPlaceArea = #{workPlaceArea}
+            </if>
+            <if test="null != pdu and '' != pdu">
+                AND base_staff_info.pdu = #{pdu}
+            </if>
+        </where>
+        GROUP BY po_role.po_role_id
+    </select>
+
+    <select id="queryMainstayTraining" parameterType="java.util.Map" resultType="java.util.Map">
+
+    </select>
+
+    <select id="queryMainstayAge" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+          SUM(CASE WHEN birthdayDate >= #{age30} THEN 1 ELSE 0 END) AS agelessthan30,
+          SUM(CASE WHEN birthdayDate <![CDATA[ < ]]> #{age30} AND birthdayDate >= #{age40} THEN 1 ELSE 0 END) AS age30to40,
+          SUM(CASE WHEN birthdayDate <![CDATA[ < ]]> #{age40} THEN 1 ELSE 0 END) AS agegreaterthan40
+        FROM
+          (
+          SELECT
+            base_staff_info.employeeID AS staff_id
+          FROM
+            base_staff_info
+          LEFT JOIN
+            (
+            SELECT
+              staff_id,
+              po_role_id
+            FROM
+              po_staff_info,po_temp
+            WHERE
+              po_staff_info.project_id = po_temp.poIDe
+              AND
+              po_temp.endDate >= CURRENT_DATE
+            ) po_role
+          ON base_staff_info.employeeID = po_role.staff_id
+          <where>
+              <choose>
+                  <when test="isBacknone">
+                      po_role.po_role_id IS NOT NULL
+                  </when>
+                  <otherwise>
+                      po_role.po_role_id IS NULL
+                  </otherwise>
+              </choose>
+              <if test="null != bu and '' != bu">
+                  AND base_staff_info.bu = #{bu}
+              </if>
+              <if test="null != workPlaceArea and '' != workPlaceArea">
+                  AND base_staff_info.workPlaceArea = #{workPlaceArea}
+              </if>
+              <if test="null != pdu and '' != pdu">
+                  AND base_staff_info.pdu = #{pdu}
+              </if>
+          </where>
+          ) staff_info
+        LEFT JOIN
+          family_information
+        ON
+          staff_info.staff_id =family_information.employeeID
+    </select>
+</mapper>

@@ -17,7 +17,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/hrbp/levelPersonRelationship")
-@Api(value = "层级关系设置", tags = {"层级关系设置"})
+@Api(value = "人力层级关系设置", tags = {"人力层级关系设置"})
 public class LevelRlaPerContraller {
     @Autowired
     private ILevelRlaService service;
@@ -75,7 +75,7 @@ public class LevelRlaPerContraller {
 
         List<LevelTreeNode> treeList = null;
         try {
-            treeList = service.queryLevelRlaNode(nodeList, "sys_level_rla_per");
+            treeList = service.queryLevelRlaNode(nodeList, "level_rla_per");
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
@@ -94,7 +94,7 @@ public class LevelRlaPerContraller {
     public String queryLevelRlaNodeByNode(@JsonParam(value = "nodeList") List<Map<String, Object>> nodeList) {
         List<LevelTreeNode> treeList;
         try {
-            treeList = service.queryLevelRlaNode(nodeList, "sys_level_rla_per");
+            treeList = service.queryLevelRlaNode(nodeList, "level_rla_per");
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
@@ -112,7 +112,7 @@ public class LevelRlaPerContraller {
     @PostMapping(value = "/addLevelRlaNode")
     public String addLevelRlaNode(@RequestBody Map<String, Object> params) {
         try {
-            service.addLevelRlaNode(params, "sys_level_rla_per");
+            service.addLevelRlaNode(params, "level_rla_per");
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
@@ -133,7 +133,7 @@ public class LevelRlaPerContraller {
         Integer nodeID = (Integer) params.get("nodeID");
 
         try {
-            service.deleteLevelRlaNode(nodePath, nodeID, "sys_level_rla_per");
+            service.deleteLevelRlaNode(nodePath, nodeID, "level_rla_per");
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
@@ -152,7 +152,7 @@ public class LevelRlaPerContraller {
     public String updateLevelRlaNode(@RequestBody Map<String, Object> params) {
 
         try {
-            service.updateLevelRlaNode(params, "sys_level_rla_per");
+            service.updateLevelRlaNode(params, "level_rla_per");
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
@@ -168,7 +168,7 @@ public class LevelRlaPerContraller {
     @PostMapping(value = "/moveLevelRlaNode")
     public String moveLevelRlaNode(@RequestBody Map<String, Object> params) {
         try {
-            service.moveLevelRlaNode(params, "sys_level_rla_per");
+            service.moveLevelRlaNode(params, "level_rla_per");
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());

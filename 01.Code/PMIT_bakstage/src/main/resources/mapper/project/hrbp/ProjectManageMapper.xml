@@ -13,7 +13,7 @@
         pmID,
         pmName
       FROM
-        sys_project_level
+        project_level
       WHERE
         isProject = #{isProject}
         <if test="null != nodeIDs">
@@ -32,7 +32,7 @@
 
     <insert id="addProjectNode" parameterType="java.util.Map">
         INSERT INTO
-        sys_project_level
+        project_level
         (
         nodePath,
         projectID,
