@@ -21,4 +21,6 @@ public interface IProjectTeamService {
 	void teamRelatedPo(String teamId, String projectId);
 
 	List<Map<String, Object>> queryProjectInformation(Map<String, Object> paramMap);
+
+	List<Map<String, Object>> queryProjectRole();
 }

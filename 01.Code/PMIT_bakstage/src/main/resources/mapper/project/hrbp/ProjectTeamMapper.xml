@@ -123,4 +123,8 @@
 		insert into po_staff_info (project_id, project_name, staff_id, team_id, po_role_id, enter_time)
 		values (#{projectId}, #{projectName}, #{staffId}, #{teamId}, #{poRoleId}, now())
 	</select>
+
+	<select id="queryProjectRole" resultType="java.util.Map">
+		select po_role_id as poRoleId, po_role_name as poRoleName from po_role_info
+	</select>
 </mapper>

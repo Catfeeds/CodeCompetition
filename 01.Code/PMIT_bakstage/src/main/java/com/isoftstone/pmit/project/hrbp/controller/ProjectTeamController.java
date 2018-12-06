@@ -121,4 +121,12 @@ public class ProjectTeamController extends AbstractController {
 		return AjaxResult.returnToResult(false, result);
 	}
 
+	@ApiOperation("查询PO角色信息")
+	@PostMapping("/queryProjectRole")
+	public String queryProjectRole() {
+
+		List<Map<String, Object>> result = projectTeamService.queryProjectRole();
+
+		return AjaxResult.returnToResult(false, result);
+	}
 }

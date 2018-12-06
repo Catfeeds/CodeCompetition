@@ -100,4 +100,9 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 		return result;
 	}
 
+	@Override
+	public List<Map<String, Object>> queryProjectRole() {
+		return projectTeamMapper.queryProjectRole();
+	}
+
 }

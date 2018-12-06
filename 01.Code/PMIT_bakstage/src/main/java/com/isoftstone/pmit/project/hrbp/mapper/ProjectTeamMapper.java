@@ -27,4 +27,6 @@ public interface ProjectTeamMapper {
 	void teamRelatedPo(Map<String, Object> map);
 
     List<Map<String, Object>> queryProjectInformation(Map<String, Object> paramMap);
+
+    List<Map<String, Object>> queryProjectRole();
 }
