@@ -547,4 +547,7 @@ FROM
           limit #{currIndex} ,#{pageSize}
 
     </select>
+    <select id="getPersonalListSize" resultType="java.lang.Integer">
+        select count(*) from base_staff_info
+    </select>
 </mapper>

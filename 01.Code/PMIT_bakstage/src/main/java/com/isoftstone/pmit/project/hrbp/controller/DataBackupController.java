@@ -50,7 +50,7 @@ public class DataBackupController extends AbstractController {
         return AjaxResult.returnToResult(true,1);
     }
 
-    @Scheduled(fixedRate = 360000) //=604800000 7天  360000  表示6分钟
+    @Scheduled(fixedRate = 604800000) //=604800000 7天  360000  表示6分钟
     public void backupScheduled(){
         try {
             String dataName = backupAndRecover();

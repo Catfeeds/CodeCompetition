@@ -142,8 +142,9 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
         }
         AllPersonalResult allPersonalResult = new AllPersonalResult();
         List<BaseStaffInfo> staffInfos = baseStaffInfoMapper.getPersonalInfoByFuzzyQuery(paramterMap);
-        if (staffInfos != null) {
-            allPersonalResult.setListSize(staffInfos.size());
+        int listSize = baseStaffInfoMapper.getPersonalListSize();
+        if (staffInfos != null ) {
+            allPersonalResult.setListSize(listSize);
             allPersonalResult.setBaseStaffInfos(staffInfos);
         }
         return allPersonalResult;

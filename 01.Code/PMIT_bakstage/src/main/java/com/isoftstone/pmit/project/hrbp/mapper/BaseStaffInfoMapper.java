@@ -39,7 +39,7 @@ public interface BaseStaffInfoMapper {
     void insertCompanyQualification(List<CompanyQualification> companyQualifications);
 
     List<BaseStaffInfo> getPersonalInfoByFuzzyQuery(Map<String,Object> paramter);
-
+    int getPersonalListSize();
 
 
 }
