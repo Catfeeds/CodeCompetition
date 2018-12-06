@@ -1,13 +1,6 @@
-// let webpack = require("webpack");
 module.exports = {
   baseUrl: "",
-  // configureWebpack: {
-  //   plugins: [
-  //     new webpack.providePlugin({
-  //       _: "underscore"
-  //     })
-  //   ]
-  // },
+  productionSourceMap: true,
   chainWebpack: config => {
     const svgRule = config.module.rule("svg");
     svgRule.uses.clear();
@@ -23,7 +16,7 @@ module.exports = {
     port: 8088,
     proxy: {
       "/api": {
-        target: "http://localhost:8081/",//"http://10.60.86.145:8080/",
+        target: "http://localhost:8081/", //"http://10.60.86.145:8080/",
         changeOrigin: true,
         ws: true,
         pathRewrite: {

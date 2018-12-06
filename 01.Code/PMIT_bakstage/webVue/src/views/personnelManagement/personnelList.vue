@@ -90,39 +90,116 @@
       max-height="420"
       highlight-current-row
       style="width: 100%;"
+      @sort-change="handleSort"
     >
       <el-table-column
         header-align="center"
         align="center"
         :label="$t('table.id')"
-        width="80"
+        width="50"
+        fixed="left"
         type="index"
       ></el-table-column>
-      <el-table-column min-width="150px" header-align="center" label="员工编号" sortable prop></el-table-column>
       <el-table-column
-        min-width="150px"
+        min-width="100px"
         header-align="center"
-        label="事务名称"
-        sortable
-        prop="affairName"
+        label="员工编号"
+        sortable="custom"
+        fixed="left"
+        prop="employeeID"
       ></el-table-column>
-
-      <el-table-column min-width="150px" header-align="center" label="所属系列" sortable prop="series"></el-table-column>
-      <el-table-column width="120px" header-align="center" label="所属产品线" sortable prop="du"></el-table-column>
-      <el-table-column width="110" header-align="center" label="创建人" sortable prop="createBy"></el-table-column>
-      <el-table-column min-width="110" header-align="center" label="最后更新人" sortable prop="updateBy"></el-table-column>
       <el-table-column
-        min-width="140"
+        min-width="120px"
         header-align="center"
-        label="最后更新时间"
-        sortable
-        prop="updateTime"
+        label="员工姓名"
+        sortable="custom"
+        fixed="left"
+        prop="employeeName"
+      ></el-table-column>
+      <el-table-column width="80" header-align="center" label="性别" sortable="custom" prop="sex"></el-table-column>
+      <el-table-column
+        min-width="100"
+        header-align="center"
+        label="入职日期"
+        sortable="custom"
+        prop="employmentDate"
       >
         <template slot-scope="scope">
-          <span>{{scope.row.updateTime | formatDate}}</span>
+          <span>{{scope.row.employmentDate | formatDate}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" :label="$t('table.option')" width="230" header-align="center">
+      <el-table-column
+        min-width="100"
+        header-align="center"
+        label="是否骨干"
+        sortable="custom"
+        prop="ifBackBone"
+      ></el-table-column>
+      <el-table-column
+        min-width="100"
+        header-align="center"
+        label="合作模式"
+        sortable="custom"
+        prop="cooperationMode"
+      ></el-table-column>
+      <el-table-column
+        min-width="100"
+        header-align="center"
+        label="产品线"
+        sortable="custom"
+        prop="bu"
+      ></el-table-column>
+      <el-table-column min-width="120" header-align="center" label="DU" sortable="custom" prop="du"></el-table-column>
+      <el-table-column
+        min-width="230"
+        header-align="center"
+        label="PDU"
+        sortable="custom"
+        prop="pdu"
+      ></el-table-column>
+      <el-table-column
+        min-width="80"
+        header-align="center"
+        label="地域"
+        sortable="custom"
+        prop="workPlaceArea"
+      ></el-table-column>
+      <el-table-column
+        min-width="100"
+        header-align="center"
+        label="岗位"
+        sortable="custom"
+        prop="position"
+      ></el-table-column>
+      <el-table-column
+        min-width="100"
+        header-align="center"
+        label="毕业院校"
+        sortable="custom"
+        prop="graduationSchool"
+      ></el-table-column>
+      <el-table-column
+        min-width="110"
+        header-align="center"
+        label="学历"
+        sortable="custom"
+        prop="education"
+      ></el-table-column>
+      <el-table-column
+        min-width="110"
+        header-align="center"
+        label="是否统招"
+        sortable="custom"
+        prop="ifUnderGraduates"
+      ></el-table-column>
+      <el-table-column
+        min-width="110"
+        header-align="center"
+        label="联系电话"
+        sortable="custom"
+        prop="telephone"
+      ></el-table-column>
+      <el-table-column align="center" :label="$t('table.option')" width="180" header-align="center">
         <template slot-scope="scope">
           <el-button
             type="primary"
@@ -136,16 +213,12 @@
             size="mini"
             icon="el-icon-delete"
             title="删除"
-            @click="handleDel(scope.row.affairID)"
+            @click="handleDel(scope.row.employeeID)"
           ></el-button>
-          <!-- <el-button
-            type="primary"
-            size="mini"
-            icon="el-icon-search"
-            title="查看详情"
-            @click="handleView(scope.row.affairID)"
-          ></el-button>-->
-          <router-link :to="'/personnelManagement/empolyeeDetail/1'">
+          <router-link
+            :to="'/personnelManagement/empolyeeDetail/'+scope.row.employeeID"
+            style="margin-left:10px"
+          >
             <el-button type="primary" size="mini" icon="el-icon-search" title="查看详情"></el-button>
           </router-link>
         </template>
@@ -187,7 +260,7 @@ export default {
         employeeId: "",
         employeeName: ""
       },
-      list: null,
+      list: [],
       listLoading: false,
       page: {
         currentPage: 1,
@@ -200,6 +273,7 @@ export default {
   },
   mounted() {
     this.getProductInfo();
+    this.getEmployeeList();
   },
   methods: {
     getProductInfo() {
@@ -255,9 +329,10 @@ export default {
       vm.listLoading = true;
       vm.$store
         .dispatch("getEmployeeList", condition)
-        .then(data => {
-          if (data) {
-            vm.list = data;
+        .then(res => {
+          if (res.success) {
+            vm.list = res.data.baseStaffInfos;
+            vm.page.totalRecord = res.data.listSize;
           } else {
             vm.list = [];
           }
@@ -324,6 +399,13 @@ export default {
       this.page.currentPage = 1;
       this.getEmployeeList();
     },
+    handleSort(column) {
+      if (column.prop) {
+        this.page.sortColumn = column.prop;
+        this.page.sortType = column.order === "descending" ? "desc" : "asc";
+        this.getEmployeeList();
+      }
+    },
     handleCreate() {
       this.$message.info("功能正在完善中。。。");
     },
@@ -334,7 +416,7 @@ export default {
         cancelButtonText: "取消",
         type: "warning"
       }).then(() => {
-        vm.$store.dispatch("delAffairsInfo", id).then(res => {
+        vm.$store.dispatch("delEmployeeInfo", id).then(res => {
           if (res.success) {
             vm.$message.success(res.message);
             vm.getEmployeeList();
@@ -345,18 +427,7 @@ export default {
       });
     },
     handleEdit(rowData) {
-      this.isEdit = true;
-      this.getProductInfo();
-      this.getSeries();
-      this.getSystem();
-      this.affairsForm.affairsId = rowData.affairID;
-      this.affairsForm.affairsName = rowData.affairName;
-      this.affairsForm.series = rowData.series;
-      this.affairsForm.system = rowData.system;
-      this.affairsForm.product = rowData.du;
-      this.dialogBaseTitle = "修改考核事务信息";
-      this.dialogBaseVisible = true;
-      this.clearValidate("affairsForm");
+      this.$message.info("功能正在完善中。。。");
     },
     handleView(affairId) {
       let vm = this;
