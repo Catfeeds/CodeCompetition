@@ -1,11 +1,6 @@
 import Cookies from "js-cookie";
 import { constantRouterMap, asyncRouterMap } from "@/router";
-import {
-  getMenuInfoByEmployeeId,
-  getAllMenuInfo,
-  getMenuInfoByRoleId,
-  getProductInfo
-} from "@/api/appApi";
+import api from "@/api/appApi";
 /**
  * 递归过滤异步路由表，根据后台返回的菜单列表过滤后的路由表
  * @param routes asyncRouterMap
@@ -71,6 +66,15 @@ const app = {
     setRouters: (state, routers) => {
       state.addRouters = routers;
       state.routers = constantRouterMap.concat(routers);
+    },
+    setProductList: (state, product) => {
+      state.productList = product;
+    },
+    setDUList: (state, du) => {
+      state.duList = du;
+    },
+    setPDUList: (state, pdu) => {
+      state.pduList = pdu;
     }
   },
   actions: {
@@ -92,7 +96,8 @@ const app = {
     //根据登录用户ID查询菜单
     getMenuInfoByEmployeeId({ commit }, role) {
       return new Promise((resolve, reject) => {
-        getMenuInfoByEmployeeId(role)
+        api
+          .getMenuInfoByEmployeeId(role)
           .then(response => {
             let accessedRouters = filterAsyncRouter(
               asyncRouterMap,
@@ -109,7 +114,8 @@ const app = {
     //根据角色ID查询菜单
     getMenuInfoByRoleId(commit, role) {
       return new Promise((resolve, reject) => {
-        getMenuInfoByRoleId(role)
+        api
+          .getMenuInfoByRoleId(role)
           .then(response => {
             resolve(response.data.data);
           })
@@ -121,7 +127,8 @@ const app = {
     //查询所有菜单信息
     getAllMenuInfo() {
       return new Promise((resolve, reject) => {
-        getAllMenuInfo()
+        api
+          .getAllMenuInfo()
           .then(res => {
             resolve(res.data.data);
           })
@@ -132,7 +139,8 @@ const app = {
     },
     getProductInfo({ commit }) {
       return new Promise((resolve, reject) => {
-        getProductInfo()
+        api
+          .getProductInfo()
           .then(res => {
             let data = [];
             if (res.data.data) {
@@ -144,6 +152,50 @@ const app = {
               });
             }
             commit("setProductList", data);
+            resolve();
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    getDUInfo({ commit }, product) {
+      return new Promise((resolve, reject) => {
+        api
+          .getDUInfo(product)
+          .then(res => {
+            let data = [];
+            if (res.data.data) {
+              data = res.data.data.map(item => {
+                return {
+                  label: item,
+                  value: item
+                };
+              });
+            }
+            commit("setDUList", data);
+            resolve();
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    getPDUInfo({ commit }, product, du) {
+      return new Promise((resolve, reject) => {
+        api
+          .getPDUInfo(product, du)
+          .then(res => {
+            let data = [];
+            if (res.data.data) {
+              data = res.data.data.map(item => {
+                return {
+                  label: item,
+                  value: item
+                };
+              });
+            }
+            commit("setPDUList", data);
             resolve();
           })
           .catch(error => {

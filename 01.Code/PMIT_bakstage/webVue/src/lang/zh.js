@@ -5,6 +5,7 @@ export default {
     backboneReport: "骨干报表",
     personnelManagement: "人员管理",
     empolyeeDetail: "员工详情",
+    empolyeeInfo: "员工信息列表",
     projectManagement: "项目管理",
     projectGroupConfiguration: "项目组配置",
     organizationalStructure: "组织结构",
@@ -27,7 +28,8 @@ export default {
     github: "项目地址",
     screenfull: "全屏",
     theme: "换肤",
-    size: "布局大小"
+    size: "布局大小",
+    password: "修改密码"
   },
   login: {
     title: "系统登录",

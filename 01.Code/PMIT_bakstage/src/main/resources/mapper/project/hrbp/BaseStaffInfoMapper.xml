@@ -524,24 +524,24 @@ FROM
         from
           base_staff_info
         where
-
-          <if test="bu != null">
-              bu = #{bu}
+          1=1
+          <if test="bu != null and bu != ''">
+              and bu = #{bu}
           </if>
 
-          <if test="du != null">
+          <if test="du != null and du != ''">
               and  du = #{du}
           </if>
 
-          <if test="pdu != null">
+          <if test="pdu != null and pdu != ''">
               and   pdu = #{pdu}
           </if>
 
-          <if test="employeeID != null">
+          <if test="employeeID != null and employeeID != ''">
               and  employeeID like '%${employeeID}%'
           </if>
 
-          <if test=" employeeName != null ">
+          <if test=" employeeName != null and employeeName != ''">
               or   employeeName like  '%${employeeName}%'
           </if>
           limit #{currIndex} ,#{pageSize}

@@ -49,20 +49,32 @@ export const asyncRouterMap = [
   {
     path: "/personnelManagement",
     component: Layout,
-    redirect: "noredirect",
+    redirect: "/personnelManagement/empolyeeInfo",
     name: "StaffManagement",
     meta: { title: "personnelManagement", icon: "peoples", noCache: true },
     children: [
       {
-        path: "empolyeeDetail",
-        component: () => import("@/views/dashboard/index"),
+        path: "empolyeeInfo",
+        component: () => import("@/views/personnelManagement/personnelList"),
         name: "StaffInformation",
+        meta: {
+          title: "empolyeeInfo",
+          icon: "",
+          noCache: true,
+          requiresAuth: true
+        }
+      },
+      {
+        path: "empolyeeDetail/:id(\\d+)",
+        component: () => import("@/views/personnelManagement/personnelDetail"),
+        // name: "StaffInformation",
         meta: {
           title: "empolyeeDetail",
           icon: "",
           noCache: true,
           requiresAuth: true
-        }
+        },
+        hidden: true
       }
     ]
   },
