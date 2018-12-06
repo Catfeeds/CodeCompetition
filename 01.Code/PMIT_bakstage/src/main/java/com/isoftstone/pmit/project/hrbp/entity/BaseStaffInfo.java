@@ -3,99 +3,99 @@ package com.isoftstone.pmit.project.hrbp.entity;
 
 public class BaseStaffInfo {
 
-    /*软通工号*/
+    /**软通工号*/
     private String employeeID;
-    /*员工姓名*/
+    /**员工姓名*/
     private String employeeName;
-    /*身份证号*/
+    /**身份证号*/
     private String idNumber;
-    /*软通状态*/
+    /**软通状态*/
     private String isoftStatus;
-    /*人员类别*/
+    /**人员类别*/
     private String personCategory;
 
-    /*是否骨干*/
+    /**是否骨干*/
     private String ifBackBone;
-    /*是否在岸*/
+    /**是否在岸*/
     private String ifOffShore;
-    /*办公场地*/
+    /**办公场地*/
     private String workPlace;
-    /*工位编号*/
+    /**工位编号*/
     private int workStationNumber;
-    /*合作模式*/
+    /**合作模式*/
     private String cooperationMode;
-    /*岗位角色*/
+    /**岗位角色*/
     private String positionRole;
-    /*技能*/
+    /**技能*/
     private String skill;
-    /*技能方向*/
+    /**技能方向*/
     private String sillDirection;
-    /*直接汇报上级工号*/
+    /**直接汇报上级工号*/
     private String directLeaderId;
-    /*直接汇报上级姓名*/
+    /**直接汇报上级姓名*/
     private String directLeaderName;
-    /*入职日期*/
+    /**入职日期*/
     private String employmentDate;
-    /*离职日期*/
+    /**离职日期*/
     private String departureDate;
-    /*通用软通职位。eg：主管工程师(四级)-HW*/
+    /**通用软通职位。eg：主管工程师(四级)-HW*/
     private String generalPosition;
-    /*现职位生效时间*/
+    /**现职位生效时间*/
     private String currentPositionDate;
-    /*成本中心*/
+    /**成本中心*/
     private String costCenter;
-    /*成本中心负责人*/
+    /**成本中心负责人*/
     private String costCenterLeaderName;
-    /*bu*/
+    /**bu*/
     private String bu;
-    /*du*/
+    /**du*/
     private String du;
-    /*pdu*/
+    /**pdu*/
     private String pdu;
-    /*办公地点*/
+    /**办公地点*/
     private String workPlaceArea;
-    /*性别*/
+    /**性别*/
     private String sex;
-    /*毕业学校*/
+    /**毕业学校*/
     private String graduationSchool;
-    /*毕业时间*/
+    /**毕业时间*/
     private String graduationTime;
-    /*是否统招。eg:是/否*/
+    /**是否统招。eg:是/否*/
     private String ifUnderGraduates;
-    /*学历*/
+    /**学历*/
     private String education;
-    /*学位*/
+    /**学位*/
     private String degree;
-    /*是否211*/
+    /**是否211*/
     private String if211;
-    /*是否应届*/
+    /**是否应届*/
     private String ifGraduate;
-    /*专业名称*/
+    /**专业名称*/
     private String graduationMajor;
-    /*是否二本及以上。eg:是/否*/
+    /**是否二本及以上。eg:是/否*/
     private String ifAbvoveTwoInstitutions;
 
-    /*教育模式*/
+    /**教育模式*/
     private String educationMode;
-    /*联系电话*/
+    /**联系电话*/
     private String telephone;
-    /*软通邮箱*/
+    /**软通邮箱*/
     private String isoftEmai;
-    /*域用户名*/
+    /**域用户名*/
     private String domainUserName;
-    /*民族*/
+    /**民族*/
     private String nation;
-    /*籍贯*/
+    /**籍贯*/
     private String nativePlace;
-    /*政治面貌*/
+    /**政治面貌*/
     private String political;
-    /*项目组ID*/
+    /**项目组ID*/
     private int projectTeamId;
-    /*当前人员状态*/
+    /**当前人员状态*/
     private String currentStatus;
-    /*工龄*/
+    /**工龄*/
     private String lengthOfService;
-    /*司龄*/
+    /**司龄*/
     private String divisionAge;
 
 

@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/hrbp/baseStaff")
@@ -24,8 +25,9 @@ public class BaseStaffInfoController {
 
     @RequestMapping(value = "/getPersonalInfo", method = { RequestMethod.POST })
     @ApiOperation(value="单个员工", notes="查询员工基本信息")
-    public PersonalInformation getBaseStaffInfoById(@RequestParam(value = "employeeId", required = true) String employeeId){
-        PersonalInformation info = baseStaffInfoService.getBaseStaffInfoByID(employeeId);
+    public PersonalInformation getBaseStaffInfoById(@RequestBody Map<String,String> paraterMap){
+
+        PersonalInformation info = baseStaffInfoService.getBaseStaffInfoByID(paraterMap);
         return info;
     }
 
@@ -43,10 +45,10 @@ public class BaseStaffInfoController {
 
     @RequestMapping(value = "/deletePersonalInfo", method = { RequestMethod.POST })
     @ApiOperation(value="单个员工", notes="删除员工基本信息")
-    public String deletePersonalInformation(@RequestParam(value = "employeeID", required = false)String employeeID) {
-        LOG.info("BaseStaffInfoController deletePersonalInformation" + employeeID);
+    public String deletePersonalInformation(@RequestBody Map<String,String> paraterMap) {
+        LOG.info("BaseStaffInfoController deletePersonalInformation" + paraterMap);
         try {
-             baseStaffInfoService.deletePersonalInformationById(employeeID);
+             baseStaffInfoService.deletePersonalInformationById(paraterMap);
         }catch (Exception e){
            return AjaxResult.returnToMessage(false,e.getMessage());
         }

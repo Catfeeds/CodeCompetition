@@ -1,31 +1,32 @@
 package com.isoftstone.pmit.project.hrbp.entity;
 
 public class PersonalStyle {
-    /*员工工号*/
+    /**员工工号*/
     private String employeeID;
-    /*喜欢的食物*/
+    /**喜欢的食物*/
     private String food;
-    /*喜欢的游戏*/
+    /**喜欢的游戏*/
     private String game;
-    /*喜欢的运动*/
+    /**喜欢的运动*/
     private String motion;
-    /*喜欢的书籍*/
+    /**喜欢的书籍*/
     private String book;
-    /*喜欢的电影*/
+    /**喜欢的电影*/
     private String movie;
-    /*喜欢的音乐*/
+    /**喜欢的音乐*/
     private String music;
-    /*喜欢的一句话*/
+    /**喜欢的一句话*/
     private String oneSentence;
-    /*不喜欢的*/
+    /**不喜欢的*/
     private String dislike;
-    /*生活照照片路径*/
+    /**生活照照片路径*/
     private String photosOfLife;
-    /*证件照照片路径*/
+    /**证件照照片路径*/
     private String documentPhoto;
 
     public String getDocumentPhoto() {
-        return documentPhoto;
+        documentPhoto = "hrbp/jpg/document/";
+        return documentPhoto+employeeID+".jpg";
     }
 
     public void setDocumentPhoto(String documentPhoto) {
@@ -105,7 +106,8 @@ public class PersonalStyle {
     }
 
     public String getPhotosOfLife() {
-        return photosOfLife;
+         photosOfLife = "hrbp/jpg/life/";
+        return photosOfLife+employeeID + ".jpg";
     }
 
     public void setPhotosOfLife(String photosOfLife) {
