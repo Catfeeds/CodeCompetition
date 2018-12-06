@@ -1,0 +1,95 @@
+{
+	"queryScore": {
+		"data": {
+			"datas": [
+				{
+					"cour01": "0",
+					"cour02": "value",
+					"cour06": "value",
+					"cour03": "0",
+					"cour04": "value",
+					"trainTime": "value",
+					"cour07": "value",
+					"cour08": "value",
+					"staffID": "value",
+					"name": "value"
+				},
+				{
+					"cour01": "value",
+					"cour02": "value",
+					"cour05": "value",
+					"cour06": "0",
+					"cour03": "0",
+					"cour04": "0",
+					"trainTime": "value",
+					"cour07": "value",
+					"cour08": "value",
+					"staffID": "value",
+					"name": "value"
+				},
+				{
+					"cour01": "value",
+					"cour02": "value",
+					"cour05": "0",
+					"cour06": "value",
+					"cour03": "value",
+					"cour04": "value",
+					"trainTime": "value",
+					"cour07": "0",
+					"cour08": "value",
+					"staffID": "value",
+					"name": "value"
+				}
+			],
+			"trains": [
+				{
+					"name":"编号",
+					"id":"staffID"
+				},
+				{
+					"name":"姓名",
+					"id":"name"
+				},
+				{
+					"name": "将军学院01",
+					"courses": [
+						{
+							"courseName": "课程01",
+							"courseID": "cour01"
+						},
+						{
+							"courseName": "课程02",
+							"courseID": "cour02"
+						}
+					]
+				},
+				{
+					"name": "将军学院02",
+					"courses": [
+						{
+							"courseName": "课程06",
+							"courseID": "cour06"
+						}
+					]
+				},
+				{
+					"name": "将军学院02",
+					"courses": [
+						{
+							"courseName": "课程06",
+							"courseID": "cour06"
+						},
+						{
+							"courseName": "课程07",
+							"courseID": "cour07"
+						},
+						{
+							"courseName": "课程08",
+							"courseID": "cour08"
+						}
+					]
+				}
+			]
+		}
+	}
+}

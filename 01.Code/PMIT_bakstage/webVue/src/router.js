@@ -193,7 +193,7 @@ export const asyncRouterMap = [
       },
       {
         path: "score",
-        component: () => import("@/views/scoreImport/index"),
+        component: () => import("@/views/scoreImport/scoreDisplay"),
         name: "ResultShow",
         meta: { title: "score", icon: "", noCache: true, requiresAuth: true }
       }
