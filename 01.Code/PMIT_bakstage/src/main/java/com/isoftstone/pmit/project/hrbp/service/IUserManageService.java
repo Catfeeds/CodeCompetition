@@ -67,4 +67,11 @@ public interface IUserManageService {
      * @return
      */
     List<EmpInformationResult> findEmpInformation();
+
+    /**
+     * 根据个人工号，修改密码
+     * @param employeeID
+     * @param changePwd
+     */
+    void updateUserPassword(String employeeID,String changePwd);
 }

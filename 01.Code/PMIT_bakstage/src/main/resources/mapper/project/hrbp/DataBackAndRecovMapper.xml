@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.DataBackAndRecovMapper">
+
+	<select id="findAllDataInfoList" resultType="com.isoftstone.pmit.project.hrbp.entity.DataBackUpInfo">
+        select
+        backup_id as backupId,
+        employee_id as employeeId,
+        employee_name as employeeName,
+        backup_time as backupTime,
+        data_name as dataName,
+        reason_remark as reasonRemark
+        from
+        data_backup_info order by backup_time desc
+    </select>
+
+	<select id="deleteDatebase" parameterType="java.lang.String">
+		DROP DATABASE if exists  ${databaseName}
+	</select>
+
+	<insert id="saveBackUpInfo" parameterType="DataBackUpInfo">
+		insert into data_backup_info(employee_id,employee_name,data_name,reason_remark,backup_time)values (
+		#{employeeId},#{employeeName},#{dataName},#{reasonRemark},now())
+	</insert>
+
+</mapper>

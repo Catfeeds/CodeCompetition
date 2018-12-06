@@ -67,4 +67,12 @@
         LEFT JOIN base_staff_info si ON si.employeeID = li.employee_ID
         LEFT JOIN hrbp_role hr ON li.role_id = hr.role_id
     </select>
+	
+	<update id="updateUserPassword" >
+        update login_information
+        <set>
+            pass_word = MD5(#{changePwd})
+        </set>
+        where employee_ID = #{employeeID}
+    </update>
 </mapper>

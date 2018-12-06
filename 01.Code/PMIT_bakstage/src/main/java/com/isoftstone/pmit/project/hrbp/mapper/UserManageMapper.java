@@ -59,4 +59,11 @@ public interface UserManageMapper {
      * @return
      */
     List<EmpInformationResult> findEmpInformations();
+
+    /**
+     *  根据软通工号 修改密码
+     * @param employeeID
+     * @param changePwd
+     */
+    void updateUserPassword(@Param("employeeID") String employeeID,@Param("changePwd") String changePwd);
 }

@@ -96,4 +96,9 @@ public class UserManageServiceImpl implements IUserManageService {
         return userManageMapper.findEmpInformations();
     }
 
+    @Override
+    public void updateUserPassword(String employeeID,String changePwd) {
+        userManageMapper.updateUserPassword(employeeID,changePwd);
+
+    }
 }
