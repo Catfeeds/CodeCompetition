@@ -2,9 +2,9 @@ package com.isoftstone.pmit.project.hrbp.controller;
 
 
 import com.isoftstone.pmit.common.util.AjaxResult;
-import com.isoftstone.pmit.project.hrbp.entity.BaseTreeNode;
 import com.isoftstone.pmit.project.hrbp.entity.MainstayInfo;
 import com.isoftstone.pmit.project.hrbp.entity.TupleData;
+import com.isoftstone.pmit.project.hrbp.service.ILevelRlaBusService;
 import com.isoftstone.pmit.project.hrbp.service.IMainstayReportService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,14 +23,17 @@ import java.util.Map;
 public class MainstayReportContraer {
 
     @Autowired
-    private IMainstayReportService service;
+    private IMainstayReportService mainstayReportService;
+
+    @Autowired
+    private ILevelRlaBusService levelRlaBusService;
 
     @ApiOperation(value = "查询骨干信息层级", notes = "查询骨干信息层级")
     @PostMapping(value = "/queryMainstayLevel")
     public String queryMainstayLevel(@RequestBody Map<String, Object> params) {
-        BaseTreeNode result;
+        List<String> result;
         try {
-            result = service.queryMainstayLevel(params);
+            result = levelRlaBusService.queryMainstayLevel(params);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
@@ -43,7 +46,7 @@ public class MainstayReportContraer {
     public String queryMainstayProportionChart(@RequestBody Map<String, Object> params) {
         List<TupleData> result;
         try {
-            result = service.queryMainstayProportionChart(params);
+            result = mainstayReportService.queryMainstayProportionChart(params);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
@@ -56,7 +59,7 @@ public class MainstayReportContraer {
     public String queryCostCenterMainstay(@RequestBody Map<String, Object> params) {
         List<TupleData> result;
         try {
-            result = service.queryCostCenterMainstay(params);
+            result = mainstayReportService.queryCostCenterMainstay(params);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
@@ -69,7 +72,7 @@ public class MainstayReportContraer {
     public String queryMainstayByPost(@RequestBody Map<String, Object> params) {
         List<TupleData> result;
         try {
-            result = service.queryMainstayByPost(params);
+            result = mainstayReportService.queryMainstayByPost(params);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
@@ -82,7 +85,7 @@ public class MainstayReportContraer {
     public String queryMainstayTraining(@RequestBody Map<String, Object> params) {
         List<TupleData> result;
         try {
-            result = service.queryMainstayTraining(params);
+            result = mainstayReportService.queryMainstayTraining(params);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
@@ -95,7 +98,7 @@ public class MainstayReportContraer {
     public String queryMainstayAge(@RequestBody Map<String, Object> params) {
         List<TupleData> result;
         try {
-            result = service.queryMainstayAge(params);
+            result = mainstayReportService.queryMainstayAge(params);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
@@ -108,7 +111,7 @@ public class MainstayReportContraer {
     public String queryMainstayTable(@RequestBody Map<String, Object> params) {
         MainstayInfo result;
         try {
-            result = service.queryMainstayTable(params);
+            result = mainstayReportService.queryMainstayTable(params);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());

@@ -19,4 +19,12 @@ public class Course {
     public void setCourseID(String courseID) {
         this.courseID = courseID;
     }
+
+    public Course() {
+    }
+
+    public Course(String courseName, String courseID) {
+        this.courseName = courseName;
+        this.courseID = courseID;
+    }
 }

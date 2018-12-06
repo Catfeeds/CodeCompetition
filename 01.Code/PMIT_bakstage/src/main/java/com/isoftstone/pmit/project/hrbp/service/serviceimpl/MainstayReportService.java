@@ -17,33 +17,23 @@ public class MainstayReportService implements IMainstayReportService {
     @Autowired
     private MainstayReportMapper mapper;
 
-    @Override
-    public BaseTreeNode queryMainstayLevel(Map<String, Object> params) {
-        List<Map<String, String>> levelInfo = mapper.queryMainstayLevel();
-        BaseTreeNode root = new BaseTreeNode();
-        root.setNodeName("root");
-        root.setChildList(new ArrayList<BaseTreeNode>());
-        buildLevelTreeInfo(root, levelInfo);
-        return root;
-    }
-
-    private void buildLevelTreeInfo(BaseTreeNode root, List<Map<String, String>> levelInfo) {
-        if (levelInfo != null) {
-            Map<String, BaseTreeNode> tempMap = new HashMap<String, BaseTreeNode>();
-            for (Map<String, String> temp : levelInfo) {
-                BaseTreeNode parentNode = root;
-
-                String bu = temp.get("bu");
-                parentNode = getBaseTreeNode(tempMap, parentNode, bu);
-
-                String workPlaceArea = temp.get("workPlaceArea");
-                parentNode = getBaseTreeNode(tempMap, parentNode, workPlaceArea);
-
-                String pdu = temp.get("pdu");
-                parentNode = getBaseTreeNode(tempMap, parentNode, pdu);
-            }
-        }
-    }
+//    private void buildLevelTreeInfo(BaseTreeNode root, List<Map<String, String>> levelInfo) {
+//        if (levelInfo != null) {
+//            Map<String, BaseTreeNode> tempMap = new HashMap<String, BaseTreeNode>();
+//            for (Map<String, String> temp : levelInfo) {
+//                BaseTreeNode parentNode = root;
+//
+//                String bu = temp.get("bu");
+//                parentNode = getBaseTreeNode(tempMap, parentNode, bu);
+//
+//                String workPlaceArea = temp.get("workPlaceArea");
+//                parentNode = getBaseTreeNode(tempMap, parentNode, workPlaceArea);
+//
+//                String pdu = temp.get("pdu");
+//                parentNode = getBaseTreeNode(tempMap, parentNode, pdu);
+//            }
+//        }
+//    }
 
     private BaseTreeNode getBaseTreeNode(Map<String, BaseTreeNode> tempMap, BaseTreeNode parentNode, String currentNode) {
         if (tempMap.containsKey(currentNode)) {

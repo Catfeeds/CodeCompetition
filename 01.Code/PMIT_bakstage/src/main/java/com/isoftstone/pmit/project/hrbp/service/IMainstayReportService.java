@@ -1,6 +1,5 @@
 package com.isoftstone.pmit.project.hrbp.service;
 
-import com.isoftstone.pmit.project.hrbp.entity.BaseTreeNode;
 import com.isoftstone.pmit.project.hrbp.entity.MainstayInfo;
 import com.isoftstone.pmit.project.hrbp.entity.TupleData;
 
@@ -8,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface IMainstayReportService {
-    public BaseTreeNode queryMainstayLevel(Map<String,Object> params);
-
     public List<TupleData> queryMainstayProportionChart(Map<String,Object> params);
 
     public List<TupleData> queryCostCenterMainstay(Map<String,Object> params);
