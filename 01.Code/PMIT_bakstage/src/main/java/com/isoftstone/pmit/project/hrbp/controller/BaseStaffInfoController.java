@@ -45,7 +45,7 @@ public class BaseStaffInfoController {
         }catch (Exception e){
             AjaxResult.returnToMessage(false,e.getMessage());
         }
-        return AjaxResult.returnToResult(true,"Update PersonalInfomation Success");
+        return AjaxResult.returnToMessage(true,"Update PersonalInfomation Success");
     }
 
     @RequestMapping(value = "/deletePersonalInfo", method = { RequestMethod.POST })
@@ -57,7 +57,7 @@ public class BaseStaffInfoController {
         }catch (Exception e){
            return AjaxResult.returnToMessage(false,e.getMessage());
         }
-        return AjaxResult.returnToResult(true,"Delete PersonalInfomation Success");
+        return AjaxResult.returnToMessage(true,"Delete PersonalInfomation Success");
     }
 
     @RequestMapping(value = "/deleteMorePersonalInfo", method = { RequestMethod.POST })
@@ -69,7 +69,7 @@ public class BaseStaffInfoController {
         }catch (Exception e){
             return AjaxResult.returnToMessage(false,e.getMessage());
         }
-        return AjaxResult.returnToResult(true,"Delete  MorePersonalInfomation Success");
+        return AjaxResult.returnToMessage(true,"Delete  MorePersonalInfomation Success");
     }
 
     @RequestMapping(value = "/insertPersonalInfo", method = { RequestMethod.POST })
@@ -81,7 +81,7 @@ public class BaseStaffInfoController {
         }catch (Exception e){
             return AjaxResult.returnToMessage(false,e.getMessage());
         }
-        return AjaxResult.returnToResult(true,"Insert PersonalInfomation Success");
+        return AjaxResult.returnToMessage(true,"Insert PersonalInfomation Success");
     }
     @RequestMapping(value = "/getAllPersonalInfo", method = { RequestMethod.POST })
     @ApiOperation(value="全员信息", notes="查看全员信息")
