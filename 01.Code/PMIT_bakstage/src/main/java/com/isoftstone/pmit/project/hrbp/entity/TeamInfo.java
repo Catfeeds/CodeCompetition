@@ -3,7 +3,6 @@ package com.isoftstone.pmit.project.hrbp.entity;
 /**
  * 
  * 项目组人员配置信息
- * @author zhaoye
  *
  */
 public class TeamInfo{

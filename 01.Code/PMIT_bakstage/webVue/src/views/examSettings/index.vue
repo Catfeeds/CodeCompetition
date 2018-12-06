@@ -155,8 +155,8 @@
     </el-table>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="45%">
       <el-form :model="trainForm" size="mini" label-width="120px" ref="trainForm" :rules="rules">
-        <el-row>
-          <el-col v-if="!isAdd||isDetail">
+        <el-row v-if="isEdit">
+          <el-col>
             <el-form-item label="培训编号" prop="trainId">
               <el-input v-model="trainForm.trainId" autocomplete="off" disabled></el-input>
             </el-form-item>
@@ -165,15 +165,29 @@
         <el-row>
           <el-col>
             <el-form-item label="培训名称" prop="trainName">
-              <el-input v-model="trainForm.trainName" autocomplete="off" required maxlength="64" :disabled="isDetail"></el-input>
+              <el-input
+                v-model="trainForm.trainName"
+                autocomplete="off"
+                required
+                maxlength="64"
+                :disabled="isDetail"
+              ></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="所属系列" prop="series">
-              <el-input v-if="isDetail" v-model="trainForm.series" autocomplete="off" required maxlength="64" disabled></el-input>
-              <el-select v-else
+              <el-input
+                v-if="isDetail"
+                v-model="trainForm.series"
+                autocomplete="off"
+                required
+                maxlength="64"
+                disabled
+              ></el-input>
+              <el-select
+                v-else
                 v-model="trainForm.series"
                 filterable
                 allow-create
@@ -191,8 +205,16 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="所属体系" prop="system">
-              <el-input v-if="isDetail" v-model="trainForm.system" autocomplete="off" required maxlength="64" disabled></el-input>
-              <el-select v-else
+              <el-input
+                v-if="isDetail"
+                v-model="trainForm.system"
+                autocomplete="off"
+                required
+                maxlength="64"
+                disabled
+              ></el-input>
+              <el-select
+                v-else
                 v-model="trainForm.system"
                 filterable
                 allow-create
@@ -212,7 +234,14 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="课程类型" prop="courseType">
-              <el-input v-if="isDetail" v-model="trainForm.courseType" autocomplete="off" required maxlength="64" disabled></el-input>
+              <el-input
+                v-if="isDetail"
+                v-model="trainForm.courseType"
+                autocomplete="off"
+                required
+                maxlength="64"
+                disabled
+              ></el-input>
               <el-select v-model="trainForm.courseType" placeholder="请选择" v-else>
                 <el-option
                   v-for="item in courseTypeOptions"
@@ -225,7 +254,14 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="培训类型" prop="trainType">
-              <el-input v-if="isDetail" v-model="trainForm.trainType" autocomplete="off" required maxlength="64" disabled></el-input>
+              <el-input
+                v-if="isDetail"
+                v-model="trainForm.trainType"
+                autocomplete="off"
+                required
+                maxlength="64"
+                disabled
+              ></el-input>
               <el-select v-model="trainForm.trainType" placeholder="请选择" v-else>
                 <el-option
                   v-for="item in trainTypeOptions"
@@ -240,12 +276,24 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="培训时长(小时)" prop="trainTime">
-              <el-input v-model="trainForm.trainTime" autocomplete="off" :disabled="isDetail" maxlength="4"></el-input>
+              <el-input
+                v-model="trainForm.trainTime"
+                autocomplete="off"
+                :disabled="isDetail"
+                maxlength="4"
+              ></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="所属产品线" prop="product">
-              <el-input v-if="isDetail" v-model="trainForm.product" autocomplete="off" required maxlength="64" disabled></el-input>
+              <el-input
+                v-if="isDetail"
+                v-model="trainForm.product"
+                autocomplete="off"
+                required
+                maxlength="64"
+                disabled
+              ></el-input>
               <el-select v-model="trainForm.product" placeholder="请选择" v-else>
                 <el-option
                   v-for="item in productOptions"
@@ -334,7 +382,7 @@ export default {
       },
       dialogTitle: "添加培训信息",
       dialogVisible: false,
-      isAdd: true,
+      isEdit: false,
       isDetail: false,
       rules: {
         trainName: [
@@ -403,7 +451,7 @@ export default {
         });
     },
     addTraining() {
-      this.isAdd = true;
+      this.isEdit = false;
       this.isDetail = false;
       this.trainForm.trainId = "";
       this.trainForm.trainName = "";
@@ -425,14 +473,16 @@ export default {
       let vm = this;
       vm.$refs.trainForm.validate(valid => {
         if (valid) {
+          console.log(vm.trainForm);
           let formData = {
             bu: vm.trainForm.product,
             series: vm.trainForm.series,
             sort: vm.trainForm.system,
             trainingName: vm.trainForm.trainName,
-            trainingDesc: vm.trainForm.description,
+            trainingDes: vm.trainForm.description,
             trainingDuration: vm.trainForm.trainTime,
-            type: vm.trainForm.trainType
+            type: vm.trainForm.trainType,
+            classType: vm.trainForm.courseType
           };
           if (vm.isAdd) {
             formData.creatorId = Cookies.get("loginName");
@@ -517,16 +567,16 @@ export default {
     },
     handleEdit(rowData) {
       this.isDetail = false;
-      this.isAdd = false;
+      this.isEdit = true;
       this.getProductInfo();
       this.getSeries();
       this.getSystem();
       this.trainForm.trainId = rowData.trainingId;
       this.trainForm.trainName = rowData.trainingName;
-      this.trainForm.description = rowData.trainingDesc;
+      this.trainForm.description = rowData.trainingDes;
       this.trainForm.series = rowData.series;
       this.trainForm.system = rowData.sort;
-      // this.trainForm.courseType = rowData.type;
+      this.trainForm.courseType = rowData.classType;
       this.trainForm.trainType = rowData.type;
       this.trainForm.trainTime = rowData.trainingDuration;
       this.trainForm.product = rowData.bu;
@@ -540,12 +590,13 @@ export default {
       this.trainForm.description = rowData.trainingDesc;
       this.trainForm.series = rowData.series;
       this.trainForm.system = rowData.sort;
-      // this.trainForm.courseType = rowData.type;
+      this.trainForm.courseType = rowData.type;
       this.trainForm.trainType = rowData.type;
       this.trainForm.trainTime = rowData.trainingDuration;
       this.trainForm.product = rowData.bu;
       this.dialogTitle = "查看培训信息";
       this.dialogVisible = true;
+      this.isEdit = false;
       this.isDetail = true;
       this.clearValidate();
     }

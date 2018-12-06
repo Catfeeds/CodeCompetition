@@ -1,43 +1,43 @@
 import request from "@/utils/request";
-function getRoleList() {
+function getSysRoleList() {
   return request({
     url: "hrbp/system/queryAllRoles",
     method: "post"
   });
 }
-function getRoleInfoById(roleId) {
+function getSysRoleInfoById(roleId) {
   return request({
     url: "hrbp/system/querySystemRoleById",
     method: "post",
     data: { roleId }
   });
 }
-function addRoleInfo(roleInfo) {
+function addSysRoleInfo(roleInfo) {
   return request({
     url: "hrbp/system/addRole",
     method: "post",
     data: roleInfo
   });
 }
-function delRoleInfo(roleId) {
+function delSysRoleInfo(roleId) {
   return request({
     url: "hrbp/system/deleteSystemRole",
     method: "post",
     data: { roleId }
   });
 }
-function editRoleInfo(roleInfo) {
+function editSysRoleInfo(roleInfo) {
   return request({
     url: "hrbp/system/updateSystemRole",
     method: "post",
     data: roleInfo
   });
 }
-function getLoginUserList(pageNum, pageSize) {
+function getLoginUserList(pageInfo) {
   return request({
     url: "hrbp/user/findEmpInformation",
     method: "post",
-    data: { pageNum, pageSize }
+    data: pageInfo
   });
 }
 function getLoginUserById(employeeID) {
@@ -76,11 +76,11 @@ function searchEmployeeInfo(keyword) {
   });
 }
 export default {
-  getRoleList,
-  getRoleInfoById,
-  addRoleInfo,
-  delRoleInfo,
-  editRoleInfo,
+  getSysRoleList,
+  getSysRoleInfoById,
+  addSysRoleInfo,
+  delSysRoleInfo,
+  editSysRoleInfo,
   getLoginUserList,
   getLoginUserById,
   addLoginUser,

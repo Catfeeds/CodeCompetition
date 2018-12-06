@@ -6,14 +6,12 @@
     <insert id="insertDimension" parameterType="ExaminationDimension" keyProperty="dimensionID" useGeneratedKeys="true">
         insert into hrbp_examination_dimension(
         <if test="dimensionName != null and dimensionName != ''">dimension_name,</if>
-        <if test="mark != null and mark != ''">mark,</if>
-        <if test="coefficient != null and coefficient != ''">coefficient,</if>
-        <if test="explanation != null and explanation != ''">explanation</if>
+        <if test="mark != null and mark != ''">mark</if>
+        <if test="explanation != null and explanation != ''">,explanation</if>
         )values (
         <if test="dimensionName != null and dimensionName != ''">#{dimensionName},</if>
-        <if test="mark != null and mark != ''">#{mark},</if>
-        <if test="coefficient != null and coefficient != ''">#{coefficient},</if>
-        <if test="explanation != null and explanation != ''">#{explanation}</if>
+        <if test="mark != null and mark != ''">#{mark}</if>
+        <if test="explanation != null and explanation != ''">,#{explanation}</if>
         )
     </insert>
     <insert id="insertAffairDimension">
@@ -23,7 +21,6 @@
         select
         ed.dimension_name as dimensionName,
         ed.mark as mark,
-        ed.coefficient as coefficient,
         ed.explanation as explanation
         FROM
         hrbp_examination_dimension ed
@@ -33,4 +30,10 @@
         on ad.affair_id = ea.affair_id
         where ea.affair_id = #{affairID}
     </select>
+    <delete id="deleteAffairAndDimension" parameterType="ExaminationAffair">
+        delete from hrbp_affair_dimension where affair_id = #{affairID}
+    </delete>
+    <delete id="deleteDimension" parameterType="ExaminationDimension">
+         delete from hrbp_affair_dimension where dimension_id = #{dimensionId}
+    </delete>
 </mapper>

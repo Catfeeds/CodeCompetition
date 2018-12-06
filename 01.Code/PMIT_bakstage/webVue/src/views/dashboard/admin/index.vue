@@ -1,111 +1,161 @@
 <template>
-  <div class="dashboard-editor-container">
-
-    <github-corner style="position: absolute; top: 0px; border: 0; right: 0;"/>
-
-    <panel-group @handleSetLineChartData="handleSetLineChartData"/>
-
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
-      <line-chart :chart-data="lineChartData"/>
+  <div class="app-container">
+    <el-form :inline="true">
+      <el-form-item label="">
+        <el-select v-model="product" size="mini" placeholder="产品线" @change="productChange">
+          <el-option
+            v-for="item in productOptions"
+            :key="item"
+            :label="item"
+            :value="item.value"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="">
+        <el-select v-model="area" size="mini" placeholder="区域" @change="areaChange">
+          <el-option
+            v-for="item in areaOptions"
+            :key="item"
+            :label="item"
+            :value="item"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="">
+        <el-select v-model="area" size="mini" placeholder="交付部">
+          <el-option
+            v-for="item in pduOptions"
+            :key="item"
+            :label="item"
+            :value="item"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" size="mini" @click="onSubmit">查询</el-button>
+      </el-form-item>
+    </el-form>
+    <el-row>
+        <el-col :span="6">
+            <rate-chart></rate-chart>
+        </el-col>
+        <el-col :span="18">
+            <el-row>
+              <el-col :span="12">
+                <department-chart></department-chart>
+              </el-col>
+              <el-col :span="12">
+                <post-chart></post-chart>
+              </el-col>
+            </el-row>
+            <el-row style="margin-top:15px">
+              <el-col :span="12">
+                  <training-chart></training-chart>
+              </el-col>
+              <el-col :span="12">
+                  <age-chart></age-chart>
+              </el-col>
+            </el-row>
+        </el-col>
     </el-row>
-
-    <el-row :gutter="32">
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <raddar-chart/>
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <pie-chart/>
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="24" :lg="8">
-        <div class="chart-wrapper">
-          <bar-chart/>
-        </div>
-      </el-col>
-    </el-row>
-
-    <el-row :gutter="8">
-      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">
-        <transaction-table/>
-      </el-col>
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
-        <todo-list/>
-      </el-col>
-      <el-col :xs="{span: 24}" :sm="{span: 12}" :md="{span: 12}" :lg="{span: 6}" :xl="{span: 6}" style="margin-bottom:30px;">
-        <box-card/>
-      </el-col>
-    </el-row>
-
+    <eTable></eTable>
   </div>
 </template>
 
 <script>
-import GithubCorner from '@/components/GithubCorner'
-import PanelGroup from './components/PanelGroup'
-import LineChart from './components/LineChart'
-import RaddarChart from './components/RaddarChart'
-import PieChart from './components/PieChart'
-import BarChart from './components/BarChart'
-import TransactionTable from './components/TransactionTable'
-import TodoList from './components/TodoList'
-import BoxCard from './components/BoxCard'
-
-const lineChartData = {
-  newVisitis: {
-    expectedData: [100, 120, 161, 134, 105, 160, 165],
-    actualData: [120, 82, 91, 154, 162, 140, 145]
-  },
-  messages: {
-    expectedData: [200, 192, 120, 144, 160, 130, 140],
-    actualData: [180, 160, 151, 106, 145, 150, 130]
-  },
-  purchases: {
-    expectedData: [80, 100, 121, 104, 105, 90, 100],
-    actualData: [120, 90, 100, 138, 142, 130, 130]
-  },
-  shoppings: {
-    expectedData: [130, 140, 141, 142, 145, 150, 160],
-    actualData: [120, 82, 91, 154, 162, 140, 130]
-  }
-}
+import {mapMutations,mapActions, mapState} from 'vuex'
+import departmentChart from './components/departmentChart'
+import postChart from './components/postChart'
+import rateChart from './components/rateChart'
+import trainingChart from './components/traniningStatistictChart'
+import ageChart from './components/ageDistributionChart'
+import eTable from './components/employeeTable'
 
 export default {
-  name: 'DashboardAdmin',
+  name: "DashboardAdmin",
   components: {
-    GithubCorner,
-    PanelGroup,
-    LineChart,
-    RaddarChart,
-    PieChart,
-    BarChart,
-    TransactionTable,
-    TodoList,
-    BoxCard
+    departmentChart,
+    postChart,
+    rateChart,
+    trainingChart,
+    ageChart,
+    eTable
   },
   data() {
-    return {
-      lineChartData: lineChartData.newVisitis
+    return {};
+  },
+  mounted(){
+    this.getRDProductInfo();
+  },
+  computed:{
+    ...mapState({
+      productOptions:state=>state.reportDisplayStore.productData,
+      areaOptions:state=>state.reportDisplayStore.areaData,
+      pduOptions:state=>state.reportDisplayStore.pduData
+    }),
+    product:{
+      get(){
+        return this.$store.state.reportDisplayStore.selectedProduct;
+      },
+      set(val){
+        this.$store.commit('setRDSelectedProduct',val);
+      }
+    },
+    area:{
+      get(){
+        return this.$store.state.reportDisplayStore.selectedArea;
+      },
+      set(val){
+        this.$store.commit('setRDSelectedArea',val);
+      }
+    },
+    pdu:{
+      get(){
+        return this.$store.state.reportDisplayStore.selectedPDU;
+      },
+      set(val){
+        this.$store.commit('setRDSelectedPDU',val);
+      }
     }
   },
   methods: {
-    handleSetLineChartData(type) {
-      this.lineChartData = lineChartData[type]
+    ...mapActions(['getRDProductInfo','getRDAreas','getRDPDUList','getStatisticsChartData']),
+    productChange() {
+      this.$store.commit('setRDAreaData',[]);
+      this.getRDAreas(this.product);
+    },
+    areaChange(){
+      this.$store.commit('setRDPDUData',[]);
+      this.getRDPDUList(this.area);
+    },
+    onSubmit(){
+      this.getStatisticsChartData();
     }
   }
-}
+};
 </script>
 
-<style rel="stylesheet/scss" lang="scss" scoped>
+<style rel="stylesheet/scss" lang="scss">
 .dashboard-editor-container {
-  padding: 32px;
+  padding: 20px 32px;
   background-color: rgb(240, 242, 245);
+  height:100%;
+  box-sizing: border-box;
   .chart-wrapper {
     background: #fff;
     padding: 16px 16px 0;
     margin-bottom: 32px;
   }
+}
+.chart-operate{
+  position: absolute;
+  display: inline-block;
+  right: 5px;
+  top:5px;
+  z-index: 22;
+}
+.chart-operate i{
+  font-size:22px;
+  cursor: pointer;
+}
+.chart-operate i:hover{
+  color:'#409EFF'
 }
 </style>

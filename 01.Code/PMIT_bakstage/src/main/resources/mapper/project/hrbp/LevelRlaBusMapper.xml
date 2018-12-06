@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.LevelRlaBusMapper">
+    <select id="queryLevelNode" parameterType="java.util.Map" resultType="java.lang.String">
+        SELECT DISTINCT
+        ${col} AS nodename
+        FROM
+        bu_du_pdu
+        <where>
+            <if test="null != bu and '' != bu">
+                AND bu = #{bu}
+            </if>
+            <if test="null != du and '' != du">
+                AND du = #{du}
+            </if>
+            <if test="null != pdu and '' != pdu">
+                AND pdu = #{pdu}
+            </if>
+            <if test="null != region and '' != region">
+                AND region = #{region}
+            </if>
+        </where>
+    </select>
+
+</mapper>

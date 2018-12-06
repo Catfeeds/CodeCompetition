@@ -30,7 +30,7 @@ public class DimensionController extends AbstractController {
 
     @ApiOperation(value = "添加事务维度", notes = "添加事务维度")
     @PostMapping(value = "/insertDimension")
-    public AjaxResult insertDimension(@RequestBody String parameter){
+    public String insertDimension(@RequestBody String parameter){
         AffairDimension affairDimension = JsonUtils.readValue(parameter, AffairDimension.class);
         ExaminationAffair examinationAffair = affairDimension.getExaminationAffair();
         List<ExaminationDimension> examinationDimensionList = affairDimension.getExaminationDimensionList();
@@ -39,9 +39,9 @@ public class DimensionController extends AbstractController {
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("====insertDimension error=============" + e);
-            return AjaxResult.error();
+            return AjaxResult.returnToMessage(false, "操作失败");
         }
-        return AjaxResult.success();
+        return AjaxResult.returnToMessage(true, "操作成功");
     }
     @ApiOperation(value = "查看所有维度", notes = "查看所有维度")
     @PostMapping(value = "/queryDimension")

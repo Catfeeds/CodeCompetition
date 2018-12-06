@@ -101,7 +101,7 @@
         <result property="technologyGrade"       column="technologyGrade" />
         <result property="areasOfExpertise"       column="areasOfExpertise" />
     </resultMap>
-    <select id="getBaseStaffInfoById" resultType="com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo" parameterType="java.lang.String">
+    <select id="getBaseStaffInfoById" resultType="com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo" parameterType="java.util.Map">
         SELECT
 	employeeID,
 	employeeName,
@@ -152,7 +152,7 @@
   FROM
 	base_staff_info where employeeID=#{employeeID} and currentStatus != -1
     </select>
-    <select id="getFamilyInfomationById" resultMap="familyInformation" parameterType="java.lang.String">
+    <select id="getFamilyInfomationById" resultMap="familyInformation" parameterType="java.util.Map">
         SELECT
 	employeeID,
 	birthdayDate,
@@ -177,7 +177,7 @@ FROM
 	family_information
   where employeeID=#{employeeID}
     </select>
-    <select id="getCompanyQualificationById" parameterType="java.lang.String" resultMap="companyQualification">
+    <select id="getCompanyQualificationById" parameterType="java.util.Map" resultMap="companyQualification">
       SELECT
             qualificationName,
             qualificationType,
@@ -189,7 +189,7 @@ FROM
 	    company_qualification
 	  where employeeID=#{employeeID}
     </select>
-    <select id="getPersonalStyleById" parameterType="java.lang.String" resultMap="personalStyle">
+    <select id="getPersonalStyleById" parameterType="java.util.Map" resultMap="personalStyle">
         SELECT
             employeeID,
             food,
@@ -206,7 +206,7 @@ FROM
 	        personal_style
 	    where employeeID=#{employeeID}
     </select>
-    <select id="getTechicalInforationById" resultMap="technicallInformation" parameterType="java.lang.String">
+    <select id="getTechicalInforationById" resultMap="technicallInformation" parameterType="java.util.Map">
         SELECT
             employeeID,
             technologyPlatform,
@@ -216,7 +216,7 @@ FROM
 	      technical_information
 	    where employeeID=#{employeeID}
     </select>
-    <select id="getTeamInfoById" resultType="com.isoftstone.pmit.project.hrbp.entity.TeamInfo" parameterType="java.lang.String">
+    <select id="getTeamInfoById" resultType="com.isoftstone.pmit.project.hrbp.entity.TeamInfo" parameterType="java.util.Map">
         select
             change_time,
             status,
@@ -335,7 +335,7 @@ FROM
         </where>
     </update>
     <update id="updatePersonalStyle" parameterType="PersonalStyle">
-        update personal_style set 
+        update personal_style set
         <if test="food != null">
             food = #{food}
         </if>
@@ -369,7 +369,7 @@ FROM
         </where>
     </update>
 
-    <delete id="deletePersonalInformationById" parameterType="java.lang.String">
+    <delete id="deletePersonalInformationById" parameterType="java.util.Map">
         delete from base_staff_info where  employeeID = #{employeeID};
         delete  from company_qualification where employeeID = #{employeeID};
         delete  from family_information where employeeID = #{employeeID};
@@ -524,27 +524,30 @@ FROM
         from
           base_staff_info
         where
-
-          <if test="bu != null">
-              bu = #{bu}
+          1=1
+          <if test="bu != null and bu != ''">
+              and bu = #{bu}
           </if>
 
-          <if test="du != null">
+          <if test="du != null and du != ''">
               and  du = #{du}
           </if>
 
-          <if test="pdu != null">
+          <if test="pdu != null and pdu != ''">
               and   pdu = #{pdu}
           </if>
 
-          <if test="employeeID != null">
+          <if test="employeeID != null and employeeID != ''">
               and  employeeID like '%${employeeID}%'
           </if>
 
-          <if test=" employeeName != null ">
+          <if test=" employeeName != null and employeeName != ''">
               or   employeeName like  '%${employeeName}%'
           </if>
           limit #{currIndex} ,#{pageSize}
 
+    </select>
+    <select id="getPersonalListSize" resultType="java.lang.Integer">
+        select count(*) from base_staff_info
     </select>
 </mapper>

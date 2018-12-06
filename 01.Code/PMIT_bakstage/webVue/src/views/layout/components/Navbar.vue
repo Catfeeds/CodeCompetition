@@ -28,6 +28,9 @@
           <el-dropdown-item divided>
             <span style="display:block;" @click="logout">{{ $t('navbar.logOut') }}</span>
           </el-dropdown-item>
+          <el-dropdown-item divided>
+            <span style="display:block;" @click="updatePassword">{{ $t('navbar.password') }}</span>
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
@@ -63,6 +66,9 @@ export default {
         Cookies.set("status", "");
         this.$router.replace("/login");
       });
+    },
+    updatePassword() {
+      this.$message.info("功能正在开发中...");
     }
   }
 };

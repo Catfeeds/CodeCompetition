@@ -3,34 +3,10 @@ const authorization = {
   state: {},
   mutations: {},
   actions: {
-    getRoleList() {
+    getSysRoleList() {
       return new Promise((resolve, reject) => {
         api
-          .getRoleList()
-          .then(response => {
-            resolve(response.data.data);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
-    getRoleInfoById(commit, id) {
-      return new Promise((resolve, reject) => {
-        api
-          .getRoleInfoById(id)
-          .then(res => {
-            resolve(res.data);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
-    addRoleInfo(commit, roleInfo) {
-      return new Promise((resolve, reject) => {
-        api
-          .addRoleInfo(roleInfo)
+          .getSysRoleList()
           .then(response => {
             resolve(response.data);
           })
@@ -39,10 +15,34 @@ const authorization = {
           });
       });
     },
-    delRoleInfo(commit, roleId) {
+    getSysRoleInfoById(commit, id) {
       return new Promise((resolve, reject) => {
         api
-          .delRoleInfo(roleId)
+          .getSysRoleInfoById(id)
+          .then(res => {
+            resolve(res.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    addSysRoleInfo(commit, roleInfo) {
+      return new Promise((resolve, reject) => {
+        api
+          .addSysRoleInfo(roleInfo)
+          .then(response => {
+            resolve(response.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    delSysRoleInfo(commit, roleId) {
+      return new Promise((resolve, reject) => {
+        api
+          .delSysRoleInfo(roleId)
           .then(response => {
             resolve(response.data);
           })
@@ -54,7 +54,7 @@ const authorization = {
     editRoleInfo(commit, roleInfo) {
       return new Promise((resolve, reject) => {
         api
-          .editRoleInfo(roleInfo)
+          .editSysRoleInfo(roleInfo)
           .then(response => {
             resolve(response.data);
           })
@@ -66,7 +66,7 @@ const authorization = {
     getLoginUserList(commit, pageInfo) {
       return new Promise((resolve, reject) => {
         api
-          .getLoginUserList(pageInfo.currentPage, pageInfo.pageSize)
+          .getLoginUserList(pageInfo)
           .then(response => {
             resolve(response.data);
           })

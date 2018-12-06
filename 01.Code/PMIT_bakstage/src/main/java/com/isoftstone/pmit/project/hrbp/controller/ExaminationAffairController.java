@@ -48,7 +48,7 @@ public class ExaminationAffairController extends AbstractController {
             logger.info("====deleteAffair error=============" + e);
             return AjaxResult.returnToMessage(false, "删除失败");
         }
-        return AjaxResult.returnToMessage(false, "删除成功");
+        return AjaxResult.returnToMessage(true, "删除成功");
     }
 
     @RequestMapping(value = "/findExamAffairByAffairId", method = { RequestMethod.POST })
@@ -78,13 +78,23 @@ public class ExaminationAffairController extends AbstractController {
             logger.info("====updateAffair error=============" + e);
             return AjaxResult.returnToMessage(false, "修改失败");
         }
-        return AjaxResult.returnToMessage(false, "修改成功");
+        return AjaxResult.returnToMessage(true, "修改成功");
     }
 
     @ApiOperation(value = "添加考核事务", notes = "添加考核事务")
     @PostMapping(value = "/insertAffair")
     public String insertAffair(@RequestBody String parameter){
         ExaminationAffair examinationAffair = JsonUtils.readValue(parameter, ExaminationAffair.class);
+        //获取前台传递的affairName;
+        String insertAffairName = examinationAffair.getAffairName();
+        List<ExaminationAffair> tempResultList =  examinationAffairService.findAllAffairName();
+        for (ExaminationAffair affair : tempResultList) {
+            //获取数据库中affairName;
+            String tempAffairName = affair.getAffairName();
+            if(insertAffairName.equals(tempAffairName)){
+                return AjaxResult.returnToMessage(false, "事务已存在");
+            }
+        }
         try {
             examinationAffairService.insertAffair(examinationAffair);
         } catch (Exception e) {
@@ -92,7 +102,7 @@ public class ExaminationAffairController extends AbstractController {
             logger.info("====insertAffair error=============" + e);
             return AjaxResult.returnToMessage(false, "添加失败");
         }
-        return AjaxResult.returnToMessage(false, "添加成功");
+        return AjaxResult.returnToMessage(true, "添加成功");
     }
 
     @RequestMapping(value = "/findExamAffairSystem", method = { RequestMethod.POST })
@@ -109,4 +119,17 @@ public class ExaminationAffairController extends AbstractController {
         return AjaxResult.returnToResult(true,examinationAffairResult);
     }
 
+    @RequestMapping(value = "/findExamAffairSeries", method = { RequestMethod.POST })
+    @ApiOperation(value="事务所属系列接口", notes="事务所属系列接口")
+    public String findExamAffairSeries() {
+        List<ExaminationAffair> examinationAffairResult;
+        try {
+            examinationAffairResult = examinationAffairService.findExamAffairSeries();
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("====findExamAffairSeries error=============" + e);
+            return AjaxResult.returnToResult(false, e.getMessage());
+        }
+        return AjaxResult.returnToResult(true, examinationAffairResult);
+    }
 }

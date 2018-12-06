@@ -47,7 +47,7 @@
         </if>
 	</select>
 	
-	<select id="queryAreaAndCuBycondition" parameterType="java.util.Map" resultType="java.util.HashMap">
+	<select id="queryAreaAndCuByCondition" parameterType="java.util.Map" resultType="java.util.HashMap">
 		select distinct
 			workPlaceArea as area,
 			costCenter as cu
@@ -88,20 +88,43 @@
 		</foreach>
 	</select>
 	
-	<select id="saveProjectTeamRole" parameterType="com.isoftstone.pmit.project.hrbp.entity.TeamInfo">
-		update 
-			hrbp_projectTeam 
-		set 
-			position = #{teamInfo.position} 
-		where 
-			staff_id = #{teamInfo.staffId} and team_id = #{teamInfo.teamId};
-		
-		insert into hrbp_projectTeamRecord 
-	</select>
-	
 	<select id="teamRelatedPo" parameterType="java.util.Map">
 		insert into team_related_po values (#{teamId}, #{projectId})
 	</select>
-	
-	
+
+	<select id="queryProjectInformation" parameterType="java.util.Map" resultType="java.util.Map">
+		select
+			projectId,
+			projectName,
+			date_format(startTime, '%Y-%m-%d') as startDate,
+			date_format(endTime, '%Y-%m-%d') as endDate
+		from
+			project_information
+		where
+		    1=1
+			<if test="null != bu and bu != ''">
+				and bu like '%${bu}%'
+			</if>
+			<if test="null != du and du != ''">
+				and du like '%${du}%'
+			</if>
+			<if test="null != pdu and pdu != ''">
+				and pdu like '%${pdu}%'
+			</if>
+			<if test="null != projectId and projectId != ''">
+				and projectId like '%${projectId}%'
+			</if>
+			<if test="null != projectName and projectName != ''">
+				and projectName like '%${projectName}%'
+			</if>
+	</select>
+
+	<select id="saveProjectRole" parameterType="java.util.Map">
+		insert into po_staff_info (project_id, project_name, staff_id, team_id, po_role_id, enter_time)
+		values (#{projectId}, #{projectName}, #{staffId}, #{teamId}, #{poRoleId}, now())
+	</select>
+
+	<select id="queryProjectRole" resultType="java.util.Map">
+		select po_role_id as poRoleId, po_role_name as poRoleName from po_role_info
+	</select>
 </mapper>

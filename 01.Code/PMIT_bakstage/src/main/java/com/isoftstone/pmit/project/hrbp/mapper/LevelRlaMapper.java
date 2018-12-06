@@ -12,6 +12,8 @@ import java.util.Map;
 public interface LevelRlaMapper {
     public List<LevelTreeNode> queryLevelRlaNode(Map<String, Object> queryMap);
 
+    public List<LevelTreeNode> queryRelationNode(Map<String, Object> queryMap);
+
     public void addLevelRlaNode(Map<String, Object> queryMap);
 
     public void deleteLevelRlaNode(Map<String, Object> queryMap);

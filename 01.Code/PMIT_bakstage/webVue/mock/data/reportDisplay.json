@@ -1,0 +1,234 @@
+{
+    "getRate":{
+        "data":[{
+			"name": "nobacknonenum",
+			"value": "1173"
+		},
+		{
+			"name": "backnonenum",
+			"value": "7"
+		}]
+    },
+    "getStatisByDepartment":{
+        "data":[{
+			"name": "HW西安2012实施一部",
+			"value": "945"
+		},
+		{
+			"name": "HW西安2012实施一部（4900）",
+			"value": "203"
+		},
+		{
+			"name": "HW西安2012研发一部",
+			"value": "6"
+		},
+		{
+			"name": "HW西安2012研发一部（4900）",
+			"value": "2"
+		},
+		{
+			"name": "HW西安2012管理部",
+			"value": "7"
+		},
+		{
+			"name": "HW西安2012管理部（4900）",
+			"value": "10"
+		}]
+    },
+    "getPositionDistribute":{
+        "data":[
+            {
+                "name": "MDE",
+                "value": "3"
+            },
+            {
+                "name": "PL",
+                "value": "1"
+            },
+            {
+                "name": "PM",
+                "value": "2"
+            },
+            {
+                "name": "SPM",
+                "value": "1"
+            }
+        ]
+    },
+    "getTraniningStatis":{
+        "data":[{
+            "name":"HIPO",
+            "value":"16.7"
+        },{
+            "name":"HIPO5",
+            "value":"28.9"
+        },{
+            "name":"将军学院1",
+            "value":"26.7"
+        },{
+            "name":"将军学院2",
+            "value":"15.6"
+        },{
+            "name":"将军学院3",
+            "value":"12.2"
+        }]
+    },
+    "getAgeDistribute":{
+        "data":[
+            {
+                "name": "agelessthan30",
+                "value": "3"
+            },
+            {
+                "name": "age30to40",
+                "value": "2"
+            },
+            {
+                "name": "agegreaterthan40",
+                "value": "2"
+            }
+        ]
+    },
+    "getEmployee":{
+        "data":{
+            "datas": [
+                {
+                    "hwLevel": "value",
+                    "istLevel": "value",
+                    "cooperationMode": "value",
+                    "education": "value",
+                    "workingYears": "value",
+                    "cour01": "value",
+                    "cour02": "value",
+                    "cour05": "value",
+                    "cour06": "value",
+                    "cour03": "value",
+                    "cour04": "value",
+                    "cour09": "value",
+                    "trainTime": "value",
+                    "cour07": "value",
+                    "cour08": "value",
+                    "post": "value",
+                    "is211": "value",
+                    "currentCredit": "value",
+                    "totleScore": "value",
+                    "staffID": "value",
+                    "ageOfCompany": "value",
+                    "costCenter": "value",
+                    "sex": "value",
+                    "cour10": "value",
+                    "halfYearAchievements": "value",
+                    "name": "value"
+                },
+                {
+                    "hwLevel": "value",
+                    "istLevel": "value",
+                    "cooperationMode": "value",
+                    "education": "value",
+                    "workingYears": "value",
+                    "cour01": "value",
+                    "cour02": "value",
+                    "cour05": "value",
+                    "cour06": "value",
+                    "cour03": "value",
+                    "cour04": "value",
+                    "cour09": "value",
+                    "trainTime": "value",
+                    "cour07": "value",
+                    "cour08": "value",
+                    "post": "value",
+                    "is211": "value",
+                    "currentCredit": "value",
+                    "totleScore": "value",
+                    "staffID": "value",
+                    "ageOfCompany": "value",
+                    "costCenter": "value",
+                    "sex": "value",
+                    "cour10": "value",
+                    "halfYearAchievements": "value",
+                    "name": "value"
+                },
+                {
+                    "hwLevel": "value",
+                    "istLevel": "value",
+                    "cooperationMode": "value",
+                    "education": "value",
+                    "workingYears": "value",
+                    "cour01": "value",
+                    "cour02": "value",
+                    "cour05": "value",
+                    "cour06": "value",
+                    "cour03": "value",
+                    "cour04": "value",
+                    "cour09": "value",
+                    "trainTime": "value",
+                    "cour07": "value",
+                    "cour08": "value",
+                    "post": "value",
+                    "is211": "value",
+                    "currentCredit": "value",
+                    "totleScore": "value",
+                    "staffID": "value",
+                    "ageOfCompany": "value",
+                    "costCenter": "value",
+                    "sex": "value",
+                    "cour10": "value",
+                    "halfYearAchievements": "value",
+                    "name": "value"
+                }
+            ],
+            "trains": [
+                {
+                    "name": "将军学院01",
+                    "courses": [
+                        {
+                            "courseName": "课程01",
+                            "courseID": "cour01"
+                        },
+                        {
+                            "courseName": "课程02",
+                            "courseID": "cour02"
+                        },
+                        {
+                            "courseName": "课程03",
+                            "courseID": "cour03"
+                        },
+                        {
+                            "courseName": "课程04",
+                            "courseID": "cour04"
+                        },
+                        {
+                            "courseName": "课程05",
+                            "courseID": "cour05"
+                        }
+                    ]
+                },
+                {
+                    "name": "将军学院02",
+                    "courses": [
+                        {
+                            "courseName": "课程06",
+                            "courseID": "cour06"
+                        },
+                        {
+                            "courseName": "课程07",
+                            "courseID": "cour07"
+                        },
+                        {
+                            "courseName": "课程08",
+                            "courseID": "cour08"
+                        },
+                        {
+                            "courseName": "课程09",
+                            "courseID": "cour09"
+                        },
+                        {
+                            "courseName": "课程10",
+                            "courseID": "cour10"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

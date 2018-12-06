@@ -43,11 +43,7 @@ public class TrainingSettingService implements ITrainingSettingService {
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("trainingName", param.getTrainingName());
-		Integer count = trainingSettingMapper.queryTrainingByName(map);
-		if (count > 0) {
-			return "DuplicateName";
-		}
-		
+
 		map.put("trainingId", param.getTrainingId());
 		map.put("series", param.getSeries());
 		map.put("sort", param.getSort());
@@ -71,6 +67,10 @@ public class TrainingSettingService implements ITrainingSettingService {
 		map.put("trainingDuration", param.getTrainingDuration());
 		
 		if (null == param.getTrainingId()) {
+			Integer count = trainingSettingMapper.queryTrainingByName(map);
+			if (count > 0) {
+				return "DuplicateName";
+			}
 			trainingSettingMapper.addTrainingInfo(map);
 		} else {
 			trainingSettingMapper.updateTrainingInfo(map);

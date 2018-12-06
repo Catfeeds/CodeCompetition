@@ -22,33 +22,34 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
     private BaseStaffInfoMapper baseStaffInfoMapper;
 
     @Override
-    public PersonalInformation getBaseStaffInfoByID(String employeeID) {
-        if (null == employeeID ){
+    public PersonalInformation getBaseStaffInfoByID(Map<String,String> paraterMap) {
+        if (null == paraterMap ){
             throw new NullPointerException();
         }
-        BaseStaffInfo baseStaffInfo = baseStaffInfoMapper.getBaseStaffInfoById(employeeID);
+
+        BaseStaffInfo baseStaffInfo = baseStaffInfoMapper.getBaseStaffInfoById(paraterMap);
         if (null == baseStaffInfo){
             LOGGER.info("该员工已离职");
             new BaseStaffInfo();
         }
-        List<CompanyQualification> qualification = baseStaffInfoMapper.getCompanyQualificationById(employeeID);
+        List<CompanyQualification> qualification = baseStaffInfoMapper.getCompanyQualificationById(paraterMap);
         if (null == qualification ){
             qualification = new ArrayList<CompanyQualification>();
         }
 
-        FamilyInformation familyInfomation = baseStaffInfoMapper.getFamilyInfomationById(employeeID);
+        FamilyInformation familyInfomation = baseStaffInfoMapper.getFamilyInfomationById(paraterMap);
         if (null == familyInfomation){
             familyInfomation = new FamilyInformation();
         }
-        PersonalStyle personalStyle = baseStaffInfoMapper.getPersonalStyleById(employeeID);
+        PersonalStyle personalStyle = baseStaffInfoMapper.getPersonalStyleById(paraterMap);
         if (null == personalStyle){
             personalStyle = new PersonalStyle();
         }
-        List<TechnicalInformation> techicalInforation = baseStaffInfoMapper.getTechicalInforationById(employeeID);
+        List<TechnicalInformation> techicalInforation = baseStaffInfoMapper.getTechicalInforationById(paraterMap);
         if (null == techicalInforation){
             techicalInforation = new ArrayList<TechnicalInformation>();
         }
-        List<TeamInfo> teamInfoList = baseStaffInfoMapper.getTeamInfoById(employeeID);
+        List<TeamInfo> teamInfoList = baseStaffInfoMapper.getTeamInfoById(paraterMap);
 
         if (null == teamInfoList){
             teamInfoList = new ArrayList<>();
@@ -84,11 +85,11 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
     }
 
     @Override
-    public void deletePersonalInformationById(String employeeID) {
-        if (null == employeeID) {
+    public void deletePersonalInformationById(Map<String,String> paraterMap) {
+        if (null == paraterMap) {
             throw new NullPointerException();
         }
-        baseStaffInfoMapper.deletePersonalInformationById(employeeID);
+        baseStaffInfoMapper.deletePersonalInformationById(paraterMap);
     }
 
     @Override
@@ -120,7 +121,7 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
     }
 
     @Override
-    public List<BaseStaffInfo> getPersonalInfoByFuzzyQuery(PersonInfoAndPageInfo paramter) {
+    public AllPersonalResult getPersonalInfoByFuzzyQuery(PersonInfoAndPageInfo paramter) {
 
         Map<String,Object> paramterMap = new HashMap<String, Object>();
         if (null == paramter){
@@ -129,7 +130,6 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
         if (null == paramter.getPageInfo() ){
             new PageInfo();
         }
-
         paramterMap.put("currIndex",(paramter.getPageInfo().getCurrPage()-1)*paramter.getPageInfo().getPageSize());
         paramterMap.put("pageSize",paramter.getPageInfo().getPageSize());
         paramterMap.put("bu",paramter.getBaseStaffInfo().getBu());
@@ -140,9 +140,14 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
         if (null == paramterMap){
             new HashMap<String,Object>();
         }
-
+        AllPersonalResult allPersonalResult = new AllPersonalResult();
         List<BaseStaffInfo> staffInfos = baseStaffInfoMapper.getPersonalInfoByFuzzyQuery(paramterMap);
-        return staffInfos;
+        int listSize = baseStaffInfoMapper.getPersonalListSize();
+        if (staffInfos != null ) {
+            allPersonalResult.setListSize(listSize);
+            allPersonalResult.setBaseStaffInfos(staffInfos);
+        }
+        return allPersonalResult;
     }
 
 

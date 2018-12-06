@@ -5,19 +5,19 @@
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.TrainingSettingMapper">
 
 	<select id="queryBu" resultType="java.lang.String">
-		select distinct bu from base_staff_info
+		select distinct bu from bu_du_pdu
 	</select>
-	
+
 	<select id="querySort" resultType="java.lang.String">
 		select distinct sort from training_info
 	</select>
-	
+
 	<select id="querySeries" resultType="java.lang.String">
 		select distinct series from training_info
 	</select>
-	
+
 	<select id="queryTrainingList" parameterType="java.util.Map" resultType="com.isoftstone.pmit.project.hrbp.entity.TrainingInfo">
-		select 
+		select
 			training_id as trainingId,
 			training_name as trainingName,
 			series,
@@ -34,9 +34,9 @@
            	, training_des as trainingDes
            	, training_duration as trainingDuration
        		</if>
-		from 
-			training_info 
-		where 
+		from
+			training_info
+		where
 			status=0
 		<if test="null != sort and sort != ''">
             AND sort = '${sort}'
@@ -57,38 +57,38 @@
             AND training_id = #{trainingId}
         </if>
 	</select>
-	
+
 	<select id="addTrainingInfo" parameterType="java.util.Map">
-		insert into training_info 
-			(training_name, 
-			series, 
-			sort, 
-			type, 
+		insert into training_info
+			(training_name,
+			series,
+			sort,
+			type,
 			class_type,
-			bu, 
-			creator_id, 
-			creator_name, 
-			create_time, 
-			training_des, 
-			training_duration) 
+			bu,
+			creator_id,
+			creator_name,
+			create_time,
+			training_des,
+			training_duration)
 		values
-			(#{trainingName}, 
-			#{series}, 
-			#{sort}, 
-			#{type}, 
+			(#{trainingName},
+			#{series},
+			#{sort},
+			#{type},
 			#{classType},
-			#{bu}, 
-			#{creatorId}, 
-			#{creatorName}, 
-			now(), 
-			#{trainingDes}, 
-			#{trainingDuration}) 
+			#{bu},
+			#{creatorId},
+			#{creatorName},
+			now(),
+			#{trainingDes},
+			#{trainingDuration})
 	</select>
-	
+
 	<select id="updateTrainingInfo" parameterType="java.util.Map">
-		update 
-			training_info 
-		set 
+		update
+			training_info
+		set
 			training_name = #{trainingName},
 			series = #{series},
 			sort = #{sort},
@@ -100,20 +100,20 @@
 			training_des = #{trainingDes},
 			training_duration = #{trainingDuration},
 			create_time = now()
-		where 
+		where
 			training_id = #{trainingId}
 	</select>
-	
+
 	<select id="deleteTrainingInfo" parameterType="java.lang.Integer">
 		update training_info set status = 1 where training_id = #{trainingId}
 	</select>
-	
+
 	<select id="queryNameByID" parameterType="java.lang.String" resultType="java.lang.String">
 		select employeeName from base_staff_info where employeeId = #{id}
 	</select>
-	
+
 	<select id="queryTrainingByName" parameterType="java.util.Map" resultType="java.lang.Integer">
 		select count(1) from training_info where status = 0 and training_name = #{trainingName}
 	</select>
-	
+
 </mapper>

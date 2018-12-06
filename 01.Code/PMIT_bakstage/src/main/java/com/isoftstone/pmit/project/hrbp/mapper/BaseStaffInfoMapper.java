@@ -12,24 +12,24 @@ import java.util.Map;
 @Mapper
 public interface BaseStaffInfoMapper {
 
-    BaseStaffInfo getBaseStaffInfoById(String employeeID);
+    BaseStaffInfo getBaseStaffInfoById(Map<String,String> paraterMap);
 
-    List<CompanyQualification> getCompanyQualificationById(String employeeID);
+    List<CompanyQualification> getCompanyQualificationById(Map<String,String> paraterMap);
 
-    PersonalStyle getPersonalStyleById(String employeeID);
+    PersonalStyle getPersonalStyleById(Map<String,String> paraterMap);
 
-    FamilyInformation getFamilyInfomationById(String employeeID);
+    FamilyInformation getFamilyInfomationById(Map<String,String> paraterMap);
 
-    List<TechnicalInformation> getTechicalInforationById(String employeeID);
+    List<TechnicalInformation> getTechicalInforationById(Map<String,String> paraterMap);
 
-    List<TeamInfo> getTeamInfoById(String employeeID);
+    List<TeamInfo> getTeamInfoById(Map<String,String> paraterMap);
 
     void updateBaseStaffInfo(BaseStaffInfo info);
     void updatePersonalStyle(PersonalStyle personalStyle);
     void updateFamilyInformation(FamilyInformation familyInformation);
     void updateTechnicalInformation(List<TechnicalInformation> technicalInformation);
 
-    void deletePersonalInformationById(String employeeID);
+    void deletePersonalInformationById(Map<String,String> paraterMap);
     void deletePersonalInformationsByList(List<String> employeeIdList);
 
     void insertBaseStaffInfo(BaseStaffInfo info);
@@ -39,7 +39,7 @@ public interface BaseStaffInfoMapper {
     void insertCompanyQualification(List<CompanyQualification> companyQualifications);
 
     List<BaseStaffInfo> getPersonalInfoByFuzzyQuery(Map<String,Object> paramter);
-
+    int getPersonalListSize();
 
 
 }

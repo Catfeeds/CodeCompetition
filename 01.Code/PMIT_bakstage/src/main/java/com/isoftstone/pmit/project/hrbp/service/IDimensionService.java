@@ -22,4 +22,5 @@ public interface IDimensionService {
      * @return
      */
     List<ExaminationDimension> queryDimension(Integer affairID);
+
 }

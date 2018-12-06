@@ -31,7 +31,7 @@ public interface IUserManageService {
      * @param
      * @return
      */
-    PageInfo<EmpInformationResult> findEmpInformation(com.isoftstone.pmit.project.hrbp.entity.PageInfo pageInfo,EmpInformationResult empInformationResult);
+    PageInfo<EmpInformationResult> findEmpInformation(com.isoftstone.pmit.project.hrbp.entity.PageInfo pageInfo);
 
     /**
      * 模糊查询用户信息
@@ -67,4 +67,11 @@ public interface IUserManageService {
      * @return
      */
     List<EmpInformationResult> findEmpInformation();
+
+    /**
+     * 根据个人工号，修改密码
+     * @param employeeID
+     * @param changePwd
+     */
+    void updateUserPassword(String employeeID,String changePwd);
 }

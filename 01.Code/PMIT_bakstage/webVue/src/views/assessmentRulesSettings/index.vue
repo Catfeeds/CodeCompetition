@@ -1,56 +1,73 @@
 <template>
   <div class="app-container">
-    <el-form>
-      <el-row>
-        <el-col :span="6">
-          <el-form-item label="所属体系">
-            <el-select v-model="series" size="mini" placeholder="请选择">
-              <el-option
-                v-for="item in seriesOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="所属角色">
-            <el-select v-model="role" size="mini" placeholder="请选择">
-              <el-option
-                v-for="item in roleOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="所属产品线">
-            <el-select v-model="product" size="mini" placeholder="请选择">
-              <el-option
-                v-for="item in productOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="3">
-          <el-form-item>
-            <el-button type="primary" size="mini" @click="onSubmit">查询</el-button>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
-    <el-tabs @tab-click="handleClick" v-model="activeTab">
-      <el-tab-pane label="关键角色设置" name="first">
-        <role-tab></role-tab>
+    <div class="filter-container" style="padding-bottom:0px">
+      <el-select
+        size="mini"
+        v-model="searchForm.system"
+        clearable
+        class="filter-item"
+        style="width: 130px"
+        placeholder="所属体系"
+      >
+        <el-option
+          v-for="item in systemOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        ></el-option>
+      </el-select>
+      <el-select
+        size="mini"
+        v-model="searchForm.role"
+        clearable
+        class="filter-item"
+        style="width: 130px"
+        placeholder="所属角色"
+      >
+        <el-option
+          v-for="item in roleOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        ></el-option>
+      </el-select>
+      <el-select
+        v-model="searchForm.product"
+        clearable
+        size="mini"
+        class="filter-item"
+        style="width: 130px"
+        placeholder="所属产品线"
+      >
+        <el-option
+          v-for="item in productOptions"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"
+        ></el-option>
+      </el-select>
+      <el-button
+        class="filter-item"
+        type="primary"
+        size="mini"
+        icon="el-icon-search"
+        @click="handleFilter"
+      >{{ $t('table.search') }}</el-button>
+      <el-button
+        class="filter-item"
+        style="margin-left: 10px;"
+        type="primary"
+        size="mini"
+        icon="el-icon-plus"
+        @click="handleAdd"
+      >{{ $t('table.add') }}</el-button>
+    </div>
+    <el-tabs @tab-click="changeTab" v-model="activeTab">
+      <el-tab-pane label="关键角色设置" name="role">
+        <role-tab ref="roleTab" :condition="searchForm"></role-tab>
       </el-tab-pane>
-      <el-tab-pane label="考核规则设置" name="second">
-        <rule-tab></rule-tab>
+      <el-tab-pane label="考核规则设置" name="rule">
+        <rule-tab ref="ruleTab" :condition="searchForm"></rule-tab>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -64,25 +81,70 @@ export default {
   components: { RoleTab, RuleTab },
   data() {
     return {
-      activeTab: "first",
-      series: "",
-      seriesOptions: [],
-      role: "",
+      activeTab: "role",
+      systemOptions: [],
       roleOptions: [],
-      product: "",
       productOptions: [],
-      roleTab: {
-        loading: false,
-        tableData: []
+      searchForm: {
+        system: "",
+        role: "",
+        product: ""
       }
     };
   },
+  mounted() {
+    this.getProductInfo();
+    this.getSystem();
+    this.$refs.roleTab.handleFilter();
+  },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
+    getProductInfo() {
+      let vm = this;
+      vm.$store.dispatch("getProductInfo").then(() => {
+        const data = vm.$store.getters.productList;
+        if (data) {
+          vm.productOptions = data;
+        } else {
+          vm.productOptions = [];
+        }
+      });
     },
-    onSubmit() {},
-    handleAdd() {}
+    getSystem() {
+      let vm = this;
+      vm.$store.dispatch("queryAffairsSystem").then(res => {
+        if (res.data) {
+          vm.systemOptions = res.data.map(item => {
+            return {
+              label: item.system,
+              value: item.system
+            };
+          });
+        } else {
+          vm.systemOptions = [];
+        }
+      });
+    },
+    changeTab(tab, event) {
+      if (tab.name === "role") {
+        this.$refs.roleTab.handleFilter();
+      } else {
+        this.$refs.ruleTab.handleFilter();
+      }
+    },
+    handleAdd() {
+      if (this.activeTab === "role") {
+        this.$refs.roleTab.handleAdd();
+      } else {
+        this.$refs.ruleTab.handleAdd();
+      }
+    },
+    handleFilter() {
+      if (this.activeTab === "role") {
+        this.$refs.roleTab.handleFilter();
+      } else {
+        this.$refs.ruleTab.handleFilter();
+      }
+    }
   }
 };
 </script>

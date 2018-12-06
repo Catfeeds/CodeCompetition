@@ -28,6 +28,13 @@ public class LevelRlaService implements ILevelRlaService {
         return trees;
     }
 
+    @Override
+    public List<LevelTreeNode> queryLevelRlaLeafNode(List<Map<String, Object>> nodeList, String tableName) {
+        Map<String, Object> queryMap = buildQueryParamMap(nodeList);
+        queryMap.put("tableName", tableName);
+        return mapper.queryRelationNode(queryMap);
+    }
+
     private Map<String, Object> buildQueryParamMap(List<Map<String, Object>> nodeList) {
         StringBuilder nodes = new StringBuilder();
         Map<String, Object> result = new HashMap<String, Object>();

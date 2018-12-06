@@ -21,45 +21,45 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/hrbp/trainingsetting")
 @Api(value="培训设置", tags={"培训设置"})
 public class TrainingSettingController extends AbstractController {
-	
+
 	@Autowired
 	private ITrainingSettingService trainingSettingService;
-	
+
 	@ApiOperation("查询bu产品线")
 	@PostMapping("/queryBu")
 	public String queryBu() {
 		List<String> bu = trainingSettingService.queryBu();
 		return AjaxResult.returnToResult(false, bu);
 	}
-	
+
 	@ApiOperation("查询所属体系")
 	@PostMapping("/querySort")
 	public String querySort() {
 		List<String> sorts = trainingSettingService.querySort();
-		return AjaxResult.returnToResult(false, sorts);
+		return AjaxResult.returnToResult(true, sorts);
 	}
-	
+
 	@ApiOperation("查询所属系列")
 	@PostMapping("/querySeries")
 	public String querySeries() {
 		List<String> series = trainingSettingService.querySeries();
-		return AjaxResult.returnToResult(false, series);
+		return AjaxResult.returnToResult(true, series);
 	}
-	
+
 	@ApiOperation("查询培训列表")
 	@PostMapping("/queryTrainingList")
 	public String queryTrainingList(@RequestBody TrainingParam param) {
 		List<TrainingInfo> trainingInfos = trainingSettingService.queryTrainingList(param);
-		return AjaxResult.returnToResult(false, trainingInfos);
+		return AjaxResult.returnToResult(true, trainingInfos);
 	}
-	
+
 	@ApiOperation("根据ID查询培训列表")
 	@PostMapping("/queryTrainingInfoByTrainingId")
 	public String queryTrainingInfoByTrainingId(@RequestBody TrainingInfo trainingInfo) {
 		TrainingInfo result = trainingSettingService.queryTrainingInfoByTrainingId(trainingInfo.getTrainingId());
-		return AjaxResult.returnToResult(false, result);
+		return AjaxResult.returnToResult(true, result);
 	}
-	
+
 	@ApiOperation("新增/修改培训信息")
 	@PostMapping("/saveTrainingInfo")
 	public String saveTrainingInfo(@RequestBody TrainingInfo trainingInfo) {
@@ -75,7 +75,7 @@ public class TrainingSettingController extends AbstractController {
 		}
 		return AjaxResult.returnToMessage(true, result);
 	}
-	
+
 	@ApiOperation("删除培训信息")
 	@PostMapping("/deleteTrainingInfo")
 	public String deleteTrainingInfo(@RequestBody TrainingInfo trainingInfo) {
@@ -87,5 +87,5 @@ public class TrainingSettingController extends AbstractController {
 		}
 		return AjaxResult.returnToMessage(true, "success");
 	}
-	
+
 }

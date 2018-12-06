@@ -7,6 +7,11 @@ import projectGroupStore from "./store/modules/projectGroupStore";
 import relationTreeStore from "./store/modules/relationTreeStore";
 import authorizationStore from "./store/modules/authorizationStore";
 import trainingStore from "./store/modules/trainingStore";
+import affairsStore from "./store/modules/affairsStore";
+import ruleStore from "./store/modules/ruleStore";
+import employeeStore from "./store/modules/employeeStore";
+import reportDisplayStore from './store/modules/reportDisplayStore';
+import scoreDisplayStore from './store/modules/scoreDisplayStore';
 import getters from "./store/getters";
 
 Vue.use(Vuex);
@@ -19,7 +24,12 @@ export default new Vuex.Store({
     projectGroupStore,
     relationTreeStore,
     authorizationStore,
-    trainingStore
+    trainingStore,
+    affairsStore,
+    ruleStore,
+    employeeStore,
+    reportDisplayStore,
+    scoreDisplayStore
   },
   getters
 });

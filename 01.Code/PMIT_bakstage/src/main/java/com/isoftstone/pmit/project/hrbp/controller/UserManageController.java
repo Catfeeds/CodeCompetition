@@ -61,12 +61,10 @@ public class UserManageController extends AbstractController {
     @RequestMapping(value = "/findEmpInformation", method = { RequestMethod.POST })
     @ApiOperation(value="获取所有用户信息", notes="获取所有用户信息")
     public String findEmpInformation(@RequestBody String parameter){
-        EmpAndPageInfo empAndPageInfo = JsonUtils.readValue(parameter, EmpAndPageInfo.class);
-        EmpInformationResult empInformationResult = empAndPageInfo.getEmpInformationResult();
-        com.isoftstone.pmit.project.hrbp.entity.PageInfo pageInfo = empAndPageInfo.getPageInfo();
+        com.isoftstone.pmit.project.hrbp.entity.PageInfo pageInfo = JsonUtils.readValue(parameter, com.isoftstone.pmit.project.hrbp.entity.PageInfo.class);
         PageInfo resultList;
         try {
-            resultList = userManageService.findEmpInformation(pageInfo,empInformationResult);
+            resultList = userManageService.findEmpInformation(pageInfo);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToResult(false, e.getMessage());
@@ -142,6 +140,32 @@ public class UserManageController extends AbstractController {
         return AjaxResult.returnToMessage(true, "更新成功");
     }
 
-
-
+    @ApiOperation(value = "个人密码修改", notes = "个人密码修改")
+    @PostMapping(value = "/updateUserPassword")
+    public String updateUserPassword(@RequestBody String parameter,@RequestParam(value = "changePwd", required = true) String changePwd) {
+        logger.info("updateUserPassword start ");
+        LoginInformation loginInformation = JsonUtils.readValue(parameter, LoginInformation.class);
+        String employeeID = loginInformation.getEmployeeID();
+        String password = loginInformation.getPassword();
+        //校验原始密码 "0" 该用户不存在 "1"   原密码输入错误  "2" 密码修改成功 "message" 修改错误异常信息
+        LoginInformation information;
+        String md5HexPassword = DigestUtils.md5Hex(password);
+        try {
+            information = userManageService.getEmployee(employeeID);
+            if(null == information){
+                return AjaxResult.returnToResult(false,"0");
+            }
+            if(md5HexPassword.equals(information.getPassword())){
+                userManageService.updateUserPassword(employeeID,changePwd);
+            }else{
+                return AjaxResult.returnToResult(false,"1");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("updateUserPassword error" + e);
+            return AjaxResult.returnToResult(false,e.getMessage());
+        }
+        logger.info("updateUserPassword end ");
+        return AjaxResult.returnToResult(true,"2");
+    }
 }
