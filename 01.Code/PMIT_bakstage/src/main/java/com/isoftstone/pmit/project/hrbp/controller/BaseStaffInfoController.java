@@ -1,6 +1,7 @@
 package com.isoftstone.pmit.project.hrbp.controller;
 
 import com.isoftstone.pmit.common.util.AjaxResult;
+import com.isoftstone.pmit.project.hrbp.entity.AllPersonalResult;
 import com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo;
 import com.isoftstone.pmit.project.hrbp.entity.PersonInfoAndPageInfo;
 import com.isoftstone.pmit.project.hrbp.entity.PersonalInformation;
@@ -86,12 +87,12 @@ public class BaseStaffInfoController {
     @ApiOperation(value="全员信息", notes="查看全员信息")
     public String getAllPersonalInformation(@RequestBody PersonInfoAndPageInfo paramter) {
         LOG.info(" BaseStaffInfoController getAllPersonalInformation"+paramter);
-        List<BaseStaffInfo> staffInfoList;
-        try{
-            staffInfoList= baseStaffInfoService.getPersonalInfoByFuzzyQuery(paramter);
-        }catch (Exception e) {
+        AllPersonalResult allPersonalResult;
+        try {
+            allPersonalResult = baseStaffInfoService.getPersonalInfoByFuzzyQuery(paramter);
+        }catch (Exception e){
             return AjaxResult.returnToMessage(false,e.getMessage());
         }
-        return AjaxResult.returnToResult(true, staffInfoList);
+        return AjaxResult.returnToResult(true, allPersonalResult);
     }
 }

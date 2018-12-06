@@ -121,7 +121,7 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
     }
 
     @Override
-    public List<BaseStaffInfo> getPersonalInfoByFuzzyQuery(PersonInfoAndPageInfo paramter) {
+    public AllPersonalResult getPersonalInfoByFuzzyQuery(PersonInfoAndPageInfo paramter) {
 
         Map<String,Object> paramterMap = new HashMap<String, Object>();
         if (null == paramter){
@@ -130,7 +130,6 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
         if (null == paramter.getPageInfo() ){
             new PageInfo();
         }
-
         paramterMap.put("currIndex",(paramter.getPageInfo().getCurrPage()-1)*paramter.getPageInfo().getPageSize());
         paramterMap.put("pageSize",paramter.getPageInfo().getPageSize());
         paramterMap.put("bu",paramter.getBaseStaffInfo().getBu());
@@ -141,9 +140,13 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
         if (null == paramterMap){
             new HashMap<String,Object>();
         }
-
+        AllPersonalResult allPersonalResult = new AllPersonalResult();
         List<BaseStaffInfo> staffInfos = baseStaffInfoMapper.getPersonalInfoByFuzzyQuery(paramterMap);
-        return staffInfos;
+        if (staffInfos != null) {
+            allPersonalResult.setListSize(staffInfos.size());
+            allPersonalResult.setBaseStaffInfos(staffInfos);
+        }
+        return allPersonalResult;
     }
 
 
