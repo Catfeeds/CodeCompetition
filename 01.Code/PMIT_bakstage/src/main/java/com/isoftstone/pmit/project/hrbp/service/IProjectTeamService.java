@@ -12,12 +12,15 @@ public interface IProjectTeamService {
 
 	List<TeamInfo> searchEmployeeInfos(TeamParam param);
 
-	List<Map<String, String>> queryAreaAndCuBycondition(TeamParam param);
+	List<Map<String, String>> queryAreaAndCuByCondition(TeamParam param);
 
 	String saveProjectTeamData(List<TeamInfo> teamInfos);
 
-	String saveProjectTeamRole(TeamInfo teamInfo);
+	void saveProjectRole(Map<String, Object> paramMap);
 
 	void teamRelatedPo(String teamId, String projectId);
-	
+
+	List<Map<String, Object>> queryProjectInformation(Map<String, Object> paramMap);
+
+	List<Map<String, Object>> queryProjectRole();
 }

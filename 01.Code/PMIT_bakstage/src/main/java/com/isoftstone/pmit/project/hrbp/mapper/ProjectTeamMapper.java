@@ -6,7 +6,9 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.isoftstone.pmit.project.hrbp.entity.TeamInfo;
+import org.springframework.stereotype.Repository;
 
+@Repository
 @Mapper
 public interface ProjectTeamMapper {
 
@@ -14,14 +16,17 @@ public interface ProjectTeamMapper {
 
 	List<TeamInfo> queryResourcePoolData(Map<String, Object> queryMap);
 
-	List<Map<String, String>> queryAreaAndCuBycondition(Map<String, Object> queryMap);
+	List<Map<String, String>> queryAreaAndCuByCondition(Map<String, Object> queryMap);
 
 	void addTeamInfo(List<TeamInfo> addTeamInfos);
 
 	void deleteTeamInfo(List<TeamInfo> deleteTeamInfos);
 
-	void saveProjectTeamRole(TeamInfo teamInfo);
+	void saveProjectTeamRole(Map<String, Object> paramMap);
 
 	void teamRelatedPo(Map<String, Object> map);
-	
+
+    List<Map<String, Object>> queryProjectInformation(Map<String, Object> paramMap);
+
+    List<Map<String, Object>> queryProjectRole();
 }
