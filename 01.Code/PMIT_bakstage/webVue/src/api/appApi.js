@@ -16,40 +16,17 @@ function getMenuInfoByRoleId(roleId) {
     data: { roleId }
   });
 }
-function getProductInfo() {
+function getBusinessRelationship(param) {
   return request({
     url: "hrbp/levelBussinessRelationship/queryLevel",
     method: "post",
-    data: {}
+    data: param
   });
 }
-function getDUInfo(bu) {
-  return request({
-    url: "hrbp/levelBussinessRelationship/queryLevel",
-    method: "post",
-    data: { bu }
-  });
-}
-function getPDUInfo(bu, du) {
-  return request({
-    url: "hrbp/levelBussinessRelationship/queryLevel",
-    method: "post",
-    data: { bu, du }
-  });
-}
-function getAreaInfo(bu, du, pdu) {
-  return request({
-    url: "hrbp/levelBussinessRelationship/queryLevel",
-    method: "post",
-    data: { bu, du, pdu }
-  });
-}
+
 export default {
   getAllMenuInfo,
   getMenuInfoByEmployeeId,
   getMenuInfoByRoleId,
-  getProductInfo,
-  getDUInfo,
-  getPDUInfo,
-  getAreaInfo
+  getBusinessRelationship
 };

@@ -35,7 +35,11 @@ const app = {
     language: Cookies.get("language") || "zh",
     size: Cookies.get("size") || "medium",
     routers: constantRouterMap,
-    addRouters: []
+    addRouters: [],
+    productList: [],
+    duList: [],
+    pduList: [],
+    areaList: []
   },
   mutations: {
     toggleSideBar: state => {
@@ -143,7 +147,7 @@ const app = {
     getProductInfo({ commit }) {
       return new Promise((resolve, reject) => {
         api
-          .getProductInfo()
+          .getBusinessRelationship({})
           .then(res => {
             let data = [];
             if (res.data.data) {
@@ -162,10 +166,10 @@ const app = {
           });
       });
     },
-    getDUInfo({ commit }, product) {
+    getDUInfo({ commit }, param) {
       return new Promise((resolve, reject) => {
         api
-          .getDUInfo(product)
+          .getBusinessRelationship(param)
           .then(res => {
             let data = [];
             if (res.data.data) {
@@ -184,10 +188,10 @@ const app = {
           });
       });
     },
-    getPDUInfo({ commit }, product, du) {
+    getPDUInfo({ commit }, param) {
       return new Promise((resolve, reject) => {
         api
-          .getPDUInfo(product, du)
+          .getBusinessRelationship(param)
           .then(res => {
             let data = [];
             if (res.data.data) {
@@ -206,10 +210,10 @@ const app = {
           });
       });
     },
-    getAreaInfo({ commit }, product, du, pdu) {
+    getAreaInfo({ commit }, param) {
       return new Promise((resolve, reject) => {
         api
-          .getAreaInfo(product, du, pdu)
+          .getBusinessRelationship(param)
           .then(res => {
             let data = [];
             if (res.data.data) {

@@ -35,14 +35,14 @@
       </el-select>
       <el-select
         size="mini"
-        v-model="searchForm.pduOptions"
+        v-model="searchForm.pdu"
         clearable
         class="filter-item"
         style="width: 130px"
         placeholder="所属PDU"
       >
         <el-option
-          v-for="item in productOptions"
+          v-for="item in pduOptions"
           :key="item.value"
           :label="item.label"
           :value="item.value"
@@ -215,7 +215,7 @@ export default {
     },
     getDUInfo(product) {
       let vm = this;
-      vm.$store.dispatch("getDUInfo", product).then(() => {
+      vm.$store.dispatch("getDUInfo", { bu: product }).then(() => {
         const data = vm.$store.getters.duList;
         if (data) {
           vm.duOptions = data;
@@ -226,42 +226,12 @@ export default {
     },
     getPDUInfo(product, du) {
       let vm = this;
-      vm.$store.dispatch("getPDUInfo", product, du).then(() => {
+      vm.$store.dispatch("getPDUInfo", { bu: product, du: du }).then(() => {
         const data = vm.$store.getters.pduList;
         if (data) {
           vm.pduOptions = data;
         } else {
           vm.pduOptions = [];
-        }
-      });
-    },
-    getSeries() {
-      let vm = this;
-      vm.$store.dispatch("queryAffairsSeries").then(res => {
-        if (res.data) {
-          vm.seriesOptions = res.data.map(item => {
-            return {
-              label: item.series,
-              value: item.series
-            };
-          });
-        } else {
-          vm.seriesOptions = [];
-        }
-      });
-    },
-    getSystem() {
-      let vm = this;
-      vm.$store.dispatch("queryAffairsSystem").then(res => {
-        if (res.data) {
-          vm.systemOptions = res.data.map(item => {
-            return {
-              label: item.system,
-              value: item.system
-            };
-          });
-        } else {
-          vm.systemOptions = [];
         }
       });
     },
@@ -296,7 +266,9 @@ export default {
       this.getDUInfo(this.searchForm.product);
     },
     changeDU() {
-      if(!this.searchForm.product) {
+      this.searchForm.du = "";
+      this.searchForm.pdu = "";
+      if (!this.searchForm.product) {
         this.$message.warning("请选择所属产品线");
         return;
       }

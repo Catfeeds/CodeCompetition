@@ -1,9 +1,6 @@
 import api from "@/api/projectGroupApi";
 const projectGroup = {
   state: {
-    productList: [],
-    duList: [],
-    pduList: [],
     selectedProduct: "",
     selectedDU: "",
     selectedPDU: ""
