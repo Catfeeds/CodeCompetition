@@ -189,10 +189,10 @@ export default {
       vm.$store
         .dispatch("getRoleList", vm.condition)
         .then(res => {
-          if (res) {
-            vm.initList = res;
+          if (res.success) {
+            vm.initList = res.data;
             vm.tableData = vm.initList.slice(0, vm.page.pageSize);
-            vm.page.totalRecord = res.length;
+            vm.page.totalRecord = res.data.length;
           } else {
             vm.tableData = [];
             vm.page.totalRecord = 0;

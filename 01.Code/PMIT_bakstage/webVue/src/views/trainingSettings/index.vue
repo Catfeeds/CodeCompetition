@@ -460,11 +460,11 @@ export default {
       vm.listLoading = true;
       vm.$store
         .dispatch("getTrainingList", condition)
-        .then(data => {
-          if (data) {
-            vm.initList = data;
+        .then(res => {
+          if (res.success) {
+            vm.initList = res.data;
             vm.list = vm.initList.slice(0, vm.page.pageSize);
-            vm.page.totalRecord = data.length;
+            vm.page.totalRecord = res.data.length;
           } else {
             vm.list = [];
             vm.page.totalRecord = 0;
@@ -565,7 +565,7 @@ export default {
     getSystem() {
       let vm = this;
       vm.$store.dispatch("querySystem").then(res => {
-        if (res.data) {
+        if (res.success) {
           vm.systemOptions = res.data.map(item => {
             return {
               label: item,

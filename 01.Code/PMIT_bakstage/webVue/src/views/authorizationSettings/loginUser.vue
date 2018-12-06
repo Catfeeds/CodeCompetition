@@ -203,13 +203,17 @@ export default {
   mounted() {
     this.page.currentPage = 1;
     this.getLogiUserList();
-    this.$store.dispatch("getRoleList").then(res => {
-      this.roleOptions = res.map(item => {
-        return {
-          label: item.roleName,
-          value: item.roleId
-        };
-      });
+    this.$store.dispatch("getSysRoleList").then(res => {
+      if (res.success) {
+        this.roleOptions = res.data.map(item => {
+          return {
+            label: item.roleName,
+            value: item.roleId
+          };
+        });
+      }else{
+        this.roleOptions = [];
+      }
     });
   },
   methods: {

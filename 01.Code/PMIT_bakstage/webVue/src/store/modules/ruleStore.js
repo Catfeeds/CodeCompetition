@@ -8,7 +8,7 @@ export default {
         api
           .getRoleList(condition)
           .then(response => {
-            resolve(response.data.data);
+            resolve(response.data);
           })
           .catch(error => {
             reject(error);
@@ -56,7 +56,7 @@ export default {
         api
           .getRuleList(condition)
           .then(response => {
-            resolve(response.data.data);
+            resolve(response.data);
           })
           .catch(error => {
             reject(error);
@@ -92,7 +92,7 @@ export default {
         api
           .delRuleInfo(ruleId)
           .then(response => {
-            resolve(response.data.data);
+            resolve(response.data);
           })
           .catch(error => {
             reject(error);

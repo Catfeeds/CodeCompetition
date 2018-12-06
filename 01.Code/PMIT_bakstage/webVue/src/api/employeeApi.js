@@ -8,28 +8,28 @@ function getEmployeeList(condition) {
 }
 function getEmployeeInfoById(employeeID) {
   return request({
-    url: "/hrbp/trainingsetting/queryTrainingInfoByTrainingId",
+    url: "/hrbp/baseStaff/getPersonalInfo",
     method: "post",
     data: { employeeID }
   });
 }
 function delEmployeeInfo(employeeID) {
   return request({
-    url: "hrbp/trainingsetting/deleteTrainingInfo",
+    url: "hrbp/baseStaff/deletePersonalInfo",
     method: "post",
     data: { employeeID }
   });
 }
 function addEmployeeInfo(employeeInfo) {
   return request({
-    url: "hrbp/trainingsetting/saveTrainingInfo",
+    url: "hrbp/baseStaff/insertPersonalInfo",
     method: "post",
     data: employeeInfo
   });
 }
 function editEmployeeInfo(employeeInfo) {
   return request({
-    url: "hrbp/trainingsetting/saveTrainingInfo",
+    url: "hrbp/baseStaff/updatePersonalInfo",
     method: "post",
     data: employeeInfo
   });

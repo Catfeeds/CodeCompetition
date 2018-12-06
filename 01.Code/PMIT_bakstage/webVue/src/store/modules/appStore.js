@@ -105,13 +105,17 @@ const app = {
       return new Promise((resolve, reject) => {
         api
           .getMenuInfoByEmployeeId(role)
-          .then(response => {
-            let accessedRouters = filterAsyncRouter(
-              asyncRouterMap,
-              response.data.data
-            );
-            commit("setRouters", accessedRouters);
-            resolve(accessedRouters);
+          .then(res => {
+            if (res.data.success) {
+              let accessedRouters = filterAsyncRouter(
+                asyncRouterMap,
+                res.data.data
+              );
+              commit("setRouters", accessedRouters);
+              resolve(accessedRouters);
+            } else {
+              resolve([]);
+            }
           })
           .catch(error => {
             reject(error);
@@ -124,7 +128,7 @@ const app = {
         api
           .getMenuInfoByRoleId(role)
           .then(response => {
-            resolve(response.data.data);
+            resolve(response.data);
           })
           .catch(error => {
             reject(error);
@@ -137,7 +141,7 @@ const app = {
         api
           .getAllMenuInfo()
           .then(res => {
-            resolve(res.data.data);
+            resolve(res.data);
           })
           .catch(error => {
             reject(error);
@@ -150,7 +154,7 @@ const app = {
           .getBusinessRelationship({})
           .then(res => {
             let data = [];
-            if (res.data.data) {
+            if (res.data.success) {
               data = res.data.data.map(item => {
                 return {
                   label: item,
@@ -172,7 +176,7 @@ const app = {
           .getBusinessRelationship(param)
           .then(res => {
             let data = [];
-            if (res.data.data) {
+            if (res.data.success) {
               data = res.data.data.map(item => {
                 return {
                   label: item,
@@ -194,7 +198,7 @@ const app = {
           .getBusinessRelationship(param)
           .then(res => {
             let data = [];
-            if (res.data.data) {
+            if (res.data.success) {
               data = res.data.data.map(item => {
                 return {
                   label: item,
@@ -216,7 +220,7 @@ const app = {
           .getBusinessRelationship(param)
           .then(res => {
             let data = [];
-            if (res.data.data) {
+            if (res.data.success) {
               data = res.data.data.map(item => {
                 return {
                   label: item,

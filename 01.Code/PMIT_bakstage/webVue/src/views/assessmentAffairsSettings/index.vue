@@ -458,11 +458,11 @@ export default {
       vm.listLoading = true;
       vm.$store
         .dispatch("getAffairsList", condition)
-        .then(data => {
-          if (data) {
-            vm.initList = data;
+        .then(res => {
+          if (res.success) {
+            vm.initList = res.data;
             vm.list = vm.initList.slice(0, vm.page.pageSize);
-            vm.page.totalRecord = data.length;
+            vm.page.totalRecord = res.data.length;
           } else {
             vm.list = [];
             vm.page.totalRecord = 0;
@@ -479,8 +479,8 @@ export default {
       vm.$store
         .dispatch("getDimensionInfo", affairId)
         .then(res => {
-          if (res) {
-            vm.dimensionList = res.map((item, index) => {
+          if (res.success) {
+            vm.dimensionList = res.data.map((item, index) => {
               return {
                 id: index+1,
                 dimensionId: item.dimensionID,

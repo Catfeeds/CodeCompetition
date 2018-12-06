@@ -8,7 +8,7 @@ export default {
         api
           .getAffairsList(condition)
           .then(response => {
-            resolve(response.data.data);
+            resolve(response.data);
           })
           .catch(error => {
             reject(error);
@@ -104,7 +104,7 @@ export default {
         api
           .getDimensionInfo(affairId)
           .then(response => {
-            resolve(response.data.data);
+            resolve(response.data);
           })
           .catch(error => {
             reject(error);

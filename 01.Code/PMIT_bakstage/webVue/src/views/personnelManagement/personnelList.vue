@@ -238,22 +238,28 @@ export default {
     getEmployeeList() {
       let vm = this;
       let condition = {
-        du: vm.searchForm.product,
-        series: vm.searchForm.series,
-        system: vm.searchForm.system,
-        affairName: vm.searchForm.affairsName
+        pageInfo: {
+          currPage: vm.page.currentPage,
+          pageSize: vm.page.pageSize,
+          sortColumn: vm.page.sortColumn,
+          sortType: vm.page.sortType
+        },
+        baseStaffInfo: {
+          bu: vm.searchForm.product,
+          du: vm.searchForm.du,
+          pdu: vm.searchForm.pdu,
+          employeeID: vm.searchForm.employeeId,
+          employeeName: vm.searchForm.employeeName
+        }
       };
       vm.listLoading = true;
       vm.$store
-        .dispatch("getAffairsList", condition)
+        .dispatch("getEmployeeList", condition)
         .then(data => {
           if (data) {
-            vm.initList = data;
-            vm.list = vm.initList.slice(0, vm.page.pageSize);
-            vm.page.totalRecord = data.length;
+            vm.list = data;
           } else {
             vm.list = [];
-            vm.page.totalRecord = 0;
           }
           vm.listLoading = false;
         })

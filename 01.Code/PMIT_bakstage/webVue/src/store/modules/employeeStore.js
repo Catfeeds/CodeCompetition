@@ -8,7 +8,7 @@ export default {
         api
           .getEmployeeList(condition)
           .then(response => {
-            resolve(response.data.data);
+            resolve(response.data);
           })
           .catch(error => {
             reject(error);

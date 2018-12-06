@@ -8,7 +8,7 @@ const authorization = {
         api
           .getSysRoleList()
           .then(response => {
-            resolve(response.data.data);
+            resolve(response.data);
           })
           .catch(error => {
             reject(error);

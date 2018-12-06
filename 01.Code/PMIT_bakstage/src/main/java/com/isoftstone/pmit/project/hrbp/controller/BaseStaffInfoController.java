@@ -25,10 +25,14 @@ public class BaseStaffInfoController {
 
     @RequestMapping(value = "/getPersonalInfo", method = { RequestMethod.POST })
     @ApiOperation(value="单个员工", notes="查询员工基本信息")
-    public PersonalInformation getBaseStaffInfoById(@RequestBody Map<String,String> paraterMap){
-
-        PersonalInformation info = baseStaffInfoService.getBaseStaffInfoByID(paraterMap);
-        return info;
+    public String getBaseStaffInfoById(@RequestBody Map<String,String> paraterMap){
+        PersonalInformation info = null;
+        try{
+            info = baseStaffInfoService.getBaseStaffInfoByID(paraterMap);
+        }catch (Exception e) {
+            AjaxResult.returnToMessage(false,e.getMessage());
+        }
+        return AjaxResult.returnToResult(true, info);
     }
 
     @RequestMapping(value = "/updatePersonalInfo", method = { RequestMethod.POST })
@@ -70,7 +74,7 @@ public class BaseStaffInfoController {
     @RequestMapping(value = "/insertPersonalInfo", method = { RequestMethod.POST })
     @ApiOperation(value="员工信息", notes="添加员工基本信息")
     public String insertPersonalInformation(@RequestBody PersonalInformation personalInformation) {
-        LOG.info(" insert PersonalInfomation"+personalInformation.toString());
+        LOG.info("insert PersonalInfomation"+personalInformation.toString());
         try {
             baseStaffInfoService.insertPersonalInformation(personalInformation);
         }catch (Exception e){
@@ -80,11 +84,14 @@ public class BaseStaffInfoController {
     }
     @RequestMapping(value = "/getAllPersonalInfo", method = { RequestMethod.POST })
     @ApiOperation(value="全员信息", notes="查看全员信息")
-    public List<BaseStaffInfo> getAllPersonalInformation(@RequestBody PersonInfoAndPageInfo paramter) {
+    public String getAllPersonalInformation(@RequestBody PersonInfoAndPageInfo paramter) {
         LOG.info(" BaseStaffInfoController getAllPersonalInformation"+paramter);
-        List<BaseStaffInfo> staffInfoList = baseStaffInfoService.getPersonalInfoByFuzzyQuery(paramter);
-        return staffInfoList;
+        List<BaseStaffInfo> staffInfoList;
+        try{
+            staffInfoList= baseStaffInfoService.getPersonalInfoByFuzzyQuery(paramter);
+        }catch (Exception e) {
+            return AjaxResult.returnToMessage(false,e.getMessage());
+        }
+        return AjaxResult.returnToResult(true, staffInfoList);
     }
-
-
 }

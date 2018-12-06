@@ -9,6 +9,7 @@ import authorizationStore from "./store/modules/authorizationStore";
 import trainingStore from "./store/modules/trainingStore";
 import affairsStore from "./store/modules/affairsStore";
 import ruleStore from "./store/modules/ruleStore";
+import employeeStore from "./store/modules/employeeStore";
 import getters from "./store/getters";
 
 Vue.use(Vuex);
@@ -23,7 +24,8 @@ export default new Vuex.Store({
     authorizationStore,
     trainingStore,
     affairsStore,
-    ruleStore
+    ruleStore,
+    employeeStore
   },
   getters
 });
