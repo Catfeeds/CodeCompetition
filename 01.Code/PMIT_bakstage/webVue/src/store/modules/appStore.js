@@ -75,6 +75,9 @@ const app = {
     },
     setPDUList: (state, pdu) => {
       state.pduList = pdu;
+    },
+    setAreaList: (state, area) => {
+      state.areaList = area;
     }
   },
   actions: {
@@ -196,6 +199,28 @@ const app = {
               });
             }
             commit("setPDUList", data);
+            resolve();
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    getAreaInfo({ commit }, product, du, pdu) {
+      return new Promise((resolve, reject) => {
+        api
+          .getAreaInfo(product, du, pdu)
+          .then(res => {
+            let data = [];
+            if (res.data.data) {
+              data = res.data.data.map(item => {
+                return {
+                  label: item,
+                  value: item
+                };
+              });
+            }
+            commit("setAreaList", data);
             resolve();
           })
           .catch(error => {

@@ -18,22 +18,30 @@ function getMenuInfoByRoleId(roleId) {
 }
 function getProductInfo() {
   return request({
-    url: "hrbp/trainingsetting/queryBu",
-    method: "post"
+    url: "hrbp/levelBussinessRelationship/queryLevel",
+    method: "post",
+    data: {}
   });
 }
-function getDUInfo(product) {
+function getDUInfo(bu) {
   return request({
-    url: "projectGroup/getDUInfo",
-    method: "get",
-    params: { product: product }
+    url: "hrbp/levelBussinessRelationship/queryLevel",
+    method: "post",
+    data: { bu }
   });
 }
-function getPDUInfo(product, du) {
+function getPDUInfo(bu, du) {
   return request({
-    url: "projectGroup/getPDUInfo",
-    method: "get",
-    params: { product: product, du: du }
+    url: "hrbp/levelBussinessRelationship/queryLevel",
+    method: "post",
+    data: { bu, du }
+  });
+}
+function getAreaInfo(bu, du, pdu) {
+  return request({
+    url: "hrbp/levelBussinessRelationship/queryLevel",
+    method: "post",
+    data: { bu, du, pdu }
   });
 }
 export default {
@@ -42,5 +50,6 @@ export default {
   getMenuInfoByRoleId,
   getProductInfo,
   getDUInfo,
-  getPDUInfo
+  getPDUInfo,
+  getAreaInfo
 };
