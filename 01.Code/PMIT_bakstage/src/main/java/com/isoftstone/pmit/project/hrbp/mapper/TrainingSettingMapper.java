@@ -6,7 +6,9 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.isoftstone.pmit.project.hrbp.entity.TrainingInfo;
+import org.springframework.stereotype.Repository;
 
+@Repository
 @Mapper
 public interface TrainingSettingMapper {
 

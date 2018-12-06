@@ -1,8 +1,10 @@
 package com.isoftstone.pmit.project.hrbp.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +34,7 @@ public class ProjectTeamController extends AbstractController {
 	public String queryAreaAndCuBycondition(@RequestBody TeamParam param) {
 		List<Map<String, String>> list = null;
 		try {
-			list = projectTeamService.queryAreaAndCuBycondition(param);
+			list = projectTeamService.queryAreaAndCuByCondition(param);
 		} catch (Exception e) {
 			
 		}
@@ -78,27 +80,45 @@ public class ProjectTeamController extends AbstractController {
 		return AjaxResult.returnToResult(false, status);
 	}
 	
-	@ApiOperation("保存项目组人员角色信息")
-	@PostMapping("/saveProjectTeamRole")
-	public String saveProjectTeamRole(@RequestBody TeamInfo teamInfo) {
-		String status = null;
+	@ApiOperation("保存项目人员角色信息")
+	@PostMapping("/saveProjectRole")
+	public String saveProjectTeamRole(@RequestBody String param) {
+		Map<String, Object> paramMap = JSONObject.parseObject(param, HashMap.class);
 		try {
-			status = projectTeamService.saveProjectTeamRole(teamInfo);
+			projectTeamService.saveProjectRole(paramMap);
 		} catch (Exception e) {
 			
 		}
-		return AjaxResult.returnToResult(false, status);
+		return AjaxResult.returnToResult(false, "success");
 	}
 	
 	@ApiOperation("项目组关联项目")
 	@PostMapping("/teamRelatedPo")
-	public String teamRelatedPo(@RequestBody String teamId, String projectId) {
-		String status = null;
-		try {
-			projectTeamService.teamRelatedPo(teamId, projectId);
-		} catch (Exception e) {
-			
+	public String teamRelatedPo(@RequestBody String param) {
+		Map<String, Object> paramMap = JSONObject.parseObject(param, HashMap.class);
+		String teamId = (String) paramMap.get("teamId");
+		String projectId = (String) paramMap.get("projectId");
+		if (null != teamId && null != projectId) {
+			try {
+				projectTeamService.teamRelatedPo(teamId, projectId);
+			} catch (Exception e) {
+				return AjaxResult.returnToResult(false, "fail");
+			}
+			return AjaxResult.returnToResult(true, "success");
+		} else {
+			return AjaxResult.returnToResult(false, "error param");
 		}
-		return AjaxResult.returnToResult(false, status);
 	}
+
+	@ApiOperation("查询PO信息")
+	@PostMapping("/queryProjectInformation")
+	public String queryProjectInformation(@RequestBody String param) {
+
+		Map<String, Object> paramMap = JSONObject.parseObject(param, HashMap.class);
+
+		List<Map<String, Object>> result = projectTeamService.queryProjectInformation(paramMap);
+
+		return AjaxResult.returnToResult(false, result);
+	}
+
 }

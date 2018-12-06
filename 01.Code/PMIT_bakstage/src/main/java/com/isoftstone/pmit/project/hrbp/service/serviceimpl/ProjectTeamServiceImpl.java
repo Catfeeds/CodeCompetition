@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.isoftstone.pmit.common.model.CommonParam;
 import com.isoftstone.pmit.common.model.TeamParam;
 import com.isoftstone.pmit.common.util.ListUtils;
 import com.isoftstone.pmit.project.hrbp.entity.TeamInfo;
@@ -44,10 +43,10 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 	}
 
 	@Override
-	public List<Map<String, String>> queryAreaAndCuBycondition(TeamParam param) {
+	public List<Map<String, String>> queryAreaAndCuByCondition(TeamParam param) {
 		Map<String, Object> queryMap = new HashMap<>();
 		queryMap.put("pdu", param.getPdu());
-		List<Map<String, String>> result = projectTeamMapper.queryAreaAndCuBycondition(queryMap);
+		List<Map<String, String>> result = projectTeamMapper.queryAreaAndCuByCondition(queryMap);
 		return result;
 	}
 	
@@ -69,6 +68,12 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 		return null;
 	}
 
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public void saveProjectRole(Map<String, Object> paramMap) {
+		projectTeamMapper.saveProjectTeamRole(paramMap);
+	}
+
 	private Map<String, List<TeamInfo>> getAddAndDeleteTeamInfos(List<TeamInfo> teamInfos,
 			List<TeamInfo> oldTeamInfos) {
 		Map<String, List<TeamInfo>> result = new HashMap<>();
@@ -80,17 +85,6 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 		result.put("deleteTeamInfos", oldTeamInfos);
 		return result;
 	}
-	
-	@Transactional(rollbackFor=Exception.class)
-	@Override
-	public String saveProjectTeamRole(TeamInfo teamInfo) {
-		try {
-			projectTeamMapper.saveProjectTeamRole(teamInfo);
-		} catch (Exception e) {
-			
-		}
-		return "";
-	}
 
 	@Override
 	public void teamRelatedPo(String teamId, String projectId) {
@@ -98,6 +92,12 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 		map.put("teamId", teamId);
 		map.put("projectId", projectId);
 		projectTeamMapper.teamRelatedPo(map);
+	}
+
+	@Override
+	public List<Map<String, Object>> queryProjectInformation(Map<String, Object> paramMap) {
+		List<Map<String, Object>> result = projectTeamMapper.queryProjectInformation(paramMap);
+		return result;
 	}
 
 }
