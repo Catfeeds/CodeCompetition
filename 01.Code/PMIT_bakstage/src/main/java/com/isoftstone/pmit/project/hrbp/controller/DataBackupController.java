@@ -77,27 +77,29 @@ public class DataBackupController extends AbstractController {
 
     @ApiOperation(value="数据库还原", notes="数据库还原")
     @PostMapping(value = "/dataRecoverp")
-        public AjaxResult recover(@RequestParam(value = "feilName", required = true)String feilName){
+    public String recover(@RequestBody String parameter){
         logger.info("database recover start ");
+        Map<String, String> paramMap = JsonUtils.readValue(parameter, Map.class);
+        String fileName = String.valueOf(paramMap.get("fileName"));
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         String dataName = "backup" + formatter.format(new Date());
         String filePath = System.getProperty("user.dir")+"/backup/";
         String filePathName = null;
         try {
-            if(null == feilName || "".equals(feilName)){
+            if(null == fileName || "".equals(fileName)){
                 filePathName = filePath+dataName+".sql";
                dataBackAndRecovService.backup(filePath,dataName,"pmo_it");
             }else{
-                 filePathName = filePath+feilName+".sql";
+                 filePathName = filePath+fileName+".sql";
             }
             //还原数据库
             dataBackAndRecovService.recover(filePathName,"hw_it");
         } catch (Exception e) {
             e.printStackTrace();
-            return AjaxResult.error();
+            return AjaxResult.returnToResult(false, e.getMessage());
         }
         logger.info("database recover end ");
-        return AjaxResult.success();
+        return AjaxResult.returnToResult(true, 1);
     }
 
     @ApiOperation(value="备份人员信息列表", notes="备份人员信息列表")
