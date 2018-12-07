@@ -142,11 +142,12 @@ public class UserManageController extends AbstractController {
 
     @ApiOperation(value = "个人密码修改", notes = "个人密码修改")
     @PostMapping(value = "/updateUserPassword")
-    public String updateUserPassword(@RequestBody String parameter,@RequestParam(value = "changePwd", required = true) String changePwd) {
+    public String updateUserPassword(@RequestBody String parameter) {
         logger.info("updateUserPassword start ");
         LoginInformation loginInformation = JsonUtils.readValue(parameter, LoginInformation.class);
         String employeeID = loginInformation.getEmployeeID();
         String password = loginInformation.getPassword();
+        String changePwd =  loginInformation.getChangePwd();
         //校验原始密码 "0" 该用户不存在 "1"   原密码输入错误  "2" 密码修改成功 "message" 修改错误异常信息
         LoginInformation information;
         String md5HexPassword = DigestUtils.md5Hex(password);

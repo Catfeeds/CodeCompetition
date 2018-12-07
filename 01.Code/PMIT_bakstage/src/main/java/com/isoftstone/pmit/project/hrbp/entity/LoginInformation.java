@@ -14,6 +14,8 @@ public class LoginInformation {
     private String roleID;
     /**头像*/
     private String picture;
+    /**修改密码*/
+    private String changePwd;
 
     public String getPicture() {
         return picture;
@@ -61,5 +63,13 @@ public class LoginInformation {
 
     public void setRoleID(String roleID) {
         this.roleID = roleID;
+    }
+
+    public String getChangePwd() {
+        return changePwd;
+    }
+
+    public void setChangePwd(String changePwd) {
+        this.changePwd = changePwd;
     }
 }
