@@ -4,7 +4,10 @@
       <el-card class="box-card">
         <div slot="header" class="clearfix">
           <span>欢迎登录</span>
-          <lang-select class="international right-menu-item" style="float:right;"/>
+          <lang-select
+            class="international right-menu-item"
+            style="float:right;"
+          />
         </div>
         <el-form
           ref="loginForm"
@@ -14,9 +17,7 @@
           label-position="left"
         >
           <el-form-item prop="userName">
-            <span class="svg-container">
-              <svg-icon icon-class="user"/>
-            </span>
+            <span class="svg-container"> <svg-icon icon-class="user" /> </span>
             <el-input
               v-model="loginForm.userName"
               :placeholder="usernamePlaceholder"
@@ -27,7 +28,7 @@
           </el-form-item>
           <el-form-item prop="password">
             <span class="svg-container">
-              <svg-icon icon-class="password"/>
+              <svg-icon icon-class="password" />
             </span>
             <el-input
               :type="passwordType"
@@ -38,17 +39,22 @@
               @keyup.enter.native="handleLogin"
             />
             <span class="show-pwd" @click="showPwd">
-              <svg-icon icon-class="eye"/>
+              <svg-icon icon-class="eye" />
             </span>
           </el-form-item>
-          <el-checkbox v-model="checked">{{$t("login.freeLogin")}}</el-checkbox>
-          <a href="javascript:void(0)" @click="clearCookie">{{$t("login.forgetPasswordTitle")}}</a>
+          <el-checkbox v-model="checked">{{
+            $t("login.freeLogin")
+          }}</el-checkbox>
+          <a href="javascript:void(0)" @click="clearCookie">{{
+            $t("login.forgetPasswordTitle")
+          }}</a>
           <el-button
             :loading="loading"
             type="primary"
             style="width:100%;margin-top:20px;"
             @click.native.prevent="handleLogin"
-          >{{ $t("login.logIn") }}</el-button>
+            >{{ $t("login.logIn") }}</el-button
+          >
         </el-form>
       </el-card>
       <el-dialog
@@ -56,7 +62,8 @@
         :visible.sync="showDialog"
         width="20%"
         append-to-body
-      >{{ $t("login.forgetPasswordTips") }}</el-dialog>
+        >{{ $t("login.forgetPasswordTips") }}</el-dialog
+      >
     </div>
   </div>
 </template>
@@ -150,7 +157,7 @@ export default {
           }
           vm.$store
             .dispatch("loginByUserName", vm.loginForm)
-            .then((res) => {
+            .then(res => {
               if (!res.status) {
                 Cookies.set("loginName", vm.loginForm.userName);
                 Cookies.set("status", "logined");
@@ -163,7 +170,7 @@ export default {
                 //   .catch(() => {
                 //     vm.$router.push({ path: vm.redirect || "/" });
                 //   });
-              } else{
+              } else {
                 vm.$message.error(res.message);
               }
               vm.loading = false;

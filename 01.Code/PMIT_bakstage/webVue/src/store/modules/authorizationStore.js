@@ -150,7 +150,7 @@ const authorization = {
     restore(commit, fileName) {
       return new Promise((resolve, reject) => {
         api
-          .fileName(fileName)
+          .restore(fileName)
           .then(response => {
             resolve(response.data);
           })

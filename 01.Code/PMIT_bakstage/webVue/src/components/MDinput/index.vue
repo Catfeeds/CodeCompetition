@@ -1,7 +1,11 @@
 <template>
   <div :class="computedClasses" class="material-input__component">
-    <div :class="{iconClass:icon}">
-      <i v-if="icon" :class="['el-icon-' + icon]" class="el-input__icon material-input__icon"/>
+    <div :class="{ iconClass: icon }">
+      <i
+        v-if="icon"
+        :class="['el-icon-' + icon]"
+        class="el-input__icon material-input__icon"
+      />
       <input
         v-if="type === 'email'"
         :name="name"
@@ -15,7 +19,8 @@
         class="material-input"
         @focus="handleMdFocus"
         @blur="handleMdBlur"
-        @input="handleModelInput">
+        @input="handleModelInput"
+      />
       <input
         v-if="type === 'url'"
         :name="name"
@@ -29,7 +34,8 @@
         class="material-input"
         @focus="handleMdFocus"
         @blur="handleMdBlur"
-        @input="handleModelInput">
+        @input="handleModelInput"
+      />
       <input
         v-if="type === 'number'"
         :name="name"
@@ -48,7 +54,8 @@
         class="material-input"
         @focus="handleMdFocus"
         @blur="handleMdBlur"
-        @input="handleModelInput">
+        @input="handleModelInput"
+      />
       <input
         v-if="type === 'password'"
         :name="name"
@@ -64,7 +71,8 @@
         class="material-input"
         @focus="handleMdFocus"
         @blur="handleMdBlur"
-        @input="handleModelInput">
+        @input="handleModelInput"
+      />
       <input
         v-if="type === 'tel'"
         :name="name"
@@ -78,7 +86,8 @@
         class="material-input"
         @focus="handleMdFocus"
         @blur="handleMdBlur"
-        @input="handleModelInput">
+        @input="handleModelInput"
+      />
       <input
         v-if="type === 'text'"
         :name="name"
@@ -94,11 +103,10 @@
         class="material-input"
         @focus="handleMdFocus"
         @blur="handleMdBlur"
-        @input="handleModelInput">
-      <span class="material-input-bar"/>
-      <label class="material-label">
-        <slot/>
-      </label>
+        @input="handleModelInput"
+      />
+      <span class="material-input-bar" />
+      <label class="material-label"> <slot /> </label>
     </div>
   </div>
 </template>
@@ -107,7 +115,7 @@
 // source:https://github.com/wemake-services/vue-material-input/blob/master/src/components/MaterialInput.vue
 
 export default {
-  name: 'MdInput',
+  name: "MdInput",
   props: {
     /* eslint-disable */
     icon: String,
