@@ -43,16 +43,16 @@ public class SystemRoleController extends AbstractController {
 
     @ApiOperation(value = "删除角色菜单", notes = "删除角色菜单")
     @PostMapping(value = "/deleteSystemRole")
-    public AjaxResult deleteSystemRole(@RequestBody String parameter) {
+    public String deleteSystemRole(@RequestBody String parameter) {
         SysRole sysRole = JsonUtils.readValue(parameter, SysRole.class);
         try {
             roleMenuService.deleteSystemRole(sysRole.getRoleId());
         } catch (Exception e) {
             e.printStackTrace();
             logger.info("====deleteSystemRole error=============" + e);
-            return AjaxResult.error();
+            return AjaxResult.returnToMessage(false, "删除角色菜单失败");
         }
-        return AjaxResult.success();
+        return AjaxResult.returnToMessage(true, "删除角色菜单成功");
     }
 
     @ApiOperation(value = "更新角色菜单", notes = "更新角色菜单")
