@@ -18,9 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/hrbp/MainstayReportContraer")
+@RequestMapping("/hrbp/MainstayReport")
 @Api(value = "骨干报表展现", tags = {"骨干报表展现"})
-public class MainstayReportContraer {
+public class MainstayReportController {
 
     @Autowired
     private IMainstayReportService mainstayReportService;
