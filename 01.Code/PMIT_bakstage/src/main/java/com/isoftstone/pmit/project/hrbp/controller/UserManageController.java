@@ -73,7 +73,7 @@ public class UserManageController extends AbstractController {
     }
 
     @RequestMapping(value = "/queryUserByKeyword", method = { RequestMethod.POST })
-    @ApiOperation(value="模糊查询用户信息", notes="模糊查询用户信息,可选employeeID,employeeName")
+    @ApiOperation(value="模糊查询用户信息", notes="模糊查询用户信息")
     public String queryUserByKeyword(@RequestBody String parameter){
         Map<String,String> mapParam = JsonUtils.readValue(parameter, Map.class);
         String keyword = mapParam.get("keyword");
