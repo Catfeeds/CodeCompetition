@@ -20,7 +20,9 @@ export default {
     score: "成绩展示",
     role: "角色设置",
     loginUser: "登录用户管理",
-    courseOpen: "开班设置"
+    courseOpen: "开班设置",
+    backupRestore: "备份与恢复",
+    logManagement: "日志管理"
   },
   navbar: {
     logOut: "退出登录",

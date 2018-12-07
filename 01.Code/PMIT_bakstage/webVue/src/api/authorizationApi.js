@@ -75,6 +75,27 @@ function searchEmployeeInfo(keyword) {
     data: { keyword }
   });
 }
+function backup(condition) {
+  return request({
+    url: "hrbp/backup/dataDackup",
+    method: "post",
+    data: condition
+  });
+}
+function restore(fileName) {
+  return request({
+    url: "hrbp/user/updateUserRole",
+    method: "post",
+    data: { fileName }
+  });
+}
+function getBackupList(condition) {
+  return request({
+    url: "hrbp/backup/dataInfoModifList",
+    method: "post",
+    data: condition
+  });
+}
 export default {
   getSysRoleList,
   getSysRoleInfoById,
@@ -86,5 +107,8 @@ export default {
   addLoginUser,
   delLoginUser,
   editLoginUser,
-  searchEmployeeInfo
+  searchEmployeeInfo,
+  backup,
+  restore,
+  getBackupList
 };

@@ -219,7 +219,7 @@ export const asyncRouterMap = [
     children: [
       {
         path: "role",
-        component: () => import("@/views/authorizationSettings/role.vue"),
+        component: () => import("@/views/systemSettings/role.vue"),
         name: "RoleSetUp",
         meta: {
           title: "role",
@@ -230,10 +230,32 @@ export const asyncRouterMap = [
       },
       {
         path: "loginUser",
-        component: () => import("@/views/authorizationSettings/loginUser.vue"),
+        component: () => import("@/views/systemSettings/loginUser.vue"),
         name: "UserManagement",
         meta: {
           title: "loginUser",
+          icon: "",
+          noCache: true,
+          requiresAuth: true
+        }
+      },
+      {
+        path: "backup",
+        component: () => import("@/views/systemSettings/backupRestore.vue"),
+        name: "BackupRestore",
+        meta: {
+          title: "backupRestore",
+          icon: "",
+          noCache: true,
+          requiresAuth: true
+        }
+      },
+      {
+        path: "log",
+        component: () => import("@/views/systemSettings/logManagement.vue"),
+        name: "LogManagement",
+        meta: {
+          title: "logManagement",
           icon: "",
           noCache: true,
           requiresAuth: true

@@ -22,3 +22,10 @@ export function getUserInfo(employeeID) {
     data: { employeeID }
   });
 }
+export function updatePassword(params) {
+  return request({
+    url: "/hrbp/user/updateUserPassword",
+    method: "post",
+    data: params
+  });
+}

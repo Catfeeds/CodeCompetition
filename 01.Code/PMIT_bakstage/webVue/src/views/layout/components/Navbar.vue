@@ -35,6 +35,7 @@
       </el-dropdown>
     </div>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="30%">
+      <el-row style="line-height:25px"><i class="el-icon-info"></i>建议密码采用字母、字母和特殊字符混合，并且不短于6位。</el-row>
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
         <el-form-item label="原密码" prop="oldPass" size="mini">
           <el-input v-model="ruleForm.oldPass" placeholder="请输入原密码" type="password"></el-input>
@@ -131,6 +132,25 @@ export default {
     handleSubmit() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
+          let param = {
+            employeeID: Cookies.get("loginName"),
+            password: this.ruleForm.oldPass,
+            changePwd: this.ruleForm.newPass
+          };
+          this.$store.dispatch("updatePassword", param).then(res => {
+            if (res.success) {
+              this.$message.success("密码修改成功");
+              this.dialogVisible = false;
+            } else {
+              if (res.data === "0") {
+                this.$message.error("用户不存在");
+                this.dialogVisible = false;
+              }
+              if (res.data === "1") {
+                this.$message.error("原密码输入错误");
+              }
+            }
+          });
         } else {
           return false;
         }
