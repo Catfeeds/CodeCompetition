@@ -93,7 +93,7 @@
     </select>
     <select id="findAllAffairName" resultType="ExaminationAffair">
         select
-        DISTINCT(affairName)
+        DISTINCT(affair_name) as AffairName
         from hrbp_examination_affair
     </select>
 </mapper>

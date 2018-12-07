@@ -4,8 +4,8 @@ public class CompanyQualification {
 
     /*员工工号*/
     private String employeeID;
-    /*资质ID*/
-    private String qualificationID;
+    /*证书编号*/
+    private int certificateNum;
     /*资质名称*/
     private String qualificationName;
     /*资质类型*/
@@ -15,6 +15,14 @@ public class CompanyQualification {
     /*通过日期*/
     private String passDate;
 
+    public int getCertificateNum() {
+        return certificateNum;
+    }
+
+    public void setCertificateNum(int certificateNum) {
+        this.certificateNum = certificateNum;
+    }
+
     public String getEmployeeID() {
         return employeeID;
     }
@@ -23,13 +31,6 @@ public class CompanyQualification {
         this.employeeID = employeeID;
     }
 
-    public String getQualificationID() {
-        return qualificationID;
-    }
-
-    public void setQualificationID(String qualificationID) {
-        this.qualificationID = qualificationID;
-    }
 
     public String getQualificationName() {
         return qualificationName;

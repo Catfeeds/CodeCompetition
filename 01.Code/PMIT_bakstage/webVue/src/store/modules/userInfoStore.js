@@ -1,4 +1,9 @@
-import { loginByUserName, logout, getUserInfo } from "@/api/userInfoApi";
+import {
+  loginByUserName,
+  logout,
+  getUserInfo,
+  updatePassword
+} from "@/api/userInfoApi";
 import { getToken, setToken, removeToken } from "@/utils/auth";
 
 const user = {
@@ -100,6 +105,17 @@ const user = {
         commit("setToken", "");
         removeToken();
         resolve();
+      });
+    },
+    updatePassword(commit, params) {
+      return new Promise((resolve, reject) => {
+        updatePassword(params)
+          .then(res => {
+            resolve(res.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
       });
     }
   }

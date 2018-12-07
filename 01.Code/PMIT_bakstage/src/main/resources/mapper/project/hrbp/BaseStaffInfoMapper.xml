@@ -75,8 +75,8 @@
         <result property="propertyAddress"       column="propertyAddress"      />
     </resultMap>
     <resultMap id="companyQualification" type="CompanyQualification">
-        <id     property="employeeID"         column="employeeID"      />
-        <result property="qualificationID"       column="qualificationID"      />
+        <id     property="certificateNum"         column="certificateNum"      />
+        <result property="employeeID"       column="employeeID"      />
         <result property="qualificationName"       column="qualificationName"      />
         <result property="qualificationType"       column="qualificationType"      />
         <result property="certificationLevel"       column="certificationLevel"      />
@@ -150,7 +150,7 @@
 	TIMESTAMPDIFF(YEAR,graduationTime,utc_date()) AS lengthOfService,
 	TIMESTAMPDIFF(YEAR,departureDate,utc_date()) AS divisionAge
   FROM
-	base_staff_info where employeeID=#{employeeID} and currentStatus != -1
+	base_staff_info where employeeID=#{employeeID}
     </select>
     <select id="getFamilyInfomationById" resultMap="familyInformation" parameterType="java.util.Map">
         SELECT
@@ -177,13 +177,13 @@ FROM
 	family_information
   where employeeID=#{employeeID}
     </select>
-    <select id="getCompanyQualificationById" parameterType="java.util.Map" resultMap="companyQualification">
+    <select id="getCompanyQualificationById" parameterType="java.util.Map" resultType="com.isoftstone.pmit.project.hrbp.entity.CompanyQualification">
       SELECT
             qualificationName,
             qualificationType,
             certificationLevel,
             passDate,
-            qualificationID,
+            certificateNum,
             employeeID
       FROM
 	    company_qualification
@@ -211,7 +211,8 @@ FROM
             employeeID,
             technologyPlatform,
             technologyGrade,
-            areasOfExpertise
+            areasOfExpertise,
+            technicalName
         FROM
 	      technical_information
 	    where employeeID=#{employeeID}
@@ -489,7 +490,7 @@ FROM
                 #{company.qualificationType},
                 #{company.certificationLevel},
                 #{company.passDate},
-                #{company.qualificationID},
+                #{company.certificateNum},
                 #{company.employeeID}
             )
         </foreach>

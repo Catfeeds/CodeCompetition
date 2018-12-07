@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.isoftstone.pmit.common.util.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,23 +23,14 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 	private ProjectTeamMapper projectTeamMapper;
 
 	@Override
-	public List<TeamInfo> getProjectTeamData(TeamParam param) {
-		Map<String, Object> queryMap = new HashMap<>();
-		queryMap.put("teamId", param.getTeamId());
-		List<TeamInfo> teamInfos = projectTeamMapper.queryProjectTeamData(queryMap);
+	public List<TeamInfo> getProjectTeamData(Map<String, Object> queryParam) {
+		List<TeamInfo> teamInfos = projectTeamMapper.queryProjectTeamData(queryParam);
 		return teamInfos;
 	}
 
 	@Override
-	public List<TeamInfo> searchEmployeeInfos(TeamParam param) {
-		Map<String, Object> queryMap = new HashMap<>();
-		queryMap.put("pdu", param.getPdu());
-		queryMap.put("gender", param.getGender());
-		queryMap.put("area", param.getArea());
-		queryMap.put("cu", param.getCu());
-		queryMap.put("name", param.getName());
-		queryMap.put("staffId", param.getStaffId());
-		List<TeamInfo> teamInfos = projectTeamMapper.queryResourcePoolData(queryMap);
+	public List<Map<String, Object>> searchEmployeeInfos(Map<String, Object> queryMap) {
+		List<Map<String, Object>> teamInfos = projectTeamMapper.queryResourcePoolData(queryMap);
 		return teamInfos;
 	}
 
@@ -65,7 +57,7 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 			projectTeamMapper.addTeamInfo(addTeamInfos);
 			projectTeamMapper.deleteTeamInfo(deleteTeamInfos);
 		}
-		return null;
+		return "success";
 	}
 
 	@Transactional(rollbackFor = Exception.class)

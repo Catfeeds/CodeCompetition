@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.system.exceloperation.mapper.ExcelFamilyInfoMapper">
+
+    <insert id="insertFamilyInformation" parameterType="com.isoftstone.pmit.project.hrbp.entity.FamilyInformation">
+        INSERT INTO family_information (employeeID, birthdayDate, heigh, weight, currentHomeAddress,
+        emergencyContact, emergencyContactRelation, emergencyContactAdress, emergencyContactPhone,
+        maritalStatus, childInformation, wayToWork, workingHour, isbuyHouse, dayOfBuyHouse, propertyAddress
+        ) VALUES
+        <foreach collection="list" item="test" separator=",">
+            (
+            #{test.employeeID},
+            #{test.birthdayDate},
+            #{test.heigh},
+            #{test.weight},
+            #{test.currentHomeAddress},
+            #{test.emergencyContact},
+            #{test.emergencyContactRelation},
+            #{test.emergencyContactAdress},
+            #{test.emergencyContactPhone},
+            #{test.maritalStatus},
+            #{test.childInformation},
+            #{test.wayToWork},
+            #{test.workingHour},
+            #{test.isbuyHouse},
+            #{test.dayOfBuyHouse},
+            #{test.propertyAddress}
+            )
+        </foreach>
+    </insert>
+</mapper>

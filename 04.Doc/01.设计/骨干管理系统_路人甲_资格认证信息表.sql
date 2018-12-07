@@ -24,9 +24,9 @@ CREATE TABLE `company_qualification` (
   `qualificationType` varchar(64) DEFAULT NULL COMMENT '资质类型',
   `certificationLevel` varchar(64) DEFAULT NULL COMMENT '认证等级',
   `passDate` varchar(64) DEFAULT NULL COMMENT '通过日期',
-  `qualificationID` varchar(64) NOT NULL COMMENT '资质ID',
+  `certificateNum` varchar(64) NOT NULL COMMENT '证书编号',
   `employeeID` varchar(16) DEFAULT NULL COMMENT '员工工号',
-  PRIMARY KEY (`qualificationID`)
+  PRIMARY KEY (`certificateNum`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

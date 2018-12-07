@@ -51,7 +51,7 @@ const authorization = {
           });
       });
     },
-    editRoleInfo(commit, roleInfo) {
+    editSysRoleInfo(commit, roleInfo) {
       return new Promise((resolve, reject) => {
         api
           .editSysRoleInfo(roleInfo)
@@ -127,6 +127,42 @@ const authorization = {
       return new Promise((resolve, reject) => {
         api
           .searchEmployeeInfo(keyword)
+          .then(response => {
+            resolve(response.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    backup(commit, param) {
+      return new Promise((resolve, reject) => {
+        api
+          .backup(param)
+          .then(response => {
+            resolve(response.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    restore(commit, fileName) {
+      return new Promise((resolve, reject) => {
+        api
+          .fileName(fileName)
+          .then(response => {
+            resolve(response.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    getBackupList(commit, condition) {
+      return new Promise((resolve, reject) => {
+        api
+          .getBackupList(condition)
           .then(response => {
             resolve(response.data);
           })

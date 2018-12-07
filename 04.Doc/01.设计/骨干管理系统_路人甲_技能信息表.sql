@@ -24,10 +24,8 @@ CREATE TABLE `technical_information` (
   `technologyPlatform` varchar(200) DEFAULT NULL COMMENT '技术平台',
   `technologyGrade` varchar(200) DEFAULT NULL COMMENT '技术等级',
   `areasOfExpertise` varchar(200) DEFAULT NULL COMMENT '擅长领域',
-  `technicalID` int(8) NOT NULL AUTO_INCREMENT COMMENT '技术ID',
-  PRIMARY KEY (`technicalID`)
+  `technicalName` varchar(200) DEFAULT NULL  COMMENT '技能名称'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 -- ----------------------------
 -- Records of technical_information
 -- ----------------------------

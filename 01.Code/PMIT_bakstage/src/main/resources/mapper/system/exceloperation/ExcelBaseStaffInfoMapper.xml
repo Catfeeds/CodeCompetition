@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.system.exceloperation.mapper.ExcelBaseStaffInfoMapper">
+
+    <insert id="insertBaseStaffInfo" parameterType="com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo">
+        INSERT INTO base_staff_info (employeeID, employeeName, idNumber, isoftStatus, personCategory,
+        ifBackBone, ifOffShore, workPlace, workStationNumber, cooperationMode, positionRole, skill,
+        sillDirection, directLeaderId, directLeaderName, employmentDate, departureDate, generalPosition,
+        currentPositionDate, costCenter, costCenterLeaderName, bu, du, pdu, workPlaceArea, sex,
+        graduationSchool, graduationTime, ifUnderGraduates, education, degree, if211, ifGraduate,
+        graduationMajor, ifAbvoveTwoInstitutions, educationMode, isoftEmai, telephone, domainUserName,
+        nation, nativePlace, political, projectTeamId, currentStatus
+        ) VALUES
+        <foreach collection="list" item="test" separator=",">
+            (
+            #{test.employeeID},
+            #{test.employeeName},
+            #{test.idNumber},
+            #{test.isoftStatus},
+            #{test.personCategory},
+            #{test.ifBackBone},
+            #{test.ifOffShore},
+            #{test.workPlace},
+            #{test.workStationNumber},
+            #{test.cooperationMode},
+            #{test.positionRole},
+            #{test.skill},
+            #{test.sillDirection},
+            #{test.directLeaderId},
+            #{test.directLeaderName},
+            #{test.employmentDate},
+            #{test.departureDate},
+            #{test.generalPosition},
+            #{test.currentPositionDate},
+            #{test.costCenter},
+            #{test.costCenterLeaderName},
+            #{test.bu},
+            #{test.du},
+            #{test.pdu},
+            #{test.workPlaceArea},
+            #{test.sex},
+            #{test.graduationSchool},
+            #{test.graduationTime},
+            #{test.ifUnderGraduates},
+            #{test.education},
+            #{test.degree},
+            #{test.if211},
+            #{test.ifGraduate},
+            #{test.graduationMajor},
+            #{test.ifAbvoveTwoInstitutions},
+            #{test.educationMode},
+            #{test.isoftEmai},
+            #{test.telephone},
+            #{test.domainUserName},
+            #{test.nation},
+            #{test.nativePlace},
+            #{test.political},
+            #{test.projectTeamId},
+            #{test.currentStatus}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

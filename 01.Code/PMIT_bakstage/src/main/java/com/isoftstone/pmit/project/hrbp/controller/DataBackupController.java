@@ -5,7 +5,9 @@ import com.isoftstone.pmit.common.util.AjaxResult;
 import com.isoftstone.pmit.common.util.JsonUtils;
 import com.isoftstone.pmit.common.web.controller.AbstractController;
 import com.isoftstone.pmit.project.hrbp.entity.DataBackUpInfo;
+import com.isoftstone.pmit.project.hrbp.entity.LoginInformation;
 import com.isoftstone.pmit.project.hrbp.service.IDataBackAndRecovService;
+import com.isoftstone.pmit.project.hrbp.service.IUserManageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class DataBackupController extends AbstractController {
     @Autowired
     private IDataBackAndRecovService dataBackAndRecovService;
 
+    @Autowired
+    private IUserManageService userManageService;
+
     @ApiOperation(value="数据库备份", notes="数据库备份")
     @PostMapping(value = "/dataDackup")
     //@Scheduled(fixedRate = 3600000) //=604800000 7天  360000  表示6分钟
@@ -40,7 +45,9 @@ public class DataBackupController extends AbstractController {
         try {
             String dataName = backupAndRecover();
             //将备份人员信息录入数据库中
+            LoginInformation information = userManageService.getEmployee(dataBackUpInfo.getEmployeeId());
             dataBackUpInfo.setDataName(dataName);
+            dataBackUpInfo.setEmployeeName(information == null ?"":information.getEmployeeName());
             dataBackAndRecovService.saveBackUpInfo(dataBackUpInfo);
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,12 +57,13 @@ public class DataBackupController extends AbstractController {
         return AjaxResult.returnToResult(true,1);
     }
 
-    @Scheduled(fixedRate = 604800000) //=604800000 7天  360000  表示6分钟
+    @Scheduled(cron = "0 0 1 * * ?")  //每天凌晨1点执行一次
     public void backupScheduled(){
         try {
             String dataName = backupAndRecover();
             //将备份人员信息录入数据库中
             DataBackUpInfo dataBackUpInfo =  new DataBackUpInfo();
+            dataBackUpInfo.setEmployeeName("系统管理员");
             dataBackUpInfo.setDataName(dataName);
             dataBackUpInfo.setReasonRemark("系统定时任务备份");
             dataBackAndRecovService.saveBackUpInfo(dataBackUpInfo);
@@ -116,6 +124,7 @@ public class DataBackupController extends AbstractController {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         String dataName = "backup" + formatter.format(new Date());
         String filePath = System.getProperty("user.dir")+"/backup/";
+
         try {
             //先备份文件到制定目录，然后恢复到制定的数据库中
             dataBackAndRecovService.backup(filePath,dataName,"hw_it");

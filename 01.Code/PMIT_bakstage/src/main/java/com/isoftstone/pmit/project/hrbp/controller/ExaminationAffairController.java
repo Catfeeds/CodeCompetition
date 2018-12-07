@@ -51,9 +51,9 @@ public class ExaminationAffairController extends AbstractController {
         return AjaxResult.returnToMessage(true, "删除成功");
     }
 
-    @RequestMapping(value = "/findExamAffairByAffairId", method = { RequestMethod.POST })
-    @ApiOperation(value="根据AffairId获取考核事务", notes="根据AffairId获取考核事务")
-    public String findExamAffairByAffairId(@RequestBody String parameter){
+    @RequestMapping(value = "/findExamAffairByAffairId", method = {RequestMethod.POST})
+    @ApiOperation(value = "根据AffairId获取考核事务", notes = "根据AffairId获取考核事务")
+    public String findExamAffairByAffairId(@RequestBody String parameter) {
         ExaminationAffair examinationAffair = JsonUtils.readValue(parameter, ExaminationAffair.class);
         Integer affairID = examinationAffair.getAffairID();
         ExaminationAffair examinationAffairResult;
@@ -64,7 +64,7 @@ public class ExaminationAffairController extends AbstractController {
             logger.info("====findExamAffairByAffairId error=============" + e);
             return AjaxResult.returnToResult(false, e.getMessage());
         }
-        return AjaxResult.returnToResult(true,examinationAffairResult);
+        return AjaxResult.returnToResult(true, examinationAffairResult);
     }
 
     @ApiOperation(value = "修改考核事务", notes = "修改考核事务")
@@ -83,16 +83,20 @@ public class ExaminationAffairController extends AbstractController {
 
     @ApiOperation(value = "添加考核事务", notes = "添加考核事务")
     @PostMapping(value = "/insertAffair")
-    public String insertAffair(@RequestBody String parameter){
+    public String insertAffair(@RequestBody String parameter) {
         ExaminationAffair examinationAffair = JsonUtils.readValue(parameter, ExaminationAffair.class);
         //获取前台传递的affairName;
         String insertAffairName = examinationAffair.getAffairName();
-        List<ExaminationAffair> tempResultList =  examinationAffairService.findAllAffairName();
-        for (ExaminationAffair affair : tempResultList) {
-            //获取数据库中affairName;
-            String tempAffairName = affair.getAffairName();
-            if(insertAffairName.equals(tempAffairName)){
-                return AjaxResult.returnToMessage(false, "事务已存在");
+        List<ExaminationAffair> tempResultList = examinationAffairService.findAllAffairName();
+        if (tempResultList != null && !tempResultList.isEmpty()) {
+            for (ExaminationAffair affair : tempResultList) {
+                //获取数据库中affairName;
+                if (null != affair) {
+                    String tempAffairName = affair.getAffairName();
+                    if (insertAffairName.equals(tempAffairName)) {
+                        return AjaxResult.returnToMessage(false, "事务已存在");
+                    }
+                }
             }
         }
         try {
@@ -105,9 +109,9 @@ public class ExaminationAffairController extends AbstractController {
         return AjaxResult.returnToMessage(true, "添加成功");
     }
 
-    @RequestMapping(value = "/findExamAffairSystem", method = { RequestMethod.POST })
-    @ApiOperation(value="事务所属体系接口", notes="事务所属体系接口")
-    public String findExamAffairSystem(){
+    @RequestMapping(value = "/findExamAffairSystem", method = {RequestMethod.POST})
+    @ApiOperation(value = "事务所属体系接口", notes = "事务所属体系接口")
+    public String findExamAffairSystem() {
         List<ExaminationAffair> examinationAffairResult;
         try {
             examinationAffairResult = examinationAffairService.findExamAffairSystem();
@@ -116,11 +120,11 @@ public class ExaminationAffairController extends AbstractController {
             logger.info("====findExamAffairSystem error=============" + e);
             return AjaxResult.returnToResult(false, e.getMessage());
         }
-        return AjaxResult.returnToResult(true,examinationAffairResult);
+        return AjaxResult.returnToResult(true, examinationAffairResult);
     }
 
-    @RequestMapping(value = "/findExamAffairSeries", method = { RequestMethod.POST })
-    @ApiOperation(value="事务所属系列接口", notes="事务所属系列接口")
+    @RequestMapping(value = "/findExamAffairSeries", method = {RequestMethod.POST})
+    @ApiOperation(value = "事务所属系列接口", notes = "事务所属系列接口")
     public String findExamAffairSeries() {
         List<ExaminationAffair> examinationAffairResult;
         try {

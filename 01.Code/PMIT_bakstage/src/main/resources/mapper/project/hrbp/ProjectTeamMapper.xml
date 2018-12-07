@@ -19,7 +19,7 @@
 			team_id = ${teamId}
 	</select>
 	
-	<select id="queryResourcePoolData" parameterType="java.util.Map" resultType="com.isoftstone.pmit.project.hrbp.entity.TeamInfo">
+	<select id="queryResourcePoolData" parameterType="java.util.Map" resultType="java.util.Map">
 		select 
 			employeeId as staffId,
 			employeeName as staffName
@@ -34,7 +34,7 @@
             AND sex = '${gender}'
         </if>
         <if test="null != area">
-            AND workplace = '${area}'
+            AND workplacearea = '${area}'
         </if>
         <if test="null != cu">
             AND costcenter = '${cu}'
