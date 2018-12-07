@@ -1,4 +1,4 @@
-import { getProductInfo } from "@/api/appApi";
+import api from "@/api/appApi";
 import { getArea, getRelationships } from "@/api/relationTreeApi";
 
 let state = {
@@ -25,7 +25,7 @@ let mutations = {
 
 let actions = {
   getRSProductInfo() {
-    return getProductInfo();
+    return api.getBusinessRelationship({});
   },
   getRSArea(commit, product) {
     return getArea(product);

@@ -106,7 +106,6 @@ export default {
     getRuleList() {
       let vm = this;
       vm.loading = true;
-      console.log(111);
       vm.$store
         .dispatch("getRuleList", vm.condition)
         .then(res => {

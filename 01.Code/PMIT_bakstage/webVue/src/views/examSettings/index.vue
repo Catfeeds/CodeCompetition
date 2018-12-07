@@ -473,7 +473,6 @@ export default {
       let vm = this;
       vm.$refs.trainForm.validate(valid => {
         if (valid) {
-          console.log(vm.trainForm);
           let formData = {
             bu: vm.trainForm.product,
             series: vm.trainForm.series,

@@ -6,6 +6,17 @@ import Layout from "@/views/layout/Layout";
 
 export const constantRouterMap = [
   {
+    path: "/redirect",
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: "/redirect/:path*",
+        component: () => import("@/views/redirect/index")
+      }
+    ]
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("@/views/Login.vue"),
@@ -49,27 +60,27 @@ export const asyncRouterMap = [
   {
     path: "/personnelManagement",
     component: Layout,
-    redirect: "/personnelManagement/empolyeeInfo",
+    redirect: "/personnelManagement/employeeInfo",
     name: "StaffManagement",
     meta: { title: "personnelManagement", icon: "peoples", noCache: true },
     children: [
       {
-        path: "empolyeeInfo",
+        path: "employeeInfo",
         component: () => import("@/views/personnelManagement/personnelList"),
         name: "StaffInformation",
         meta: {
-          title: "empolyeeInfo",
+          title: "employeeInfo",
           icon: "",
           noCache: true,
           requiresAuth: true
         }
       },
       {
-        path: "empolyeeDetail/:id(\\d+)",
+        path: "employeeDetail/:id(\\d+)",
         component: () => import("@/views/personnelManagement/personnelDetail"),
-        // name: "StaffInformation",
+        name: "Emp",
         meta: {
-          title: "empolyeeDetail",
+          title: "employeeDetail",
           icon: "",
           noCache: true,
           requiresAuth: true

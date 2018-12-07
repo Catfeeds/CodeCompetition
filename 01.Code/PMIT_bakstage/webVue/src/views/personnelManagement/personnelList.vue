@@ -216,7 +216,7 @@
             @click="handleDel(scope.row.employeeID)"
           ></el-button>
           <router-link
-            :to="'/personnelManagement/empolyeeDetail/'+scope.row.employeeID"
+            :to="'/personnelManagement/employeeDetail/'+scope.row.employeeID"
             style="margin-left:10px"
           >
             <el-button type="primary" size="mini" icon="el-icon-search" title="查看详情"></el-button>

@@ -15,7 +15,11 @@ public interface MainstayReportMapper {
 
     public List<Map<String, Object>> queryMainstayByPost(Map<String, Object> queryMap);
 
-    public List<Map<String, Object>> queryMainstayTraining(Map<String, Object> queryMap);
+    public List<String> queryTrainingStaffs(Map<String, Object> queryMap);
+
+    public List<Map<String, Object>> queryTrainings(Map<String, Object> queryMap);
+
+    //public List<Map<String, Object>> queryMainstayTraining(Map<String, Object> queryMap);
 
     public Map<String, Object> queryMainstayAge(Map<String, Object> queryMap);
 }

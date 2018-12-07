@@ -34,6 +34,28 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="30%">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
+        <el-form-item label="原密码" prop="oldPass" size="mini">
+          <el-input v-model="ruleForm.oldPass" placeholder="请输入原密码" type="password"></el-input>
+        </el-form-item>
+        <el-form-item label="新密码" prop="newPass">
+          <el-input v-model="ruleForm.newPass" placeholder="请输入新密码" id="newkey" type="password"></el-input>
+        </el-form-item>
+        <el-form-item label="重复新密码" prop="checkNewPass">
+          <el-input
+            v-model="ruleForm.checkNewPass"
+            placeholder="请再次输入新密码"
+            id="newkey1"
+            type="password"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false" size="mini">取 消</el-button>
+        <el-button type="primary" @click="handleSubmit()" size="mini">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -46,6 +68,33 @@ import LangSelect from "@/components/LangSelect";
 import Cookies from "js-cookie";
 
 export default {
+  data() {
+    var validatePass2 = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.ruleForm.newPass) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
+    return {
+      dialogTitle: "修改密码",
+      dialogVisible: false,
+      ruleForm: {
+        oldPass: "",
+        newPass: "",
+        checkNewPass: ""
+      },
+      rules: {
+        oldPass: [{ required: true, message: "请输入密码" }],
+        newPass: [{ required: true, message: "请输入新密码" }],
+        checkNewPass: [
+          { required: true, validator: validatePass2, trigger: "blur" }
+        ]
+      }
+    };
+  },
   components: {
     Breadcrumb,
     Hamburger,
@@ -60,15 +109,32 @@ export default {
       this.$store.dispatch("toggleSideBar");
     },
     logout() {
-      this.$store.dispatch("logOut").then(() => {
-        Cookies.remove("userName");
-        Cookies.remove("password");
-        Cookies.set("status", "");
-        this.$router.replace("/login");
+      this.$confirm("确认要退出吗?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        this.$store.dispatch("logOut").then(() => {
+          Cookies.remove("userName");
+          Cookies.remove("password");
+          Cookies.set("status", "");
+          this.$router.replace("/login");
+        });
       });
     },
     updatePassword() {
-      this.$message.info("功能正在开发中...");
+      this.ruleForm.oldPass = "";
+      this.ruleForm.newPass = "";
+      this.ruleForm.checkNewPass = "";
+      this.dialogVisible = true;
+    },
+    handleSubmit() {
+      this.$refs.ruleForm.validate(valid => {
+        if (valid) {
+        } else {
+          return false;
+        }
+      });
     }
   }
 };

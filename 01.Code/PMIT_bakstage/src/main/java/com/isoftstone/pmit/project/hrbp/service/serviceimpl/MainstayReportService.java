@@ -104,7 +104,12 @@ public class MainstayReportService implements IMainstayReportService {
 
     @Override
     public List<TupleData> queryMainstayTraining(Map<String, Object> params) {
-        return null;
+        List<String> staffIDs = mapper.queryTrainingStaffs(params);
+        params.put("staffIDs", staffIDs);
+        List<Map<String, Object>> trainInfo = mapper.queryTrainings(params);
+        List<TupleData> result = new ArrayList<TupleData>();
+        buildMainstayNum(trainInfo, result, "Other");
+        return result;
     }
 
     @Override
