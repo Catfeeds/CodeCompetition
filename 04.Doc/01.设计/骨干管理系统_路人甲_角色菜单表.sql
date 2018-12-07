@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50560
 File Encoding         : 65001
 
-Date: 2018-12-03 17:12:09
+Date: 2018-12-07 10:23:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -46,6 +46,8 @@ INSERT INTO `hrbp_role_menu` VALUES ('1', '605');
 INSERT INTO `hrbp_role_menu` VALUES ('1', '606');
 INSERT INTO `hrbp_role_menu` VALUES ('1', '701');
 INSERT INTO `hrbp_role_menu` VALUES ('1', '702');
+INSERT INTO `hrbp_role_menu` VALUES ('1', '703');
+INSERT INTO `hrbp_role_menu` VALUES ('1', '704');
 INSERT INTO `hrbp_role_menu` VALUES ('2', '3');
 INSERT INTO `hrbp_role_menu` VALUES ('2', '4');
 INSERT INTO `hrbp_role_menu` VALUES ('2', '5');

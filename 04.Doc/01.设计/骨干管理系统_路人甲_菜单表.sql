@@ -37,7 +37,7 @@ INSERT INTO `hrbp_menu` VALUES ('3', 'StaffManagement', '0', '300', '人员管�
 INSERT INTO `hrbp_menu` VALUES ('4', 'ProjectManagement', '0', '400', '项目管理');
 INSERT INTO `hrbp_menu` VALUES ('5', 'OrganizationStructure', '0', '500', '组织架构');
 INSERT INTO `hrbp_menu` VALUES ('6', 'TrainingPlan', '0', '600', '培养计划');
-INSERT INTO `hrbp_menu` VALUES ('7', 'System', '0', '700', '骨干报表');
+INSERT INTO `hrbp_menu` VALUES ('7', 'System', '0', '700', '系统设置');
 INSERT INTO `hrbp_menu` VALUES ('201', 'StoneReport', '2', '201', '骨干报表');
 INSERT INTO `hrbp_menu` VALUES ('301', 'StaffInformation', '3', '301', '员工详情');
 INSERT INTO `hrbp_menu` VALUES ('401', 'ProjectSetUp', '4', '401', '项目组设置');
@@ -51,3 +51,5 @@ INSERT INTO `hrbp_menu` VALUES ('605', 'ExaminationSetUp', '6', '605', '考试�
 INSERT INTO `hrbp_menu` VALUES ('606', 'ResultShow', '6', '606', '成绩展示');
 INSERT INTO `hrbp_menu` VALUES ('701', 'RoleSetUp', '7', '701', '角色设置');
 INSERT INTO `hrbp_menu` VALUES ('702', 'UserManagement', '7', '702', '登录用户管理');
+INSERT INTO `hrbp_menu` VALUES ('703', 'BackUpRestore', '7', '703', '备份与还原');
+INSERT INTO `hrbp_menu` VALUES ('704', 'LogManagement', '7', '704', '日志管理');
