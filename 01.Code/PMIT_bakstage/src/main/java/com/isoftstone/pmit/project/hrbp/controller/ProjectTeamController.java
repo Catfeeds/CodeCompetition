@@ -21,6 +21,7 @@ import com.isoftstone.pmit.project.hrbp.service.IProjectTeamService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+@SuppressWarnings("unchecked")
 @RestController
 @RequestMapping("/hrbp/TeamManage")
 @Api(value="群组管理", tags={"项目群组管理"})
@@ -43,10 +44,12 @@ public class ProjectTeamController extends AbstractController {
 	
 	@ApiOperation("查询资源池人员信息")
 	@PostMapping("/searchEmployeeInfos")
-	public String searchEmployeeInfos(@RequestBody TeamParam param) {
-		List<TeamInfo> teamData = null;
+	public String searchEmployeeInfos(@RequestBody String param) {
+
+		Map<String, Object> queryMap = JSONObject.parseObject(param, HashMap.class);
+		List<Map<String, Object>> teamData = null;
 		try {
-			teamData = projectTeamService.searchEmployeeInfos(param);
+			teamData = projectTeamService.searchEmployeeInfos(queryMap);
 		} catch (Exception e) {
 			
 		}
@@ -55,10 +58,11 @@ public class ProjectTeamController extends AbstractController {
 	
 	@ApiOperation("查询项目组人员信息")
 	@PostMapping("/getTeamInfos")
-	public String getProjectTeamData(@RequestBody TeamParam param) {
+	public String getProjectTeamData(@RequestBody String param) {
+		Map<String, Object> queryParam = JSONObject.parseObject(param, HashMap.class);
 		List<TeamInfo> teamData = null;
 		try {
-			teamData = projectTeamService.getProjectTeamData(param);
+			teamData = projectTeamService.getProjectTeamData(queryParam);
 		} catch (Exception e) {
 			
 		}
@@ -67,7 +71,8 @@ public class ProjectTeamController extends AbstractController {
 	
 	@ApiOperation("保存项目组人员信息")
 	@PostMapping("/saveTeamInfos")
-	public String saveProjectTeamData(@RequestBody List<TeamInfo> teamInfos) {
+	public String saveProjectTeamData(@RequestBody String param) {
+		List<TeamInfo> teamInfos = (List<TeamInfo>) JSONObject.parseObject(param, HashMap.class).get("teamInfos");
 		if (ListUtils.isEmpty(teamInfos)) {
 			return AjaxResult.returnToResult(false, "fail"); 
 		}
@@ -75,9 +80,9 @@ public class ProjectTeamController extends AbstractController {
 		try {
 			status = projectTeamService.saveProjectTeamData(teamInfos);
 		} catch (Exception e) {
-			
+			return AjaxResult.returnToMessage(false, "fail");
 		}
-		return AjaxResult.returnToResult(false, status);
+		return AjaxResult.returnToMessage(true, status);
 	}
 	
 	@ApiOperation("保存项目人员角色信息")
@@ -87,9 +92,9 @@ public class ProjectTeamController extends AbstractController {
 		try {
 			projectTeamService.saveProjectRole(paramMap);
 		} catch (Exception e) {
-			
+			return AjaxResult.returnToMessage(false, "fail");
 		}
-		return AjaxResult.returnToResult(false, "success");
+		return AjaxResult.returnToMessage(true, "success");
 	}
 	
 	@ApiOperation("项目组关联项目")
@@ -102,11 +107,11 @@ public class ProjectTeamController extends AbstractController {
 			try {
 				projectTeamService.teamRelatedPo(teamId, projectId);
 			} catch (Exception e) {
-				return AjaxResult.returnToResult(false, "fail");
+				return AjaxResult.returnToMessage(false, "fail");
 			}
-			return AjaxResult.returnToResult(true, "success");
+			return AjaxResult.returnToMessage(true, "success");
 		} else {
-			return AjaxResult.returnToResult(false, "error param");
+			return AjaxResult.returnToMessage(false, "error param");
 		}
 	}
 

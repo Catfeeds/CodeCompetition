@@ -14,7 +14,7 @@ public interface ProjectTeamMapper {
 
 	List<TeamInfo> queryProjectTeamData(Map<String, Object> queryMap);
 
-	List<TeamInfo> queryResourcePoolData(Map<String, Object> queryMap);
+	List<Map<String, Object>> queryResourcePoolData(Map<String, Object> queryMap);
 
 	List<Map<String, String>> queryAreaAndCuByCondition(Map<String, Object> queryMap);
 

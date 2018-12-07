@@ -8,9 +8,9 @@ import com.isoftstone.pmit.project.hrbp.entity.TeamInfo;
 
 public interface IProjectTeamService {
 
-	List<TeamInfo> getProjectTeamData(TeamParam param);
+	List<TeamInfo> getProjectTeamData(Map<String, Object> queryParam);
 
-	List<TeamInfo> searchEmployeeInfos(TeamParam param);
+	List<Map<String, Object>> searchEmployeeInfos(Map<String, Object> queryMap);
 
 	List<Map<String, String>> queryAreaAndCuByCondition(TeamParam param);
 
