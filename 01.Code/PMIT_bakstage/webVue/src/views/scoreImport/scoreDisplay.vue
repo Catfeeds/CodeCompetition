@@ -2,29 +2,58 @@
   <div class="app-container">
     <el-form :inline="true">
       <el-form-item label>
-        <el-select v-model="product" size="mini" placeholder="产品线" @change="productChange">
-          <el-option v-for="item in productOptions" :key="item" :label="item" :value="item.value"></el-option>
+        <el-select
+          v-model="product"
+          size="mini"
+          placeholder="产品线"
+          @change="productChange"
+        >
+          <el-option
+            v-for="item in productOptions"
+            :key="item"
+            :label="item"
+            :value="item.value"
+          ></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label>
-        <el-select v-model="area" size="mini" placeholder="区域" @change="areaChange">
-          <el-option v-for="item in areaOptions" :key="item" :label="item" :value="item"></el-option>
+        <el-select
+          v-model="area"
+          size="mini"
+          placeholder="区域"
+          @change="areaChange"
+        >
+          <el-option
+            v-for="item in areaOptions"
+            :key="item"
+            :label="item"
+            :value="item"
+          ></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label>
         <el-select v-model="area" size="mini" placeholder="交付部">
-          <el-option v-for="item in pduOptions" :key="item" :label="item" :value="item"></el-option>
+          <el-option
+            v-for="item in pduOptions"
+            :key="item"
+            :label="item"
+            :value="item"
+          ></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" size="mini" @click="onSubmit">查询</el-button>
       </el-form-item>
     </el-form>
-    <el-table :data="tableData" style="width: 100%" max-height="350"
-      :cell-class-name="cellClassFn">
+    <el-table
+      :data="tableData"
+      style="width: 100%"
+      max-height="350"
+      :cell-class-name="cellClassFn"
+    >
       <el-table-column fixed type="index" width="60"></el-table-column>
       <el-table-column
-        v-for="(pItem,index) in headers"
+        v-for="(pItem, index) in headers"
         :key="index"
         :label="pItem.name"
         :prop="pItem.id"
@@ -32,7 +61,8 @@
         align="center"
         width="100"
       >
-        <el-table-column v-if="pItem.courses && pItem.courses.length>0"
+        <el-table-column
+          v-if="pItem.courses && pItem.courses.length > 0"
           v-for="item in pItem.courses"
           :key="item.courseID"
           :label="item.courseName"
@@ -51,7 +81,8 @@
         layout="total, slot, prev, pager, next"
         :total="total"
         prev-text="上一页"
-        next-text="下一页">
+        next-text="下一页"
+      >
       </el-pagination>
     </el-row>
   </div>
@@ -69,14 +100,14 @@ export default {
     return {
       headers: [],
       tableData: [],
-      currentPage:1,
-      pageSize:1,
-      total:100,
+      currentPage: 1,
+      pageSize: 1,
+      total: 100
     };
   },
 
   computed: {
-    ...mapGetters(['getSDParams']),
+    ...mapGetters(["getSDParams"]),
     ...mapState({
       productOptions: state => state.scoreDisplayStore.productData,
       areaOptions: state => state.scoreDisplayStore.areaData,
@@ -136,16 +167,16 @@ export default {
         this.currentPage * 100 + 1
       );
     },
-    cellClassFn(obj){
-      return obj.row[obj.column.property]==0?'cell-zero':'';
+    cellClassFn(obj) {
+      return obj.row[obj.column.property] == 0 ? "cell-zero" : "";
     }
   }
 };
 </script>
 
 <style>
-.cell-zero div{
+.cell-zero div {
   background-color: red;
-  color: #FFF;
+  color: #fff;
 }
 </style>

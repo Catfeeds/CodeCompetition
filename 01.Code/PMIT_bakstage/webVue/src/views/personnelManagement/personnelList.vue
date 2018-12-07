@@ -70,7 +70,8 @@
         size="mini"
         icon="el-icon-search"
         @click="handleFilter"
-      >{{ $t('table.search') }}</el-button>
+        >{{ $t("table.search") }}</el-button
+      >
       <el-button
         class="filter-item"
         style="margin-left: 10px;"
@@ -78,7 +79,8 @@
         size="mini"
         icon="el-icon-plus"
         @click="handleCreate"
-      >{{ $t('table.add') }}</el-button>
+        >{{ $t("table.add") }}</el-button
+      >
     </div>
     <el-table
       v-loading="listLoading"
@@ -116,7 +118,13 @@
         fixed="left"
         prop="employeeName"
       ></el-table-column>
-      <el-table-column width="80" header-align="center" label="性别" sortable="custom" prop="sex"></el-table-column>
+      <el-table-column
+        width="80"
+        header-align="center"
+        label="性别"
+        sortable="custom"
+        prop="sex"
+      ></el-table-column>
       <el-table-column
         min-width="100"
         header-align="center"
@@ -125,7 +133,7 @@
         prop="employmentDate"
       >
         <template slot-scope="scope">
-          <span>{{scope.row.employmentDate | formatDate}}</span>
+          <span>{{ scope.row.employmentDate | formatDate }}</span>
         </template>
       </el-table-column>
       <el-table-column
@@ -149,7 +157,13 @@
         sortable="custom"
         prop="bu"
       ></el-table-column>
-      <el-table-column min-width="120" header-align="center" label="DU" sortable="custom" prop="du"></el-table-column>
+      <el-table-column
+        min-width="120"
+        header-align="center"
+        label="DU"
+        sortable="custom"
+        prop="du"
+      ></el-table-column>
       <el-table-column
         min-width="230"
         header-align="center"
@@ -199,27 +213,37 @@
         sortable="custom"
         prop="telephone"
       ></el-table-column>
-      <el-table-column align="center" :label="$t('table.option')" width="180" header-align="center">
+      <el-table-column
+        align="center"
+        :label="$t('table.option')"
+        width="180"
+        header-align="center"
+      >
         <template slot-scope="scope">
           <el-button
             type="primary"
             size="mini"
             icon="el-icon-edit"
             title="编辑"
-            @click="handleEdit(scope.row)"
+            @click="handleEdit(scope.row);"
           ></el-button>
           <el-button
             type="primary"
             size="mini"
             icon="el-icon-delete"
             title="删除"
-            @click="handleDel(scope.row.employeeID)"
+            @click="handleDel(scope.row.employeeID);"
           ></el-button>
           <router-link
-            :to="'/personnelManagement/employeeDetail/'+scope.row.employeeID"
+            :to="'/personnelManagement/employeeDetail/' + scope.row.employeeID"
             style="margin-left:10px"
           >
-            <el-button type="primary" size="mini" icon="el-icon-search" title="查看详情"></el-button>
+            <el-button
+              type="primary"
+              size="mini"
+              icon="el-icon-search"
+              title="查看详情"
+            ></el-button>
           </router-link>
         </template>
       </el-table-column>

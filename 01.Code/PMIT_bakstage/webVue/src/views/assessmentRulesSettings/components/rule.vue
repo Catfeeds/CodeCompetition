@@ -19,7 +19,13 @@
         width="80"
       ></el-table-column>
 
-      <el-table-column min-width="150px" header-align="center" label="所属体系" prop="system" sortable></el-table-column>
+      <el-table-column
+        min-width="150px"
+        header-align="center"
+        label="所属体系"
+        prop="system"
+        sortable
+      ></el-table-column>
       <el-table-column
         min-width="150px"
         header-align="center"
@@ -27,9 +33,27 @@
         prop="product"
         sortable
       ></el-table-column>
-      <el-table-column min-width="100px" header-align="center" label="所属角色" prop="role" sortable></el-table-column>
-      <el-table-column min-width="100px" header-align="center" label="职级" prop="rank" sortable></el-table-column>
-      <el-table-column min-width="100px" header-align="center" label="创建人" prop="creator" sortable></el-table-column>
+      <el-table-column
+        min-width="100px"
+        header-align="center"
+        label="所属角色"
+        prop="role"
+        sortable
+      ></el-table-column>
+      <el-table-column
+        min-width="100px"
+        header-align="center"
+        label="职级"
+        prop="rank"
+        sortable
+      ></el-table-column>
+      <el-table-column
+        min-width="100px"
+        header-align="center"
+        label="创建人"
+        prop="creator"
+        sortable
+      ></el-table-column>
       <el-table-column
         min-width="150px"
         header-align="center"
@@ -45,24 +69,29 @@
         sortable
       >
         <template slot-scope="scope">
-          <span>{{scope.row.updateTime | formatDate}}</span>
+          <span>{{ scope.row.updateTime | formatDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" width="130" header-align="center" :label="$t('table.option')">
+      <el-table-column
+        align="center"
+        width="130"
+        header-align="center"
+        :label="$t('table.option')"
+      >
         <template slot-scope="scope">
           <el-button
             type="primary"
             size="mini"
             icon="el-icon-edit"
             title="编辑"
-            @click="handleEdit(scope.row)"
+            @click="handleEdit(scope.row);"
           ></el-button>
           <el-button
             type="primary"
             size="mini"
             icon="el-icon-delete"
             title="删除"
-            @click="handleDel(scope.row.ruleId)"
+            @click="handleDel(scope.row.ruleId);"
           ></el-button>
         </template>
       </el-table-column>
@@ -142,4 +171,3 @@ export default {
   }
 };
 </script>
-

@@ -1,6 +1,11 @@
 <template>
   <div class="app-container">
-    <el-card class="box-card" style="width:100%" shadow="never" :body-style="{padding:'20px 20px 0px 20px'}">
+    <el-card
+      class="box-card"
+      style="width:100%"
+      shadow="never"
+      :body-style="{ padding: '20px 20px 0px 20px' }"
+    >
       <div slot="header" class="clearfix">数据库备份</div>
       <el-row>
         <el-form
@@ -12,14 +17,24 @@
         >
           <el-form-item label="备份原因" prop="reason">
             <el-row>
-            <el-input v-model="backupForm.reason" maxlength="255" style="width:80%;margin-right:15px"></el-input>
-            <el-button type="primary" @click="handleBackup()" size="mini">开始备份</el-button>
+              <el-input
+                v-model="backupForm.reason"
+                maxlength="255"
+                style="width:80%;margin-right:15px"
+              ></el-input>
+              <el-button type="primary" @click="handleBackup();" size="mini"
+                >开始备份</el-button
+              >
             </el-row>
           </el-form-item>
         </el-form>
       </el-row>
     </el-card>
-    <el-card shadow="never" style="margin-top:10px;" :body-style="{padding:'20px 20px 0px 20px'}">
+    <el-card
+      shadow="never"
+      style="margin-top:10px;"
+      :body-style="{ padding: '20px 20px 0px 20px' }"
+    >
       <div slot="header" class="clearfix">数据库恢复</div>
       <el-row>
         <el-table
@@ -42,16 +57,41 @@
             type="index"
           ></el-table-column>
 
-          <el-table-column width="100px" header-align="center" label="备份人员编号" prop="employeeId"></el-table-column>
+          <el-table-column
+            width="100px"
+            header-align="center"
+            label="备份人员编号"
+            prop="employeeId"
+          ></el-table-column>
 
-          <el-table-column width="100px" header-align="center" label="备份人员姓名" prop="employeeName"></el-table-column>
-          <el-table-column width="150px" header-align="center" label="备份时间" prop="backupTime">
+          <el-table-column
+            width="100px"
+            header-align="center"
+            label="备份人员姓名"
+            prop="employeeName"
+          ></el-table-column>
+          <el-table-column
+            width="150px"
+            header-align="center"
+            label="备份时间"
+            prop="backupTime"
+          >
             <template slot-scope="scope">
-              <span>{{scope.row.backupTime | formatDate}}</span>
+              <span>{{ scope.row.backupTime | formatDate }}</span>
             </template>
           </el-table-column>
-          <el-table-column width="200px" header-align="center" label="备份文件名称" prop="dataName"></el-table-column>
-          <el-table-column min-width="100px" header-align="center" label="备份原因" prop="reasonRemark"></el-table-column>
+          <el-table-column
+            width="200px"
+            header-align="center"
+            label="备份文件名称"
+            prop="dataName"
+          ></el-table-column>
+          <el-table-column
+            min-width="100px"
+            header-align="center"
+            label="备份原因"
+            prop="reasonRemark"
+          ></el-table-column>
           <el-table-column
             align="center"
             width="80"
@@ -59,7 +99,12 @@
             :label="$t('table.option')"
           >
             <template slot-scope="scope">
-              <el-button type="primary" size="mini" @click="handleRestore(scope.row.dataName)">恢复</el-button>
+              <el-button
+                type="primary"
+                size="mini"
+                @click="handleRestore(scope.row.dataName);"
+                >恢复</el-button
+              >
             </template>
           </el-table-column>
         </el-table>

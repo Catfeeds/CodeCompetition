@@ -22,35 +22,65 @@
         width="80"
       ></el-table-column>
 
-      <el-table-column min-width="150px" header-align="center" label="角色名称" prop="roleName"></el-table-column>
+      <el-table-column
+        min-width="150px"
+        header-align="center"
+        label="角色名称"
+        prop="roleName"
+      ></el-table-column>
 
-      <el-table-column min-width="150px" header-align="center" label="角色描述" prop="description"></el-table-column>
-      <el-table-column align="center" :label="$t('table.option')" width="130" header-align="center">
+      <el-table-column
+        min-width="150px"
+        header-align="center"
+        label="角色描述"
+        prop="description"
+      ></el-table-column>
+      <el-table-column
+        align="center"
+        :label="$t('table.option')"
+        width="130"
+        header-align="center"
+      >
         <template slot-scope="scope">
           <el-button
             type="primary"
             size="mini"
             icon="el-icon-edit"
             title="编辑"
-            @click="handleEdit(scope.row)"
+            @click="handleEdit(scope.row);"
           ></el-button>
           <el-button
             type="primary"
             size="mini"
             icon="el-icon-delete"
             title="删除"
-            @click="handleDel(scope.row.roleId)"
+            @click="handleDel(scope.row.roleId);"
           ></el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="30%">
-      <el-form :model="roleForm" size="mini" label-width="80px" ref="roleForm" :rules="rules">
+      <el-form
+        :model="roleForm"
+        size="mini"
+        label-width="80px"
+        ref="roleForm"
+        :rules="rules"
+      >
         <el-form-item label="角色名称" prop="roleName">
-          <el-input v-model="roleForm.roleName" autocomplete="off" required maxlength="64"></el-input>
+          <el-input
+            v-model="roleForm.roleName"
+            autocomplete="off"
+            required
+            maxlength="64"
+          ></el-input>
         </el-form-item>
         <el-form-item label="角色描述" prop="description">
-          <el-input v-model="roleForm.description" autocomplete="off" maxlength="128"></el-input>
+          <el-input
+            v-model="roleForm.description"
+            autocomplete="off"
+            maxlength="128"
+          ></el-input>
         </el-form-item>
         <el-form-item label="菜单项" prop="menuTree">
           <div style="height:150px;">
@@ -70,8 +100,10 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false" size="mini">取 消</el-button>
-        <el-button type="primary" @click="submtForm('roleForm')" size="mini">确 定</el-button>
+        <el-button @click="dialogVisible = false;" size="mini">取 消</el-button>
+        <el-button type="primary" @click="submtForm('roleForm');" size="mini"
+          >确 定</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -130,7 +162,7 @@ export default {
   mounted() {
     this.getRoleList();
     this.$store.dispatch("getAllMenuInfo").then(res => {
-      console.log(111)
+      console.log(111);
       if (res.success) {
         this.menuTreeData = res.data
           .filter(item => !item.parentId && item.menuId > 1)
@@ -268,4 +300,3 @@ export default {
   }
 }
 </style>
-

@@ -1,15 +1,28 @@
 <template>
   <div class="app-container" style="text-align:center">
-    <el-upload class="upload-demo" drag action="https://jsonplaceholder.typicode.com/posts/">
+    <el-upload
+      class="upload-demo"
+      drag
+      action="https://jsonplaceholder.typicode.com/posts/"
+    >
       <i class="el-icon-upload"></i>
-      <div class="el-upload__text">
-        将文件拖到此处，或
-        <em>点击上传</em>
+      <div class="el-upload__text">将文件拖到此处，或 <em>点击上传</em></div>
+      <div class="el-upload__tip" slot="tip">
+        只能上传Excel文件，且不超过500kb
       </div>
-      <div class="el-upload__tip" slot="tip">只能上传Excel文件，且不超过500kb</div>
     </el-upload>
-    <el-table :data="tableData" border highlight-current-row style="width: 100%;margin-top:20px;">
-      <el-table-column v-for="item of tableHeader" :prop="item" :label="item" :key="item"/>
+    <el-table
+      :data="tableData"
+      border
+      highlight-current-row
+      style="width: 100%;margin-top:20px;"
+    >
+      <el-table-column
+        v-for="item of tableHeader"
+        :prop="item"
+        :label="item"
+        :key="item"
+      />
     </el-table>
   </div>
 </template>

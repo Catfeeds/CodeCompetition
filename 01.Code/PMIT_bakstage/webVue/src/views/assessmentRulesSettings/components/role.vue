@@ -19,7 +19,13 @@
         width="80"
       ></el-table-column>
 
-      <el-table-column min-width="150px" header-align="center" label="所属体系" prop="system" sortable></el-table-column>
+      <el-table-column
+        min-width="150px"
+        header-align="center"
+        label="所属体系"
+        prop="system"
+        sortable
+      ></el-table-column>
       <el-table-column
         min-width="150px"
         header-align="center"
@@ -35,7 +41,13 @@
         prop="roleName"
         sortable
       ></el-table-column>
-      <el-table-column min-width="100px" header-align="center" label="创建人" prop="creator" sortable></el-table-column>
+      <el-table-column
+        min-width="100px"
+        header-align="center"
+        label="创建人"
+        prop="creator"
+        sortable
+      ></el-table-column>
       <el-table-column
         min-width="150px"
         header-align="center"
@@ -51,24 +63,29 @@
         sortable
       >
         <template slot-scope="scope">
-          <span>{{scope.row.updateTime | formatDate}}</span>
+          <span>{{ scope.row.updateTime | formatDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" width="130" header-align="center" :label="$t('table.option')">
+      <el-table-column
+        align="center"
+        width="130"
+        header-align="center"
+        :label="$t('table.option')"
+      >
         <template slot-scope="scope">
           <el-button
             type="primary"
             size="mini"
             icon="el-icon-edit"
             title="编辑"
-            @click="handleEdit(scope.row)"
+            @click="handleEdit(scope.row);"
           ></el-button>
           <el-button
             type="primary"
             size="mini"
             icon="el-icon-delete"
             title="删除"
-            @click="handleDel(scope.row.roleId)"
+            @click="handleDel(scope.row.roleId);"
           ></el-button>
         </template>
       </el-table-column>
@@ -84,10 +101,25 @@
         next-text="下一页"
       ></el-pagination>
     </el-row>
-    <el-dialog :title="dialogBaseTitle" :visible.sync="dialogBaseVisible" width="30%">
-      <el-form :model="roleForm" size="mini" label-width="120px" ref="roleForm" :rules="rules">
+    <el-dialog
+      :title="dialogBaseTitle"
+      :visible.sync="dialogBaseVisible"
+      width="30%"
+    >
+      <el-form
+        :model="roleForm"
+        size="mini"
+        label-width="120px"
+        ref="roleForm"
+        :rules="rules"
+      >
         <el-form-item label="角色名称" prop="roleName">
-          <el-input v-model="roleForm.roleName" autocomplete="off" required maxlength="64"></el-input>
+          <el-input
+            v-model="roleForm.roleName"
+            autocomplete="off"
+            required
+            maxlength="64"
+          ></el-input>
         </el-form-item>
         <el-form-item label="所属体系" prop="system">
           <el-select
@@ -117,8 +149,12 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogBaseVisible = false" size="mini">取 消</el-button>
-        <el-button type="primary" @click="submtForm()" size="mini">确 定</el-button>
+        <el-button @click="dialogBaseVisible = false;" size="mini"
+          >取 消</el-button
+        >
+        <el-button type="primary" @click="submtForm();" size="mini"
+          >确 定</el-button
+        >
       </div>
     </el-dialog>
   </div>

@@ -72,14 +72,14 @@
               size="mini"
               icon="el-icon-edit"
               title="编辑"
-              @click="handleEdit(scope.row)"
+              @click="handleEdit(scope.row);"
             ></el-button>
             <el-button
               type="primary"
               size="mini"
               icon="el-icon-delete"
               title="删除"
-              @click="handleDel(scope.row.employeeID)"
+              @click="handleDel(scope.row.employeeID);"
             ></el-button>
           </template>
         </el-table-column>
@@ -97,9 +97,20 @@
       ></el-pagination>
     </el-row>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="30%">
-      <el-form :model="loginForm" size="mini" label-width="80px" ref="loginForm" :rules="rules">
+      <el-form
+        :model="loginForm"
+        size="mini"
+        label-width="80px"
+        ref="loginForm"
+        :rules="rules"
+      >
         <el-form-item label="姓名" prop="employeeName">
-          <el-input v-if="isEdit" v-model="loginForm.employeeName" autocomplete="off" disabled></el-input>
+          <el-input
+            v-if="isEdit"
+            v-model="loginForm.employeeName"
+            autocomplete="off"
+            disabled
+          ></el-input>
           <el-autocomplete
             v-else
             v-model="loginForm.employeeName"
@@ -108,16 +119,27 @@
             placeholder="请输入员工姓名进行查询"
             @select="handleSelectName"
           >
-            <i class="el-icon-delete el-input__icon" slot="suffix" @click="handleClear"></i>
+            <i
+              class="el-icon-delete el-input__icon"
+              slot="suffix"
+              @click="handleClear"
+            ></i>
             <template slot-scope="{ item }">
-              <div style="float:left;margin-right:15px;">{{ item.employeeName }}</div>
+              <div style="float:left;margin-right:15px;">
+                {{ item.employeeName }}
+              </div>
               <span style="margin-right:15px">{{ item.employeeID }}</span>
-              <span>{{item.pdu}}</span>
+              <span>{{ item.pdu }}</span>
             </template>
           </el-autocomplete>
         </el-form-item>
         <el-form-item label="工号" prop="employeeId">
-          <el-input v-if="isEdit" v-model="loginForm.employeeId" autocomplete="off" disabled></el-input>
+          <el-input
+            v-if="isEdit"
+            v-model="loginForm.employeeId"
+            autocomplete="off"
+            disabled
+          ></el-input>
           <el-autocomplete
             v-else
             v-model="loginForm.employeeId"
@@ -126,22 +148,42 @@
             placeholder="请输入员工工号进行查询"
             @select="handleSelectId"
           >
-            <i class="el-icon-delete el-input__icon" slot="suffix" @click="handleClear"></i>
+            <i
+              class="el-icon-delete el-input__icon"
+              slot="suffix"
+              @click="handleClear"
+            ></i>
             <template slot-scope="{ item }">
-              <div style="float:left;margin-right:15px;">{{ item.employeeName }}</div>
+              <div style="float:left;margin-right:15px;">
+                {{ item.employeeName }}
+              </div>
               <span style="margin-right:15px">{{ item.employeeID }}</span>
-              <span>{{item.pdu}}</span>
+              <span>{{ item.pdu }}</span>
             </template>
           </el-autocomplete>
         </el-form-item>
         <el-form-item label="部门" prop="department">
-          <el-input v-model="loginForm.department" autocomplete="off" maxlength="128" disabled></el-input>
+          <el-input
+            v-model="loginForm.department"
+            autocomplete="off"
+            maxlength="128"
+            disabled
+          ></el-input>
         </el-form-item>
         <el-form-item label="岗位" prop="post">
-          <el-input v-model="loginForm.post" autocomplete="off" maxlength="128" disabled></el-input>
+          <el-input
+            v-model="loginForm.post"
+            autocomplete="off"
+            maxlength="128"
+            disabled
+          ></el-input>
         </el-form-item>
         <el-form-item label="系统角色" prop="systemRole">
-          <el-select v-model="loginForm.systemRole" size="mini" placeholder="请选择">
+          <el-select
+            v-model="loginForm.systemRole"
+            size="mini"
+            placeholder="请选择"
+          >
             <el-option
               v-for="item in roleOptions"
               :key="item.value"
@@ -152,8 +194,10 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false" size="mini">取 消</el-button>
-        <el-button type="primary" @click="submtForm('loginForm')" size="mini">确 定</el-button>
+        <el-button @click="dialogVisible = false;" size="mini">取 消</el-button>
+        <el-button type="primary" @click="submtForm('loginForm');" size="mini"
+          >确 定</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -211,7 +255,7 @@ export default {
             value: item.roleId
           };
         });
-      }else{
+      } else {
         this.roleOptions = [];
       }
     });
@@ -373,4 +417,3 @@ export default {
   }
 }
 </style>
-

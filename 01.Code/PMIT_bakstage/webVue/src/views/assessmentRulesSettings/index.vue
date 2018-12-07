@@ -52,7 +52,8 @@
         size="mini"
         icon="el-icon-search"
         @click="handleFilter"
-      >{{ $t('table.search') }}</el-button>
+        >{{ $t("table.search") }}</el-button
+      >
       <el-button
         class="filter-item"
         style="margin-left: 10px;"
@@ -60,7 +61,8 @@
         size="mini"
         icon="el-icon-plus"
         @click="handleAdd"
-      >{{ $t('table.add') }}</el-button>
+        >{{ $t("table.add") }}</el-button
+      >
     </div>
     <el-tabs @tab-click="changeTab" v-model="activeTab">
       <el-tab-pane label="关键角色设置" name="role">
@@ -149,8 +151,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
-
-
-
+<style></style>

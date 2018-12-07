@@ -53,7 +53,8 @@
         size="mini"
         icon="el-icon-search"
         @click="handleFilter"
-      >{{ $t('table.search') }}</el-button>
+        >{{ $t("table.search") }}</el-button
+      >
       <el-button
         class="filter-item"
         style="margin-left: 10px;"
@@ -61,7 +62,8 @@
         size="mini"
         icon="el-icon-plus"
         @click="handleCreate"
-      >{{ $t('table.add') }}</el-button>
+        >{{ $t("table.add") }}</el-button
+      >
     </div>
     <el-table
       v-loading="listLoading"
@@ -81,7 +83,13 @@
         width="80"
         type="index"
       ></el-table-column>
-      <el-table-column min-width="150px" header-align="center" label="所属体系" sortable prop="system"></el-table-column>
+      <el-table-column
+        min-width="150px"
+        header-align="center"
+        label="所属体系"
+        sortable
+        prop="system"
+      ></el-table-column>
       <el-table-column
         min-width="150px"
         header-align="center"
@@ -90,10 +98,34 @@
         prop="affairName"
       ></el-table-column>
 
-      <el-table-column min-width="150px" header-align="center" label="所属系列" sortable prop="series"></el-table-column>
-      <el-table-column width="120px" header-align="center" label="所属产品线" sortable prop="du"></el-table-column>
-      <el-table-column width="110" header-align="center" label="创建人" sortable prop="createBy"></el-table-column>
-      <el-table-column min-width="110" header-align="center" label="最后更新人" sortable prop="updateBy"></el-table-column>
+      <el-table-column
+        min-width="150px"
+        header-align="center"
+        label="所属系列"
+        sortable
+        prop="series"
+      ></el-table-column>
+      <el-table-column
+        width="120px"
+        header-align="center"
+        label="所属产品线"
+        sortable
+        prop="du"
+      ></el-table-column>
+      <el-table-column
+        width="110"
+        header-align="center"
+        label="创建人"
+        sortable
+        prop="createBy"
+      ></el-table-column>
+      <el-table-column
+        min-width="110"
+        header-align="center"
+        label="最后更新人"
+        sortable
+        prop="updateBy"
+      ></el-table-column>
       <el-table-column
         min-width="140"
         header-align="center"
@@ -102,38 +134,43 @@
         prop="updateTime"
       >
         <template slot-scope="scope">
-          <span>{{scope.row.updateTime | formatDate}}</span>
+          <span>{{ scope.row.updateTime | formatDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" :label="$t('table.option')" width="230" header-align="center">
+      <el-table-column
+        align="center"
+        :label="$t('table.option')"
+        width="230"
+        header-align="center"
+      >
         <template slot-scope="scope">
           <el-button
             type="primary"
             size="mini"
             icon="el-icon-edit"
             title="编辑"
-            @click="handleEdit(scope.row)"
+            @click="handleEdit(scope.row);"
           ></el-button>
           <el-button
             type="primary"
             size="mini"
             icon="el-icon-delete"
             title="删除"
-            @click="handleDel(scope.row.affairID)"
+            @click="handleDel(scope.row.affairID);"
           ></el-button>
           <el-button
             type="primary"
             size="mini"
             icon="el-icon-setting"
             title="考核事务维度设置"
-            @click="handleSet(scope.row.affairID)"
+            @click="handleSet(scope.row.affairID);"
           ></el-button>
           <el-button
             type="primary"
             size="mini"
             icon="el-icon-search"
             title="考核事务维度查看"
-            @click="handleView(scope.row.affairID)"
+            @click="handleView(scope.row.affairID);"
           ></el-button>
         </template>
       </el-table-column>
@@ -149,7 +186,11 @@
         next-text="下一页"
       ></el-pagination>
     </el-row>
-    <el-dialog :title="dialogBaseTitle" :visible.sync="dialogBaseVisible" width="30%">
+    <el-dialog
+      :title="dialogBaseTitle"
+      :visible.sync="dialogBaseVisible"
+      width="30%"
+    >
       <el-form
         :model="affairsForm"
         size="mini"
@@ -158,10 +199,19 @@
         :rules="rules"
       >
         <el-form-item label="事务编号" prop="affairsId" v-if="isEdit">
-          <el-input v-model="affairsForm.affairsId" autocomplete="off" disabled></el-input>
+          <el-input
+            v-model="affairsForm.affairsId"
+            autocomplete="off"
+            disabled
+          ></el-input>
         </el-form-item>
         <el-form-item label="事务名称" prop="affairsName">
-          <el-input v-model="affairsForm.affairsName" autocomplete="off" required maxlength="64"></el-input>
+          <el-input
+            v-model="affairsForm.affairsName"
+            autocomplete="off"
+            required
+            maxlength="64"
+          ></el-input>
         </el-form-item>
         <el-form-item label="所属系列" prop="series">
           <el-select
@@ -207,15 +257,19 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogBaseVisible = false" size="mini">取 消</el-button>
-        <el-button type="primary" @click="submtForm()" size="mini">确 定</el-button>
+        <el-button @click="dialogBaseVisible = false;" size="mini"
+          >取 消</el-button
+        >
+        <el-button type="primary" @click="submtForm();" size="mini"
+          >确 定</el-button
+        >
       </div>
     </el-dialog>
     <el-dialog
       :title="dialogSetTitle"
       :visible="dialogSetVisible"
       width="50%"
-      @close="dialogSetVisible = false"
+      @close="dialogSetVisible = false;"
     >
       <el-row>
         <el-button
@@ -224,7 +278,8 @@
           size="mini"
           icon="el-icon-search"
           @click="handleDelDimension"
-        >{{ $t('table.delete') }}</el-button>
+          >{{ $t("table.delete") }}</el-button
+        >
         <el-button
           v-if="!isView"
           style="margin-left: 10px;"
@@ -232,7 +287,8 @@
           size="mini"
           icon="el-icon-plus"
           @click="handleAddDimension"
-        >{{ $t('table.add') }}</el-button>
+          >{{ $t("table.add") }}</el-button
+        >
       </el-row>
       <el-table
         ref="multipleTable"
@@ -247,7 +303,11 @@
         @selection-change="handleSelectionChange"
         style="width: 100%; margin:10px 0px"
       >
-        <el-table-column type="selection" width="55" v-if="!isView"></el-table-column>
+        <el-table-column
+          type="selection"
+          width="55"
+          v-if="!isView"
+        ></el-table-column>
         <el-table-column
           header-align="center"
           align="center"
@@ -255,8 +315,18 @@
           width="80"
           type="index"
         ></el-table-column>
-        <el-table-column prop="dimension" header-align="center" label="考核维度" width="150"></el-table-column>
-        <el-table-column prop="score" header-align="center" label="分数" width="100"></el-table-column>
+        <el-table-column
+          prop="dimension"
+          header-align="center"
+          label="考核维度"
+          width="150"
+        ></el-table-column>
+        <el-table-column
+          prop="score"
+          header-align="center"
+          label="分数"
+          width="100"
+        ></el-table-column>
         <el-table-column
           prop="description"
           header-align="center"
@@ -265,11 +335,19 @@
         ></el-table-column>
       </el-table>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogSetVisible = false" size="mini" v-if="isView">关 闭</el-button>
-        <el-button type="primary" @click="handleSave()" size="mini" v-else>保 存</el-button>
+        <el-button @click="dialogSetVisible = false;" size="mini" v-if="isView"
+          >关 闭</el-button
+        >
+        <el-button type="primary" @click="handleSave();" size="mini" v-else
+          >保 存</el-button
+        >
       </div>
     </el-dialog>
-    <el-dialog :title="dialogDimensionTitle" :visible.sync="dialogDimensionVisible" width="30%">
+    <el-dialog
+      :title="dialogDimensionTitle"
+      :visible.sync="dialogDimensionVisible"
+      width="30%"
+    >
       <el-form
         :model="dimensionForm"
         size="mini"
@@ -278,23 +356,35 @@
         :rules="rules"
       >
         <el-form-item label="考核维度" prop="dimension">
-          <el-input v-model="dimensionForm.dimension" autocomplete="off"></el-input>
+          <el-input
+            v-model="dimensionForm.dimension"
+            autocomplete="off"
+          ></el-input>
         </el-form-item>
         <el-form-item label="分数" prop="score">
-          <el-input v-model="dimensionForm.score" autocomplete="off" required maxlength="3"></el-input>
+          <el-input
+            v-model="dimensionForm.score"
+            autocomplete="off"
+            required
+            maxlength="3"
+          ></el-input>
         </el-form-item>
         <el-form-item label="考核点说明" prop="description">
           <el-input
             type="textarea"
             v-model="dimensionForm.description"
-            :autosize="{ minRows: 2, maxRows: 4}"
+            :autosize="{ minRows: 2, maxRows: 4 }"
             resize="none"
           ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogDimensionVisible = false" size="mini">取 消</el-button>
-        <el-button type="primary" @click="handleSaveDimension()" size="mini">确 定</el-button>
+        <el-button @click="dialogDimensionVisible = false;" size="mini"
+          >取 消</el-button
+        >
+        <el-button type="primary" @click="handleSaveDimension();" size="mini"
+          >确 定</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -482,12 +572,12 @@ export default {
           if (res.success) {
             vm.dimensionList = res.data.map((item, index) => {
               return {
-                id: index+1,
+                id: index + 1,
                 dimensionId: item.dimensionID,
                 dimension: item.dimensionName,
                 score: item.mark,
                 description: item.explanation
-              }
+              };
             });
           } else {
             vm.dimensionList = [];
@@ -621,16 +711,19 @@ export default {
           };
         })
       };
-      vm.$store.dispatch("addDimensionInfo", param).then(res => {
-        if (res.success) {
-          vm.$message.success(res.message);
-        } else {
-          vm.$message.error(res.message);
-        }
-        vm.dialogSetVisible = false;
-      }).catch((error)=>{
-        vm.dialogSetVisible = false;
-      });
+      vm.$store
+        .dispatch("addDimensionInfo", param)
+        .then(res => {
+          if (res.success) {
+            vm.$message.success(res.message);
+          } else {
+            vm.$message.error(res.message);
+          }
+          vm.dialogSetVisible = false;
+        })
+        .catch(() => {
+          vm.dialogSetVisible = false;
+        });
     },
     handleDelDimension() {
       let vm = this;

@@ -1,25 +1,28 @@
 <template>
-  <div :style="{height:height+'px',zIndex:zIndex}" class="simplemde-container">
-    <textarea :id="id"/>
+  <div
+    :style="{ height: height + 'px', zIndex: zIndex }"
+    class="simplemde-container"
+  >
+    <textarea :id="id" />
   </div>
 </template>
 
 <script>
-import 'font-awesome/css/font-awesome.min.css'
-import 'simplemde/dist/simplemde.min.css'
-import SimpleMDE from 'simplemde'
+import "font-awesome/css/font-awesome.min.css";
+import "simplemde/dist/simplemde.min.css";
+import SimpleMDE from "simplemde";
 
 export default {
-  name: 'SimplemdeMd',
+  name: "SimplemdeMd",
   props: {
     value: {
       type: String,
-      default: ''
+      default: ""
     },
     id: {
       type: String,
       required: false,
-      default: 'markdown-editor-' + +new Date()
+      default: "markdown-editor-" + +new Date()
     },
     autofocus: {
       type: Boolean,
@@ -27,7 +30,7 @@ export default {
     },
     placeholder: {
       type: String,
-      default: ''
+      default: ""
     },
     height: {
       type: Number,
@@ -40,7 +43,7 @@ export default {
     toolbar: {
       type: Array,
       default: function() {
-        return []
+        return [];
       }
     }
   },
@@ -48,12 +51,12 @@ export default {
     return {
       simplemde: null,
       hasChange: false
-    }
+    };
   },
   watch: {
     value(val) {
-      if (val === this.simplemde.value() && !this.hasChange) return
-      this.simplemde.value(val)
+      if (val === this.simplemde.value() && !this.hasChange) return;
+      this.simplemde.value(val);
     }
   },
   mounted() {
@@ -64,57 +67,60 @@ export default {
       toolbar: this.toolbar.length > 0 ? this.toolbar : undefined,
       spellChecker: false,
       insertTexts: {
-        link: ['[', ']( )']
+        link: ["[", "]( )"]
       },
       // hideIcons: ['guide', 'heading', 'quote', 'image', 'preview', 'side-by-side', 'fullscreen'],
       placeholder: this.placeholder
-    })
+    });
     if (this.value) {
-      this.simplemde.value(this.value)
+      this.simplemde.value(this.value);
     }
-    this.simplemde.codemirror.on('change', () => {
+    this.simplemde.codemirror.on("change", () => {
       if (this.hasChange) {
-        this.hasChange = true
+        this.hasChange = true;
       }
-      this.$emit('input', this.simplemde.value())
-    })
+      this.$emit("input", this.simplemde.value());
+    });
   },
   destroyed() {
-    this.simplemde.toTextArea()
-    this.simplemde = null
+    this.simplemde.toTextArea();
+    this.simplemde = null;
   }
-}
+};
 </script>
 
 <style scoped>
-.simplemde-container>>>.CodeMirror {
+.simplemde-container >>> .CodeMirror {
   min-height: 150px;
   line-height: 20px;
 }
 
-.simplemde-container>>>.CodeMirror-scroll {
+.simplemde-container >>> .CodeMirror-scroll {
   min-height: 150px;
 }
 
-.simplemde-container>>>.CodeMirror-code {
+.simplemde-container >>> .CodeMirror-code {
   padding-bottom: 40px;
 }
 
-.simplemde-container>>>.editor-statusbar {
+.simplemde-container >>> .editor-statusbar {
   display: none;
 }
 
-.simplemde-container>>>.CodeMirror .CodeMirror-code .cm-link {
+.simplemde-container >>> .CodeMirror .CodeMirror-code .cm-link {
   color: #1890ff;
 }
 
-.simplemde-container>>>.CodeMirror .CodeMirror-code .cm-string.cm-url {
+.simplemde-container >>> .CodeMirror .CodeMirror-code .cm-string.cm-url {
   color: #2d3b4d;
 }
 
-.simplemde-container>>>.CodeMirror .CodeMirror-code .cm-formatting-link-string.cm-url {
+.simplemde-container
+  >>> .CodeMirror
+  .CodeMirror-code
+  .cm-formatting-link-string.cm-url {
   padding: 0 2px;
-  color: #E61E1E;
+  color: #e61e1e;
 }
 .simplemde-container >>> .editor-toolbar.fullscreen,
 .simplemde-container >>> .CodeMirror-fullscreen {
