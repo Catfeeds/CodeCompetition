@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50723
 File Encoding         : 65001
 
-Date: 2018-12-08 00:04:28
+Date: 2018-12-08 00:38:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -27,5 +27,5 @@ CREATE TABLE `hrbp_examination_rule_item` (
   `credit` int(4) DEFAULT NULL COMMENT '学分',
   `pass` int(4) DEFAULT NULL COMMENT '学分及格线',
   PRIMARY KEY (`ruleId`,`ItemId`,`ItemType`),
-  KEY `ItemId` (`ItemId`) USING HASH
+  CONSTRAINT `ruleId` FOREIGN KEY (`ruleId`) REFERENCES `hrbp_examination_rule` (`ruleId`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

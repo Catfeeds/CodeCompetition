@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50723
 File Encoding         : 65001
 
-Date: 2018-12-08 00:03:51
+Date: 2018-12-08 00:37:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS `hrbp_examination_rule`;
 CREATE TABLE `hrbp_examination_rule` (
   `ruleId` int(8) NOT NULL AUTO_INCREMENT COMMENT '规则Id',
   `roleId` int(8) DEFAULT NULL COMMENT '角色Id',
-  `level` varchar(16) DEFAULT NULL COMMENT '岗位级别',
+  `ruleLevel` varchar(16) DEFAULT NULL COMMENT '岗位级别',
   `creatorId` int(8) DEFAULT NULL COMMENT '创建者工号',
   `creatorName` varchar(32) DEFAULT NULL COMMENT '创建者姓名',
   `createTime` date DEFAULT NULL COMMENT '创建时间',
@@ -32,5 +32,5 @@ CREATE TABLE `hrbp_examination_rule` (
   `passCredit` int(4) DEFAULT NULL COMMENT '通过学分',
   PRIMARY KEY (`ruleId`),
   KEY `ROLE_ID` (`roleId`),
-  CONSTRAINT `ROLE_ID` FOREIGN KEY (`roleId`) REFERENCES `hrbp_special_role` (`roleId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `ROLE_ID` FOREIGN KEY (`roleId`) REFERENCES `hrbp_special_role` (`roleId`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=126 DEFAULT CHARSET=utf8;
