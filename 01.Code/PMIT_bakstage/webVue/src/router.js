@@ -30,7 +30,7 @@ export const constantRouterMap = [
     children: [
       {
         path: "dashboard",
-        component: () => import("@/views/dashboard/index"),
+        component: () => import("@/views/reportDisplay/backboneReport"),
         name: "StoneReport",
         meta: {
           title: "backboneReport",
@@ -58,15 +58,15 @@ export const constantRouterMap = [
 ];
 export const asyncRouterMap = [
   {
-    path: "/personnelManagement",
+    path: "/employeeManagement",
     component: Layout,
-    redirect: "/personnelManagement/employeeInfo",
+    redirect: "/employeeManagement/employeeInfo",
     name: "StaffManagement",
     meta: { title: "personnelManagement", icon: "peoples", noCache: true },
     children: [
       {
         path: "employeeInfo",
-        component: () => import("@/views/personnelManagement/personnelList"),
+        component: () => import("@/views/employeeManagement/employeeList"),
         name: "StaffInformation",
         meta: {
           title: "employeeInfo",
@@ -77,7 +77,7 @@ export const asyncRouterMap = [
       },
       {
         path: "employeeDetail/:id(\\d+)",
-        component: () => import("@/views/personnelManagement/personnelDetail"),
+        component: () => import("@/views/employeeManagement/employeeDetail"),
         name: "Emp",
         meta: {
           title: "employeeDetail",
@@ -98,7 +98,7 @@ export const asyncRouterMap = [
     children: [
       {
         path: "projectGroupConfiguration",
-        component: () => import("@/views/projectGroupSettings/index"),
+        component: () => import("@/views/projectManagement/projectGroupConfig"),
         name: "ProjectSetUp",
         meta: {
           title: "projectGroupConfiguration",
@@ -118,7 +118,8 @@ export const asyncRouterMap = [
     children: [
       {
         path: "businessSystem",
-        component: () => import("@/views/relationTreeSettings/index"),
+        component: () =>
+          import("@/views/organizationalStructure/businessSystem"),
         name: "BusinessSystem",
         meta: {
           title: "businessSystem",
@@ -129,7 +130,7 @@ export const asyncRouterMap = [
       },
       {
         path: "humanSystem",
-        component: () => import("@/views/dashboard/index"),
+        component: () => import("@/views/organizationalStructure/humanSystem"),
         name: "StaffSystem",
         meta: {
           title: "humanSystem",
@@ -149,7 +150,7 @@ export const asyncRouterMap = [
     children: [
       {
         path: "trainingSetting",
-        component: () => import("@/views/trainingSettings/index"),
+        component: () => import("@/views/trainningAndTraining/trainSetting"),
         name: "TrainSetUp",
         meta: {
           title: "trainingSetting",
@@ -160,7 +161,7 @@ export const asyncRouterMap = [
       },
       {
         path: "assessmentAffairs",
-        component: () => import("@/views/assessmentAffairsSettings/index"),
+        component: () => import("@/views/trainningAndTraining/affairSettiing"),
         name: "ExaminationAffairsSetUp",
         meta: {
           title: "assessmentAffairs",
@@ -171,7 +172,7 @@ export const asyncRouterMap = [
       },
       {
         path: "assessmentRules",
-        component: () => import("@/views/assessmentRulesSettings/index"),
+        component: () => import("@/views/trainningAndTraining/rulesSetting"),
         name: "ExaminationRoleSetUp",
         meta: {
           title: "assessmentRules",
@@ -182,7 +183,7 @@ export const asyncRouterMap = [
       },
       {
         path: "course",
-        component: () => import("@/views/courseOpenSettings/index"),
+        component: () => import("@/views/trainningAndTraining/startSetting"),
         name: "OpeningSetUp",
         meta: {
           title: "courseOpen",
@@ -193,7 +194,7 @@ export const asyncRouterMap = [
       },
       {
         path: "examination",
-        component: () => import("@/views/examSettings/index"),
+        component: () => import("@/views/trainningAndTraining/examSetting"),
         name: "ExaminationSetUp",
         meta: {
           title: "examination",
@@ -204,7 +205,7 @@ export const asyncRouterMap = [
       },
       {
         path: "score",
-        component: () => import("@/views/scoreImport/scoreDisplay"),
+        component: () => import("@/views/trainningAndTraining/scoreDisplay"),
         name: "ResultShow",
         meta: { title: "score", icon: "", noCache: true, requiresAuth: true }
       }

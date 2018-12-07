@@ -235,7 +235,7 @@
             @click="handleDel(scope.row.employeeID);"
           ></el-button>
           <router-link
-            :to="'/personnelManagement/employeeDetail/' + scope.row.employeeID"
+            :to="'/employeeManagement/employeeDetail/' + scope.row.employeeID"
             style="margin-left:10px"
           >
             <el-button
@@ -455,12 +455,8 @@ export default {
     },
     handleView(affairId) {
       let vm = this;
-      // vm.dialogSetTitle = "查看考核事务维度";
-      // vm.dialogSetVisible = true;
-      // vm.isView = true;
-      // vm.getDimensionInfo(affairId);
       vm.$router.push({
-        path: "/personnelManagement/empolyeeDetail"
+        path: "/employeeManagement/empolyeeDetail"
       });
     }
   }
