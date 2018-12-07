@@ -2,15 +2,24 @@ package com.isoftstone.pmit.project.hrbp.entity;
 
 public class TechnicalInformation {
 
-    /*软通工号*/
+    /**软通工号*/
     private String employeeID;
-    /*技术平台*/
+    /**技术平台*/
     private String technologyPlatform;
-    /*技术等级*/
+    /**技术等级*/
     private String technologyGrade;
-    /*擅长领域*/
+    /**擅长领域*/
     private String areasOfExpertise;
+    /**技术名称*/
+    private String technicalName;
 
+    public String getTechnicalName() {
+        return technicalName;
+    }
+
+    public void setTechnicalName(String technicalName) {
+        this.technicalName = technicalName;
+    }
 
     public String getEmployeeID() {
         return employeeID;
