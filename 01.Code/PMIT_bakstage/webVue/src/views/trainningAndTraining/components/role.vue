@@ -170,8 +170,7 @@ export default {
   methods: {
     getProductInfo() {
       let vm = this;
-      vm.$store.dispatch("getProductInfo").then(() => {
-        const data = vm.$store.getters.productList;
+      vm.$store.dispatch("getProductInfo").then(data => {
         if (data) {
           vm.productOptions = data;
         } else {
@@ -181,12 +180,12 @@ export default {
     },
     getSystem() {
       let vm = this;
-      vm.$store.dispatch("queryAffairsSystem").then(res => {
+      vm.$store.dispatch("querySystem").then(res => {
         if (res.data) {
           vm.systemOptions = res.data.map(item => {
             return {
-              label: item.system,
-              value: item.system
+              label: item,
+              value: item
             };
           });
         } else {

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50723
 File Encoding         : 65001
 
-Date: 2018-12-08 00:37:56
+Date: 2018-12-08 14:20:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,7 +29,6 @@ CREATE TABLE `hrbp_examination_rule` (
   `updateStaffId` int(8) DEFAULT NULL COMMENT '更新人员工号',
   `updateStaffName` varchar(32) DEFAULT NULL COMMENT '更新人员姓名',
   `updateTime` date DEFAULT NULL COMMENT '更新时间',
-  `passCredit` int(4) DEFAULT NULL COMMENT '通过学分',
   PRIMARY KEY (`ruleId`),
   KEY `ROLE_ID` (`roleId`),
   CONSTRAINT `ROLE_ID` FOREIGN KEY (`roleId`) REFERENCES `hrbp_special_role` (`roleId`) ON DELETE CASCADE ON UPDATE CASCADE

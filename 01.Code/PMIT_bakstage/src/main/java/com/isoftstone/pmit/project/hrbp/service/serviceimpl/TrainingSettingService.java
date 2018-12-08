@@ -1,11 +1,9 @@
 package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.isoftstone.pmit.project.hrbp.entity.SystemSeriesInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -107,46 +105,4 @@ public class TrainingSettingService implements ITrainingSettingService {
 		return trainingInfos.get(0);
 	}
 
-    @Override
-    public SystemSeriesInfo querySystemAndSeries(int id) {
-        List<Map<String, Object>> queryRst = trainingSettingMapper.querySystemAndSeriesInfo(id);
-
-        SystemSeriesInfo rst = new SystemSeriesInfo();
-        rst.setIdAndSeriesName(new HashMap<>());
-        rst.setSystemAndSeriesName(new HashMap<>());
-
-        Map<Integer, String> idAndSeriesName = rst.getIdAndSeriesName();
-        Map<String, List<String>> systemAndSeriesName = rst.getSystemAndSeriesName();
-        for (Map<String, Object> oneRow: queryRst) {
-            String oneSystem = oneRow.get("systemName").toString();
-            if (!systemAndSeriesName.containsKey(oneSystem)) {
-                systemAndSeriesName.put(oneSystem, new ArrayList<>());
-            }
-
-            systemAndSeriesName.get(oneSystem).add(oneRow.get("seriesName").toString());
-            idAndSeriesName.put(Integer.valueOf(oneRow.get("id").toString()), oneRow.get("seriesName").toString());
-        }
-
-        return rst;
-    }
-
-    @Override
-    public List<String> querySystem(int id) {
-        return  trainingSettingMapper.querySystem(id);
-    }
-
-    @Override
-    public boolean addSystemAndSeriesInfo(Map<String, Object> data) {
-        return 0 != trainingSettingMapper.addSystemAndSeriesInfo(data);
-    }
-
-    @Override
-    public boolean updateSystemAndSeriesInfo(Map<String, Object> data) {
-        return 0 != trainingSettingMapper.updateSystemAndSeriesInfo(data);
-    }
-
-    @Override
-    public boolean deleteSystemAndSeriesInfo(int id) {
-	    return 0 != trainingSettingMapper.deleteSystemAndSeriesInfo(id);
-    }
 }

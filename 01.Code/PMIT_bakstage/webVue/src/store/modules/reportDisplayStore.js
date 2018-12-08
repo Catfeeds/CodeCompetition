@@ -40,18 +40,18 @@ let mutations = {
   },
   setProductData(state, val) {
     state.productData = val || [];
-    state.productData.unshift("");
-    state.selectedProduct = val && val.length > 0 ? val[0] : "";
+    // state.productData.unshift("");
+    state.selectedProduct = "";
   },
-  setAreaData(state, val) {
+  setRDAreaData(state, val) {
     state.areaData = val || [];
-    state.areaData.unshift("");
-    state.selectedArea = val && val.length > 0 ? val[0] : "";
+    // state.areaData.unshift("");
+    state.selectedArea = "";
   },
-  setPDUData(state, val) {
+  setRDPDUData(state, val) {
     state.pduData = val || [];
-    state.pduData.unshift("");
-    state.selectedPDU = val && val.length > 0 ? val[0] : "";
+    // state.pduData.unshift("");
+    state.selectedPDU = "";
   },
   setSelectedEType(state, val) {
     state.selectedEType = val || "";
@@ -88,7 +88,7 @@ let actions = {
   },
   getRDAreas({ dispatch, state, commit }) {
     return api.getMainstayLevel({ bu: state.selectedProduct }).then(ret => {
-      commit("setAreaData", ret && ret.data && ret.data.data);
+      commit("setRDAreaData", ret && ret.data && ret.data.data);
       if (state.selectedArea) {
         return dispatch("getRDPDUList");
       }
@@ -101,7 +101,7 @@ let actions = {
         workPlaceArea: state.selectedArea
       })
       .then(ret => {
-        commit("setPDUData", ret && ret.data && ret.data.data);
+        commit("setRDPDUData", ret && ret.data && ret.data.data);
       });
   },
   getRate({ commit, dispatch }, param) {

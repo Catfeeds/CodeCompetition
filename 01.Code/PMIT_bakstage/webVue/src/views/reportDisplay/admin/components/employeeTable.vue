@@ -151,8 +151,8 @@ export default {
   watch: {
     dataSource(data) {
       this.currentPage = 1;
-      this.total = data.datas.length;
-      this.headers = data.trains;
+      this.total = (data.datas||[]).length;
+      this.headers = data.trains ||[];
       this.handleSizeChange();
     }
   },
@@ -164,7 +164,7 @@ export default {
       this.$store.dispatch("getRDEmployee", params);
     },
     handleSizeChange() {
-      this.tableData = this.dataSource.datas.slice(
+      this.tableData = (this.dataSource.datas||[]).slice(
         (this.currentPage - 1) * 100,
         this.currentPage * 100 + 1
       );

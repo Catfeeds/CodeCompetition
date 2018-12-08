@@ -366,7 +366,7 @@
                 </includes>
             </resource>
             <resource>
-                <directory>${basedir}/src/main/resources/static</directory>
+                <directory>${basedir}/webVue/dist</directory>
                 <targetPath>${basedir}/target/classes/static</targetPath>
                 <includes>
                     <include>**/*</include>

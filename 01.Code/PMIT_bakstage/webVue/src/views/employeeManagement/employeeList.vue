@@ -93,6 +93,7 @@
         action="system/exceloperation/importPersonalInfo"
         :before-upload="handleUpload"
         :on-success="handleSuccess"
+        :on-error="handleError"
         :show-file-list="false"
         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
       >
@@ -109,7 +110,7 @@
         type="primary"
         size="mini"
         icon="el-icon-download"
-        @click="handleCreate"
+        @click="handleTemplate"
       >{{ $t("button.template") }}</el-button>
     </div>
     <el-table
@@ -267,6 +268,16 @@
         next-text="下一页"
       ></el-pagination>
     </el-row>
+    <div style="display:none">
+      <form
+        ref="templateForm"
+        target="downloadFrame"
+        id="downloadTemplate"
+        action="system/exceloperation/download/template"
+        method="post"
+      ></form>
+      <iframe id="downloadFrame" name="downloadFrame"></iframe>
+    </div>
   </div>
 </template>
 
@@ -310,13 +321,8 @@ export default {
   methods: {
     getProductInfo() {
       let vm = this;
-      vm.$store.dispatch("getProductInfo").then(() => {
-        const data = vm.$store.getters.productList;
-        if (data) {
-          vm.productOptions = data;
-        } else {
-          vm.productOptions = [];
-        }
+      vm.$store.dispatch("getProductInfo").then(data => {
+        vm.productOptions = data;
       });
     },
     getDUInfo(product) {
@@ -328,8 +334,7 @@ export default {
         vm.searchForm.pdu = "";
         return;
       }
-      vm.$store.dispatch("getDUInfo", { bu: product }).then(() => {
-        const data = vm.$store.getters.duList;
+      vm.$store.dispatch("getDUInfo", { bu: product }).then(data => {
         if (data) {
           vm.duOptions = data;
         } else {
@@ -341,8 +346,7 @@ export default {
     },
     getPDUInfo(product, du) {
       let vm = this;
-      vm.$store.dispatch("getPDUInfo", { bu: product, du: du }).then(() => {
-        const data = vm.$store.getters.pduList;
+      vm.$store.dispatch("getPDUInfo", { bu: product, du: du }).then(data => {
         if (data) {
           vm.pduOptions = data;
         } else {
@@ -492,8 +496,16 @@ export default {
       }
       return extension || (extension2 && isLt2M);
     },
-    handleSuccess(response, file, fileList) {
-      console.log(arguments);
+    handleSuccess() {
+      this.$message.success("文件导入成功");
+      this.page.currentPage = 1;
+      this.getEmployeeList();
+    },
+    handleError() {
+      this.$message.error("文件导入失败,请检查文件格式是否合法");
+    },
+    handleTemplate() {
+      this.$refs.templateForm.submit();
     }
   }
 };

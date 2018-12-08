@@ -498,8 +498,7 @@ export default {
   methods: {
     getProductInfo() {
       let vm = this;
-      vm.$store.dispatch("getProductInfo").then(() => {
-        const data = vm.$store.getters.productList;
+      vm.$store.dispatch("getProductInfo").then(data => {
         if (data) {
           vm.productOptions = data;
         } else {
@@ -509,12 +508,12 @@ export default {
     },
     getSeries() {
       let vm = this;
-      vm.$store.dispatch("queryAffairsSeries").then(res => {
+      vm.$store.dispatch("querySeries").then(res => {
         if (res.data) {
           vm.seriesOptions = res.data.map(item => {
             return {
-              label: item.series,
-              value: item.series
+              label: item,
+              value: item
             };
           });
         } else {
@@ -524,12 +523,12 @@ export default {
     },
     getSystem() {
       let vm = this;
-      vm.$store.dispatch("queryAffairsSystem").then(res => {
+      vm.$store.dispatch("querySystem").then(res => {
         if (res.data) {
           vm.systemOptions = res.data.map(item => {
             return {
-              label: item.system,
-              value: item.system
+              label: item,
+              value: item
             };
           });
         } else {
@@ -608,6 +607,8 @@ export default {
               vm.$message.success(res.message);
               vm.dialogBaseVisible = false;
               vm.getAffairsList();
+              vm.getSeries();
+              vm.getSystem();
             } else {
               vm.$message.error(res.message);
             }

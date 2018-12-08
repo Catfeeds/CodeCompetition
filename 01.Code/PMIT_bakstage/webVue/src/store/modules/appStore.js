@@ -70,18 +70,6 @@ const app = {
     setRouters: (state, routers) => {
       state.addRouters = routers;
       state.routers = constantRouterMap.concat(routers);
-    },
-    setProductList: (state, product) => {
-      state.productList = product;
-    },
-    setDUList: (state, du) => {
-      state.duList = du;
-    },
-    setPDUList: (state, pdu) => {
-      state.pduList = pdu;
-    },
-    setAreaList: (state, area) => {
-      state.areaList = area;
     }
   },
   actions: {
@@ -148,7 +136,7 @@ const app = {
           });
       });
     },
-    getProductInfo({ commit }) {
+    getProductInfo() {
       return new Promise((resolve, reject) => {
         api
           .getBusinessRelationship({})
@@ -162,15 +150,14 @@ const app = {
                 };
               });
             }
-            commit("setProductList", data);
-            resolve();
+            resolve(data);
           })
           .catch(error => {
             reject(error);
           });
       });
     },
-    getDUInfo({ commit }, param) {
+    getDUInfo(commit, param) {
       return new Promise((resolve, reject) => {
         api
           .getBusinessRelationship(param)
@@ -184,15 +171,14 @@ const app = {
                 };
               });
             }
-            commit("setDUList", data);
-            resolve();
+            resolve(data);
           })
           .catch(error => {
             reject(error);
           });
       });
     },
-    getPDUInfo({ commit }, param) {
+    getPDUInfo(commit, param) {
       return new Promise((resolve, reject) => {
         api
           .getBusinessRelationship(param)
@@ -206,15 +192,14 @@ const app = {
                 };
               });
             }
-            commit("setPDUList", data);
-            resolve();
+            resolve(data);
           })
           .catch(error => {
             reject(error);
           });
       });
     },
-    getAreaInfo({ commit }, param) {
+    getAreaInfo(commit, param) {
       return new Promise((resolve, reject) => {
         api
           .getBusinessRelationship(param)
@@ -228,8 +213,7 @@ const app = {
                 };
               });
             }
-            commit("setAreaList", data);
-            resolve();
+            resolve(data);
           })
           .catch(error => {
             reject(error);

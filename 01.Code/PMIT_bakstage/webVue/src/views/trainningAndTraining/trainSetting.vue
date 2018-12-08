@@ -589,6 +589,8 @@ export default {
               vm.$message.success("操作成功");
               vm.dialogVisible = false;
               vm.getTrainingList();
+              vm.getSeries();
+              vm.getSystem();
             } else if (res.message === "DuplicateName") {
               vm.$message.error("名称已存在");
             } else {
@@ -607,8 +609,7 @@ export default {
     },
     getProductInfo() {
       let vm = this;
-      vm.$store.dispatch("getProductInfo").then(() => {
-        const data = vm.$store.getters.productList;
+      vm.$store.dispatch("getProductInfo").then(data => {
         if (data) {
           vm.productOptions = data;
         } else {

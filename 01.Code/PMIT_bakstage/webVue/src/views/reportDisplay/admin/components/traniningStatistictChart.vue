@@ -1,6 +1,6 @@
 <template>
   <div style="height:250px;position:relative;">
-    <div class="chart-operate">
+    <!-- <div class="chart-operate">
       <i
         class="el-icon-arrow-up"
         v-if="levelData.length > 0"
@@ -8,7 +8,7 @@
         title="展示上一级"
       ></i>
       <i class="el-icon-arrow-down" @click="onDrillDown" title="展示下一级"></i>
-    </div>
+    </div> -->
     <div id="statistictChart" style="height:250px;"></div>
   </div>
 </template>
@@ -71,10 +71,15 @@ export default {
           top: 40
         },
         tooltip: {
-          triggerOn: "click",
+          // triggerOn: "click",
           show: true,
           formatter: "{b0}: {c0}%"
         },
+        dataZoom: [{
+            type: 'inside',
+            start: 0,
+            end: Math.ceil((7/(obj.xData.length||1))*100)
+        }],
         xAxis: {
           type: "category",
           data: obj.xData, //['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -93,25 +98,25 @@ export default {
           },
           axisTick: {
             show: false
-          },
-          axisPointer: {
-            value: this.gridIndex,
-            lineStyle: {
-              color: "#037BF8",
-              opacity: 0.5,
-              width: 2
-            },
-            label: {
-              show: false,
-              backgroundColor: "#037BF8"
-            },
-            handle: {
-              show: true,
-              color: "#037BF8",
-              size: 25,
-              margin: 0
-            }
           }
+          // axisPointer: {
+          //   value: this.gridIndex,
+          //   lineStyle: {
+          //     color: "#037BF8",
+          //     opacity: 0.5,
+          //     width: 2
+          //   },
+          //   label: {
+          //     show: false,
+          //     backgroundColor: "#037BF8"
+          //   },
+          //   handle: {
+          //     show: true,
+          //     color: "#037BF8",
+          //     size: 25,
+          //     margin: 0
+          //   }
+          // }
         },
         yAxis: {
           type: "value",
@@ -137,6 +142,7 @@ export default {
             symbol: "rect",
             symbolSize: [50, 20],
             hoverAnimation: false,
+            barMaxWidth:30,
             label: {
               show: true,
               position: "top",

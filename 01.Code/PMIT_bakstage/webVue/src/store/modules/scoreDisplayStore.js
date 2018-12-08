@@ -34,18 +34,18 @@ let mutations = {
   },
   setSDProductData(state, val) {
     state.productData = val || [];
-    state.productData.unshift("");
-    state.selectedProduct = val && val.length > 0 ? val[0] : "";
+    // state.productData.unshift("");
+    state.selectedProduct = "";
   },
   setSDAreaData(state, val) {
     state.areaData = val || [];
-    state.areaData.unshift("");
-    state.selectedArea = val && val.length > 0 ? val[0] : "";
+    // state.areaData.unshift("");
+    state.selectedArea ="";
   },
   setSDPDUData(state, val) {
     state.pduData = val || [];
-    state.pduData.unshift("");
-    state.selectedPDU = val && val.length > 0 ? val[0] : "";
+    // state.pduData.unshift("");
+    state.selectedPDU = "";
   },
   setScoreData(state, val) {
     state.scoreData = val || {};

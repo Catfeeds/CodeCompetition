@@ -5,6 +5,7 @@
         <el-select
           v-model="product"
           size="mini"
+          clearable
           placeholder="产品线"
           @change="productChange"
         >
@@ -12,7 +13,7 @@
             v-for="item in productOptions"
             :key="item"
             :label="item"
-            :value="item.value"
+            :value="item"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -21,6 +22,7 @@
           v-model="area"
           size="mini"
           placeholder="区域"
+          clearable
           @change="areaChange"
         >
           <el-option
@@ -32,7 +34,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="">
-        <el-select v-model="area" size="mini" placeholder="交付部">
+        <el-select v-model="pdu" size="mini" placeholder="交付部" clearable>
           <el-option
             v-for="item in pduOptions"
             :key="item"
@@ -63,7 +65,7 @@
 </template>
 
 <script>
-import { mapMutations, mapActions, mapState } from "vuex";
+import { mapMutations, mapActions, mapState,mapGetters } from "vuex";
 import departmentChart from "./components/departmentChart";
 import postChart from "./components/postChart";
 import rateChart from "./components/rateChart";
@@ -88,6 +90,7 @@ export default {
     this.getRDProductInfo();
   },
   computed: {
+    ...mapGetters(['getParams']),
     ...mapState({
       productOptions: state => state.reportDisplayStore.productData,
       areaOptions: state => state.reportDisplayStore.areaData,
@@ -123,18 +126,23 @@ export default {
       "getRDProductInfo",
       "getRDAreas",
       "getRDPDUList",
-      "getStatisticsChartData"
+      "getRate"
     ]),
     productChange() {
       this.$store.commit("setRDAreaData", []);
-      this.getRDAreas(this.product);
+      this.$store.commit("setRDPDUData", []);
+      if(this.product){
+        this.getRDAreas(this.product);
+      }
     },
     areaChange() {
       this.$store.commit("setRDPDUData", []);
-      this.getRDPDUList(this.area);
+      if(this.area){
+        this.getRDPDUList(this.area);
+      }
     },
     onSubmit() {
-      this.getStatisticsChartData();
+      this.getRate(this.getParams());
     }
   }
 };
