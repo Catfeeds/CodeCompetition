@@ -3,62 +3,164 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.ProjectManageMapper">
-    <select id="queryNodes" parameterType="java.util.Map" resultType="ProjectTreeNode">
-      SELECT
-        nodeID,
-        nodePath,
-        nodeName,
+    <!--<select id="queryNodes" parameterType="java.util.Map" resultType="ProjectTreeNode">-->
+    <!--SELECT-->
+    <!--nodeID,-->
+    <!--nodePath,-->
+    <!--nodeName,-->
+    <!--projectID,-->
+    <!--projectName,-->
+    <!--pmID,-->
+    <!--pmName-->
+    <!--FROM-->
+    <!--project_level-->
+    <!--WHERE-->
+    <!--isProject = #{isProject}-->
+    <!--<if test="null != nodeIDs">-->
+    <!--AND nodeID IN-->
+    <!--<foreach collection="nodeIDs" separator="," open="(" item="item" close=")">-->
+    <!--#{item}-->
+    <!--</foreach>-->
+    <!--</if>-->
+    <!--<if test="null != pmName and '' != pmName">-->
+    <!--AND pmName LIKE '%#{pmName}%'-->
+    <!--</if>-->
+    <!--<if test="null != projectName and '' != projectName">-->
+    <!--AND pmName LIKE '%#{projectName}%'-->
+    <!--</if>-->
+    <!--</select>-->
+
+    <!--<insert id="addProjectNode" parameterType="java.util.Map">-->
+    <!--INSERT INTO-->
+    <!--project_level-->
+    <!--(-->
+    <!--nodePath,-->
+    <!--projectID,-->
+    <!--pmID,-->
+    <!--<if test="null != projectName">-->
+    <!--projectName,-->
+    <!--</if>-->
+    <!--<if test="null != pmName">-->
+    <!--pmName,-->
+    <!--</if>-->
+    <!--isLeafNode,-->
+    <!--isProject-->
+    <!--)-->
+    <!--VALUES-->
+    <!--(-->
+    <!--#{nodePath},-->
+    <!--#{projectID},-->
+    <!--#{pmID},-->
+    <!--<if test="null != projectName">-->
+    <!--#{projectName},-->
+    <!--</if>-->
+    <!--<if test="null != pmName">-->
+    <!--#{pmName},-->
+    <!--</if>-->
+    <!--TRUE,-->
+    <!--TRUE-->
+    <!--)-->
+    <!--</insert>-->
+
+
+    <select id="queryProjectSize" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) AS totleSize
+        FROM
+        project_manage
+        <where>
+            <if test="null != projectName and '' != projectName">
+                projectName like '%${projectName}%'
+            </if>
+            <if test="null != pmName and '' != pmName">
+                AND pmName like '%${pmName}%'
+            </if>
+            <if test="null != bu and '' != bu">
+                AND bu = #{bu}
+            </if>
+            <if test="null != du and '' != du">
+                AND du = #{du}
+            </if>
+            <if test="null != pdu and '' != pdu">
+                AND pdu = #{pdu}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryProjects" parameterType="java.util.Map" resultType="java.util.Map">
+        SET @r:=-1;
+
+        SELECT
         projectID,
         projectName,
         pmID,
-        pmName
-      FROM
-        project_level
-      WHERE
-        isProject = #{isProject}
-        <if test="null != nodeIDs">
-            AND nodeID IN
-            <foreach collection="nodeIDs" separator="," open="(" item="item" close=")">
-                #{item}
-            </foreach>
-        </if>
-        <if test="null != pmName and '' != pmName">
-            AND pmName LIKE '%#{pmName}%'
-        </if>
-        <if test="null != projectName and '' != projectName">
-            AND pmName LIKE '%#{projectName}%'
-        </if>
+        pmName,
+        bu,
+        du,
+        pdu
+        FROM
+        (
+        SELECT
+        @r:=@r+1 as row_num,
+        projectID,
+        projectName,
+        pmID,
+        pmName,
+        bu,
+        du,
+        pdu
+        FROM
+        project_manage
+        <where>
+            <if test="null != projectName and '' != projectName">
+                projectName like '%${projectName}%'
+            </if>
+            <if test="null != pmName and '' != pmName">
+                AND pmName like '%${pmName}%'
+            </if>
+            <if test="null != bu and '' != bu">
+                AND bu = #{bu}
+            </if>
+            <if test="null != du and '' != du">
+                AND du = #{du}
+            </if>
+            <if test="null != pdu and '' != pdu">
+                AND pdu = #{pdu}
+            </if>
+        </where>
+        ) TMP
+        WHERE row_num BETWEEN #{rowStart} AND #{rowEnd}
     </select>
 
-    <insert id="addProjectNode" parameterType="java.util.Map">
+    <insert id="insertProjectNode" parameterType="java.util.Map">
         INSERT INTO
-        project_level
-        (
-        nodePath,
-        projectID,
-        pmID,
-        <if test="null != projectName">
-            projectName,
+        project_manage(
+        projectName,
+        <if test="null != pmID">
+            pmID,
         </if>
         <if test="null != pmName">
             pmName,
         </if>
-        isLeafNode,
-        isProject
-        )
-        VALUES
-        (
-        #{nodePath},
-        #{projectID},
-        #{pmID},
-        <if test="null != projectName">
-            #{projectName},
+        bu,
+        du,
+        pdu)
+        VALUES (
+        #{projectName},
+        <if test="null != pmID">
+            #{pmID},
         </if>
         <if test="null != pmName">
             #{pmName},
         </if>
-        TRUE,
-        TRUE
+        #{bu},
+        #{du},
+        #{pdu}
         )
     </insert>
+
+    <delete id="deleteProject" parameterType="java.util.Map">
+        DELETE FROM project_manage WHERE projectID = #{projectID}
+    </delete>
+
 </mapper>
