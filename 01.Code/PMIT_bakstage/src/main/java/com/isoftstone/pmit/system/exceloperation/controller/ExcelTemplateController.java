@@ -18,26 +18,49 @@ import java.io.OutputStream;
 public class ExcelTemplateController {
 
     /**
-     * 下载骨干考核系统EXCEL模板文件
+     * 下载骨干考核系统个人信息EXCEL模板文件
      * @param request
      * @param response
      * @return
      */
-    @RequestMapping(value = "/download/template")
+    @RequestMapping(value = "/download/personalInfoTemplate")
     public void importPersonalInfo(HttpServletRequest request, HttpServletResponse response){
 
         try{
-            File templateFile = new File("src/main/resources/configfilemodel/exceltemplate.xlsx");
+            File templateFile = new File("src/main/resources/config/personalInfoTemplate.xlsx");
             InputStream inputStream = new FileInputStream(templateFile);
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             OutputStream os = response.getOutputStream();
             response.setContentType("application/vnd.ms-excel");
-            response.setHeader("Content-disposition", "attachment;filename=template.xlsx");
+            response.setHeader("Content-disposition", "attachment;filename=personalInfoTemplate.xlsx");
             workbook.write(os);
             os.close();
-        }catch (Exception e){
+        } catch (Exception e){
             e.printStackTrace();
         }
     }
+    
+    
+    /**
+     * 下载骨干考核系统培训得分EXCEL模板文件
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/download/scoreTemplate")
+    public void importScore(HttpServletRequest request, HttpServletResponse response){
 
+        try{
+            File templateFile = new File("src/main/resources/config/scoreTemplate.xlsx");
+            InputStream inputStream = new FileInputStream(templateFile);
+            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+            OutputStream os = response.getOutputStream();
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-disposition", "attachment;filename=scoreTemplate.xlsx");
+            workbook.write(os);
+            os.close();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
