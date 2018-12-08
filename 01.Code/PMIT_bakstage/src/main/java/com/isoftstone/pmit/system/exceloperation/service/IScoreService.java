@@ -1,7 +1,9 @@
 package com.isoftstone.pmit.system.exceloperation.service;
 
+import java.io.File;
+
 public interface IScoreService {
 
 
-    String importScore(String scorePath);
+    String importScore(File scoreFile);
 }

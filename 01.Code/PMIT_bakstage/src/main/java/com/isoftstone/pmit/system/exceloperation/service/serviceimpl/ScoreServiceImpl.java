@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,15 +25,15 @@ public class ScoreServiceImpl implements IScoreService {
 
     /**
      * 导入个人信息分表数据组装并实现插入数据库
-     * @param scorePath 需要导入excel文件路径
+     * @param scoreFile 需要导入excel文件
      * @return
      */
     @Override
-    public String importScore(String scorePath) {
+    public String importScore(File scoreFile) {
 
         // 读取excel文件的所有数据
         Map<Integer, Object> result = new HashMap<Integer, Object>();
-        result = ExcelOperationUtils.importExcel(scorePath);
+        result = ExcelOperationUtils.importExcel(scoreFile);
         if (result.containsKey(0)) {
             return (String)result.get(0);
         }

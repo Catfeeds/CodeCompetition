@@ -7,6 +7,7 @@ import com.isoftstone.pmit.system.exceloperation.util.ExcelOperationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,15 +33,15 @@ public class PersonalInfoServiceImpl implements IPersonalInfoService {
 
     /**
      * 导入个人信息分表数据组装并实现插入数据库
-     * @param personalInfoExcelPath 需要导入excel文件路径
+     * @param personalInfoExcelFile 需要导入excel文件
      * @return
      */
     @Override
-    public String importPersonalInfo(String personalInfoExcelPath) {
+    public String importPersonalInfo(File personalInfoExcelFile) {
 
         // 读取excel文件的所有数据
         Map<Integer, Object> result = new HashMap<Integer, Object>();
-        result = ExcelOperationUtils.importExcel(personalInfoExcelPath);
+        result = ExcelOperationUtils.importExcel(personalInfoExcelFile);
         if (result.containsKey(0)) {
             return (String)result.get(0);
         }

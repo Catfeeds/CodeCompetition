@@ -19,16 +19,15 @@ public class ExcelOperationUtils {
 
     /**
      * 导入EXCEL数据
-     * @param filePath
+     * @param File
      * @return
      */
-    public static Map<Integer, Object> importExcel(String filePath){
+    public static Map<Integer, Object> importExcel(File file){
 
         Map<Integer, Object> result = new HashMap<Integer, Object>();
 
         //解析excel，获取上传的事件单
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-        File file = new File(filePath);
         String fileName = file.getName();// 获取文件名
         try {
             if (!validateExcel(fileName)) {// 验证文件名是否合格
