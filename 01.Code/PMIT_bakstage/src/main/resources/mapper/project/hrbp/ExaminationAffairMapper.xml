@@ -23,7 +23,7 @@
             and system = #{system}
         </if>
         <if test="null != series and series != ''">
-            and series = like CONCAT('%',#{series},'%')
+            and series like CONCAT('%',#{series},'%')
         </if>
         <if test="null != du and du != ''">
             and du  = #{du}
