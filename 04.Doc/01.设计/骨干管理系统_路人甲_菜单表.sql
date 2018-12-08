@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50560
 File Encoding         : 65001
 
-Date: 2018-12-07 18:31:03
+Date: 2018-12-08 18:12:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -51,5 +51,5 @@ INSERT INTO `hrbp_menu` VALUES ('605', 'ExaminationSetUp', '6', '605', '考试�
 INSERT INTO `hrbp_menu` VALUES ('606', 'ResultShow', '6', '606', '成绩展示');
 INSERT INTO `hrbp_menu` VALUES ('701', 'RoleSetUp', '7', '701', '角色设置');
 INSERT INTO `hrbp_menu` VALUES ('702', 'UserManagement', '7', '702', '登录用户管理');
-INSERT INTO `hrbp_menu` VALUES ('703', 'BackUpRestore', '7', '703', '备份与还原');
+INSERT INTO `hrbp_menu` VALUES ('703', 'BackupRestore', '7', '703', '备份与还原');
 INSERT INTO `hrbp_menu` VALUES ('704', 'LogManagement', '7', '704', '日志管理');

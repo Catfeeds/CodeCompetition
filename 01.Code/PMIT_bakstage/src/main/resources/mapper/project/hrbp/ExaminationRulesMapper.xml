@@ -19,9 +19,20 @@
     </select>
 
     <insert id="addSpecialRole" parameterType="SpecialRolesInfo">
-        insert into hrbp_special_role (roleName,system,creatorId,creatorName,createTime,updateStaffId,updateStaffName,updateTime)
-		select #{roleName}, #{system}, #{creatorId}, #{creatorName}, #{createTime}, #{updateStaffId}, #{updateStaffName}, #{updateTime} from dual
-		where not exists (
+        insert into hrbp_special_role (
+        <if test="roleName != null and roleName != ''">roleName,</if>
+        <if test="system != null and system != ''">system,</if>
+        <if test="creatorId != null and creatorId != ''">creatorId,</if>
+        <if test="creatorName != null and creatorName != ''">creatorName,</if>
+        createTime
+        )select
+        <if test="roleName != null and roleName != ''">#{roleName},</if>
+        <if test="system != null and system != ''">#{system},</if>
+        <if test="creatorId != null and creatorId != ''">#{creatorId},</if>
+        <if test="creatorName != null and creatorName != ''">#{creatorId},</if>
+        now()
+        from dual
+        where not exists (
 		    select bu from base_staff_info where employeeID=#{creatorId}
             where bu in (
                 select base.bu from hrbp_special_role role
@@ -42,7 +53,7 @@
 		    role.system = #{system},
 		    role.updateStaffId = #{updateStaffId},
 		    role.updateStaffName = #{updateStaffName},
-		    role.updateTime =#{updateTime}
+		    role.updateTime =now()
     </update>
 
     <delete id="deleteSpecialRole" parameterType="int">
