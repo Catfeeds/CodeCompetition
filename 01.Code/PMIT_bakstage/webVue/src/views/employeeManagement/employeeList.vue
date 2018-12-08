@@ -93,6 +93,7 @@
         action="system/exceloperation/importPersonalInfo"
         :before-upload="handleUpload"
         :on-success="handleSuccess"
+        :on-error="handleError"
         :show-file-list="false"
         accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
       >
@@ -492,8 +493,13 @@ export default {
       }
       return extension || (extension2 && isLt2M);
     },
-    handleSuccess(response, file, fileList) {
-      console.log(arguments);
+    handleSuccess() {
+      this.$message.success("文件导入成功");
+      this.page.currentPage = 1;
+      this.getEmployeeList();
+    },
+    handleError(){
+      this.$message.error("文件导入失败,请检查文件格式是否合法");
     }
   }
 };
