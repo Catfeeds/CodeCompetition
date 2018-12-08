@@ -31,4 +31,4 @@ CREATE TABLE `hrbp_special_role` (
   `updateTime` date DEFAULT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`roleId`,`creatorId`),
   KEY `roleNameSearch` (`roleName`) USING HASH
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
