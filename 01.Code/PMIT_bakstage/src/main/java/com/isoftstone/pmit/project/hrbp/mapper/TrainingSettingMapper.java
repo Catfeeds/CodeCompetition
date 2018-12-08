@@ -30,4 +30,13 @@ public interface TrainingSettingMapper {
 
 	String queryNameByID(String Id);
 
+	List<Map<String,Object>> querySystemAndSeriesInfo(int id);
+
+	List<String> querySystem(int id);
+
+	int addSystemAndSeriesInfo(Map<String, Object> data);
+
+	int updateSystemAndSeriesInfo(Map<String, Object> data);
+
+	int deleteSystemAndSeriesInfo(int id);
 }

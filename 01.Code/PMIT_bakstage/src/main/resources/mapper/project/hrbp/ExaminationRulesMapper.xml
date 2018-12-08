@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.ExaminationRulesMapper">
+    <select id="querySpecialRolesInfo" parameterType="java.util.Map" resultType="com.isoftstone.pmit.project.hrbp.entity.SpecialRolesInfo">
+        select * from hrbp_special_role role
+        <if test="null != bu and '' != bu">
+            inner join base_staff_info base on role.creatorId = base.employeeID and bu = #{bu}
+        </if>
+        <where>
+            <if test="null != system and '' != system">
+                AND system = #{system}
+            </if>
+            <if test="null != roleName and '' != roleName">
+                AND roleName = #{roleName}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addSpecialRole" parameterType="SpecialRolesInfo">
+        insert into hrbp_special_role (roleName,system,creatorId,creatorName,createTime,updateStaffId,updateStaffName,updateTime)
+		select #{roleName}, #{system}, #{creatorId}, #{creatorName}, #{createTime}, #{updateStaffId}, #{updateStaffName}, #{updateTime} from dual
+		where not exists (select * from hrbp_special_role where roleName=#{roleName} and creatorId=#{creatorId})
+    </insert>
+
+    <update id="updateSpecialRole" parameterType="SpecialRolesInfo">
+        update hrbp_special_role role
+		inner join (
+			select 1 from dual where not exists
+				(select * from hrbp_special_role where roleName=#{roleName} and creatorId=#{creatorId})
+		) on role.roleId = #{roleId}
+		set
+		    role.roleName = #{roleName},
+		    role.system = #{system},
+		    role.updateStaffId = #{updateStaffId},
+		    role.updateStaffName = #{updateStaffName},
+		    role.updateTime =#{updateTime}
+    </update>
+
+    <delete id="deleteSpecialRole" parameterType="int">
+        delete from hrbp_special_role where roleId = #{roleId}
+    </delete>
+
+    <select id="queryExaminationRulesInfo" parameterType="java.util.Map" resultType="com.isoftstone.pmit.project.hrbp.entity.ExaminationRulesInfo">
+        select * from hrbp_examination_rule exam
+        <if test="null != bu and '' != bu">
+            inner join base_staff_info base on exam.creatorId = base.employeeID and base.bu = #{bu}
+        </if>
+        inner join hrbp_special_role role on exam.roleId = role.roleId
+        <if test="null != system and '' != system">
+            and role.system = #{system}
+        </if>
+        <if test="null != roleName and '' != roleName">
+            AND role.roleName = #{roleName}
+        </if>
+    </select>
+
+    <insert id="addExaminationRulesInfo" parameterType="ExaminationRulesInfo">
+        insert into hrbp_examination_rule (roleId, ruleLevel, creatorId, creatorName, createTime, updateStaffId, updateStaffName, updateTime)
+        values (#{roleId}, #{ruleLevel}, #{creatorId}, #{creatorName}, #{createTime}, #{updateStaffId}, #{updateStaffName}, #{updateTime})
+    </insert>
+
+    <update id="updateExaminationRulesInfo" parameterType="ExaminationRulesInfo">
+        update hrbp_examination_rule set
+            updateStaffId = #{updateStaffId},
+            updateStaffName = #{updateStaffName},
+            updateTime = #{updateTime}
+        where ruleId = #{ruleId}
+    </update>
+
+    <delete id="deleteExaminationRulesInfo" parameterType="int">
+        delete from hrbp_examination_rule where ruleId = #{ruleId}
+    </delete>
+
+    <select id="querySigleRuleInfo" parameterType="int" resultType="com.isoftstone.pmit.project.hrbp.entity.SingleRuleInfo">
+        select * from hrbp_examination_rule_item where ruleId = #{ruleId}
+    </select>
+
+    <insert id="addSigleRuleInfo" parameterType="SingleRuleInfo">
+        insert into hrbp_examination_rule_item values
+        <foreach collection="SingleRuleInfo" index="index" item="item" open="(" separator="," close=")">
+            #{item.ruleId},
+            #{item.itemId},
+            #{item.itemType},
+            #{item.itemName},
+            #{item.credit},
+            #{item.pass}
+        </foreach>
+    </insert>
+
+    <delete id="deleteSigleRuleInfo" parameterType="int">
+        delete from hrbp_examination_rule_item where ruleId = #{ruleId}
+    </delete>
+</mapper>

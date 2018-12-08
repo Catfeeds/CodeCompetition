@@ -1,5 +1,7 @@
 package com.isoftstone.pmit.project.hrbp.util;
 
+import com.isoftstone.pmit.common.model.ExaminationRulesParam;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,5 +16,13 @@ public class ParamUtils {
             rParams.put(key, (obj.length > 1) ? obj : obj[0]);
         }
         return rParams;
+    }
+
+    public static Map<String, Object> getExaminationRulesParams(ExaminationRulesParam params) {
+        Map<String, Object> queryParam = new HashMap<>();
+        queryParam.put("bu", params.getBu());
+        queryParam.put("system", params.getSystem());
+        queryParam.put("roleName", params.getRoleName());
+        return queryParam;
     }
 }

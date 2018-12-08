@@ -9,7 +9,7 @@ PMIT:
 
 #配置端口
 server:
-  port: 8080
+  port: 9797
 
 # Spring配置
 spring:

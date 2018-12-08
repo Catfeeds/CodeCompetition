@@ -116,4 +116,35 @@
 		select count(1) from training_info where status = 0 and training_name = #{trainingName}
 	</select>
 
+	<select id="querySystemAndSeriesInfo" parameterType="int" resultType="java.util.HashMap">
+		select * from hrbp_system_series
+		<if test="-1 != id">
+			where id=#{id}
+		</if>
+	</select>
+
+	<select id="querySystem" parameterType="int" resultType="java.lang.String">
+		select distinct systemName from hrbp_system_series
+		<if test="-1 != id">
+			where id=#{id}
+		</if>
+	</select>
+
+	<insert id="addSystemAndSeriesInfo" parameterType="java.util.Map">
+		insert into hrbp_system_series (systemName,seriesName)
+		select #{systemName}, #{seriesName} from dual
+		where not exists (select * from hrbp_system_series where systemName=#{systemName} and seriesName=#{seriesName})
+	</insert>
+
+	<update id="updateSystemAndSeriesInfo" parameterType="java.util.Map">
+		update hrbp_system_series a
+		inner JOIN (
+			select #{systemName} systemName,#{seriesName} seriesName from dual where not exists
+				(select * from hrbp_system_series where systemName=#{systemName} and seriesName=#{seriesName})
+		) b on a.id=#{id} set a.systemName=b.systemName,a.seriesName=b.seriesName
+	</update>
+
+	<delete id="deleteSystemAndSeriesInfo" parameterType="int">
+		select * from hrbp_system_series where id=#{id}
+	</delete>
 </mapper>

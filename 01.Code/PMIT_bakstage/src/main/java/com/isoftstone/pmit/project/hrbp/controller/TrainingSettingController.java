@@ -1,6 +1,7 @@
 package com.isoftstone.pmit.project.hrbp.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -88,4 +89,33 @@ public class TrainingSettingController extends AbstractController {
 		return AjaxResult.returnToMessage(true, "success");
 	}
 
+	@ApiOperation("查询体系和系列信息")
+	@PostMapping("/querySystemAndSeriesInfo")
+	public String querySystemAndSeriesInfo() {
+		return AjaxResult.returnToResult(true, trainingSettingService.querySystemAndSeries(-1));
+	}
+
+	@ApiOperation("查询体系")
+	@PostMapping("/querySystem")
+	public String querySystem() {
+		return AjaxResult.returnToResult(true, trainingSettingService.querySystem(-1));
+	}
+
+	@ApiOperation("新增体系和系列信息")
+	@PostMapping("/addSystemAndSeriesInfo")
+	public String addSystemAndSeriesInfo(@RequestBody Map<String, Object> data) {
+		return AjaxResult.returnToResult(true, trainingSettingService.addSystemAndSeriesInfo(data));
+	}
+
+	@ApiOperation("修改体系和系列信息")
+	@PostMapping("/updateSystemAndSeriesInfo")
+	public String updateSystemAndSeriesInfo(@RequestBody Map<String, Object> data) {
+		return AjaxResult.returnToResult(true, trainingSettingService.updateSystemAndSeriesInfo(data));
+	}
+
+	@ApiOperation("删除体系和系列信息")
+	@PostMapping("/deleteSystemAndSeriesInfo")
+	public String deleteSystemAndSeriesInfo(@RequestBody int id) {
+		return AjaxResult.returnToResult(true, trainingSettingService.deleteSystemAndSeriesInfo(id));
+	}
 }
