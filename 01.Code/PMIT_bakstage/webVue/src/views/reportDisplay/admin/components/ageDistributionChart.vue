@@ -14,7 +14,12 @@ export default {
   mixins: [mixinResizeChart],
   data() {
     return {
-      chart: null
+      chart: null,
+      ageMap:{
+        'agelessthan30':"30以下",
+        'age30to40':'30~40',
+        'agegreaterthan40':'40以下'
+      }
     };
   },
   mounted() {
@@ -27,6 +32,7 @@ export default {
         data: data || []
       };
       for (var i = 0; i < data.length; i++) {
+        data[i].name = this.ageMap[data[i].name];
         obj.legend.push(data[i].name);
       }
       this.setOptions(obj);

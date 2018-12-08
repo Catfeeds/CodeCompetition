@@ -25,11 +25,16 @@
       :data="tableData"
       style="width: 100%"
       max-height="250"
+      border
+      fit
+      size="mini"
+      stripe
+      highlight-current-row
       :cell-class-name="cellClassFn"
     >
       <el-table-column fixed type="index" width="60"></el-table-column>
       <el-table-column prop="staffID" label="工号" width="80"></el-table-column>
-      <el-table-column prop="name" label="姓名" width="100"></el-table-column>
+      <el-table-column prop="staffName" label="姓名" width="100"></el-table-column>
       <el-table-column
         prop="costCenter"
         label="成本中心"
@@ -51,14 +56,14 @@
         label="合作模式"
         width="120"
       ></el-table-column>
-      <el-table-column prop="post" label="岗位" width="120"></el-table-column>
+      <el-table-column prop="positionRole" label="岗位" width="120"></el-table-column>
       <el-table-column
-        prop="ageOfCompany"
+        prop="employmentDate"
         label="司龄（月）"
         width="120"
       ></el-table-column>
       <el-table-column
-        prop="workingYears"
+        prop="graduationTime"
         label="工龄（年）"
         width="120"
       ></el-table-column>
@@ -68,7 +73,7 @@
         width="120"
       ></el-table-column>
       <el-table-column
-        prop="is211"
+        prop="if211"
         label="是否211"
         width="80"
       ></el-table-column>
@@ -116,7 +121,7 @@
         @size-change="handleSizeChange"
         @current-change="handleSizeChange"
         :current-page.sync="currentPage"
-        :page-size="100"
+        :page-size="pageSize"
         layout="total, slot,prev, pager, next"
         :total="total"
         prev-text="上一页"
@@ -136,8 +141,8 @@ export default {
       eName: "",
       eNumber: "",
       currentPage: 1,
-      pageSize: 1,
-      total: 100,
+      pageSize: 10,
+      total: 0,
       tableData: [],
       headers: []
     };
@@ -150,24 +155,23 @@ export default {
   },
   watch: {
     dataSource(data) {
-      this.currentPage = 1;
-      this.total = (data.datas||[]).length;
+      this.total = data.totleSize||0;
+      this.tableData = data.datas || [];
       this.headers = data.trains ||[];
-      this.handleSizeChange();
     }
   },
   methods: {
-    onSubmitEmployee() {
+    onSubmitEmployee(arg,curPage) {
+      console.log('aaa');
+      this.currentPage = curPage || 1;
       var params = this.getParams();
-      params.name = this.eName;
-      params.number = this.eNumber;
+      params.staffID = this.eNumber;
+      params.staffName = this.eName;
+      params.pageNo = this.currentPage;
       this.$store.dispatch("getRDEmployee", params);
     },
     handleSizeChange() {
-      this.tableData = (this.dataSource.datas||[]).slice(
-        (this.currentPage - 1) * 100,
-        this.currentPage * 100 + 1
-      );
+      this.onSubmitEmployee(null,this.currentPage);
     },
     cellClassFn(obj) {
       return obj.row[obj.column.property] == 0 ? "cell-zero" : "";

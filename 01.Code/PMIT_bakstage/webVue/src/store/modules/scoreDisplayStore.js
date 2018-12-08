@@ -79,9 +79,9 @@ let actions = {
         commit("setSDPDUData", ret && ret.data && ret.data.data);
       });
   },
-  getTrainingScore1({ commit }, param) {
+  getTrainingScore1({ commit,state }, param) {
     return scoreApi.getTrainingScore(param).then(ret => {
-      commit("setScoreData", ret && ret.data && ret.data.data);
+      commit("setScoreData", ret && ret.data);
     });
   }
 };

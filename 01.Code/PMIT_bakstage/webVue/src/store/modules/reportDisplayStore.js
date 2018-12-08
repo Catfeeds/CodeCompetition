@@ -21,7 +21,7 @@ let getters = {
     return function() {
       return {
         bu: state.selectedProduct,
-        region: state.selectedArea,
+        workPlaceArea: state.selectedArea,
         pdu: state.selectedPDU,
         isBacknone: state.selectedEType == 0
       };
@@ -140,8 +140,13 @@ let actions = {
       commit("setAgeStatisData", ret && ret.data && ret.data.data);
     });
   },
-  getRDEmployee({ commit }, param) {
-    return api.getEmployee(param).then(ret => {
+  getRDEmployee({ commit }, params) {
+    if(params){
+        params.pageNo = params.pageNo || 1;
+        params.staffID = params.staffID || '';
+        params.staffName = params.staffName || '';
+    }
+    return api.getEmployee(params).then(ret => {
       commit("setEmployeeData", ret && ret.data && ret.data.data);
     });
   }

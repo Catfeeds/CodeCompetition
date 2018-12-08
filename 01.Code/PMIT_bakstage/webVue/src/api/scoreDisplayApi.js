@@ -2,9 +2,9 @@ import request from "@/utils/request";
 
 function getTrainingScore(param) {
   return request({
-    url: "hrbp/MainstayReportContraer/queryScore",
+    url: "hrbp/gradeSheet/getColumnName",
     method: "post",
-    data: param
+    data: {},//param
   });
 }
 

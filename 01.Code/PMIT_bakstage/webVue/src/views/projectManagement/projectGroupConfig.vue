@@ -3,10 +3,16 @@
     <el-form :inline="true" :model="form" class="project-group-form">
       <el-row>
         <el-col :span="4">
-          <el-form-item label="产品线">
-            <el-select v-model="form.product" size="mini" placeholder="请选择" @change="changeProduct">
+          <el-form-item label="">
+            <el-select
+              v-model="form.product"
+              size="mini"
+              clearable
+              placeholder="产品线"
+              @change="productChange"
+            >
               <el-option
-                v-for="item in productOptions"
+                v-for="item in form.productOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -15,10 +21,15 @@
           </el-form-item>
         </el-col>
         <el-col :span="4">
-          <el-form-item label="DU">
-            <el-select v-model="form.du" size="mini" placeholder="请选择" @change="changeDU">
+          <el-form-item label="">
+            <el-select
+              v-model="form.du"
+              size="mini"
+              placeholder="DU"
+              @change="changeDU"
+            >
               <el-option
-                v-for="item in duOptions"
+                v-for="item in form.duOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -27,10 +38,10 @@
           </el-form-item>
         </el-col>
         <el-col :span="4">
-          <el-form-item label="PDU">
-            <el-select v-model="form.pdu" size="mini" placeholder="请选择">
+          <el-form-item label="">
+            <el-select v-model="form.pdu" size="mini" placeholder="PDU">
               <el-option
-                v-for="item in pduOptions"
+                v-for="item in form.pduOptions"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -38,37 +49,50 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="5">
-          <el-form-item label="项目组名称">
-            <el-input v-model="form.teamName" size="mini" placeholder="请输入"></el-input>
+        <el-col :span="4">
+          <el-form-item label="">
+            <el-input
+              v-model="form.teamName"
+              size="mini"
+              placeholder="项目组名称"
+            ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="4">
-          <el-form-item label="PM">
-            <el-input v-model="form.pm" size="mini" placeholder="请输入"></el-input>
+          <el-form-item label="">
+            <el-input
+              v-model="form.pm"
+              size="mini"
+              placeholder="PM"
+            ></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="2">
           <el-form-item>
-            <el-button type="primary" size="mini" @click="onSubmit">查询</el-button>
+            <el-button type="primary" size="mini" @click="onSearchForm"
+              >查询</el-button>
+          </el-form-item>
+        </el-col>
+        <el-col :span="2">
+          <el-form-item>
+            <el-button type="primary" size="mini" @click="onCreate"
+              >新增</el-button>
           </el-form-item>
         </el-col>
       </el-row>
     </el-form>
     <el-table
       v-loading="listLoading"
-      :data="list"
+      :data="dataTable"
       border
       fit
       size="mini"
       stripe
       highlight-current-row
+      max-height="400"
       style="width: 100%"
     >
-      <el-table-column header-align="center" :label="$t('table.id')" width="80" sortable="true">
-        <template slot-scope="scope">
-          <span>{{ scope.row.id }}</span>
-        </template>
+      <el-table-column header-align="center" type="index" width="80" sortable="true">
       </el-table-column>
 
       <el-table-column
@@ -76,144 +100,234 @@
         header-align="center"
         :label="$t('projectGroup.product')"
         sortable
+        prop="bu"
       >
-        <template slot-scope="scope">
-          <span>{{ scope.row.product }}</span>
-        </template>
       </el-table-column>
 
-      <el-table-column min-width="150px" header-align="center" label="DU" sortable>
-        <template slot-scope="scope">
-          <span>{{ scope.row.du }}</span>
-        </template>
+      <el-table-column min-width="150px" header-align="center" prop="du" label="DU" sortable>
       </el-table-column>
 
-      <el-table-column min-width="150px" header-align="center" label="PDU" sortable>
-        <template slot-scope="scope">
-          <span>{{ scope.row.pdu }}</span>
-        </template>
+      <el-table-column min-width="150px" header-align="center" prop="pdu" label="PDU" sortable>
       </el-table-column>
 
       <el-table-column
-        :label="$t('projectGroup.teamName')"
-        header-align="center"
-        min-width="110"
-        sortable
-      >
-        <template slot-scope="scope">
-          <span>{{ scope.row.teamName }}</span>
-        </template>
+        :label="$t('projectGroup.teamName')" header-align="center"  min-width="110" sortable prop="projectName"
+      ></el-table-column>
+
+      <el-table-column label="PM" header-align="center" min-width="110" sortable prop="pmName">
       </el-table-column>
 
-      <el-table-column width="150px" label="PM" header-align="center">
-        <template slot-scope="scope">
-          <template v-if="scope.row.edit">
-            <el-input v-model="scope.row.title" class="edit-input" size="small"/>
-            <el-button
-              class="cancel-btn"
-              size="small"
-              icon="el-icon-refresh"
-              type="warning"
-              @click="cancelEdit(scope.row);"
-            >cancel</el-button>
-          </template>
-          <span v-else>{{ scope.row.pm }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" :label="$t('table.option')" width="120" header-align="center">
+      <el-table-column align="center" :label="$t('table.option')" width="320" header-align="center">
         <template slot-scope="scope">
           <el-button
-            v-if="scope.row.edit"
-            type="success"
+            type="primary"
             size="small"
-            icon="el-icon-circle-check-outline"
-            @click="confirmEdit(scope.row);"
-          >Ok</el-button>
+            icon="el-icon-setting"
+            @click="teamSettings(scope.row)"
+          >团队设置</el-button>
           <el-button
-            v-else
             type="primary"
             size="small"
             icon="el-icon-edit"
-            @click="scope.row.edit = !scope.row.edit;"
-          >Edit</el-button>
+            @click="projectEdit(scope.row)"
+          >编辑</el-button>
+          <el-button
+            type="primary"
+            size="small"
+            icon="el-icon-remove"
+            @click="projectDelete(scope.row)"
+          >删除</el-button>
         </template>
       </el-table-column>
     </el-table>
+    <el-row type="flex" justify="end">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleSizeChange"
+        :current-page.sync="currentPage"
+        :page-size="pageSize"
+        layout="total, slot,prev, pager, next"
+        :total="total"
+        prev-text="上一页"
+        next-text="下一页"
+      >
+      </el-pagination>
+    </el-row>
+    <el-dialog title="新增" width="580px" :visible.sync="craeteVisible">
+        <el-form :model="newForm" ref="newFormName" :rules="rules" label-width="140px" class="pg-form-wrap">
+              <el-form-item label="产品线" prop="product">
+                <el-select style="width:300px"
+                  v-model="newForm.product"
+                  size="small"
+                  clearable
+                  placeholder="产品线"
+                  @change="newProductChange"
+                >
+                  <el-option v-for="item in newForm.productOptions"
+                    :key="item" :label="item"  :value="item" ></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="DU" prop="du">
+                <el-select style="width:300px"
+                  v-model="newForm.du"
+                  size="small"
+                  placeholder="DU"
+                  @change="newDUChange"
+                >
+                  <el-option
+                    v-for="item in newForm.duOptions"
+                    :key="item"
+                    :label="item"
+                    :value="item"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="PDU" prop="pdu">
+                <el-select  style="width:300px" v-model="newForm.pdu" size="small" placeholder="PDU">
+                  <el-option
+                    v-for="item in newForm.pduOptions"
+                    :key="item"
+                    :label="item"
+                    :value="item"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="项目组名称" prop="teamName">
+                <el-input style="width:300px"
+                  v-model="newForm.teamName"
+                  size="small"
+                  placeholder="项目组名称"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="PM" prop="pm">
+                <el-select style="width:300px" v-model="newForm.pm" size="small" placeholder="PM">
+                  <el-option
+                    v-for="item in newForm.pduOptions"
+                    :key="item"
+                    :label="item"
+                    :value="item"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" size="small" @click="onSave"
+                  > 保 存 </el-button>
+              </el-form-item>
+        </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import {mapState,mapMutations,mapActions} from 'vuex'
 export default {
   data() {
     return {
-      productOptions: [],
-      duOptions: [],
-      pduOptions: [],
-      form: {
-        product: "",
-        du: "",
-        pdu: "",
-        teamName: "",
-        pm: ""
-      },
-      list: null,
       listLoading: false,
-      listQuery: {
-        page: 1,
-        limit: 10
+      craeteVisible:false,
+      pageSize:100,
+      dataTable:[],
+      total:0,
+      newFormName:"newForm",
+      currentPage:1,
+      rules: {
+          product: [
+            { required: true, message: '请选择产品线', trigger: 'change' }
+          ],
+          du: [
+            { required: true, message: '请选择DU', trigger: 'change' }
+          ],
+          pdu: [
+            { required: true, message: '请选择PDU', trigger: 'change' }
+          ],
+          pm: [
+            { required: true, message: '请选择PM', trigger: 'change' }
+          ],
+          teamName: [
+            { required: true, message: '请输入活动名称', trigger: 'blur' },
+            { min: 3, max: 50, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          ]
       }
     };
   },
   mounted() {
-    let vm = this;
-    vm.$store.dispatch("getProductInfo").then(data => {
-      if (data) {
-        vm.productOptions = data;
-        vm.form.product = data[0] && data[0].value;
-        vm.changeProduct(vm.form.product);
-      } else {
-        vm.productOptions = [];
-      }
+    var vm = this;
+    this.getPGProductInfo();
+    this.getNewFormProductInfo();
+    this.getProjectGroupInfo().then(()=>{
+        vm.listLoading = false;
+    }).catch(()=>{
+        vm.listLoading = false;
     });
   },
+  computed:{
+    ...mapState({
+      dataSource:state => state.projectGroupStore.dataSource,
+      form:state => state.projectGroupStore.searchForm,
+      newForm:state => state.projectGroupStore.newForm
+    })
+  },
+  watch:{
+    dataSource(data){
+      this.dataTable = data.datas
+      this.total = data.totalSize;
+    }
+  },
   methods: {
-    onSubmit() {
+    ...mapActions(['getPGProductInfo','getPGDU','getPGPDUList','getProjectGroupInfo',
+      'getNewFormProductInfo','getNewFormDU','getNewFormPDUList']),
+    onSearchForm(arg,curPage) {
       let vm = this;
       vm.listLoading = true;
-      vm.$store
-        .dispatch("getProjectGroupInfo", vm.form)
-        .then(data => {
-          vm.list = data;
-          vm.listLoading = false;
-        })
-        .catch(() => {
-          vm.list = [];
-          vm.listLoading = false;
+      vm.currentPage = curPage || 1;
+      this.getProjectGroupInfo({
+        pageNo:vm.currentPage
+      }).then(()=>{
+        vm.listLoading = false;
+      });
+    },
+    onCreate(){
+      this.newForm.product='';
+      this.newForm.du='';
+      this.newForm.pdu='';
+      this.newForm='';
+      this.newForm='';
+      this.craeteVisible = true;
+    },
+    productChange() {
+      this.getPGDU();
+    },
+    changeDU() {
+      this.getPGPDUList();
+    },
+    newProductChange(){
+      this.getNewFormDU();
+    },
+    newDUChange(){
+      this.getNewFormPDUList();
+    },
+    handleSizeChange(){
+      this.onSearchForm(null,this.currentPage);
+    },
+    teamSettings(row){
+    },
+    projectEdit(row){
+      this.newForm.product=row.product;
+      this.newForm.du=row.du;
+      this.newForm.pdu=row.pdu;
+      this.newForm=row.teamName;
+      this.newForm=row.pm;
+      this.craeteVisible = true;
+    },
+    projectDelete(row){
+      //删除
+    },
+    onSave(){
+      this.$refs[this.newFormName].validate((valid) => {
+          if (valid) {
+           // vm.
+          }
         });
-    },
-    changeProduct(value) {
-      let vm = this;
-      vm.$store.dispatch("getDUInfo", value).then(data => {
-        if (data) {
-          vm.duOptions = data;
-          vm.form.du = data[0] && data[0].value;
-          vm.changeDU(vm.form.du);
-        } else {
-          vm.duOptions = [];
-        }
-      });
-    },
-    changeDU(value) {
-      let vm = this;
-      vm.$store.dispatch("getPDUInfo", vm.form.product, value).then(data => {
-        if (data) {
-          vm.pduOptions = data;
-          vm.form.pdu = data[0] && data[0].value;
-        } else {
-          vm.pduOptions = [];
-        }
-      });
     }
   }
 };
@@ -222,5 +336,8 @@ export default {
 .project-group-container {
   margin: 15px;
   // .el-form-item__content{width: 60%}
+}
+.pg-form-wrap .el-form-item{
+  margin-bottom: 15px;
 }
 </style>

@@ -14,7 +14,11 @@ export default {
   mixins: [mixinResizeChart],
   data() {
     return {
-      chart: null
+      chart: null,
+      nameMap:{
+        'backnonenum':'骨干',
+        'nobacknonenum':'普员'
+      }
     };
   },
   mounted() {
@@ -41,6 +45,7 @@ export default {
         data: data || []
       };
       for (var i = 0; i < data.length; i++) {
+        data[i].name = this.nameMap[data[i].name];
         obj.legend.push(data[i].name);
       }
       this.setOptions(obj);
@@ -55,7 +60,7 @@ export default {
     setOptions(obj) {
       var option = {
         title: {
-          text: "骨干与后备人数占比",
+          text: "骨干与普员人数占比",
           x: "left"
         },
         grid: {
