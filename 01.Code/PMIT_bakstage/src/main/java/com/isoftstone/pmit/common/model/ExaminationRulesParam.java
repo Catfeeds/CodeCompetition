@@ -1,7 +1,10 @@
 package com.isoftstone.pmit.common.model;
 
+import com.isoftstone.pmit.common.util.JsonUtils;
 import com.isoftstone.pmit.project.hrbp.entity.ExaminationRulesInfo;
 import com.isoftstone.pmit.project.hrbp.entity.SingleRuleInfo;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExaminationRulesParam extends CommonParam {
@@ -47,5 +50,38 @@ public class ExaminationRulesParam extends CommonParam {
 
     public void setSingleRuleInfo(List<SingleRuleInfo> singleRuleInfo) {
         this.singleRuleInfo = singleRuleInfo;
+    }
+
+    public static void main(String[] args) {
+        ExaminationRulesParam examinationRulesParam = new ExaminationRulesParam();
+        examinationRulesParam.setOneRule(new ExaminationRulesInfo());
+        examinationRulesParam.setSingleRuleInfo(new ArrayList<>());
+
+        ExaminationRulesInfo examinationRulesInfo = examinationRulesParam.getOneRule();
+        examinationRulesInfo.setRoleId(12);
+        examinationRulesInfo.setRoleLevel("高级");
+        examinationRulesInfo.setCreatorId("10008611");
+        examinationRulesInfo.setCreatorName("张一路");
+
+        List<SingleRuleInfo> singleRules = examinationRulesParam.getSingleRuleInfo();
+        singleRules.add(new SingleRuleInfo());
+        singleRules.add(new SingleRuleInfo());
+
+        SingleRuleInfo one = singleRules.get(0);
+        one.setRuleId(12);
+        one.setItemId(1);
+        one.setItemType(1);
+        one.setItemName("信息安全培训");
+        one.setCredit(2);
+        one.setPass(80);
+
+        SingleRuleInfo two = singleRules.get(1);
+        two.setRuleId(12);
+        two.setItemId(2);
+        two.setItemType(1);
+        two.setItemName("骨干MDE培训");
+        two.setCredit(5);
+        two.setPass(90);
+        System.out.println(JsonUtils.toJSON(examinationRulesParam));
     }
 }

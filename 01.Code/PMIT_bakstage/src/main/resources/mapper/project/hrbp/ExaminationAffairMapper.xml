@@ -50,6 +50,7 @@
         </set>
         where affair_id = #{affairID}
     </update>
+    
     <select id="findExamAffairByAffairId" parameterType="java.lang.Integer" resultType="ExaminationAffair">
         select
         affair_id as affairID,

@@ -39,10 +39,10 @@ public interface IExaminationRulesService {
 
     /**
      * 存储考核规则 (增加/修改 合一)
-     * @param params 一个规则信息、单项规则细节
+     * @param examinationRulesParam 一个规则信息、单项规则细节
      * @return 操作是否成功
      */
-    boolean saveExaminationRulesInfo(ExaminationRulesParam params);
+    boolean saveExaminationRulesInfo(ExaminationRulesParam examinationRulesParam);
 
     /**
      * 删除考核规则

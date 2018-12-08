@@ -59,14 +59,13 @@ public class ExaminationRulesServiceImpl implements IExaminationRulesService {
         int ruleId = singleRule.get(0).getRuleId();
         int delNum = examinationRulesMapper.deleteSingleRuleInfo(ruleId);
 
-        int rst;
         if (CommonConst.SQL_EXECUTE_FAILED == delNum) {
-            rst = examinationRulesMapper.addExaminationRulesInfo(params.getOneRule());
+            ruleId = examinationRulesMapper.addExaminationRulesInfo(params.getOneRule());
         } else {
-            rst = examinationRulesMapper.updateExaminationRulesInfo(params.getOneRule());
+            ruleId = examinationRulesMapper.updateExaminationRulesInfo(params.getOneRule());
         }
 
-        if (CommonConst.SQL_EXECUTE_FAILED  == rst) {
+        if (CommonConst.SQL_EXECUTE_FAILED  == ruleId) {
             return false;
         }
 
