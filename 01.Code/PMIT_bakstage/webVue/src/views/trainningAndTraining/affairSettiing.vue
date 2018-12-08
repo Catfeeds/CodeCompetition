@@ -460,7 +460,7 @@ export default {
       listLoading: false,
       dimensionList: [],
       page: {
-        pageNum: 1,
+        currentPage: 1,
         pageSize: 10,
         totalRecord: 0
       },

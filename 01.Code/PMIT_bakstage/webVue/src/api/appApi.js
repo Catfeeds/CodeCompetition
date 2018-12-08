@@ -23,10 +23,17 @@ function getBusinessRelationship(param) {
     data: param
   });
 }
-
+function getLogList(condition) {
+  return request({
+    url: "hrbp/levelBussinessRelationship/queryLevel",
+    method: "post",
+    data: condition
+  });
+}
 export default {
   getAllMenuInfo,
   getMenuInfoByEmployeeId,
   getMenuInfoByRoleId,
-  getBusinessRelationship
+  getBusinessRelationship,
+  getLogList
 };
