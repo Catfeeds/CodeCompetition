@@ -84,7 +84,7 @@ function backup(condition) {
 }
 function restore(fileName) {
   return request({
-    url: "hrbp/user/updateUserRole",
+    url: "hrbp/backup/dataRecoverp",
     method: "post",
     data: { fileName }
   });

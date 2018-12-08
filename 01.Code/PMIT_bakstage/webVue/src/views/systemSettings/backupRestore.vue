@@ -8,13 +8,7 @@
     >
       <div slot="header" class="clearfix">数据库备份</div>
       <el-row>
-        <el-form
-          :model="backupForm"
-          size="mini"
-          label-width="80px"
-          ref="backupForm"
-          :rules="rules"
-        >
+        <el-form :model="backupForm" size="mini" label-width="80px" ref="backupForm" :rules="rules">
           <el-form-item label="备份原因" prop="reason">
             <el-row>
               <el-input
@@ -22,9 +16,7 @@
                 maxlength="255"
                 style="width:80%;margin-right:15px"
               ></el-input>
-              <el-button type="primary" @click="handleBackup();" size="mini"
-                >开始备份</el-button
-              >
+              <el-button type="primary" @click="handleBackup();" size="mini">开始备份</el-button>
             </el-row>
           </el-form-item>
         </el-form>
@@ -35,7 +27,10 @@
       style="margin-top:10px;"
       :body-style="{ padding: '20px 20px 0px 20px' }"
     >
-      <div slot="header" class="clearfix">数据库恢复</div>
+      <div slot="header" class="clearfix">
+        <span>数据库恢复</span>
+        <el-button style="padding: 3px 15px" type="text" title="刷新列表" @click="handleRefresh" class="el-icon-refresh"></el-button>
+      </div>
       <el-row>
         <el-table
           v-loading="loading"
@@ -57,41 +52,16 @@
             type="index"
           ></el-table-column>
 
-          <el-table-column
-            width="100px"
-            header-align="center"
-            label="备份人员编号"
-            prop="employeeId"
-          ></el-table-column>
+          <el-table-column width="100px" header-align="center" label="备份人员编号" prop="employeeId"></el-table-column>
 
-          <el-table-column
-            width="100px"
-            header-align="center"
-            label="备份人员姓名"
-            prop="employeeName"
-          ></el-table-column>
-          <el-table-column
-            width="150px"
-            header-align="center"
-            label="备份时间"
-            prop="backupTime"
-          >
+          <el-table-column width="100px" header-align="center" label="备份人员姓名" prop="employeeName"></el-table-column>
+          <el-table-column width="150px" header-align="center" label="备份时间" prop="backupTime">
             <template slot-scope="scope">
               <span>{{ scope.row.backupTime | formatDate }}</span>
             </template>
           </el-table-column>
-          <el-table-column
-            width="200px"
-            header-align="center"
-            label="备份文件名称"
-            prop="dataName"
-          ></el-table-column>
-          <el-table-column
-            min-width="100px"
-            header-align="center"
-            label="备份原因"
-            prop="reasonRemark"
-          ></el-table-column>
+          <el-table-column width="200px" header-align="center" label="备份文件名称" prop="dataName"></el-table-column>
+          <el-table-column min-width="100px" header-align="center" label="备份原因" prop="reasonRemark"></el-table-column>
           <el-table-column
             align="center"
             width="80"
@@ -99,12 +69,7 @@
             :label="$t('table.option')"
           >
             <template slot-scope="scope">
-              <el-button
-                type="primary"
-                size="mini"
-                @click="handleRestore(scope.row.dataName);"
-                >恢复</el-button
-              >
+              <el-button type="primary" size="mini" @click="handleRestore(scope.row.dataName);">恢复</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -169,6 +134,8 @@ export default {
             if (res.success) {
               vm.$message.success("备份成功");
               vm.backupForm.reason = "";
+              vm.page.currentPage = 1;
+              vm.getBackupFileList();
             } else {
               vm.$message.error("备份失败");
             }
@@ -179,6 +146,7 @@ export default {
       });
     },
     getBackupFileList() {
+      this.loading = true;
       let param = {
         pageNum: this.page.currentPage,
         pageSize: this.page.pageSize
@@ -188,6 +156,7 @@ export default {
           this.tableData = res.data.list;
           this.page.totalRecord = res.data.total;
         }
+        this.loading = false;
       });
     },
     handleCurrentChange(val) {
@@ -202,6 +171,10 @@ export default {
           this.$message.error("恢复失败");
         }
       });
+    },
+    handleRefresh() {
+      this.page.currentPage = 1;
+      this.getBackupFileList();
     }
   }
 };

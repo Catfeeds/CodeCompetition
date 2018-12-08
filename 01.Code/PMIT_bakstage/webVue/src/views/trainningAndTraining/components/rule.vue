@@ -19,13 +19,7 @@
         width="80"
       ></el-table-column>
 
-      <el-table-column
-        min-width="150px"
-        header-align="center"
-        label="所属体系"
-        prop="system"
-        sortable
-      ></el-table-column>
+      <el-table-column min-width="150px" header-align="center" label="所属体系" prop="system" sortable></el-table-column>
       <el-table-column
         min-width="150px"
         header-align="center"
@@ -33,27 +27,9 @@
         prop="product"
         sortable
       ></el-table-column>
-      <el-table-column
-        min-width="100px"
-        header-align="center"
-        label="所属角色"
-        prop="role"
-        sortable
-      ></el-table-column>
-      <el-table-column
-        min-width="100px"
-        header-align="center"
-        label="职级"
-        prop="rank"
-        sortable
-      ></el-table-column>
-      <el-table-column
-        min-width="100px"
-        header-align="center"
-        label="创建人"
-        prop="creator"
-        sortable
-      ></el-table-column>
+      <el-table-column min-width="100px" header-align="center" label="所属角色" prop="role" sortable></el-table-column>
+      <el-table-column min-width="100px" header-align="center" label="职级" prop="rank" sortable></el-table-column>
+      <el-table-column min-width="100px" header-align="center" label="创建人" prop="creator" sortable></el-table-column>
       <el-table-column
         min-width="150px"
         header-align="center"
@@ -72,12 +48,7 @@
           <span>{{ scope.row.updateTime | formatDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        align="center"
-        width="130"
-        header-align="center"
-        :label="$t('table.option')"
-      >
+      <el-table-column align="center" width="130" header-align="center" :label="$t('table.option')">
         <template slot-scope="scope">
           <el-button
             type="primary"
@@ -107,6 +78,182 @@
         next-text="下一页"
       ></el-pagination>
     </el-row>
+    <el-dialog :title="dialogBaseTitle" :visible.sync="dialogBaseVisible" width="70%">
+      <el-form :model="ruleForm" size="mini" label-width="100px" ref="ruleForm" :rules="rules">
+        <el-row>
+          <el-col :span="6">
+            <el-form-item label="所属体系" prop="system">
+              <el-select
+                v-model="ruleForm.system"
+                filterable
+                allow-create
+                default-first-option
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in systemOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="所属产品线" prop="product">
+              <el-select v-model="ruleForm.product" placeholder="请选择">
+                <el-option
+                  v-for="item in productOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="所属角色" prop="role">
+              <el-select
+                v-model="ruleForm.system"
+                filterable
+                allow-create
+                default-first-option
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in systemOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="职级" prop="rank">
+              <el-select
+                v-model="ruleForm.system"
+                filterable
+                allow-create
+                default-first-option
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in systemOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <!-- <el-steps :active="active" finish-status="success">
+          <el-step></el-step>
+          <el-step>faffsafasfasfsafsadf</el-step>
+        </el-steps> -->
+        <el-row :gutter="12" v-if="isPrev" style="margin-top:18px;">
+          <el-col :span="12">
+            <el-card shadow="never">
+              <div slot="header" class="clearfix">待选课程列表</div>
+              <div class="filter-container">
+                <el-input
+                  v-model="searchForm.affairsName"
+                  size="mini"
+                  clearable
+                  class="filter-item"
+                  style="width: 130px"
+                  placeholder="培训名称"
+                ></el-input>
+                <el-select
+                  size="mini"
+                  v-model="searchForm.system"
+                  clearable
+                  class="filter-item"
+                  style="width: 130px"
+                  placeholder="所属体系"
+                >
+                  <el-option
+                    v-for="item in systemOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+                <el-select
+                  size="mini"
+                  v-model="searchForm.system"
+                  clearable
+                  class="filter-item"
+                  style="width: 130px"
+                  placeholder="所属系列"
+                >
+                  <el-option
+                    v-for="item in systemOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+                <el-button
+                  class="filter-item"
+                  type="primary"
+                  size="mini"
+                  icon="el-icon-search"
+                  @click="handleFilter"
+                >{{ $t("table.search") }}</el-button>
+              </div>
+              <el-table></el-table>
+            </el-card>
+          </el-col>
+          <el-col :span="12">
+            <el-card shadow="never">
+              <div slot="header" class="clearfix">其他考核事务列表</div>
+              <div class="filter-container">
+                <el-input
+                  v-model="searchForm.affairsName"
+                  size="mini"
+                  clearable
+                  class="filter-item"
+                  style="width: 130px"
+                  placeholder="事务名称"
+                ></el-input>
+                <el-button
+                  class="filter-item"
+                  type="primary"
+                  size="mini"
+                  icon="el-icon-search"
+                  @click="handleFilter"
+                >{{ $t("table.search") }}</el-button>
+              </div>
+              <el-table></el-table>
+            </el-card>
+          </el-col>
+        </el-row>
+        <el-row :gutter="12" v-if="isNext" style="margin-top:18px;">
+          <el-col :span="12">
+            <el-card shadow="never">
+              <div slot="header" class="clearfix">单项规则设置</div>
+              <el-row></el-row>
+              <el-table></el-table>
+            </el-card>
+          </el-col>
+          <el-col :span="12">
+            <el-card shadow="never">
+              <div slot="header" class="clearfix">总分规则设置</div>
+              <el-row></el-row>
+              <el-table></el-table>
+            </el-card>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogBaseVisible = false;" size="mini">取 消</el-button>
+        <el-button type="primary" @click="prev" v-if="isNext" size="mini">上一步</el-button>
+        <el-button type="primary" @click="next" v-if="isPrev" size="mini">下一步</el-button>
+        <el-button type="primary" @click="handleSubmit();" size="mini">完 成</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -121,17 +268,39 @@ export default {
   props: ["condition"],
   data() {
     return {
+      active: 0,
+      isPrev: true,
+      isNext: false,
       loading: false,
       tableData: [],
       initList: [],
+      systemOptions: [],
+      productOptions: [],
+      dialogBaseTitle: "",
+      dialogBaseVisible: false,
       page: {
         pageNum: 1,
         pageSize: 10,
         totalRecord: 0
-      }
+      },
+      ruleForm: {},
+      searchForm: {
+
+      },
+      rules: {}
     };
   },
   methods: {
+    next() {
+      this.active++;
+      this.isPrev = false;
+      this.isNext = true;
+    },
+    prev() {
+      this.active--;
+      this.isPrev = true;
+      this.isNext = false;
+    },
     getRuleList() {
       let vm = this;
       vm.loading = true;
@@ -153,6 +322,32 @@ export default {
           vm.loading = false;
         });
     },
+    getProductInfo() {
+      let vm = this;
+      vm.$store.dispatch("getProductInfo").then(() => {
+        const data = vm.$store.getters.productList;
+        if (data) {
+          vm.productOptions = data;
+        } else {
+          vm.productOptions = [];
+        }
+      });
+    },
+    getSystem() {
+      let vm = this;
+      vm.$store.dispatch("queryAffairsSystem").then(res => {
+        if (res.data) {
+          vm.systemOptions = res.data.map(item => {
+            return {
+              label: item.system,
+              value: item.system
+            };
+          });
+        } else {
+          vm.systemOptions = [];
+        }
+      });
+    },
     handleCurrentChange(val) {
       let vm = this;
       vm.page.currentPage = val;
@@ -161,13 +356,31 @@ export default {
         val * vm.page.pageSize
       );
     },
-    handleEdit(rowData) {},
+    handleEdit(rowData) {
+      this.getProductInfo();
+      this.getSystem();
+      this.isEdit = true;
+      this.dialogBaseTitle = "编辑考核规则";
+      this.dialogBaseVisible = true;
+    },
     handleDel(ruleId) {},
     handleFilter() {
       this.page.currentPage = 1;
       this.getRuleList();
     },
-    handleAdd() {}
+    handleAdd() {
+      this.active = 0;
+      this.getProductInfo();
+      this.getSystem();
+      this.isEdit = false;
+      this.dialogBaseTitle = "添加考核规则";
+      this.dialogBaseVisible = true;
+    },
+    handleSubmit() {
+      if (this.active > 0) {
+        this.active = 2;
+      }
+    }
   }
 };
 </script>
