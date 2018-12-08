@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.system.exceloperation.mapper.ExcelTransactionMapper">
+
+    <insert id="insertTransaction" parameterType="com.isoftstone.pmit.project.hrbp.entity.ScoreTransaction">
+        INSERT INTO transaction_table (employeeID, transactionName, dimensionName, dimensionScore
+        ) VALUES
+        <foreach collection="list" item="test" separator=",">
+            (
+            #{test.employeeID},
+            #{test.transactionName},
+            #{test.dimensionName},
+            #{test.dimensionScore}
+            )
+        </foreach>
+    </insert>
+
+</mapper>
