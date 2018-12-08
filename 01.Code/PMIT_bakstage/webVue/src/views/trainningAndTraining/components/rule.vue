@@ -78,11 +78,21 @@
         next-text="下一页"
       ></el-pagination>
     </el-row>
-    <el-dialog :title="dialogBaseTitle" :visible.sync="dialogBaseVisible" width="70%">
-      <el-form :model="ruleForm" size="mini" label-width="100px" ref="ruleForm" :rules="rules">
-        <el-row>
-          <el-col :span="6">
-            <el-form-item label="所属体系" prop="system">
+    <el-dialog
+      :title="dialogBaseTitle"
+      :visible.sync="dialogBaseVisible"
+      width="70%"
+      top="30px"
+      :close-on-click-modal="false"
+    >
+      <el-steps :active="active" finish-status="success" simple>
+        <el-step title="基本信息"></el-step>
+        <el-step title="选择课程和事务"></el-step>
+        <el-step title="生成结果"></el-step>
+      </el-steps>
+      <div v-if="isBaseInfo">
+        <el-form :model="ruleForm" size="mini" label-width="100px" ref="ruleForm" :rules="rules">
+          <el-form-item label="所属体系" prop="system">
               <el-select
                 v-model="ruleForm.system"
                 filterable
@@ -98,8 +108,6 @@
                 ></el-option>
               </el-select>
             </el-form-item>
-          </el-col>
-          <el-col :span="6">
             <el-form-item label="所属产品线" prop="product">
               <el-select v-model="ruleForm.product" placeholder="请选择">
                 <el-option
@@ -110,8 +118,6 @@
                 ></el-option>
               </el-select>
             </el-form-item>
-          </el-col>
-          <el-col :span="6">
             <el-form-item label="所属角色" prop="role">
               <el-select
                 v-model="ruleForm.system"
@@ -128,8 +134,6 @@
                 ></el-option>
               </el-select>
             </el-form-item>
-          </el-col>
-          <el-col :span="6">
             <el-form-item label="职级" prop="rank">
               <el-select
                 v-model="ruleForm.system"
@@ -146,13 +150,10 @@
                 ></el-option>
               </el-select>
             </el-form-item>
-          </el-col>
-        </el-row>
-        <!-- <el-steps :active="active" finish-status="success">
-          <el-step></el-step>
-          <el-step>faffsafasfasfsafsadf</el-step>
-        </el-steps> -->
-        <el-row :gutter="12" v-if="isPrev" style="margin-top:18px;">
+        </el-form>
+      </div>
+      <div v-if="isSelect">
+        <el-row :gutter="12" style="margin-top:18px;">
           <el-col :span="12">
             <el-card shadow="never">
               <div slot="header" class="clearfix">待选课程列表</div>
@@ -230,6 +231,8 @@
             </el-card>
           </el-col>
         </el-row>
+      </div>
+      <div v-if="isResult">
         <el-row :gutter="12" v-if="isNext" style="margin-top:18px;">
           <el-col :span="12">
             <el-card shadow="never">
@@ -246,11 +249,11 @@
             </el-card>
           </el-col>
         </el-row>
-      </el-form>
+      </div>  
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogBaseVisible = false;" size="mini">取 消</el-button>
-        <el-button type="primary" @click="prev" v-if="isNext" size="mini">上一步</el-button>
-        <el-button type="primary" @click="next" v-if="isPrev" size="mini">下一步</el-button>
+        <el-button type="primary" @click="prev" size="mini">上一步</el-button>
+        <el-button type="primary" @click="next" size="mini">下一步</el-button>
         <el-button type="primary" @click="handleSubmit();" size="mini">完 成</el-button>
       </div>
     </el-dialog>
@@ -269,8 +272,9 @@ export default {
   data() {
     return {
       active: 0,
-      isPrev: true,
-      isNext: false,
+      isBaseInfo: true,
+      isSelect: false,
+      isResult: false,
       loading: false,
       tableData: [],
       initList: [],
@@ -284,17 +288,23 @@ export default {
         totalRecord: 0
       },
       ruleForm: {},
-      searchForm: {
-
-      },
+      searchForm: {},
       rules: {}
     };
   },
   methods: {
     next() {
       this.active++;
-      this.isPrev = false;
-      this.isNext = true;
+      if(this.active === 1) {
+        this.isBaseInfo = false;
+        this.isSelect = true;
+        this.isResult = false;
+      }
+      if(this.active === 2) {
+        this.isBaseInfo = false;
+        this.isSelect = false;
+        this.isResult = true;
+      }
     },
     prev() {
       this.active--;

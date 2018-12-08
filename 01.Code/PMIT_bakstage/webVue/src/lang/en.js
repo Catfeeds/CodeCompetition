@@ -112,5 +112,11 @@ export default {
     close: "Close",
     closeOthers: "Close Others",
     closeAll: "Close All"
+  },
+  button: {
+    add: "添加",
+    export: "导出",
+    import: "导入",
+    template: "模板下载"
   }
 };

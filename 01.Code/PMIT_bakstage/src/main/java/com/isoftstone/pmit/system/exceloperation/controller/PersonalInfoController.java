@@ -1,15 +1,17 @@
 package com.isoftstone.pmit.system.exceloperation.controller;
 
+import com.isoftstone.pmit.common.util.AjaxResult;
 import com.isoftstone.pmit.system.exceloperation.service.IPersonalInfoService;
 import com.isoftstone.pmit.system.exceloperation.util.ExcelOperationUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,16 +27,40 @@ public class PersonalInfoController {
 
     /**
      * 导入个人所有信息
-     * @param personalInfoPath 需要导入excel文件路径
+     * @param file 导入的excel文件
+     * @param request
      * @return
      */
-    @RequestMapping(value = "/importPersonalInfo")
-    public String importPersonalInfo(@RequestParam(value = "personalInfoPath", required = true)
-                                               String personalInfoPath){
-        return personalInfoService.importPersonalInfo(personalInfoPath);
+    @PostMapping(value ="/importPersonalInfo")
+    @ResponseBody
+    @ApiOperation(value = "importPersonalInfo", notes = "importPersonalInfo")
+    public String importPersonalInfo(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+        if (!file.isEmpty()) {
+            String saveFileName = file.getOriginalFilename();
+            File saveFile = new File(request.getSession().getServletContext().getRealPath("/upload/") + saveFileName);
+            if (!saveFile.getParentFile().exists()) {
+                saveFile.getParentFile().mkdirs();
+            }
+            try {
+                BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(saveFile));
+                out.write(file.getBytes());
+                out.flush();
+                out.close();
+                return personalInfoService.importPersonalInfo(saveFile);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return AjaxResult.returnToResult(false,"上传失败," + e.getMessage());
+            } catch (IOException e) {
+                e.printStackTrace();
+                return AjaxResult.returnToResult(false,"上传失败," + e.getMessage());
+            }
+        } else {
+            return AjaxResult.returnToResult(false,"上传失败，因为文件为空.");
+        }
     }
 
-    @RequestMapping(value = "/exportScore")
+    @PostMapping(value = "/exportScore")
+    @ApiOperation(value = "exportScore", notes = "exportScore")
     public void exportScore(HttpServletRequest request, HttpServletResponse response){
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         List<String> listTitle = new ArrayList<String>();

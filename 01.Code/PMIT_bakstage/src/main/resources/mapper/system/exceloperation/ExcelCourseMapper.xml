@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.system.exceloperation.mapper.ExcelCourseMapper">
+
+    <insert id="insertCourse" parameterType="com.isoftstone.pmit.project.hrbp.entity.ScoreCourse">
+        INSERT INTO course_table (employeeID, courseDimension, courseName, courseScore) VALUES
+        <foreach collection="list" item="test" separator=",">
+            (
+            #{test.employeeID},
+            #{test.courseDimension},
+            #{test.courseName},
+            #{test.courseScore}
+            )
+        </foreach>
+    </insert>
+
+</mapper>
