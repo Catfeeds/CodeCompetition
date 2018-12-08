@@ -9,8 +9,8 @@ const getters = {
   avatar: state =>
     state.userInfoStore.avatar ||
     "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
-  name: state => state.userInfoStore.name,
-  introduction: state => state.userInfoStore.introduction,
+  employeeName: state => state.userInfoStore.employeeName,
+  employeeId: state => state.userInfoStore.employeeId,
   status: state => state.userInfoStore.status,
   roles: state => state.userInfoStore.roles,
   setting: state => state.userInfoStore.setting,

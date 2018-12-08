@@ -16,6 +16,9 @@ Vue.config.productionTip = false;
 NProgress.configure({ showSpinner: false }); // NProgress Configuration
 Vue.use(elmentui);
 router.beforeEach((to, from, next) => {
+  if (Cookies.get("loginName")) {
+    store.dispatch("getUserInfo", Cookies.get("loginName"));
+  }
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (Cookies.get("status") !== "logined") {
       next({

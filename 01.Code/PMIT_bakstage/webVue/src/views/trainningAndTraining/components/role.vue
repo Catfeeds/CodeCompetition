@@ -23,14 +23,6 @@
       <el-table-column
         min-width="150px"
         header-align="center"
-        label="所属产品线"
-        prop="product"
-        sortable
-      ></el-table-column>
-
-      <el-table-column
-        min-width="150px"
-        header-align="center"
         label="角色名称"
         prop="roleName"
         sortable
@@ -105,16 +97,6 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="所属产品线" prop="product">
-          <el-select v-model="roleForm.product" placeholder="请选择">
-            <el-option
-              v-for="item in productOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogBaseVisible = false;" size="mini">取 消</el-button>
@@ -168,16 +150,6 @@ export default {
     };
   },
   methods: {
-    getProductInfo() {
-      let vm = this;
-      vm.$store.dispatch("getProductInfo").then(data => {
-        if (data) {
-          vm.productOptions = data;
-        } else {
-          vm.productOptions = [];
-        }
-      });
-    },
     getSystem() {
       let vm = this;
       vm.$store.dispatch("querySystem").then(res => {
@@ -224,7 +196,6 @@ export default {
     },
     handleEdit(rowData) {
       this.isEdit = true;
-      this.getProductInfo();
       this.getSystem();
       this.roleForm.roleId = rowData.roleId;
       this.roleForm.roleName = rowData.roleName;
@@ -255,7 +226,6 @@ export default {
       this.getRoleList();
     },
     handleAdd() {
-      this.getProductInfo();
       this.getSystem();
       this.isEdit = false;
       this.dialogBaseTitle = "添加关键角色";
@@ -268,7 +238,7 @@ export default {
           let formData = {
             roleName: vm.roleForm.roleName,
             system: vm.roleForm.system,
-            product: vm.roleForm.product
+            
           };
           let methodName = "addRoleInfo";
           if (vm.isEdit) {

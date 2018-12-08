@@ -8,13 +8,12 @@ import { getToken, setToken, removeToken } from "@/utils/auth";
 
 const user = {
   state: {
-    user: "",
     status: "",
     code: "",
     token: getToken(),
-    name: "",
+    employeeName: "",
+    employeeId: "",
     avatar: "",
-    introduction: "",
     roles: [],
     setting: {
       articlePlatform: []
@@ -25,11 +24,11 @@ const user = {
     setToken: (state, token) => {
       state.token = token;
     },
-    setIntroduction: (state, introduction) => {
-      state.introduction = introduction;
-    },
     setName: (state, name) => {
-      state.name = name;
+      state.employeeName = name;
+    },
+    setId: (state, id) => {
+      state.employeeId = id;
     },
     setAvatar: (state, avatar) => {
       state.avatar = avatar;
@@ -58,25 +57,19 @@ const user = {
     },
 
     // 获取用户信息
-    getUserInfo({ commit, state }) {
+    getUserInfo({ commit }, employeeId) {
       return new Promise((resolve, reject) => {
-        getUserInfo(state.token)
-          .then(response => {
-            if (!response.data) {
+        getUserInfo(employeeId)
+          .then(res => {
+            if (!res.data.success) {
               // 由于mockjs 不支持自定义状态码只能这样hack
               reject("error");
             }
-            const data = response.data;
-            if (data.roles && data.roles.length > 0) {
-              // 验证返回的roles是否是一个非空数组
-              commit("setRoles", data.roles);
-            } else {
-              reject("getInfo: roles must be a non-null array !");
-            }
-            commit("setName", data.name);
-            commit("setAvatar", data.avatar);
-            commit("setIntroduction", data.introduction);
-            resolve(response);
+            const data = res.data.data;
+            commit("setName", data.employeeName);
+            commit("setId", data.employeeID);
+            commit("setAvatar", data.picture);
+            resolve();
           })
           .catch(error => {
             reject(error);

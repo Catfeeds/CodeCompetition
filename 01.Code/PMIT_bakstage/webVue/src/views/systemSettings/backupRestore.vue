@@ -29,7 +29,13 @@
     >
       <div slot="header" class="clearfix">
         <span>数据库恢复</span>
-        <el-button style="padding: 3px 15px" type="text" title="刷新列表" @click="handleRefresh" class="el-icon-refresh"></el-button>
+        <el-button
+          style="padding: 3px 15px"
+          type="text"
+          title="刷新列表"
+          @click="handleRefresh"
+          class="el-icon-refresh"
+        ></el-button>
       </div>
       <el-row>
         <el-table
@@ -91,7 +97,7 @@
 
 <script>
 import { formatDate } from "@/utils/date";
-import Cookies from "js-cookie";
+import { mapGetters } from "vuex";
 export default {
   filters: {
     formatDate(time) {
@@ -120,13 +126,16 @@ export default {
   created() {
     this.getBackupFileList();
   },
+  computed: {
+    ...mapGetters(["employeeId", "empolyeeName"])
+  },
   methods: {
     handleBackup() {
       let vm = this;
       vm.$refs.backupForm.validate(valid => {
         if (valid) {
           let formData = {
-            employeeId: Cookies.get("loginName"),
+            employeeId: this.employeeId,
             dataName: vm.backupForm.fileName,
             reasonRemark: vm.backupForm.reason
           };

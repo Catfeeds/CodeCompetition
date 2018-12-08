@@ -10,11 +10,7 @@
 
     <div class="right-menu">
       <template v-if="device !== 'mobile'">
-        <el-tooltip
-          :content="$t('navbar.screenfull')"
-          effect="dark"
-          placement="bottom"
-        >
+        <el-tooltip :content="$t('navbar.screenfull')" effect="dark" placement="bottom">
           <screenfull class="screenfull right-menu-item"></screenfull>
         </el-tooltip>
         <lang-select class="international right-menu-item"></lang-select>
@@ -22,7 +18,7 @@
 
       <el-dropdown class="avatar-container right-menu-item" trigger="click">
         <div class="avatar-wrapper">
-          <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar" />
+          <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar">
           <i class="el-icon-caret-bottom"></i>
         </div>
         <el-dropdown-menu slot="dropdown">
@@ -30,43 +26,32 @@
             <el-dropdown-item>{{ $t("navbar.dashboard") }}</el-dropdown-item>
           </router-link>
           <el-dropdown-item divided>
-            <span style="display:block;" @click="logout">{{
+            <span style="display:block;" @click="logout">
+              {{
               $t("navbar.logOut")
-            }}</span>
+              }}
+            </span>
           </el-dropdown-item>
           <el-dropdown-item divided>
-            <span style="display:block;" @click="updatePassword">{{
+            <span style="display:block;" @click="updatePassword">
+              {{
               $t("navbar.password")
-            }}</span>
+              }}
+            </span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="30%">
       <el-row style="line-height:25px">
-        <i class="el-icon-info"></i
-        >建议密码采用字母、字母和特殊字符混合，并且不短于6位。
+        <i class="el-icon-info"></i>建议密码采用字母、字母和特殊字符混合，并且不短于6位。
       </el-row>
-      <el-form
-        :model="ruleForm"
-        :rules="rules"
-        ref="ruleForm"
-        label-width="100px"
-      >
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px">
         <el-form-item label="原密码" prop="oldPass" size="mini">
-          <el-input
-            v-model="ruleForm.oldPass"
-            placeholder="请输入原密码"
-            type="password"
-          ></el-input>
+          <el-input v-model="ruleForm.oldPass" placeholder="请输入原密码" type="password"></el-input>
         </el-form-item>
         <el-form-item label="新密码" prop="newPass">
-          <el-input
-            v-model="ruleForm.newPass"
-            placeholder="请输入新密码"
-            id="newkey"
-            type="password"
-          ></el-input>
+          <el-input v-model="ruleForm.newPass" placeholder="请输入新密码" id="newkey" type="password"></el-input>
         </el-form-item>
         <el-form-item label="重复新密码" prop="checkNewPass">
           <el-input
@@ -79,9 +64,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false;" size="mini">取 消</el-button>
-        <el-button type="primary" @click="handleSubmit();" size="mini"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="handleSubmit();" size="mini">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -130,7 +113,7 @@ export default {
     LangSelect
   },
   computed: {
-    ...mapGetters(["sidebar", "name", "avatar", "device"])
+    ...mapGetters(["sidebar", "employeeId", "empolyeeName", "avatar", "device"])
   },
   methods: {
     toggleSideBar() {
@@ -160,7 +143,7 @@ export default {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           let param = {
-            employeeID: Cookies.get("loginName"),
+            employeeID: this.employeeId,
             password: this.ruleForm.oldPass,
             changePwd: this.ruleForm.newPass
           };

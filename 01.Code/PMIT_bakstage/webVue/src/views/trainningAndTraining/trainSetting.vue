@@ -409,7 +409,7 @@
 </template>
 
 <script>
-import Cookies from "js-cookie";
+import { mapGetters } from "vuex";
 import { formatDate } from "@/utils/date";
 export default {
   filters: {
@@ -417,6 +417,9 @@ export default {
       let date = new Date(time);
       return formatDate(date, "yyyy-MM-dd hh:mm:ss");
     }
+  },
+  computed: {
+    ...mapGetters(["employeeId", "employeeName"])
   },
   data() {
     let validaNumer = (rule, value, callback) => {
@@ -580,9 +583,9 @@ export default {
           };
           if (vm.isEdit) {
             formData.trainingId = vm.trainForm.trainId;
-            formData.updaterId = Cookies.get("loginName");
+            formData.updaterId = vm.employeeId;
           } else {
-            formData.creatorId = Cookies.get("loginName");
+            formData.creatorId = vm.employeeId;
           }
           vm.$store.dispatch("saveTrainingInfo", formData).then(res => {
             if (res.success) {

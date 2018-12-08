@@ -391,7 +391,7 @@
 </template>
 
 <script>
-import Cookies from "js-cookie";
+import { mapGetters } from "vuex";
 import { formatDate } from "@/utils/date";
 export default {
   filters: {
@@ -399,6 +399,9 @@ export default {
       let date = new Date(time);
       return formatDate(date, "yyyy-MM-dd hh:mm:ss");
     }
+  },
+  computed: {
+    ...mapGetters(["employeeId", "employeeName"])
   },
   data() {
     let vm = this;
@@ -595,7 +598,7 @@ export default {
             series: vm.affairsForm.series,
             system: vm.affairsForm.system,
             affairName: vm.affairsForm.affairsName,
-            employeeID: Cookies.get("loginName")
+            employeeID: vm.employeeId
           };
           let methodName = "addAffairsInfo";
           if (vm.isEdit) {

@@ -283,6 +283,7 @@
 
 <script>
 import { formatDate } from "@/utils/date";
+import { mapGetters } from "vuex";
 export default {
   filters: {
     formatDate(time) {
@@ -313,6 +314,9 @@ export default {
         sortType: "desc"
       }
     };
+  },
+  computed: {
+    ...mapGetters(["empolyeeId", "empolyeeName"])
   },
   mounted() {
     this.getProductInfo();
@@ -407,7 +411,7 @@ export default {
             series: vm.affairsForm.series,
             system: vm.affairsForm.system,
             affairName: vm.affairsForm.affairsName,
-            employeeID: Cookies.get("loginName")
+            employeeID: vm.employeeId
           };
           let methodName = "addAffairsInfo";
           if (vm.isEdit) {
