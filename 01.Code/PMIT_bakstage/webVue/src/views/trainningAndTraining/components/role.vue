@@ -19,13 +19,7 @@
         width="80"
       ></el-table-column>
 
-      <el-table-column
-        min-width="150px"
-        header-align="center"
-        label="所属体系"
-        prop="system"
-        sortable
-      ></el-table-column>
+      <el-table-column min-width="150px" header-align="center" label="所属体系" prop="system" sortable></el-table-column>
       <el-table-column
         min-width="150px"
         header-align="center"
@@ -41,13 +35,7 @@
         prop="roleName"
         sortable
       ></el-table-column>
-      <el-table-column
-        min-width="100px"
-        header-align="center"
-        label="创建人"
-        prop="creator"
-        sortable
-      ></el-table-column>
+      <el-table-column min-width="100px" header-align="center" label="创建人" prop="creator" sortable></el-table-column>
       <el-table-column
         min-width="150px"
         header-align="center"
@@ -66,12 +54,7 @@
           <span>{{ scope.row.updateTime | formatDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        align="center"
-        width="130"
-        header-align="center"
-        :label="$t('table.option')"
-      >
+      <el-table-column align="center" width="130" header-align="center" :label="$t('table.option')">
         <template slot-scope="scope">
           <el-button
             type="primary"
@@ -101,25 +84,10 @@
         next-text="下一页"
       ></el-pagination>
     </el-row>
-    <el-dialog
-      :title="dialogBaseTitle"
-      :visible.sync="dialogBaseVisible"
-      width="30%"
-    >
-      <el-form
-        :model="roleForm"
-        size="mini"
-        label-width="120px"
-        ref="roleForm"
-        :rules="rules"
-      >
+    <el-dialog :title="dialogBaseTitle" :visible.sync="dialogBaseVisible" width="30%">
+      <el-form :model="roleForm" size="mini" label-width="120px" ref="roleForm" :rules="rules">
         <el-form-item label="角色名称" prop="roleName">
-          <el-input
-            v-model="roleForm.roleName"
-            autocomplete="off"
-            required
-            maxlength="64"
-          ></el-input>
+          <el-input v-model="roleForm.roleName" autocomplete="off" required maxlength="64"></el-input>
         </el-form-item>
         <el-form-item label="所属体系" prop="system">
           <el-select
@@ -149,12 +117,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogBaseVisible = false;" size="mini"
-          >取 消</el-button
-        >
-        <el-button type="primary" @click="submtForm();" size="mini"
-          >确 定</el-button
-        >
+        <el-button @click="dialogBaseVisible = false;" size="mini">取 消</el-button>
+        <el-button type="primary" @click="handleSubmit();" size="mini">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -179,12 +143,23 @@ export default {
       systemOptions: [],
       dialogBaseTitle: "添加关键角色",
       dialogBaseVisible: false,
+      isEdit: false,
       page: {
         pageNum: 1,
         pageSize: 10,
         totalRecord: 0
       },
-      rules: {},
+      rules: {
+        roleName: [
+          { required: true, message: "请输入角色名称", trigger: "blur" }
+        ],
+        system: [
+          { required: true, message: "请选择所属体系", trigger: "change" }
+        ],
+        product: [
+          { required: true, message: "请选择产品线", trigger: "change" }
+        ]
+      },
       roleForm: {
         roleName: "",
         system: "",
@@ -248,8 +223,34 @@ export default {
         val * vm.page.pageSize
       );
     },
-    handleEdit(rowData) {},
-    handleDel(roleid) {},
+    handleEdit(rowData) {
+      this.isEdit = true;
+      this.getProductInfo();
+      this.getSystem();
+      this.roleForm.roleId = rowData.roleId;
+      this.roleForm.roleName = rowData.roleName;
+      this.roleForm.system = rowData.system;
+      this.roleForm.product = rowData.product;
+      this.dialogBaseTitle = "编辑关键角色";
+      this.dialogBaseVisible = true;
+    },
+    handleDel(roleId) {
+      let vm = this;
+      vm.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        vm.$store.dispatch("delRoleInfo", roleId).then(res => {
+          if (res.success) {
+            vm.$message.success(res.message);
+            vm.getRoleList();
+          } else {
+            vm.$message.error(res.message);
+          }
+        });
+      });
+    },
     handleFilter() {
       this.page.currentPage = 1;
       this.getRoleList();
@@ -257,8 +258,36 @@ export default {
     handleAdd() {
       this.getProductInfo();
       this.getSystem();
+      this.isEdit = false;
       this.dialogBaseTitle = "添加关键角色";
       this.dialogBaseVisible = true;
+    },
+    handleSubmit() {
+      let vm = this;
+      vm.$refs.roleForm.validate(valid => {
+        if (valid) {
+          let formData = {
+            roleName: vm.roleForm.roleName,
+            system: vm.roleForm.system,
+            product: vm.roleForm.product
+          };
+          let methodName = "addRoleInfo";
+          if (vm.isEdit) {
+            methodName = "editRoleInfo";
+          }
+          vm.$store.dispatch(methodName, formData).then(res => {
+            if (res.success) {
+              vm.$message.success(res.message);
+              vm.getRoleList();
+            } else {
+              vm.$message.error(res.message);
+            }
+            vm.dialogBaseVisible = false;
+          });
+        } else {
+          return false;
+        }
+      });
     }
   }
 };
