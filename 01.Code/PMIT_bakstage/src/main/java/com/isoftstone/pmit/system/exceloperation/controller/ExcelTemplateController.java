@@ -1,13 +1,10 @@
 package com.isoftstone.pmit.system.exceloperation.controller;
 
-import com.google.common.reflect.ClassPath;
 import io.swagger.annotations.Api;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -19,14 +16,6 @@ import java.io.OutputStream;
 @RequestMapping("/system/exceloperation")
 @Api(value = "模板", tags = {"下载骨干考核系统EXCEL模板文件"})
 public class ExcelTemplateController {
-
-//    //Spring这里是通过实现ServletContextAware接口来注入ServletContext对象
-//    private ServletContext servletContext;
-//
-//    @Override
-//    public void setServletContext(ServletContext servletContext) {
-//        this.servletContext = servletContext;
-//    }！
 
     /**
      * 下载骨干考核系统EXCEL模板文件
