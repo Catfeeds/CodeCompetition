@@ -4,13 +4,13 @@ Navicat MySQL Data Transfer
 Source Server         : localhost_3306
 Source Server Version : 50560
 Source Host           : localhost:3306
-Source Database       : itsys
+Source Database       : hw_it
 
 Target Server Type    : MYSQL
 Target Server Version : 50560
 File Encoding         : 65001
 
-Date: 2018-12-03 17:11:39
+Date: 2018-12-07 18:30:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,11 +28,11 @@ CREATE TABLE `hrbp_role` (
   `description` varchar(500) DEFAULT NULL COMMENT '描述',
   `remark` varchar(500) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='角色信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='角色信息表';
 
 -- ----------------------------
 -- Records of hrbp_role
 -- ----------------------------
 INSERT INTO `hrbp_role` VALUES ('1', '管理员', 'admin', '1', '2018-11-25 14:09:40', '系统设置', null);
-INSERT INTO `hrbp_role` VALUES ('2', '信息录入员', 'pm', '3', '2018-11-25 14:09:40', '负责成绩设置', null);
-INSERT INTO `hrbp_role` VALUES ('3', 'guess', 'guess', '4', '2018-11-28 17:23:14', '查看报表', null);
+INSERT INTO `hrbp_role` VALUES ('2', '信息录入员', 'pm', '2', '2018-11-25 14:09:40', '负责成绩设置', null);
+INSERT INTO `hrbp_role` VALUES ('3', 'guess', 'guess', '3', '2018-11-28 17:23:14', '查看报表', null);
