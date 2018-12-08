@@ -607,6 +607,8 @@ export default {
               vm.$message.success(res.message);
               vm.dialogBaseVisible = false;
               vm.getAffairsList();
+              vm.getSeries();
+              vm.getSystem();
             } else {
               vm.$message.error(res.message);
             }

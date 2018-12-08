@@ -116,8 +116,8 @@ export default {
         if (res.data) {
           vm.systemOptions = res.data.map(item => {
             return {
-              label: item.system,
-              value: item.system
+              label: item,
+              value: item
             };
           });
         } else {
