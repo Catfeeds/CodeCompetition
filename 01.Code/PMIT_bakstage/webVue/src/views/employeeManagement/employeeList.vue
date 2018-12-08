@@ -273,7 +273,7 @@
         ref="templateForm"
         target="downloadFrame"
         id="downloadTemplate"
-        action="system/exceloperation/download/template"
+        action="system/exceloperation/download/personalInfoTemplate"
         method="post"
       ></form>
       <iframe id="downloadFrame" name="downloadFrame"></iframe>

@@ -108,6 +108,7 @@
 
 <script>
 import { formatDate } from "@/utils/date";
+import { mapGetters } from "vuex";
 export default {
   filters: {
     formatDate(time) {
@@ -116,6 +117,9 @@ export default {
     }
   },
   props: ["condition"],
+  created: {
+    ...mapGetters(["employeeId", "empolyeeName"])
+  },
   data() {
     return {
       loading: false,
@@ -237,12 +241,16 @@ export default {
         if (valid) {
           let formData = {
             roleName: vm.roleForm.roleName,
-            system: vm.roleForm.system,
-            
+            system: vm.roleForm.system            
           };
           let methodName = "addRoleInfo";
           if (vm.isEdit) {
             methodName = "editRoleInfo";
+            formData.updateStaffId = vm.employeeId;
+            formData.updateStaffName = vm.employeeName;
+          }else{
+            formData.creatorId = vm.employeeId;
+            formData.creatorName = vm.employeeName;
           }
           vm.$store.dispatch(methodName, formData).then(res => {
             if (res.success) {

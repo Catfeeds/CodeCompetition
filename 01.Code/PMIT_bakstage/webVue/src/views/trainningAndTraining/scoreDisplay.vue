@@ -97,6 +97,16 @@
         next-text="下一页"
       ></el-pagination>
     </el-row>
+    <div style="display:none">
+      <form
+        ref="templateForm"
+        target="downloadFrame"
+        id="downloadTemplate"
+        action="system/exceloperation/download/scoreTemplate"
+        method="post"
+      ></form>
+      <iframe id="downloadFrame" name="downloadFrame"></iframe>
+    </div>
   </div>
 </template>
 
@@ -185,9 +195,6 @@ export default {
     handleExport() {
       this.$message.info("功能正在完善中。。。");
     },
-    handleTemplate() {
-      this.$message.info("功能正在完善中。。。");
-    },
     handleUpload(file) {
       var ext = file.name.substring(file.name.lastIndexOf(".") + 1);
       const extension = ext === "xls" || ext === "xlsx";
@@ -213,6 +220,9 @@ export default {
     },
     handleError(){
       this.$message.error("文件导入失败,请检查文件格式是否合法");
+    },
+    handleTemplate() {
+      this.$refs.templateForm.submit();
     }
   }
 };
