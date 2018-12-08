@@ -60,7 +60,7 @@
         clearable
         class="filter-item"
         style="width: 130px"
-        placeholder="所属系列"
+        placeholder="讲师姓名"
       ></el-input>
       <el-button
         class="filter-item"

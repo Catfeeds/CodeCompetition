@@ -24,7 +24,6 @@ function filterAsyncRouter(routes, menus) {
   });
   return res;
 }
-
 const app = {
   state: {
     sidebar: {
@@ -214,6 +213,135 @@ const app = {
               });
             }
             resolve(data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    getLogList(commit, condition) {
+      let logData = {
+        success: true,
+        data: [
+          {
+            time: new Date("2018-12-08 17:11:26"),
+            account: "阮海涛",
+            ipaddress: "10.60.86.24",
+            url: "",
+            param: "",
+            message: "操作成功"
+          },
+          {
+            time: new Date("2018-12-08 15:11:26"),
+            account: "阮海涛",
+            ipaddress: "10.60.86.24",
+            url: "",
+            param: "",
+            message: "操作成功"
+          },
+          {
+            time: new Date("2018-12-08 14:11:26"),
+            account: "阮海涛",
+            ipaddress: "10.60.86.24",
+            url: "",
+            param: "",
+            message: "操作成功"
+          },
+          {
+            time: new Date("2018-12-08 12:11:26"),
+            account: "阮海涛",
+            ipaddress: "10.60.86.24",
+            url: "",
+            param: "",
+            message: "操作成功"
+          },
+          {
+            time: new Date("2018-12-08 10:11:26"),
+            account: "阮海涛",
+            ipaddress: "10.60.86.24",
+            url: "",
+            param: "",
+            message: "操作成功"
+          },
+          {
+            time: new Date("2018-12-07 19:11:26"),
+            account: "阮海涛",
+            ipaddress: "10.60.86.24",
+            url: "",
+            param: "",
+            message: "操作成功"
+          },
+          {
+            time: new Date("2018-12-04 15:11:26"),
+            account: "阮海涛",
+            ipaddress: "10.60.86.24",
+            url: "",
+            param: "",
+            message: "操作成功"
+          },
+          {
+            time: new Date("2018-12-04 15:11:26"),
+            account: "阮海涛",
+            ipaddress: "10.60.86.24",
+            url: "",
+            param: "",
+            message: "操作成功"
+          },
+          {
+            time: new Date("2018-12-04 15:11:26"),
+            account: "阮海涛",
+            ipaddress: "10.60.86.24",
+            url: "",
+            param: "",
+            message: "操作成功"
+          },
+          {
+            time: new Date("2018-12-04 15:11:26"),
+            account: "阮海涛",
+            ipaddress: "10.60.86.24",
+            url: "",
+            param: "",
+            message: "操作成功"
+          },
+          {
+            time: new Date("2018-12-04 15:11:26"),
+            account: "阮海涛",
+            ipaddress: "10.60.86.24",
+            url: "",
+            param: "",
+            message: "操作成功"
+          },
+          {
+            time: new Date("2018-12-04 15:11:26"),
+            account: "阮海涛",
+            ipaddress: "10.60.86.24",
+            url: "",
+            param: "",
+            message: "操作成功"
+          },
+          {
+            time: new Date("2018-12-04 15:11:26"),
+            account: "阮海涛",
+            ipaddress: "10.60.86.24",
+            url: "",
+            param: "",
+            message: "操作成功"
+          },
+          {
+            time: new Date("2018-12-04 15:11:26"),
+            account: "阮海涛",
+            ipaddress: "10.60.86.24",
+            url: "",
+            param: "",
+            message: "操作成功"
+          }
+        ]
+      };
+      return new Promise((resolve, reject) => {
+        api
+          .getLogList(condition)
+          .then(res => {
+            resolve(logData);
           })
           .catch(error => {
             reject(error);

@@ -33,8 +33,8 @@
         now()
         from dual
         where not exists (
-		    select bu from base_staff_info where employeeID=#{creatorId}
-            where bu in (
+		    select bu from base_staff_info base where employeeID=#{creatorId}
+            and bu in (
                 select base.bu from hrbp_special_role role
                 inner join base_staff_info base on role.creatorId = base.employeeID
                 where role.roleName=#{roleName}
@@ -47,7 +47,7 @@
 		inner join (
 			select 1 from dual where not exists
 				(select * from hrbp_special_role where roleName=#{roleName} and creatorId=#{creatorId})
-		) on role.roleId = #{roleId}
+		) temp on role.roleId = #{roleId}
 		set
 		    role.roleName = #{roleName},
 		    role.system = #{system},
@@ -74,20 +74,20 @@
         </if>
     </select>
 
-    <insert id="addExaminationRulesInfo" parameterType="ExaminationRulesInfo">
-        insert into hrbp_examination_rule (roleId, ruleLevel, creatorId, creatorName, createTime, updateStaffId, updateStaffName, updateTime)
-        select #{roleId}, #{ruleLevel}, #{creatorId}, #{creatorName}, #{createTime}, #{updateStaffId}, #{updateStaffName}, #{updateTime} from dual
+    <insert id="addExaminationRulesInfo" parameterType="ExaminationRulesInfo" useGeneratedKeys="true" keyProperty="ruleId">
+        insert into hrbp_examination_rule (roleId, roleLevel, creatorId, creatorName, createTime, updateStaffId, updateStaffName, updateTime)
+        select #{roleId}, #{roleLevel}, #{creatorId}, #{creatorName}, now(), #{updateStaffId}, #{updateStaffName}, now() from dual
 		where not exists (
 		    select bu from base_staff_info where employeeID=#{creatorId}
-            where bu in (
+            and bu in (
                 select base.bu from hrbp_examination_rule rule
                 inner join base_staff_info base on rule.creatorId = base.employeeID
-                where roleId=#{roleId} and ruleLevel=#{ruleLevel}
+                where roleId=#{roleId} and roleLevel=#{roleLevel}
             )
 		)
     </insert>
 
-    <update id="updateExaminationRulesInfo" parameterType="ExaminationRulesInfo">
+    <update id="updateExaminationRulesInfo" parameterType="ExaminationRulesInfo" useGeneratedKeys="true" keyProperty="ruleId">
         update hrbp_examination_rule set
             updateStaffId = #{updateStaffId},
             updateStaffName = #{updateStaffName},
@@ -103,19 +103,19 @@
         select * from hrbp_examination_rule_item where ruleId = #{ruleId}
     </select>
 
-    <insert id="addSigleRuleInfo" parameterType="SingleRuleInfo">
+    <insert id="addSigleRuleInfo" parameterType="java.util.List">
         insert into hrbp_examination_rule_item values
-        <foreach collection="SingleRuleInfo" index="index" item="item" open="(" separator="," close=")">
-            #{item.ruleId},
+        <foreach collection="list" index="index" item="item" separator=",">
+            (#{item.ruleId},
             #{item.itemId},
             #{item.itemType},
             #{item.itemName},
             #{item.credit},
-            #{item.pass}
+            #{item.pass})
         </foreach>
     </insert>
 
-    <delete id="deleteSigleRuleInfo" parameterType="int">
+    <delete id="deleteSingleRuleInfo" parameterType="int">
         delete from hrbp_examination_rule_item where ruleId = #{ruleId}
     </delete>
 </mapper>

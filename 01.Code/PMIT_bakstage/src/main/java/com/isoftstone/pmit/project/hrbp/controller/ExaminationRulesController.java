@@ -74,8 +74,8 @@ public class ExaminationRulesController extends AbstractController {
     @ApiOperation(value="存储考核规则", notes="存储考核规则")
     @PostMapping(value = "/saveExaminationRulesInfo")
     public String saveExaminationRulesInfo(@RequestBody String parameter) {
-        ExaminationRulesParam params = JsonUtils.readValue(parameter, ExaminationRulesParam.class);
-        boolean rst = examinationRulesService.saveExaminationRulesInfo(params);
+        ExaminationRulesParam examinationRulesParam = JsonUtils.readValue(parameter, ExaminationRulesParam.class);
+        boolean rst = examinationRulesService.saveExaminationRulesInfo(examinationRulesParam);
         if (!rst) {
             return AjaxResult.returnToMessage(false, "保存考核规则失败");
         }

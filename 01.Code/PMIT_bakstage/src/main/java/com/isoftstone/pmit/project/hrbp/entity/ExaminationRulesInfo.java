@@ -6,11 +6,11 @@ public class ExaminationRulesInfo {
     // 规则Id
     private int ruleId;
     // 角色Id
-    private String roleId;
+    private int roleId;
     // 级别
-    private String level;
+    private String roleLevel;
     // 创建者工号
-    private int creatorId;
+    private String creatorId;
     // 创建者姓名
     private String creatorName;
     // 创建时间
@@ -30,27 +30,27 @@ public class ExaminationRulesInfo {
         this.ruleId = ruleId;
     }
 
-    public String getRoleId() {
+    public int getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(String roleId) {
+    public void setRoleId(int roleId) {
         this.roleId = roleId;
     }
 
-    public String getLevel() {
-        return level;
+    public String getRoleLevel() {
+        return roleLevel;
     }
 
-    public void setLevel(String level) {
-        this.level = level;
+    public void setRoleLevel(String roleLevel) {
+        this.roleLevel = roleLevel;
     }
 
-    public int getCreatorId() {
+    public String getCreatorId() {
         return creatorId;
     }
 
-    public void setCreatorId(int creatorId) {
+    public void setCreatorId(String creatorId) {
         this.creatorId = creatorId;
     }
 

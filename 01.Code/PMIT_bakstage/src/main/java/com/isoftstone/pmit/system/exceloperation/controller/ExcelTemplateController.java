@@ -27,7 +27,7 @@ public class ExcelTemplateController {
     public void importPersonalInfo(HttpServletRequest request, HttpServletResponse response){
 
         try{
-            File templateFile = new File("src/main/resources/config/personalInfoTemplate.xlsx");
+            File templateFile = new File("src/main/resources/configfilemodel/personalInfoTemplate.xlsx");
             InputStream inputStream = new FileInputStream(templateFile);
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             OutputStream os = response.getOutputStream();
@@ -51,7 +51,7 @@ public class ExcelTemplateController {
     public void importScore(HttpServletRequest request, HttpServletResponse response){
 
         try{
-            File templateFile = new File("src/main/resources/config/scoreTemplate.xlsx");
+            File templateFile = new File("src/main/resources/configfilemodel/scoreTemplate.xlsx");
             InputStream inputStream = new FileInputStream(templateFile);
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             OutputStream os = response.getOutputStream();
