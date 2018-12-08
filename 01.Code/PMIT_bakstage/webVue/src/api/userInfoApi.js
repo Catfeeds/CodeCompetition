@@ -17,7 +17,7 @@ export function logout() {
 
 export function getUserInfo(employeeID) {
   return request({
-    url: "/auth/getEmployee",
+    url: "hrbp/user/getEmployee",
     method: "post",
     data: { employeeID }
   });

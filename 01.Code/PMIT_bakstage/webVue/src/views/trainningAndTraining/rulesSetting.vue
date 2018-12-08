@@ -31,21 +31,6 @@
           :value="item.value"
         ></el-option>
       </el-select>
-      <el-select
-        v-model="searchForm.product"
-        clearable
-        size="mini"
-        class="filter-item"
-        style="width: 130px"
-        placeholder="所属产品线"
-      >
-        <el-option
-          v-for="item in productOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        ></el-option>
-      </el-select>
       <el-button
         class="filter-item"
         type="primary"
@@ -89,27 +74,15 @@ export default {
       productOptions: [],
       searchForm: {
         system: "",
-        role: "",
-        product: ""
+        role: ""
       }
     };
   },
   mounted() {
-    this.getProductInfo();
     this.getSystem();
     this.$refs.roleTab.handleFilter();
   },
   methods: {
-    getProductInfo() {
-      let vm = this;
-      vm.$store.dispatch("getProductInfo").then(data => {
-        if (data) {
-          vm.productOptions = data;
-        } else {
-          vm.productOptions = [];
-        }
-      });
-    },
     getSystem() {
       let vm = this;
       vm.$store.dispatch("querySystem").then(res => {

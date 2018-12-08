@@ -22,18 +22,17 @@
 <script>
 import { mapGetters } from "vuex";
 import SidebarItem from "./SidebarItem";
-import Cookies from "js-cookie";
 
 export default {
   components: { SidebarItem },
   computed: {
-    ...mapGetters(["permission_routers", "sidebar"]),
+    ...mapGetters(["permission_routers", "sidebar", "employeeId"]),
     isCollapse() {
       return !this.sidebar.opened;
     }
   },
   mounted() {
-    this.$store.dispatch("getMenuInfoByEmployeeId", Cookies.get("loginName"));
+    this.$store.dispatch("getMenuInfoByEmployeeId", this.employeeId);
   }
 };
 </script>
