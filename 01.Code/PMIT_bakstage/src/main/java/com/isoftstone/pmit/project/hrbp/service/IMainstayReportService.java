@@ -17,7 +17,7 @@ public interface IMainstayReportService {
 
     public List<TupleData> queryMainstayAge(Map<String,Object> params);
 
-    public MainstayInfo queryMainstayTable(Map<String,Object> params);
+    public Map<String,Object> queryMainstayTable(Map<String,Object> params);
 
 
 }

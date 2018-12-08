@@ -33,6 +33,7 @@ public class MainstayReportController {
     public String queryMainstayLevel(@RequestBody Map<String, Object> params) {
         List<String> result;
         try {
+            params.put("region",params.get("workPlaceArea"));
             result = levelRlaBusService.queryMainstayLevel(params);
         } catch (Exception e) {
             e.printStackTrace();
@@ -109,7 +110,7 @@ public class MainstayReportController {
     @ApiOperation(value = "查询骨干信息表格", notes = "查询骨干信息表格")
     @PostMapping(value = "/queryMainstayTable")
     public String queryMainstayTable(@RequestBody Map<String, Object> params) {
-        MainstayInfo result;
+        Map<String, Object> result;
         try {
             result = mainstayReportService.queryMainstayTable(params);
         } catch (Exception e) {

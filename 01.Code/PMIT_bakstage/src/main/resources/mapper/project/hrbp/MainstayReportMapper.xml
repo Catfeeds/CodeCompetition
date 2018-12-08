@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.MainstayReportMapper">
-    <select id="queryMainstayProportionChart"  parameterType="java.util.Map" resultType="java.util.Map">
+    <select id="queryMainstayProportionChart"  parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
         SELECT
           SUM(CASE WHEN po_role.po_role_id IS NULL THEN 0 ELSE 1 END) AS backnonenum,
           SUM(CASE WHEN po_role.po_role_id IS NULL THEN 1 ELSE 0 END) AS nobacknonenum
@@ -188,7 +188,7 @@
           ) temp
         GROUP BY name
     </select>
-    
+
     <!--
     <select id="queryMainstayTraining" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT
@@ -312,5 +312,142 @@
           family_information
         ON
           staff_info.staff_id =family_information.employeeID
+    </select>
+
+    <select id="queryBaseStaffInfoSize" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) AS totleNumber
+        FROM
+        base_staff_info
+        LEFT JOIN
+        (
+        SELECT
+        staff_id,
+        po_role_id
+        FROM
+        po_staff_info,po_temp
+        WHERE
+        po_staff_info.project_id =po_temp.poID
+        AND
+        po_temp.endDate >= CURRENT_DATE
+        ) po_role
+        ON base_staff_info.employeeID = po_role.staff_id
+        <where>
+            <choose>
+                <when test="isBacknone">
+                    po_role.po_role_id IS NOT NULL
+                </when>
+                <otherwise>
+                    po_role.po_role_id IS NULL
+                </otherwise>
+            </choose>
+            <if test="null != bu and '' != bu">
+                AND base_staff_info.bu = #{bu}
+            </if>
+            <if test="null != workPlaceArea and '' != workPlaceArea">
+                AND base_staff_info.workPlaceArea = #{workPlaceArea}
+            </if>
+            <if test="null != pdu and '' != pdu">
+                AND base_staff_info.pdu = #{pdu}
+            </if>
+            <if test="null != post and '' != post">
+                AND base_staff_info.generalPosition = #{post}
+            </if>
+            <if test="null != staffID and '' != staffID">
+                AND base_staff_info.employeeID like '%${staffID}%'
+            </if>
+            <if test="null != staffName and '' != staffName">
+                AND base_staff_info.employeeName like '%${staffName}%'
+            </if>
+        </where>
+    </select>
+
+    <select id="queryBaseStaffInfo" parameterType="java.util.Map" resultType="java.util.Map">
+        SET @r:=-1;
+
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        @r:=@r+1 as row_num,
+        employeeID AS staffID,
+        employeeName AS staffName,
+        costCenter AS costCenter,
+        sex AS sex,
+        cooperationMode AS cooperationMode,
+        positionRole AS positionRole,
+        employmentDate AS employmentDate,
+        graduationTime AS graduationTime,
+        education AS education,
+        if211 AS if211
+        FROM
+        base_staff_info
+        LEFT JOIN
+        (
+        SELECT
+        staff_id,
+        po_role_id
+        FROM
+        po_staff_info,po_temp
+        WHERE
+        po_staff_info.project_id =po_temp.poID
+        AND
+        po_temp.endDate >= CURRENT_DATE
+        ) po_role
+        ON base_staff_info.employeeID = po_role.staff_id
+        <where>
+            <choose>
+                  <when test="isBacknone">
+                      po_role.po_role_id IS NOT NULL
+                  </when>
+                  <otherwise>
+                      po_role.po_role_id IS NULL
+                  </otherwise>
+              </choose>
+              <if test="null != bu and '' != bu">
+                  AND base_staff_info.bu = #{bu}
+              </if>
+              <if test="null != workPlaceArea and '' != workPlaceArea">
+                  AND base_staff_info.workPlaceArea = #{workPlaceArea}
+              </if>
+              <if test="null != pdu and '' != pdu">
+                  AND base_staff_info.pdu = #{pdu}
+              </if>
+              <if test="null != post and '' != post">
+                  AND base_staff_info.generalPosition = #{post}
+              </if>
+              <if test="null != staffID and '' != staffID">
+                  AND base_staff_info.employeeID like '%${staffID}%'
+              </if>
+              <if test="null != staffName and '' != staffName">
+                  AND base_staff_info.employeeName like '%${staffName}%'
+              </if>
+          </where>
+          ) TMP
+        WHERE row_num BETWEEN #{rowStart} AND #{rowEnd}
+    </select>
+
+    <select id="queryStaffTrainInfo" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+          courseName,
+          trainName,
+          staffID,
+          score,
+          passScore,
+          sourseScore
+        FROM
+          train_temp
+        <where>
+            <if test="null != staffIDs">
+                staffID IN
+                <foreach collection="staffIDs" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="null != trainName and '' != trainName">
+                AND trainName = #{trainName}
+            </if>
+        </where>
     </select>
 </mapper>

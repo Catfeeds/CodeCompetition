@@ -22,4 +22,11 @@ public interface MainstayReportMapper {
     //public List<Map<String, Object>> queryMainstayTraining(Map<String, Object> queryMap);
 
     public Map<String, Object> queryMainstayAge(Map<String, Object> queryMap);
+
+    public Integer queryBaseStaffInfoSize(Map<String, Object> queryMap);
+
+    public List<Map<String,Object>> queryBaseStaffInfo(Map<String, Object> queryMap);
+
+    public List<Map<String,Object>> queryStaffTrainInfo(Map<String, Object> queryMap);
+
 }
