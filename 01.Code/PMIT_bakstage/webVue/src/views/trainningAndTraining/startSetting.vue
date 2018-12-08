@@ -602,8 +602,7 @@ export default {
     },
     getProductInfo() {
       let vm = this;
-      vm.$store.dispatch("getProductInfo").then(() => {
-        const data = vm.$store.getters.productList;
+      vm.$store.dispatch("getProductInfo").then(data => {
         if (data) {
           vm.productOptions = data;
         } else {

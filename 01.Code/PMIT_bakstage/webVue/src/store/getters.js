@@ -15,10 +15,6 @@ const getters = {
   roles: state => state.userInfoStore.roles,
   setting: state => state.userInfoStore.setting,
   permission_routers: state => state.appStore.routers,
-  addRouters: state => state.appStore.addRouters,
-  productList: state => state.appStore.productList,
-  duList: state => state.appStore.duList,
-  pduList: state => state.appStore.pduList,
-  areaList: state => state.appStore.areaList
+  addRouters: state => state.appStore.addRouters
 };
 export default getters;

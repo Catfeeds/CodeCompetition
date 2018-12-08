@@ -311,13 +311,8 @@ export default {
   methods: {
     getProductInfo() {
       let vm = this;
-      vm.$store.dispatch("getProductInfo").then(() => {
-        const data = vm.$store.getters.productList;
-        if (data) {
-          vm.productOptions = data;
-        } else {
-          vm.productOptions = [];
-        }
+      vm.$store.dispatch("getProductInfo").then(data => {
+        vm.productOptions = data;
       });
     },
     getDUInfo(product) {
@@ -329,8 +324,7 @@ export default {
         vm.searchForm.pdu = "";
         return;
       }
-      vm.$store.dispatch("getDUInfo", { bu: product }).then(() => {
-        const data = vm.$store.getters.duList;
+      vm.$store.dispatch("getDUInfo", { bu: product }).then(data => {
         if (data) {
           vm.duOptions = data;
         } else {
@@ -342,8 +336,7 @@ export default {
     },
     getPDUInfo(product, du) {
       let vm = this;
-      vm.$store.dispatch("getPDUInfo", { bu: product, du: du }).then(() => {
-        const data = vm.$store.getters.pduList;
+      vm.$store.dispatch("getPDUInfo", { bu: product, du: du }).then(data => {
         if (data) {
           vm.pduOptions = data;
         } else {
@@ -498,7 +491,7 @@ export default {
       this.page.currentPage = 1;
       this.getEmployeeList();
     },
-    handleError(){
+    handleError() {
       this.$message.error("文件导入失败,请检查文件格式是否合法");
     }
   }

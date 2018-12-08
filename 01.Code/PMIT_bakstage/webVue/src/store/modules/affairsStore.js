@@ -63,30 +63,6 @@ export default {
           });
       });
     },
-    queryAffairsSeries() {
-      return new Promise((resolve, reject) => {
-        api
-          .querySeries()
-          .then(response => {
-            resolve(response.data);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
-    queryAffairsSystem() {
-      return new Promise((resolve, reject) => {
-        api
-          .querySystem()
-          .then(response => {
-            resolve(response.data);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
     addDimensionInfo(commit, dimensionInfo) {
       return new Promise((resolve, reject) => {
         api

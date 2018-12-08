@@ -4,12 +4,7 @@
       <el-row>
         <el-col :span="4">
           <el-form-item label="产品线">
-            <el-select
-              v-model="form.product"
-              size="mini"
-              placeholder="请选择"
-              @change="changeProduct"
-            >
+            <el-select v-model="form.product" size="mini" placeholder="请选择" @change="changeProduct">
               <el-option
                 v-for="item in productOptions"
                 :key="item.value"
@@ -21,12 +16,7 @@
         </el-col>
         <el-col :span="4">
           <el-form-item label="DU">
-            <el-select
-              v-model="form.du"
-              size="mini"
-              placeholder="请选择"
-              @change="changeDU"
-            >
+            <el-select v-model="form.du" size="mini" placeholder="请选择" @change="changeDU">
               <el-option
                 v-for="item in duOptions"
                 :key="item.value"
@@ -50,27 +40,17 @@
         </el-col>
         <el-col :span="5">
           <el-form-item label="项目组名称">
-            <el-input
-              v-model="form.teamName"
-              size="mini"
-              placeholder="请输入"
-            ></el-input>
+            <el-input v-model="form.teamName" size="mini" placeholder="请输入"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item label="PM">
-            <el-input
-              v-model="form.pm"
-              size="mini"
-              placeholder="请输入"
-            ></el-input>
+            <el-input v-model="form.pm" size="mini" placeholder="请输入"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="3">
           <el-form-item>
-            <el-button type="primary" size="mini" @click="onSubmit"
-              >查询</el-button
-            >
+            <el-button type="primary" size="mini" @click="onSubmit">查询</el-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -85,12 +65,7 @@
       highlight-current-row
       style="width: 100%"
     >
-      <el-table-column
-        header-align="center"
-        :label="$t('table.id')"
-        width="80"
-        sortable="true"
-      >
+      <el-table-column header-align="center" :label="$t('table.id')" width="80" sortable="true">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
         </template>
@@ -107,23 +82,13 @@
         </template>
       </el-table-column>
 
-      <el-table-column
-        min-width="150px"
-        header-align="center"
-        label="DU"
-        sortable
-      >
+      <el-table-column min-width="150px" header-align="center" label="DU" sortable>
         <template slot-scope="scope">
           <span>{{ scope.row.du }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column
-        min-width="150px"
-        header-align="center"
-        label="PDU"
-        sortable
-      >
+      <el-table-column min-width="150px" header-align="center" label="PDU" sortable>
         <template slot-scope="scope">
           <span>{{ scope.row.pdu }}</span>
         </template>
@@ -143,30 +108,20 @@
       <el-table-column width="150px" label="PM" header-align="center">
         <template slot-scope="scope">
           <template v-if="scope.row.edit">
-            <el-input
-              v-model="scope.row.title"
-              class="edit-input"
-              size="small"
-            />
+            <el-input v-model="scope.row.title" class="edit-input" size="small"/>
             <el-button
               class="cancel-btn"
               size="small"
               icon="el-icon-refresh"
               type="warning"
               @click="cancelEdit(scope.row);"
-              >cancel</el-button
-            >
+            >cancel</el-button>
           </template>
           <span v-else>{{ scope.row.pm }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column
-        align="center"
-        :label="$t('table.option')"
-        width="120"
-        header-align="center"
-      >
+      <el-table-column align="center" :label="$t('table.option')" width="120" header-align="center">
         <template slot-scope="scope">
           <el-button
             v-if="scope.row.edit"
@@ -174,16 +129,14 @@
             size="small"
             icon="el-icon-circle-check-outline"
             @click="confirmEdit(scope.row);"
-            >Ok</el-button
-          >
+          >Ok</el-button>
           <el-button
             v-else
             type="primary"
             size="small"
             icon="el-icon-edit"
             @click="scope.row.edit = !scope.row.edit;"
-            >Edit</el-button
-          >
+          >Edit</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -214,8 +167,7 @@ export default {
   },
   mounted() {
     let vm = this;
-    vm.$store.dispatch("getProductInfo").then(() => {
-      const data = vm.$store.getters.productList;
+    vm.$store.dispatch("getProductInfo").then(data => {
       if (data) {
         vm.productOptions = data;
         vm.form.product = data[0] && data[0].value;
@@ -242,8 +194,7 @@ export default {
     },
     changeProduct(value) {
       let vm = this;
-      vm.$store.dispatch("getDUInfo", value).then(() => {
-        const data = vm.$store.getters.duList;
+      vm.$store.dispatch("getDUInfo", value).then(data => {
         if (data) {
           vm.duOptions = data;
           vm.form.du = data[0] && data[0].value;
@@ -255,8 +206,7 @@ export default {
     },
     changeDU(value) {
       let vm = this;
-      vm.$store.dispatch("getPDUInfo", vm.form.product, value).then(() => {
-        const data = vm.$store.getters.pduList;
+      vm.$store.dispatch("getPDUInfo", vm.form.product, value).then(data => {
         if (data) {
           vm.pduOptions = data;
           vm.form.pdu = data[0] && data[0].value;

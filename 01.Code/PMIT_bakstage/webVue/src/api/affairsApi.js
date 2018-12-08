@@ -34,18 +34,6 @@ function editAffairsInfo(affairsInfo) {
     data: affairsInfo
   });
 }
-function querySeries() {
-  return request({
-    url: "hrbp/affair/findExamAffairSeries",
-    method: "post"
-  });
-}
-function querySystem() {
-  return request({
-    url: "hrbp/affair/findExamAffairSystem",
-    method: "post"
-  });
-}
 function addDimensionInfo(dimensionInfo) {
   return request({
     url: "hrbp/dimension/insertDimension",
@@ -66,8 +54,6 @@ export default {
   addAffairsInfo,
   editAffairsInfo,
   delAffairsInfo,
-  querySeries,
-  querySystem,
   addDimensionInfo,
   getDimensionInfo
 };

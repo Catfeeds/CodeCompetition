@@ -188,8 +188,7 @@
           ></el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane label="教育信息" name="tab4"> </el-tab-pane>
-      <el-tab-pane label="家庭信息" name="tab5">
+      <el-tab-pane label="家庭信息" name="tab4">
         <table class="base-information">
           <tr>
             <th>出生年月</th>
@@ -233,7 +232,7 @@
           </tr>
         </table>
       </el-tab-pane>
-      <el-tab-pane label="个人风采" name="tab6">
+      <el-tab-pane label="个人风采" name="tab5">
         <table class="base-information">
           <tr>
             <th>喜欢的食物</th>
