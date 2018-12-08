@@ -3,7 +3,9 @@ package com.isoftstone.pmit.system.exceloperation.controller;
 import com.isoftstone.pmit.system.exceloperation.service.IPersonalInfoService;
 import com.isoftstone.pmit.system.exceloperation.util.ExcelOperationUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,13 +30,15 @@ public class PersonalInfoController {
      * @param personalInfoPath 需要导入excel文件路径
      * @return
      */
-    @RequestMapping(value = "/importPersonalInfo")
+    @PostMapping(value = "/importPersonalInfo")
+    @ApiOperation(value = "importPersonalInfo", notes = "importPersonalInfo")
     public String importPersonalInfo(@RequestParam(value = "personalInfoPath", required = true)
                                                String personalInfoPath){
         return personalInfoService.importPersonalInfo(personalInfoPath);
     }
 
-    @RequestMapping(value = "/exportScore")
+    @PostMapping(value = "/exportScore")
+    @ApiOperation(value = "exportScore", notes = "exportScore")
     public void exportScore(HttpServletRequest request, HttpServletResponse response){
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         List<String> listTitle = new ArrayList<String>();

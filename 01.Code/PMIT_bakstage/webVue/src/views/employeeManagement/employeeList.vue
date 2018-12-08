@@ -68,19 +68,49 @@
         class="filter-item"
         type="primary"
         size="mini"
+        style="margin-left: 8px;"
         icon="el-icon-search"
         @click="handleFilter"
-        >{{ $t("table.search") }}</el-button
-      >
+      >{{ $t("table.search") }}</el-button>
       <el-button
         class="filter-item"
-        style="margin-left: 10px;"
+        style="margin-left: 8px;"
         type="primary"
         size="mini"
         icon="el-icon-plus"
         @click="handleCreate"
-        >{{ $t("table.add") }}</el-button
+      >{{ $t("button.add") }}</el-button>
+      <el-button
+        class="filter-item"
+        style="margin-left: 8px;"
+        type="primary"
+        size="mini"
+        icon="el-icon-download"
+        @click="handleCreate"
+      >{{ $t("button.export") }}</el-button>
+      <el-upload
+        class="filter-item"
+        action="system/exceloperation/importPersonalInfo"
+        :before-upload="handleUpload"
+        :on-success="handleSuccess"
+        :show-file-list="false"
+        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
       >
+        <el-button
+          size="mini"
+          style="margin-left: 8px;"
+          icon="el-icon-upload2"
+          type="primary"
+        >{{ $t("button.import") }}</el-button>
+      </el-upload>
+      <el-button
+        class="filter-item"
+        style="margin-left: 8px;"
+        type="primary"
+        size="mini"
+        icon="el-icon-download"
+        @click="handleCreate"
+      >{{ $t("button.template") }}</el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -118,13 +148,7 @@
         fixed="left"
         prop="employeeName"
       ></el-table-column>
-      <el-table-column
-        width="80"
-        header-align="center"
-        label="性别"
-        sortable="custom"
-        prop="sex"
-      ></el-table-column>
+      <el-table-column width="80" header-align="center" label="性别" sortable="custom" prop="sex"></el-table-column>
       <el-table-column
         min-width="100"
         header-align="center"
@@ -157,13 +181,7 @@
         sortable="custom"
         prop="bu"
       ></el-table-column>
-      <el-table-column
-        min-width="120"
-        header-align="center"
-        label="DU"
-        sortable="custom"
-        prop="du"
-      ></el-table-column>
+      <el-table-column min-width="120" header-align="center" label="DU" sortable="custom" prop="du"></el-table-column>
       <el-table-column
         min-width="230"
         header-align="center"
@@ -213,12 +231,7 @@
         sortable="custom"
         prop="telephone"
       ></el-table-column>
-      <el-table-column
-        align="center"
-        :label="$t('table.option')"
-        width="180"
-        header-align="center"
-      >
+      <el-table-column align="center" :label="$t('table.option')" width="180" header-align="center">
         <template slot-scope="scope">
           <el-button
             type="primary"
@@ -238,12 +251,7 @@
             :to="'/employeeManagement/employeeDetail/' + scope.row.employeeID"
             style="margin-left:10px"
           >
-            <el-button
-              type="primary"
-              size="mini"
-              icon="el-icon-search"
-              title="查看详情"
-            ></el-button>
+            <el-button type="primary" size="mini" icon="el-icon-search" title="查看详情"></el-button>
           </router-link>
         </template>
       </el-table-column>
@@ -313,6 +321,13 @@ export default {
     },
     getDUInfo(product) {
       let vm = this;
+      if (!product) {
+        vm.duOptions = [];
+        vm.pduOptions = [];
+        vm.searchForm.du = "";
+        vm.searchForm.pdu = "";
+        return;
+      }
       vm.$store.dispatch("getDUInfo", { bu: product }).then(() => {
         const data = vm.$store.getters.duList;
         if (data) {
@@ -320,6 +335,8 @@ export default {
         } else {
           vm.duOptions = [];
         }
+        vm.searchForm.du = "";
+        vm.searchForm.pdu = "";
       });
     },
     getPDUInfo(product, du) {
@@ -371,8 +388,6 @@ export default {
       this.getDUInfo(this.searchForm.product);
     },
     changeDU() {
-      this.searchForm.du = "";
-      this.searchForm.pdu = "";
       if (!this.searchForm.product) {
         this.$message.warning("请选择所属产品线");
         return;
@@ -458,6 +473,27 @@ export default {
       vm.$router.push({
         path: "/employeeManagement/empolyeeDetail"
       });
+    },
+    handleUpload(file) {
+      var ext = file.name.substring(file.name.lastIndexOf(".") + 1);
+      const extension = ext === "xls" || ext === "xlsx";
+      const isLt2M = file.size / 1024 / 1024 < 10;
+      if (!extension) {
+        this.$message({
+          message: "上传文件只能是 xls、xlsx格式!",
+          type: "warning"
+        });
+      }
+      if (!isLt2M) {
+        this.$message({
+          message: "上传文件大小不能超过 10MB!",
+          type: "warning"
+        });
+      }
+      return extension || (extension2 && isLt2M);
+    },
+    handleSuccess(response, file, fileList) {
+      console.log(arguments);
     }
   }
 };
