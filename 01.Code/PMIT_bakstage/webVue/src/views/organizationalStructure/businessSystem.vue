@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
-    <el-form :inline="true" :model="formInline">
+    界面完善中。。。
+    <!-- <el-form :inline="true" :model="formInline">
       <el-form-item label="产品线">
         <el-select
           v-model="product"
@@ -45,7 +46,7 @@
           </template>
         </el-table-column>
       </el-table>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -53,10 +54,10 @@
 import { mapActions } from "vuex";
 export default {
   mounted() {
-    var vm = this;
-    vm.getRSProductInfo.then(function(data) {
-      vm.productList = data;
-    });
+    // var vm = this;
+    // vm.getRSProductInfo.then(function(data) {
+    //   vm.productList = data;
+    // });
   },
   data() {
     return {

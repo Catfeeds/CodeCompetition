@@ -51,7 +51,7 @@
         size="mini"
         clearable
         class="filter-item"
-        style="width: 130px"
+        style="width: 110px"
         placeholder="培训名称"
       ></el-input>
       <el-input
@@ -59,26 +59,42 @@
         size="mini"
         clearable
         class="filter-item"
-        style="width: 130px"
+        style="width: 110px"
         placeholder="讲师姓名"
       ></el-input>
+      <el-date-picker
+        v-model="searchForm.startDate"
+        size="mini"
+        class="filter-item"
+        type="datetime"
+        style="width:160px"
+        format="yyyy-MM-dd HH:mm"
+        placeholder="培训开始日期"
+      ></el-date-picker>
+      <el-date-picker
+        v-model="searchForm.endDate"
+        size="mini"
+        class="filter-item"
+        type="datetime"
+        format="yyyy-MM-dd HH:mm"
+        style="width:160px"
+        placeholder="培训结束日期"
+      ></el-date-picker>
       <el-button
         class="filter-item"
         type="primary"
         size="mini"
         icon="el-icon-search"
         @click="handleFilter"
-        >{{ $t("table.search") }}</el-button
-      >
+      >{{ $t("table.search") }}</el-button>
       <el-button
         class="filter-item"
-        style="margin-left: 10px;"
+        style="margin-left: 5px;"
         type="primary"
         size="mini"
         icon="el-icon-plus"
         @click="handleCreate"
-        >{{ $t("table.add") }}</el-button
-      >
+      >{{ $t("table.add") }}</el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -107,55 +123,15 @@
         prop="trainingName"
       ></el-table-column>
 
-      <el-table-column
-        min-width="150px"
-        header-align="center"
-        label="所属系列"
-        sortable
-        prop="series"
-      ></el-table-column>
+      <el-table-column min-width="150px" header-align="center" label="所属系列" sortable prop="series"></el-table-column>
+      <el-table-column width="120px" header-align="center" label="所属产品线" sortable prop="bu"></el-table-column>
+      <el-table-column min-width="150px" header-align="center" label="讲师" sortable prop="sort"></el-table-column>
 
-      <el-table-column
-        min-width="150px"
-        header-align="center"
-        label="所属体系"
-        sortable
-        prop="sort"
-      ></el-table-column>
-
-      <el-table-column
-        min-width="110"
-        header-align="center"
-        label="课程类型"
-        sortable
-        prop="type"
-      ></el-table-column>
-
-      <el-table-column
-        width="120px"
-        header-align="center"
-        label="所属产品线"
-        sortable
-        prop="bu"
-      ></el-table-column>
-      <el-table-column
-        width="110"
-        header-align="center"
-        label="创建人"
-        sortable
-        prop="creatorName"
-      ></el-table-column>
-      <el-table-column
-        min-width="110"
-        header-align="center"
-        label="最后更新人"
-        sortable
-        prop="updateName"
-      ></el-table-column>
+      <el-table-column min-width="110" header-align="center" label="课程类型" sortable prop="type"></el-table-column>
       <el-table-column
         min-width="140"
         header-align="center"
-        label="最后更新时间"
+        label="培训时间"
         sortable
         prop="createTime"
       >
@@ -163,12 +139,8 @@
           <span>{{ scope.row.createTime | formatDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        align="center"
-        :label="$t('table.option')"
-        width="180"
-        header-align="center"
-      >
+      <el-table-column width="120px" header-align="center" label="班级状态" sortable prop="bu"></el-table-column>
+      <el-table-column align="center" :label="$t('table.option')" width="130" header-align="center">
         <template slot-scope="scope">
           <el-button
             type="primary"
@@ -183,13 +155,6 @@
             icon="el-icon-delete"
             title="删除"
             @click="handleDel(scope.row.trainingId);"
-          ></el-button>
-          <el-button
-            type="primary"
-            size="mini"
-            icon="el-icon-search"
-            title="查看"
-            @click="handleDetail(scope.row);"
           ></el-button>
         </template>
       </el-table-column>
@@ -206,21 +171,11 @@
       ></el-pagination>
     </el-row>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="45%">
-      <el-form
-        :model="trainForm"
-        size="mini"
-        label-width="120px"
-        ref="trainForm"
-        :rules="rules"
-      >
+      <el-form :model="trainForm" size="mini" label-width="120px" ref="trainForm" :rules="rules">
         <el-row v-if="isEdit || isDetail">
           <el-col>
             <el-form-item label="培训编号" prop="trainId">
-              <el-input
-                v-model="trainForm.trainId"
-                autocomplete="off"
-                disabled
-              ></el-input>
+              <el-input v-model="trainForm.trainId" autocomplete="off" disabled></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -304,11 +259,7 @@
                 maxlength="64"
                 disabled
               ></el-input>
-              <el-select
-                v-model="trainForm.courseType"
-                placeholder="请选择"
-                v-else
-              >
+              <el-select v-model="trainForm.courseType" placeholder="请选择" v-else>
                 <el-option
                   v-for="item in courseTypeOptions"
                   :key="item.value"
@@ -328,11 +279,7 @@
                 maxlength="64"
                 disabled
               ></el-input>
-              <el-select
-                v-model="trainForm.trainType"
-                placeholder="请选择"
-                v-else
-              >
+              <el-select v-model="trainForm.trainType" placeholder="请选择" v-else>
                 <el-option
                   v-for="item in trainTypeOptions"
                   :key="item.value"
@@ -364,11 +311,7 @@
                 maxlength="64"
                 disabled
               ></el-input>
-              <el-select
-                v-model="trainForm.product"
-                placeholder="请选择"
-                v-else
-              >
+              <el-select v-model="trainForm.product" placeholder="请选择" v-else>
                 <el-option
                   v-for="item in productOptions"
                   :key="item.value"
@@ -390,19 +333,9 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false;" size="mini" v-if="!isDetail"
-          >取 消</el-button
-        >
-        <el-button @click="dialogVisible = false;" size="mini" v-if="isDetail"
-          >关 闭</el-button
-        >
-        <el-button
-          type="primary"
-          @click="submtForm('trainForm');"
-          size="mini"
-          v-if="!isDetail"
-          >确 定</el-button
-        >
+        <el-button @click="dialogVisible = false;" size="mini" v-if="!isDetail">取 消</el-button>
+        <el-button @click="dialogVisible = false;" size="mini" v-if="isDetail">关 闭</el-button>
+        <el-button type="primary" @click="submtForm('trainForm');" size="mini" v-if="!isDetail">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -415,7 +348,7 @@ export default {
   filters: {
     formatDate(time) {
       let date = new Date(time);
-      return formatDate(date, "yyyy-MM-dd hh:mm:ss");
+      return formatDate(date, "yyyy-MM-dd hh:mm");
     }
   },
   computed: {
@@ -448,7 +381,9 @@ export default {
         courseType: "",
         product: "",
         trainName: "",
-        series: ""
+        series: "",
+        startDate: "",
+        endDate: ""
       },
       trainForm: {
         trainId: "",

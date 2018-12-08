@@ -63,19 +63,32 @@
         >{{ $t("button.template") }}</el-button>
       </el-form-item>
     </el-form>
-    <el-table :data="tableData" style="width: 100%" max-height="350" :cell-class-name="cellClassFn">
+    <el-table :data="tableData" style="width: 100%"
+     border  fit   size="mini" stripe 
+      highlight-current-row max-height="350" :cell-class-name="cellClassFn">
       <el-table-column fixed type="index" width="60"></el-table-column>
+      <el-table-column label="编号" min-width="80" prop="employeeID" width="60"></el-table-column>
+      <el-table-column label="姓名" min-width="80" prop="employeeName" width="60"></el-table-column>
       <el-table-column
         v-for="(pItem, index) in headers"
         :key="index"
         :label="pItem.name"
-        :prop="pItem.id"
+        :prop="pItem.courses && pItem.courses.length ===1? pItem.courses[0].courseID :pItem.id"
         header-align="center"
         align="center"
         width="100"
       >
         <el-table-column
-          v-if="pItem.courses && pItem.courses.length > 0"
+          v-if="pItem.courses && pItem.courses.length > 1"
+            label="总分"
+            header-align="center"
+            align="center"
+            :formatter="calcTotalScore"
+          >
+          </el-table-column>
+        
+        <el-table-column
+          v-if="pItem.courses && pItem.courses.length > 1"
           v-for="item in pItem.courses"
           :key="item.courseID"
           :label="item.courseName"
@@ -90,7 +103,7 @@
         @size-change="handleSizeChange"
         @current-change="handleSizeChange"
         :current-page.sync="currentPage"
-        :page-size="100"
+        :page-size="pageSize"
         layout="total, slot, prev, pager, next"
         :total="total"
         prev-text="上一页"
@@ -123,8 +136,8 @@ export default {
       headers: [],
       tableData: [],
       currentPage: 1,
-      pageSize: 1,
-      total: 100
+      pageSize: 100,
+      total: 0
     };
   },
 
@@ -163,10 +176,9 @@ export default {
   },
   watch: {
     dataSource(data) {
-      this.currentPage = 1;
-      this.total = data.datas.length;
-      this.headers = data.trains;
-      this.handleSizeChange();
+      this.tableData = data.allCourseScoreList;
+      this.headers = data.columnNameMap;
+      this.total= data.size;
     }
   },
   methods: {
@@ -179,15 +191,15 @@ export default {
       this.$store.commit("setSDPDUData", []);
       this.getSDPDUList(this.area);
     },
-    handleFilter() {
+    handleFilter(arg,curPage) {
+      this.currentPage =curPage || 1;
       var params = this.getSDParams();
+      // params.currPage = this.currentPage;
+      // params.pageSize=this.pageSize;
       this.$store.dispatch("getTrainingScore1", params);
     },
     handleSizeChange() {
-      this.tableData = this.dataSource.datas.slice(
-        (this.currentPage - 1) * 100,
-        this.currentPage * 100 + 1
-      );
+      this.handleFilter(null,this.currentPage);
     },
     cellClassFn(obj) {
       return obj.row[obj.column.property] == 0 ? "cell-zero" : "";

@@ -22,9 +22,16 @@
           <i class="el-icon-caret-bottom"></i>
         </div>
         <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item style="cursor:default">
+            <span style="display:block;">
+            {{employeeName}}
+            </span>
+          </el-dropdown-item>
+          <el-dropdown-item divided>
           <router-link to="/">
-            <el-dropdown-item>{{ $t("navbar.dashboard") }}</el-dropdown-item>
+            {{ $t("navbar.dashboard") }}
           </router-link>
+          </el-dropdown-item>
           <el-dropdown-item divided>
             <span style="display:block;" @click="logout">
               {{
@@ -113,7 +120,7 @@ export default {
     LangSelect
   },
   computed: {
-    ...mapGetters(["sidebar", "employeeId", "empolyeeName", "avatar", "device"])
+    ...mapGetters(["sidebar", "employeeId", "employeeName", "avatar", "device"])
   },
   methods: {
     toggleSideBar() {
