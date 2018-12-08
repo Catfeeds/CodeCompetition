@@ -1,6 +1,6 @@
 <template>
   <div style="height:250px;position:relative;">
-    <div class="chart-operate">
+    <!-- <div class="chart-operate">
       <i
         class="el-icon-arrow-up"
         v-if="levelData.length > 0"
@@ -8,7 +8,7 @@
         title="展示上一级"
       ></i>
       <i class="el-icon-arrow-down" @click="onDrillDown" title="展示下一级"></i>
-    </div>
+    </div> -->
     <div id="departmentChart1" style="height:250px;"></div>
   </div>
 </template>
@@ -70,8 +70,15 @@ export default {
         grid: {
           top: 40
         },
+        dataZoom: [
+        {
+            type: 'inside',
+            start: 0,
+            end: Math.ceil((7/(obj.xData.length||1))*100)
+        }
+        ],
         tooltip: {
-          triggerOn: "click",
+          // triggerOn: "click",
           show: true,
           formatter: "{b0}: {c0}"
         },
@@ -93,25 +100,25 @@ export default {
           },
           axisTick: {
             show: false
-          },
-          axisPointer: {
-            value: this.gridIndex,
-            lineStyle: {
-              color: "#E6A23C",
-              opacity: 0.5,
-              width: 2
-            },
-            label: {
-              show: false,
-              backgroundColor: "#E6A23C"
-            },
-            handle: {
-              show: true,
-              color: "#E6A23C",
-              size: 25,
-              margin: 0
-            }
           }
+          // axisPointer: {
+          //   value: this.gridIndex,
+          //   lineStyle: {
+          //     color: "#E6A23C",
+          //     opacity: 0.5,
+          //     width: 2
+          //   },
+          //   label: {
+          //     show: false,
+          //     backgroundColor: "#E6A23C"
+          //   },
+          //   handle: {
+          //     show: true,
+          //     color: "#E6A23C",
+          //     size: 25,
+          //     margin: 0
+          //   }
+          // }
         },
         yAxis: {
           type: "value",

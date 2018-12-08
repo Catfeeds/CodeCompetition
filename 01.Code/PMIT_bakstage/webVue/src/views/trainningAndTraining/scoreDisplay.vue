@@ -2,17 +2,17 @@
   <div class="app-container">
     <el-form :inline="true">
       <el-form-item label>
-        <el-select v-model="product" size="mini" placeholder="产品线" @change="productChange">
-          <el-option v-for="item in productOptions" :key="item" :label="item" :value="item.value"></el-option>
+        <el-select v-model="product" size="mini" clearable placeholder="产品线" @change="productChange">
+          <el-option v-for="item in productOptions" :key="item" :label="item" :value="item"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label>
-        <el-select v-model="area" size="mini" placeholder="区域" @change="areaChange">
+        <el-select v-model="area" size="mini" clearable placeholder="区域" @change="areaChange">
           <el-option v-for="item in areaOptions" :key="item" :label="item" :value="item"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label>
-        <el-select v-model="area" size="mini" placeholder="交付部">
+        <el-select v-model="pdu" size="mini" clearable placeholder="交付部">
           <el-option v-for="item in pduOptions" :key="item" :label="item" :value="item"></el-option>
         </el-select>
       </el-form-item>
