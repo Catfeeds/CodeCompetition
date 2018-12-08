@@ -60,7 +60,7 @@ public class TrainingSettingService implements ITrainingSettingService {
 		map.put("updaterId", param.getUpdaterId());
 		String updaterName = null;
 		if(null != param.getUpdaterId() && param.getUpdaterId() != "") {
-			updaterName = trainingSettingMapper.queryNameByID(param.getUpdateName());
+			updaterName = trainingSettingMapper.queryNameByID(param.getUpdaterId());
 		}
 		map.put("updaterName", updaterName);
 		map.put("trainingDes", param.getTrainingDes());

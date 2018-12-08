@@ -34,14 +34,12 @@
 			class_type as classType,
 			bu,
 			creator_id as creatorId,
-			creator_name ascreatorName,
+			creator_name as creatorName,
 			create_time as createTime,
 			updater_id as updaterId,
-			updater_name as updateName
-			<if test="null != trainingId and trainingId != ''">
-           	, training_des as trainingDes
-           	, training_duration as trainingDuration
-       		</if>
+			updater_name as updateName, 
+			training_des as trainingDes, 
+			training_duration as trainingDuration
 		from
 			training_info
 		where
@@ -64,6 +62,8 @@
 		<if test="null != trainingId and trainingId != ''">
             AND training_id = #{trainingId}
         </if>
+        order by
+        	create_time desc;
 	</select>
 
 	<select id="addTrainingInfo" parameterType="java.util.Map">
