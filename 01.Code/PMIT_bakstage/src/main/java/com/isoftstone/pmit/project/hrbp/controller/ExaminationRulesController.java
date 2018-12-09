@@ -50,8 +50,9 @@ public class ExaminationRulesController extends AbstractController {
 
     @ApiOperation(value="删除关键角色", notes="删除关键角色")
     @PostMapping(value = "/deleteSpecialRole")
-    public String deleteSpecialRole(int roleId) {
-        boolean rst = examinationRulesService.deleteSpecialRole(roleId);
+    public String deleteSpecialRole(@RequestBody String parameter) {
+        SpecialRolesInfo oneRole = JsonUtils.readValue(parameter, SpecialRolesInfo.class);
+        boolean rst = examinationRulesService.deleteSpecialRole(oneRole.getRoleId());
         if (!rst) {
             return AjaxResult.returnToMessage(false, "删除关键角色失败");
         }

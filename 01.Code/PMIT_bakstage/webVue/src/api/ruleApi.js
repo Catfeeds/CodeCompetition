@@ -1,28 +1,21 @@
 import request from "@/utils/request";
 function getRoleList(condition) {
   return request({
-    url: "hrbp/affair/findAllAffair",
+    url: "hrbp/eRules/querySpecialRolesInfo",
     method: "post",
     data: condition
   });
 }
 function delRoleInfo(roleId) {
   return request({
-    url: "hrbp/affair/deleteAffair",
+    url: "hrbp/eRules/deleteSpecialRole",
     method: "post",
     data: { roleId }
   });
 }
-function addRoleInfo(roleInfo) {
+function saveRoleInfo(roleInfo) {
   return request({
-    url: "hrbp/affair/insertAffair",
-    method: "post",
-    data: roleInfo
-  });
-}
-function editRoleInfo(roleInfo) {
-  return request({
-    url: "hrbp/affair/updateAffair",
+    url: "hrbp/eRules/saveSpecialRole",
     method: "post",
     data: roleInfo
   });
@@ -59,8 +52,7 @@ function delRuleInfo(ruleId) {
 export default {
   getRoleList,
   delRoleInfo,
-  addRoleInfo,
-  editRoleInfo,
+  saveRoleInfo,
   getRuleList,
   addRuleInfo,
   editRuleInfo,

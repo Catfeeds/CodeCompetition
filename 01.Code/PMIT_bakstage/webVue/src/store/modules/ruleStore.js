@@ -15,22 +15,10 @@ export default {
           });
       });
     },
-    addRoleInfo(commit, roleInfo) {
+    saveRoleInfo(commit, roleInfo) {
       return new Promise((resolve, reject) => {
         api
-          .addRoleInfo(roleInfo)
-          .then(response => {
-            resolve(response.data);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
-    editRoleInfo(commit, roleInfo) {
-      return new Promise((resolve, reject) => {
-        api
-          .editRoleInfo(roleInfo)
+          .saveRoleInfo(roleInfo)
           .then(response => {
             resolve(response.data);
           })

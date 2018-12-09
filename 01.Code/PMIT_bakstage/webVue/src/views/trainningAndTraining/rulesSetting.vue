@@ -18,7 +18,7 @@
       </el-select>
       <el-select
         size="mini"
-        v-model="searchForm.role"
+        v-model="searchForm.roleName"
         clearable
         class="filter-item"
         style="width: 130px"
@@ -74,7 +74,7 @@ export default {
       productOptions: [],
       searchForm: {
         system: "",
-        role: ""
+        roleName: ""
       }
     };
   },

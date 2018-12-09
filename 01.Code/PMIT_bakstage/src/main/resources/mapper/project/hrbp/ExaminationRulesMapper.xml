@@ -29,7 +29,7 @@
         <if test="roleName != null and roleName != ''">#{roleName},</if>
         <if test="system != null and system != ''">#{system},</if>
         <if test="creatorId != null and creatorId != ''">#{creatorId},</if>
-        <if test="creatorName != null and creatorName != ''">#{creatorId},</if>
+        <if test="creatorName != null and creatorName != ''">#{creatorName},</if>
         now()
         from dual
         where not exists (

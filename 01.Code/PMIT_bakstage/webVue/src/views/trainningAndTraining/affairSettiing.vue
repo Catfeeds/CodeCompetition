@@ -276,7 +276,7 @@
           v-if="!isView"
           type="primary"
           size="mini"
-          icon="el-icon-search"
+          icon="el-icon-delete"
           @click="handleDelDimension"
           >{{ $t("table.delete") }}</el-button
         >

@@ -20,13 +20,6 @@
       ></el-table-column>
 
       <el-table-column min-width="150px" header-align="center" label="所属体系" prop="system" sortable></el-table-column>
-      <el-table-column
-        min-width="150px"
-        header-align="center"
-        label="所属产品线"
-        prop="product"
-        sortable
-      ></el-table-column>
       <el-table-column min-width="100px" header-align="center" label="所属角色" prop="role" sortable></el-table-column>
       <el-table-column min-width="100px" header-align="center" label="职级" prop="rank" sortable></el-table-column>
       <el-table-column min-width="100px" header-align="center" label="创建人" prop="creator" sortable></el-table-column>
@@ -53,8 +46,8 @@
           <el-button
             type="primary"
             size="mini"
-            icon="el-icon-edit"
-            title="编辑"
+            icon="el-icon-search"
+            title="查看"
             @click="handleEdit(scope.row);"
           ></el-button>
           <el-button
@@ -102,16 +95,6 @@
               >
                 <el-option
                   v-for="item in systemOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="所属产品线" prop="product">
-              <el-select v-model="ruleForm.product" placeholder="请选择">
-                <el-option
-                  v-for="item in productOptions"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"

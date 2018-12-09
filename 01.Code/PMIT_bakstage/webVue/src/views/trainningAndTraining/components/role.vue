@@ -27,12 +27,18 @@
         prop="roleName"
         sortable
       ></el-table-column>
-      <el-table-column min-width="100px" header-align="center" label="创建人" prop="creator" sortable></el-table-column>
+      <el-table-column
+        min-width="100px"
+        header-align="center"
+        label="创建人"
+        prop="creatorName"
+        sortable
+      ></el-table-column>
       <el-table-column
         min-width="150px"
         header-align="center"
         label="最后更新人"
-        prop="updator"
+        prop="updateStaffName"
         sortable
       ></el-table-column>
       <el-table-column
@@ -117,8 +123,8 @@ export default {
     }
   },
   props: ["condition"],
-  created: {
-    ...mapGetters(["employeeId", "empolyeeName"])
+  computed: {
+    ...mapGetters(["employeeId", "employeeName"])
   },
   data() {
     return {
@@ -204,7 +210,6 @@ export default {
       this.roleForm.roleId = rowData.roleId;
       this.roleForm.roleName = rowData.roleName;
       this.roleForm.system = rowData.system;
-      this.roleForm.product = rowData.product;
       this.dialogBaseTitle = "编辑关键角色";
       this.dialogBaseVisible = true;
     },
@@ -230,6 +235,8 @@ export default {
       this.getRoleList();
     },
     handleAdd() {
+      this.roleForm.roleName = "";
+      this.roleForm.system = "";
       this.getSystem();
       this.isEdit = false;
       this.dialogBaseTitle = "添加关键角色";
@@ -241,18 +248,18 @@ export default {
         if (valid) {
           let formData = {
             roleName: vm.roleForm.roleName,
-            system: vm.roleForm.system            
+            system: vm.roleForm.system,
+            creatorId: vm.employeeId
           };
-          let methodName = "addRoleInfo";
           if (vm.isEdit) {
-            methodName = "editRoleInfo";
+            formData.roleId = vm.roleForm.roleId;
             formData.updateStaffId = vm.employeeId;
             formData.updateStaffName = vm.employeeName;
-          }else{
-            formData.creatorId = vm.employeeId;
+          } else {
+            formData.roleId = -1;
             formData.creatorName = vm.employeeName;
           }
-          vm.$store.dispatch(methodName, formData).then(res => {
+          vm.$store.dispatch("saveRoleInfo", formData).then(res => {
             if (res.success) {
               vm.$message.success(res.message);
               vm.getRoleList();

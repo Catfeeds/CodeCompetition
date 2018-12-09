@@ -14,7 +14,13 @@ function addProjectNode(param) {
     data: param
   });
 }
-
+function delProjectNode(projectID) {
+  return request({
+    url: "hrbp/projectManage/deleteProject",
+    method: "post",
+    data: { projectID }
+  });
+}
 function queryProjectLevel(param) {
   return request({
     url: "/hrbp/projectManage/queryProjectLevel",
@@ -26,5 +32,6 @@ function queryProjectLevel(param) {
 export default {
   getProjectGroupInfo,
   addProjectNode,
-  queryProjectLevel
+  queryProjectLevel,
+  delProjectNode
 };

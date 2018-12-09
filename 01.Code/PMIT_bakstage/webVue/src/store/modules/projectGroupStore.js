@@ -1,4 +1,5 @@
 import api from "@/api/projectGroupApi";
+console.log(api);
 const projectGroup = {
   state: {
     searchForm: {
@@ -9,116 +10,164 @@ const projectGroup = {
       pm: "",
       productOptions: [],
       duOptions: [],
-      pduOptions: [],
+      pduOptions: []
     },
-    dataSource:[],
-    newForm:{
+    dataSource: [],
+    newForm: {
       product: "",
       du: "",
       pdu: "",
       teamName: "",
-      pm: "",
+      employeeName: "",
+      employeeId: "",
       productOptions: [],
       duOptions: [],
-      pduOptions: [],
+      pduOptions: []
     }
   },
   mutations: {
-    updatePGProductData(state,value){
+    updatePGProductData(state, value) {
       state.searchForm.productOptions = value || [];
-      state.searchForm.product = '';
+      state.searchForm.product = "";
       state.searchForm.duOptions = value || [];
-      state.searchForm.du = '';
+      state.searchForm.du = "";
       state.searchForm.pduOptions = value || [];
-      state.searchForm.pdu = '';
+      state.searchForm.pdu = "";
     },
-    updatePGDUData(state,value){
+    updatePGDUData(state, value) {
       state.searchForm.duOptions = value || [];
-      state.searchForm.du = '';
+      state.searchForm.du = "";
       state.searchForm.pduOptions = value || [];
-      state.searchForm.pdu = '';
+      state.searchForm.pdu = "";
     },
-    updatePGPDUData(state,value){
+    updatePGPDUData(state, value) {
       state.searchForm.pduOptions = value || [];
-      state.searchForm.pdu = '';
+      state.searchForm.pdu = "";
     },
-    updateNewFormProductData(state,value){
+    updateNewFormProductData(state, value) {
       state.newForm.productOptions = value || [];
-      state.newForm.product = '';
+      state.newForm.product = "";
       state.newForm.duOptions = value || [];
-      state.newForm.du = '';
+      state.newForm.du = "";
       state.newForm.pduOptions = value || [];
-      state.newForm.pdu = '';
+      state.newForm.pdu = "";
     },
-    updateNewFormDUData(state,value){
+    updateNewFormDUData(state, value) {
       state.newForm.duOptions = value || [];
-      state.newForm.du = '';
+      state.newForm.du = "";
       state.newForm.pduOptions = value || [];
-      state.newForm.pdu =  '';
+      state.newForm.pdu = "";
     },
-    updateNewFormPDUData(state,value){
+    updateNewFormPDUData(state, value) {
       state.newForm.pduOptions = value || [];
-      state.newForm.pdu = '';
+      state.newForm.pdu = "";
     },
-    updateDataSource(state,value){
+    updateDataSource(state, value) {
       state.dataSource = value || [];
     }
   },
   actions: {
-    getPGProductInfo({ dispatch, state, commit }) {
-        return dispatch('getProductInfo').then(data=>{
-            commit('updatePGProductData',data);
-            return dispatch('getPGDU');
-        })
+    getPGProductInfo({ dispatch, commit }) {
+      return dispatch("getProductInfo").then(data => {
+        commit("updatePGProductData", data);
+        return dispatch("getPGDU");
+      });
     },
     getPGDU({ dispatch, state, commit }) {
-        return dispatch('getDUInfo',{bu:state.searchForm.product}).then(data=>{
-            commit('updatePGDUData',data);
-            return dispatch('getPGPDUList');
-        })
+      if (!state.searchForm.product) {
+        commit("updatePGDUData", []);
+        commit("updatePGPDUData", []);
+        return;
+      }
+      return dispatch("getDUInfo", { bu: state.searchForm.product }).then(
+        data => {
+          commit("updatePGDUData", data);
+          return dispatch("getPGPDUList");
+        }
+      );
     },
-    getPGPDUList({ dispatch,commit, state }) {
-        return dispatch('getPDUInfo',{
-          bu:state.searchForm.product,
-          du:state.searchForm.du
-        }).then(data=>{
-            commit('updatePGPDUData',data);
-        })
+    getPGPDUList({ dispatch, commit, state }) {
+      if (!state.searchForm.du) {
+        commit("updatePGPDUData", []);
+        return;
+      }
+      return dispatch("getPDUInfo", {
+        bu: state.searchForm.product,
+        du: state.searchForm.du
+      }).then(data => {
+        commit("updatePGPDUData", data);
+      });
     },
-    getNewFormProductInfo({ dispatch, state, commit }) {
-        return dispatch('getProductInfo').then(data=>{
-            commit('updateNewFormProductData',data);
-            return dispatch('getNewFormDU');
-        })
+    getNewFormProductInfo({ dispatch, commit }) {
+      return dispatch("getProductInfo").then(data => {
+        commit("updateNewFormProductData", data);
+        return dispatch("getNewFormDU");
+      });
     },
     getNewFormDU({ dispatch, state, commit }) {
-        return dispatch('getDUInfo',{bu:state.searchForm.product}).then(data=>{
-            commit('updateNewFormDUData',duData);
-            return dispatch('getNewFormPDUList');
+      if (!state.newForm.product) {
+        commit("updateNewFormDUData", []);
+        commit("updateNewFormPDUData", []);
+        return;
+      }
+      return dispatch("getDUInfo", { bu: state.newForm.product }).then(data => {
+        commit("updateNewFormDUData", data);
+        return dispatch("getNewFormPDUList");
+      });
+    },
+    getNewFormPDUList({ dispatch, commit, state }) {
+      if (!state.newForm.du) {
+        commit("updateNewFormPDUData", []);
+        return;
+      }
+      return dispatch("getPDUInfo", {
+        bu: state.newForm.product,
+        du: state.newForm.du
+      }).then(data => {
+        commit("updateNewFormPDUData", data);
+      });
+    },
+    addProjectInfo(commit, param) {
+      return new Promise((reslove, reject) => {
+        api
+          .addProjectNode(param)
+          .then(res => {
+            reslove(res.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    getProjectGroupInfo({ commit, state }, pageInfo) {
+      return api
+        .getProjectGroupInfo({
+          bu: state.searchForm.product,
+          du: state.searchForm.du,
+          pdu: state.searchForm.pdu,
+          projectName: state.searchForm.teamName,
+          pmName: state.searchForm.pm,
+          pageNo: (pageInfo && pageInfo.pageNo) || 1
         })
+        .then(res => {
+          if (res.data.success) {
+            commit("updateDataSource", res.data.data);
+          } else {
+            commit("updateDataSource", { datas: [], totleSize: 0 });
+          }
+        });
     },
-    getNewFormPDUList({ commit, state }) {
-        return dispatch('getPDUInfo',{
-          bu:state.searchForm.product,
-          du:state.searchForm.du
-        }).then(data=>{
-            commit('updateNewFormPDUData',data);
-        })
-    },
-    addProjectInfo(){
-      return api.addProjectInfo();
-    },
-    getProjectGroupInfo({commit,state},pageInfo) {
-      return api.getProjectGroupInfo({
-        bu:state.searchForm.product,
-        du:state.searchForm.du,
-        pdu:state.searchForm.pdu,
-        projectName:state.searchForm.teamName,
-        pmName:state.searchForm.pm,
-        pageNo:pageInfo && pageInfo.pageNo || 1
-      }).then(ret=>{
-          commit('updateDataSource',ret && ret.data && ret.data.data||[]);
-      })
+    delProjectInfo(commit, projectId) {
+      return new Promise((reslove, reject) => {
+        api
+          .delProjectNode(projectId)
+          .then(res => {
+            reslove(res.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
     }
   }
 };

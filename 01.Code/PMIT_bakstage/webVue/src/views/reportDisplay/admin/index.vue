@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-form :inline="true">
-      <el-form-item label="">
+      <el-form-item label>
         <el-select
           v-model="product"
           size="mini"
@@ -9,54 +9,48 @@
           placeholder="产品线"
           @change="productChange"
         >
-          <el-option
-            v-for="item in productOptions"
-            :key="item"
-            :label="item"
-            :value="item"
-          ></el-option>
+          <el-option v-for="item in productOptions" :key="item" :label="item" :value="item"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="">
-        <el-select
-          v-model="area"
-          size="mini"
-          placeholder="区域"
-          clearable
-          @change="areaChange"
-        >
-          <el-option
-            v-for="item in areaOptions"
-            :key="item"
-            :label="item"
-            :value="item"
-          ></el-option>
+      <el-form-item label>
+        <el-select v-model="area" size="mini" placeholder="区域" clearable @change="areaChange">
+          <el-option v-for="item in areaOptions" :key="item" :label="item" :value="item"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="">
+      <el-form-item label>
         <el-select v-model="pdu" size="mini" placeholder="交付部" clearable>
-          <el-option
-            v-for="item in pduOptions"
-            :key="item"
-            :label="item"
-            :value="item"
-          ></el-option>
+          <el-option v-for="item in pduOptions" :key="item" :label="item" :value="item"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" size="mini" @click="onSubmit">查询</el-button>
+        <el-button
+          type="primary"
+          size="mini"
+          @click="handleFilter"
+          icon="el-icon-search"
+        >{{ $t("table.search") }}</el-button>
       </el-form-item>
     </el-form>
     <el-row>
-      <el-col :span="6"> <rate-chart></rate-chart> </el-col>
+      <el-col :span="6">
+        <rate-chart></rate-chart>
+      </el-col>
       <el-col :span="18">
         <el-row>
-          <el-col :span="12"> <department-chart></department-chart> </el-col>
-          <el-col :span="12"> <post-chart></post-chart> </el-col>
+          <el-col :span="12">
+            <department-chart></department-chart>
+          </el-col>
+          <el-col :span="12">
+            <post-chart></post-chart>
+          </el-col>
         </el-row>
         <el-row style="margin-top:15px">
-          <el-col :span="12"> <training-chart></training-chart> </el-col>
-          <el-col :span="12"> <age-chart></age-chart> </el-col>
+          <el-col :span="12">
+            <training-chart></training-chart>
+          </el-col>
+          <el-col :span="12">
+            <age-chart></age-chart>
+          </el-col>
         </el-row>
       </el-col>
     </el-row>
@@ -65,7 +59,7 @@
 </template>
 
 <script>
-import { mapMutations, mapActions, mapState,mapGetters } from "vuex";
+import { mapMutations, mapActions, mapState, mapGetters } from "vuex";
 import departmentChart from "./components/departmentChart";
 import postChart from "./components/postChart";
 import rateChart from "./components/rateChart";
@@ -90,7 +84,7 @@ export default {
     this.getRDProductInfo();
   },
   computed: {
-    ...mapGetters(['getParams']),
+    ...mapGetters(["getParams"]),
     ...mapState({
       productOptions: state => state.reportDisplayStore.productData,
       areaOptions: state => state.reportDisplayStore.areaData,
@@ -131,17 +125,17 @@ export default {
     productChange() {
       this.$store.commit("setRDAreaData", []);
       this.$store.commit("setRDPDUData", []);
-      if(this.product){
+      if (this.product) {
         this.getRDAreas(this.product);
       }
     },
     areaChange() {
       this.$store.commit("setRDPDUData", []);
-      if(this.area){
+      if (this.area) {
         this.getRDPDUList(this.area);
       }
     },
-    onSubmit() {
+    handleFilter() {
       this.getRate(this.getParams());
     }
   }
