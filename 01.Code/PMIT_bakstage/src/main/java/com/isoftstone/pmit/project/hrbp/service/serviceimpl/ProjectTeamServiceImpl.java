@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.isoftstone.pmit.common.util.AjaxResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -95,6 +94,12 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 	@Override
 	public List<Map<String, Object>> queryProjectRole() {
 		return projectTeamMapper.queryProjectRole();
+	}
+
+	@Override
+	public List<Map<String, Object>> queryProjectInformationByProjectTime(Map<String, Object> paramMap) {
+		
+		return projectTeamMapper.queryProjectInformationByProjectTime(paramMap);
 	}
 
 }

@@ -96,6 +96,9 @@
 		select
 			projectId,
 			projectName,
+			bu,
+			du,
+			pdu,
 			date_format(startTime, '%Y-%m-%d') as startDate,
 			date_format(endTime, '%Y-%m-%d') as endDate
 		from
@@ -126,5 +129,27 @@
 
 	<select id="queryProjectRole" resultType="java.util.Map">
 		select po_role_id as poRoleId, po_role_name as poRoleName from po_role_info
+	</select>
+	
+	<select id="queryProjectInformationByProjectTime" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			team.team_id AS teamId,
+			team.team_name AS teamName,
+			po.projectid AS projectId,
+			po.projectname AS projectName,
+			po.starttime AS startTime,
+			po.endtime AS endTime
+		FROM 
+			hrbp_projectteam team,
+			team_related_po tp,
+			project_information po
+		WHERE
+			team.team_id = tp.team_id AND
+			tp.project_id = po.projectId AND 
+			team.team_id = #{teamId} AND
+			po.startTime <![CDATA[>=]]> str_to_date(#{startDate}, '%Y-%m-%d') AND
+			po.startTime <![CDATA[<=]]> str_to_date(#{endDate}, '%Y-%m-%d')
+		GROUP BY
+			projectId
 	</select>
 </mapper>

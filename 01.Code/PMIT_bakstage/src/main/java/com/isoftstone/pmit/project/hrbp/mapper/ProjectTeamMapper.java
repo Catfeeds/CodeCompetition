@@ -29,4 +29,6 @@ public interface ProjectTeamMapper {
     List<Map<String, Object>> queryProjectInformation(Map<String, Object> paramMap);
 
     List<Map<String, Object>> queryProjectRole();
+
+	List<Map<String, Object>> queryProjectInformationByProjectTime(Map<String, Object> paramMap);
 }

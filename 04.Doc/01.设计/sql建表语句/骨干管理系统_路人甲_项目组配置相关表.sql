@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS `hrbp_projectteamrecord`;
 DROP TABLE IF EXISTS `po_role_info`;
 DROP TABLE IF EXISTS `po_staff_info`;
 DROP TABLE IF EXISTS `project_information`;
-DROP TABLE IF EXISTS `team_po`;
+DROP TABLE IF EXISTS `team_related_po`;
 
 
 -- 项目组人员配置表
@@ -69,10 +69,10 @@ CREATE TABLE `project_information` (
 ;
 
 -- 项目组关联合同表
-CREATE TABLE `team_po` (
-  `team_id` varchar(30) NOT NULL COMMENT '项目组ID',
-  `project_id` varchar(30) NOT NULL COMMENT 'PO号(合同ID)'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+CREATE TABLE `team_related_po` (
+  `team_id` VARCHAR(30) NOT NULL COMMENT '项目组ID',
+  `project_id` VARCHAR(30) NOT NULL COMMENT 'PO号(合同ID)'
+) ENGINE=INNODB DEFAULT CHARSET=utf8
 ;
 
 

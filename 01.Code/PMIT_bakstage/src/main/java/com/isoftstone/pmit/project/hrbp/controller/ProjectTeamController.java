@@ -45,7 +45,6 @@ public class ProjectTeamController extends AbstractController {
 	@ApiOperation("查询资源池人员信息")
 	@PostMapping("/searchEmployeeInfos")
 	public String searchEmployeeInfos(@RequestBody String param) {
-
 		Map<String, Object> queryMap = JSONObject.parseObject(param, HashMap.class);
 		List<Map<String, Object>> teamData = null;
 		try {
@@ -131,6 +130,17 @@ public class ProjectTeamController extends AbstractController {
 	public String queryProjectRole() {
 
 		List<Map<String, Object>> result = projectTeamService.queryProjectRole();
+
+		return AjaxResult.returnToResult(false, result);
+	}
+	
+	@ApiOperation("根据立项时间查询项目组关联的PO信息")
+	@PostMapping("/queryteamRelatedPoByProjectTime")
+	public String queryProjectInformationByProjectTime(@RequestBody String param) {
+		
+		Map<String, Object> paramMap = JSONObject.parseObject(param, HashMap.class);
+		
+		List<Map<String, Object>> result = projectTeamService.queryProjectInformationByProjectTime(paramMap);
 
 		return AjaxResult.returnToResult(false, result);
 	}
