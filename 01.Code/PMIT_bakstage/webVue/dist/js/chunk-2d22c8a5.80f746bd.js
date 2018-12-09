@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d22c8a5"],{f456:function(n,e,l){"use strict";l.r(e);var o,u,a=l("2877"),t={},c=Object(a["a"])(t,o,u,!1,null,null,null);c.options.__file="logManagement.vue",e["default"]=c.exports}}]);
-//# sourceMappingURL=chunk-2d22c8a5.80f746bd.js.map
