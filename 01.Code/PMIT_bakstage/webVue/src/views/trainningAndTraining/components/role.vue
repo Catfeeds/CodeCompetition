@@ -97,9 +97,9 @@
           >
             <el-option
               v-for="item in systemOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+              :key="item"
+              :label="item"
+              :value="item"
             ></el-option>
           </el-select>
         </el-form-item>
@@ -114,7 +114,7 @@
 
 <script>
 import { formatDate } from "@/utils/date";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions, mapState } from "vuex";
 export default {
   filters: {
     formatDate(time) {
@@ -124,15 +124,19 @@ export default {
   },
   props: ["condition"],
   computed: {
-    ...mapGetters(["employeeId", "employeeName"])
+    ...mapGetters(["employeeId", "employeeName"]),
+    ...mapState({
+      systemOptions: state => state.ruleStore.systemOptions
+    })
+  },
+  mounted() {
+    this.getSystemInfo();
   },
   data() {
     return {
       loading: false,
       tableData: [],
       initList: [],
-      productOptions: [],
-      systemOptions: [],
       dialogBaseTitle: "添加关键角色",
       dialogBaseVisible: false,
       isEdit: false,
@@ -160,39 +164,27 @@ export default {
     };
   },
   methods: {
-    getSystem() {
-      let vm = this;
-      vm.$store.dispatch("querySystem").then(res => {
-        if (res.data) {
-          vm.systemOptions = res.data.map(item => {
-            return {
-              label: item,
-              value: item
-            };
-          });
-        } else {
-          vm.systemOptions = [];
-        }
-      });
-    },
+    ...mapActions(["getRoleInfo", "getAllRole", "getSystemInfo"]),
     getRoleList() {
       let vm = this;
       vm.loading = true;
-      vm.$store
-        .dispatch("getRoleList", vm.condition)
+      vm.getRoleInfo(vm.condition)
         .then(res => {
           if (res.success) {
             vm.initList = res.data;
             vm.tableData = vm.initList.slice(0, vm.page.pageSize);
             vm.page.totalRecord = res.data.length;
           } else {
+            vm.initList = [];
             vm.tableData = [];
             vm.page.totalRecord = 0;
           }
           vm.loading = false;
         })
         .catch(() => {
+          vm.initList = [];
           vm.tableData = [];
+          vm.page.totalRecord = 0;
           vm.loading = false;
         });
     },
@@ -206,7 +198,6 @@ export default {
     },
     handleEdit(rowData) {
       this.isEdit = true;
-      this.getSystem();
       this.roleForm.roleId = rowData.roleId;
       this.roleForm.roleName = rowData.roleName;
       this.roleForm.system = rowData.system;
@@ -224,6 +215,7 @@ export default {
           if (res.success) {
             vm.$message.success(res.message);
             vm.getRoleList();
+            vm.getAllRole();
           } else {
             vm.$message.error(res.message);
           }
@@ -237,7 +229,6 @@ export default {
     handleAdd() {
       this.roleForm.roleName = "";
       this.roleForm.system = "";
-      this.getSystem();
       this.isEdit = false;
       this.dialogBaseTitle = "添加关键角色";
       this.dialogBaseVisible = true;
@@ -263,6 +254,7 @@ export default {
             if (res.success) {
               vm.$message.success(res.message);
               vm.getRoleList();
+              vm.getAllRole();
             } else {
               vm.$message.error(res.message);
             }

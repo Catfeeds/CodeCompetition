@@ -1,5 +1,4 @@
 import api from "@/api/projectGroupApi";
-console.log(api);
 const projectGroup = {
   state: {
     searchForm: {

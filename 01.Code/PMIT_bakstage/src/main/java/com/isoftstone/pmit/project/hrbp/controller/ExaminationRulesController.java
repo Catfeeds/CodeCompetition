@@ -86,8 +86,9 @@ public class ExaminationRulesController extends AbstractController {
 
     @ApiOperation(value="删除考核规则", notes="删除考核规则")
     @PostMapping(value = "/deleteExaminationRulesInfo")
-    public String deleteExaminationRulesInfo(int ruleId) {
-        boolean rst = examinationRulesService.deleteExaminationRulesInfo(ruleId);
+    public String deleteExaminationRulesInfo(@RequestBody String parameter) {
+        ExaminationRulesInfo rule = JsonUtils.readValue(parameter, ExaminationRulesInfo.class);
+        boolean rst = examinationRulesService.deleteExaminationRulesInfo(rule.getRuleId());
         if (!rst) {
             return AjaxResult.returnToMessage(false, "删除考核规则失败");
         }
@@ -97,8 +98,9 @@ public class ExaminationRulesController extends AbstractController {
 
     @ApiOperation(value="查询单项规则", notes="查询单项规则")
     @PostMapping(value = "/querySigleRuleInfo")
-    public String querySigleRuleInfo(int ruleId) {
-        List<SingleRuleInfo> rst = examinationRulesService.querySigleRuleInfo(ruleId);
+    public String querySigleRuleInfo(@RequestBody String parameter) {
+        ExaminationRulesInfo rule = JsonUtils.readValue(parameter, ExaminationRulesInfo.class);
+        List<SingleRuleInfo> rst = examinationRulesService.querySigleRuleInfo(rule.getRuleId());
         if (ListUtils.isEmpty(rst)) {
             return AjaxResult.returnToResult(false, "查询单项规则未获得有效数据!");
         }

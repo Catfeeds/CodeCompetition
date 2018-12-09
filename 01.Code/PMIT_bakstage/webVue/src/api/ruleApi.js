@@ -22,28 +22,28 @@ function saveRoleInfo(roleInfo) {
 }
 function getRuleList(condition) {
   return request({
-    url: "hrbp/affair/findAllAffair",
+    url: "hrbp/eRules/queryExaminationRulesInfo",
     method: "post",
     data: condition
   });
 }
 function addRuleInfo(ruleInfo) {
   return request({
-    url: "hrbp/dimension/insertDimension",
+    url: "hrbp/eRules/saveExaminationRulesInfo",
     method: "post",
     data: ruleInfo
   });
 }
-function editRuleInfo(ruleInfo) {
+function getRuleInfoById(ruleId) {
   return request({
-    url: "hrbp/dimension/insertDimension",
+    url: "hrbp/eRules/querySigleRuleInfo",
     method: "post",
-    data: ruleInfo
+    data: { ruleId }
   });
 }
 function delRuleInfo(ruleId) {
   return request({
-    url: "hrbp/dimension/insertDimension",
+    url: "hrbp/eRules/deleteExaminationRulesInfo",
     method: "post",
     data: { ruleId }
   });
@@ -55,6 +55,6 @@ export default {
   saveRoleInfo,
   getRuleList,
   addRuleInfo,
-  editRuleInfo,
+  getRuleInfoById,
   delRuleInfo
 };

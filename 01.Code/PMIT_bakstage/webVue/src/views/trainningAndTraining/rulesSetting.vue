@@ -9,12 +9,7 @@
         style="width: 130px"
         placeholder="所属体系"
       >
-        <el-option
-          v-for="item in systemOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        ></el-option>
+        <el-option v-for="item in systemOptions" :key="item" :label="item" :value="item"></el-option>
       </el-select>
       <el-select
         size="mini"
@@ -26,9 +21,9 @@
       >
         <el-option
           v-for="item in roleOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
+          :key="item.roleName"
+          :label="item.roleName"
+          :value="item.roleName"
         ></el-option>
       </el-select>
       <el-button
@@ -37,8 +32,7 @@
         size="mini"
         icon="el-icon-search"
         @click="handleFilter"
-        >{{ $t("table.search") }}</el-button
-      >
+      >{{ $t("table.search") }}</el-button>
       <el-button
         class="filter-item"
         style="margin-left: 10px;"
@@ -46,8 +40,7 @@
         size="mini"
         icon="el-icon-plus"
         @click="handleAdd"
-        >{{ $t("table.add") }}</el-button
-      >
+      >{{ $t("table.add") }}</el-button>
     </div>
     <el-tabs @tab-click="changeTab" v-model="activeTab">
       <el-tab-pane label="关键角色设置" name="role">
@@ -61,6 +54,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import RoleTab from "./components/role.vue";
 import RuleTab from "./components/rule.vue";
 export default {
@@ -69,9 +63,6 @@ export default {
   data() {
     return {
       activeTab: "role",
-      systemOptions: [],
-      roleOptions: [],
-      productOptions: [],
       searchForm: {
         system: "",
         roleName: ""
@@ -79,25 +70,18 @@ export default {
     };
   },
   mounted() {
-    this.getSystem();
+    this.getSystemInfo();
+    this.getAllRole();
     this.$refs.roleTab.handleFilter();
   },
+  computed: {
+    ...mapState({
+      roleOptions: state => state.ruleStore.roleOptions,
+      systemOptions: state => state.ruleStore.systemOptions
+    })
+  },
   methods: {
-    getSystem() {
-      let vm = this;
-      vm.$store.dispatch("querySystem").then(res => {
-        if (res.data) {
-          vm.systemOptions = res.data.map(item => {
-            return {
-              label: item,
-              value: item
-            };
-          });
-        } else {
-          vm.systemOptions = [];
-        }
-      });
-    },
+    ...mapActions(["getAllRole", "getSystemInfo"]),
     changeTab(tab, event) {
       if (tab.name === "role") {
         this.$refs.roleTab.handleFilter();
