@@ -69,7 +69,11 @@ public class ExaminationRulesServiceImpl implements IExaminationRulesService {
             return false;
         }
 
-        return CommonConst.SQL_EXECUTE_FAILED != examinationRulesMapper.addSigleRuleInfo(params.getSingleRuleInfo());
+        for (SingleRuleInfo oneSingleRule : singleRule) {
+            oneSingleRule.setRuleId(ruleId);
+        }
+
+        return CommonConst.SQL_EXECUTE_FAILED != examinationRulesMapper.addSigleRuleInfo(singleRule);
     }
 
     @Override
