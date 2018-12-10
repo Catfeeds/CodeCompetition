@@ -45,7 +45,11 @@ public class ProjectManageController {
         Map<String, Object> result = new HashMap<String, Object>();
 
         try {
-            result = service.queryProjects(parameter);
+            if (parameter.get("teamID") == null) {
+                result = service.queryProjects(parameter);
+            } else {
+                result = service.queryProject(parameter);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
@@ -80,8 +84,8 @@ public class ProjectManageController {
 
     @ApiOperation(value = "项目经理查询", notes = "项目经理查询")
     @PostMapping(value = "/queryPMs")
-    private String queryPMs(@RequestBody Map<String, Object> params){
-        List<Map<String,String>> result;
+    public String queryPMs(@RequestBody Map<String, Object> params) {
+        List<Map<String, String>> result;
         try {
             result = service.queryPMs(params);
         } catch (Exception e) {

@@ -48,6 +48,15 @@ public class ProjectManageService implements IProjectManageService {
         return result;
     }
 
+    @Override
+    public Map<String, Object> queryProject(Map<String, Object> params) {
+        Map<String, Object> result = new HashMap<String, Object>();
+        params.put("rowStart", 0);
+        params.put("rowEnd", 1);
+        List<Map<String, String>> datas = mapper.queryProjects(params);
+        result.put("datas", datas);
+        return result;
+    }
 
     @Override
     public void addProjectNode(Map<String, Object> queryMap) {
