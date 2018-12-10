@@ -39,6 +39,12 @@
         "note": "项目组设置"
       },
       {
+        "menuId": 402,
+        "menuName": "teamSettings",
+        "parentId": 4,
+        "note": "团队设置"
+      },
+      {
         "menuId": 5,
         "menuName": "OrganizationStructure",
         "parentId": 0,

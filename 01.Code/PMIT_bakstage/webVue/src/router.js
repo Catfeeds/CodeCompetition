@@ -78,7 +78,7 @@ export const asyncRouterMap = [
       {
         path: "employeeDetail/:id(\\d+)",
         component: () => import("@/views/employeeManagement/employeeDetail"),
-        name: "Emp",
+        name: "EmployeeDetail",
         meta: {
           title: "employeeDetail",
           icon: "",
@@ -92,7 +92,7 @@ export const asyncRouterMap = [
   {
     path: "/projectManagement",
     component: Layout,
-    redirect: "noredirect",
+    redirect: "/projectManagement/projectGroupConfiguration",
     name: "ProjectManagement",
     meta: { title: "projectManagement", icon: "component", noCache: true },
     children: [
@@ -106,6 +106,18 @@ export const asyncRouterMap = [
           noCache: true,
           requiresAuth: true
         }
+      },
+      {
+        path: "teamSettings/:id",
+        component: () => import("@/views/projectManagement/teamSettings"),
+        name: "TeamSettings",
+        meta: {
+          title: "teamSettings",
+          icon: "",
+          noCache: true,
+          requiresAuth: true
+        },
+        hidden: true
       }
     ]
   },

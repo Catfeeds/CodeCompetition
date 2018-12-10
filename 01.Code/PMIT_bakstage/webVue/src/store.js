@@ -12,6 +12,8 @@ import ruleStore from "./store/modules/ruleStore";
 import employeeStore from "./store/modules/employeeStore";
 import reportDisplayStore from "./store/modules/reportDisplayStore";
 import scoreDisplayStore from "./store/modules/scoreDisplayStore";
+import eSettingsStore from "./store/modules/employeeSettingsStore";
+import associatedPOStore from "./store/modules/associatedPOStore";
 import getters from "./store/getters";
 
 Vue.use(Vuex);
@@ -29,7 +31,9 @@ export default new Vuex.Store({
     ruleStore,
     employeeStore,
     reportDisplayStore,
-    scoreDisplayStore
+    scoreDisplayStore,
+    eSettingsStore,
+    associatedPOStore
   },
   getters
 });

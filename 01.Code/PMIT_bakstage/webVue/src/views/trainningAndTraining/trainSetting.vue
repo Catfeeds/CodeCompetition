@@ -187,7 +187,7 @@
           <el-button
             type="primary"
             size="mini"
-            icon="el-icon-search"
+            icon="el-icon-view"
             title="查看"
             @click="handleDetail(scope.row);"
           ></el-button>

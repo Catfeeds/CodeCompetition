@@ -52,7 +52,7 @@
           <el-button
             type="primary"
             size="mini"
-            icon="el-icon-search"
+            icon="el-icon-view"
             title="查看"
             @click="handleView(scope.row.ruleId);"
           ></el-button>

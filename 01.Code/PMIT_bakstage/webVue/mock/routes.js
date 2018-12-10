@@ -12,7 +12,12 @@ const routes = {
   "/hrbp/MainstayReportContraer/queryMainstayTraining":"/getTraniningStatis",
   "/hrbp/MainstayReportContraer/queryMainstayAge":"/getAgeDistribute",
   "/hrbp/MainstayReportContraer/queryMainstayTable":"/getEmployee",
-  "/hrbp/MainstayReportContraer/queryScore":"/queryScore"
+  "/hrbp/MainstayReportContraer/queryScore":"/queryScore",
+  "hrbp/projectManage/queryProjects":"queryProjects",
+  "hrbp/TeamManage/queryAreaAndCuBycondition":"/queryAreaAndCuBycondition",
+  "hrbp/TeamManage/searchEmployeeInfos":"/searchEmployeeInfos",
+  "hrbp/TeamManage/getTeamInfos":"getTeamInfos",
+  "hrbp/TeamManage/queryProjectInformation":"queryProjectInformation"
 };
 
 module.exports = routes;

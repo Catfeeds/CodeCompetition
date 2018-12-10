@@ -21,7 +21,8 @@ const projectGroup = {
       employeeId: "",
       productOptions: [],
       duOptions: [],
-      pduOptions: []
+      pduOptions: [],
+      employeeOptions: []
     }
   },
   mutations: {
@@ -63,6 +64,10 @@ const projectGroup = {
     },
     updateDataSource(state, value) {
       state.dataSource = value || [];
+    },
+    updateEmployeeData(state, value) {
+      state.newForm.employeeOptions = value;
+      state.newForm.employeeId = "";
     }
   },
   actions: {
@@ -146,7 +151,8 @@ const projectGroup = {
           pdu: state.searchForm.pdu,
           projectName: state.searchForm.teamName,
           pmName: state.searchForm.pm,
-          pageNo: (pageInfo && pageInfo.pageNo) || 1
+          pageNo: (pageInfo && pageInfo.pageNo) || 1,
+          pageSize: (pageInfo && pageInfo.pageSize) || 10
         })
         .then(res => {
           if (res.data.success) {
@@ -167,6 +173,36 @@ const projectGroup = {
             reject(error);
           });
       });
+    },
+    getProjectGroupInfoById(commit, projectGroupId) {
+      return new Promise((reslove, reject) => {
+        api
+          .getProjectGroupInfoById(projectGroupId)
+          .then(res => {
+            reslove(res.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    queryProjectManagers({ commit, state }) {
+      return api
+        .queryProjectManagers({
+          bu: state.newForm.product,
+          du: state.newForm.du,
+          pdu: state.newForm.pdu
+        })
+        .then(res => {
+          if (res.data.success) {
+            commit("updateEmployeeData", res.data.data);
+          } else {
+            commit("updateEmployeeData", []);
+          }
+        })
+        .catch(() => {
+          commit("updateEmployeeData", []);
+        });
     }
   }
 };

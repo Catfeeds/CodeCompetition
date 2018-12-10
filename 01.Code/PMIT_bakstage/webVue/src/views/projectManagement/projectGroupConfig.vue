@@ -210,7 +210,13 @@
           </el-select>
         </el-form-item>
         <el-form-item label="PDU" prop="pdu">
-          <el-select style="width:220px" v-model="newForm.pdu" size="mini" placeholder="PDU">
+          <el-select
+            style="width:220px"
+            v-model="newForm.pdu"
+            size="mini"
+            placeholder="PDU"
+            @change="newPDUChange"
+          >
             <el-option
               v-for="item in newForm.pduOptions"
               :key="item.value"
@@ -222,26 +228,18 @@
         <el-form-item label="项目组名称" prop="teamName">
           <el-input style="width:220px" v-model="newForm.teamName" size="mini" placeholder="项目组名称"></el-input>
         </el-form-item>
-        <el-form-item label="PM" prop="employeeName">
-          <el-autocomplete
-            v-model="newForm.employeeName"
-            style="width:220px"
-            :trigger-on-focus="false"
-            size="mini"
-            :fetch-suggestions="searchEmployee"
-            placeholder="请输入员工工号/姓名进行查询"
-            @select="handleSelectItem"
-          >
-            <i class="el-icon-delete el-input__icon" slot="suffix" @click="handleClear"></i>
-            <template slot-scope="{ item }">
-              <div v-if="item && item.length<=0">查无此人，请重新输入</div>
-              <div v-else-if="item">
-                <div style="float:left;margin-right:15px;">{{ item.employeeName }}</div>
-                <span style="margin-right:15px">{{ item.employeeID }}</span>
-                <span>{{ item.pdu }}</span>
-              </div>
-            </template>
-          </el-autocomplete>
+        <el-form-item label="PM" prop="employeeId">
+          <el-select style="width:220px" v-model="newForm.employeeId" size="mini" placeholder="PM">
+            <el-option
+              v-for="item in newForm.employeeOptions"
+              :key="item.staffID"
+              :label="item.staffName"
+              :value="item.staffID"
+            >
+              <span style="float: left">{{ item.staffName }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">{{ item.staffID }}</span>
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -249,40 +247,17 @@
         <el-button type="primary" @click="onSave();" size="mini">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog
-      :title="dialogSetTitle"
-      width="70%"
-      :visible.sync="dialogSetVisible"
-      top="30px"
-      :close-on-click-modal="false"
-    >
-      <el-tabs @tab-click="changeTab" v-model="activeTab">
-        <el-tab-pane label="关联PO" name="PO">
-          <associated-p-o ref="associatedPO" :projectID="projectID"></associated-p-o>
-        </el-tab-pane>
-        <el-tab-pane label="关键角色" name="keyRole">
-          <key-role ref="keyRole" :projectID="projectID"></key-role>
-        </el-tab-pane>
-      </el-tabs>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogSetVisible = false;" size="mini">关 闭</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
-import associatedPO from "./components/associatedPO.vue";
-import keyRole from "./components/keyRole.vue";
+
 export default {
-  components: { associatedPO, keyRole },
   data() {
     return {
       listLoading: false,
       dialogTitle: "",
-      dialogSetTitle: "团队设置",
-      dialogSetVisible: false,
       dialogVisible: false,
       pageSize: 10,
       dataTable: [],
@@ -296,7 +271,9 @@ export default {
         ],
         du: [{ required: true, message: "请选择DU", trigger: "change" }],
         pdu: [{ required: true, message: "请选择PDU", trigger: "change" }],
-        pm: [{ required: true, message: "请选择PM", trigger: "change" }],
+        employeeId: [
+          { required: true, message: "请选择PM", trigger: "change" }
+        ],
         teamName: [
           { required: true, message: "请输入项目组名称", trigger: "blur" },
           { min: 3, max: 50, message: "长度在 3 到 50 个字符", trigger: "blur" }
@@ -308,7 +285,7 @@ export default {
     var vm = this;
     this.getPGProductInfo();
     this.getNewFormProductInfo();
-    this.getProjectGroupInfo()
+    this.getProjectGroupInfo({ pageSize: vm.pageSize })
       .then(() => {
         vm.listLoading = false;
       })
@@ -337,14 +314,16 @@ export default {
       "getProjectGroupInfo",
       "getNewFormProductInfo",
       "getNewFormDU",
-      "getNewFormPDUList"
+      "getNewFormPDUList",
+      "queryProjectManagers"
     ]),
     onSearchForm(arg, curPage) {
       let vm = this;
       vm.listLoading = true;
       vm.currentPage = curPage || 1;
       this.getProjectGroupInfo({
-        pageNo: vm.currentPage
+        pageNo: vm.currentPage,
+        pageSize: vm.pageSize
       }).then(() => {
         vm.listLoading = false;
       });
@@ -371,16 +350,16 @@ export default {
     newDUChange() {
       this.getNewFormPDUList();
     },
+    newPDUChange() {
+      this.queryProjectManagers();
+    },
     handleCurrentChange(val) {
       let vm = this;
       vm.currentPage = val;
       vm.onSearchForm(null, val);
     },
-    teamSettings(id) {
-      let vm = this;
-      vm.projectID = id;
-      vm.dialogSetVisible = true;
-      vm.dialogSetTitle = "团队设置";
+    teamSettings(projectId) {
+      this.$router.push({ path: "teamSettings/" + projectId });
     },
     projectEdit(row) {
       this.newForm.product = row.product;
@@ -414,7 +393,9 @@ export default {
         if (valid) {
           let formData = {
             pmID: vm.newForm.employeeId,
-            pmName: vm.newForm.employeeName,
+            pmName: vm.newForm.employeeOptions.find(
+              item => item.staffID === vm.newForm.employeeId
+            ).staffName,
             bu: vm.newForm.product,
             du: vm.newForm.du,
             pdu: vm.newForm.pdu,
@@ -433,36 +414,7 @@ export default {
           return false;
         }
       });
-    },
-    searchEmployee(queryString, callbackFun) {
-      if (!queryString) {
-        callbackFun();
-        return;
-      }
-      let vm = this;
-      vm.$store
-        .dispatch("searchEmployeeInfo", queryString)
-        .then(res => {
-          if (res.success) {
-            callbackFun(res.data);
-          } else {
-            callbackFun([]);
-          }
-        })
-        .catch(error => {
-          vm.$message.error(error);
-          callbackFun();
-        });
-    },
-    handleSelectItem(item) {
-      this.newForm.employeeName = item.employeeName;
-      this.newForm.employeeId = item.employeeID;
-    },
-    handleClear() {
-      this.newForm.employeeName = "";
-      this.newForm.employeeId = "";
-    },
-    changeTab() {}
+    }
   }
 };
 </script>
@@ -470,8 +422,8 @@ export default {
 .pg-form-wrap .el-form-item {
   margin-bottom: 15px;
 }
-.team-setting{
-  .el-dialog__body{
+.team-setting {
+  .el-dialog__body {
     padding: 10px 20px;
   }
 }

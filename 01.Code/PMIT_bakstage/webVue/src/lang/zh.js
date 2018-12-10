@@ -22,7 +22,8 @@ export default {
     loginUser: "登录用户管理",
     courseOpen: "开班设置",
     backupRestore: "备份与恢复",
-    logManagement: "日志管理"
+    logManagement: "日志管理",
+    teamSettings: "团队设置"
   },
   navbar: {
     logOut: "退出登录",

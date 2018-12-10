@@ -248,12 +248,13 @@
             title="删除"
             @click="handleDel(scope.row.employeeID);"
           ></el-button>
-          <router-link
-            :to="'/employeeManagement/employeeDetail/' + scope.row.employeeID"
-            style="margin-left:10px"
-          >
-            <el-button type="primary" size="mini" icon="el-icon-search" title="查看详情"></el-button>
-          </router-link>
+          <el-button
+            type="primary"
+            size="mini"
+            icon="el-icon-view"
+            title="查看详情"
+            @click="handleView(scope.row.employeeID);"
+          ></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -473,14 +474,11 @@ export default {
         });
       });
     },
+    handleView(id) {
+      this.$router.push({ path: "/employeeManagement/employeeDetail/" + id });
+    },
     handleEdit(rowData) {
       this.$message.info("功能正在完善中。。。");
-    },
-    handleView(affairId) {
-      let vm = this;
-      vm.$router.push({
-        path: "/employeeManagement/empolyeeDetail"
-      });
     },
     handleUpload(file) {
       var ext = file.name.substring(file.name.lastIndexOf(".") + 1);

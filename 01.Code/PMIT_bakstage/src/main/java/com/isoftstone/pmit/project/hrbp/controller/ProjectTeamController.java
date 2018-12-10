@@ -27,10 +27,10 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/hrbp/TeamManage")
 @Api(value="群组管理", tags={"项目群组管理"})
 public class ProjectTeamController extends AbstractController {
-	
+
 	@Autowired
 	private IProjectTeamService projectTeamService;
-	
+
 	@ApiOperation("查询区域和成本中心")
 	@PostMapping("/queryAreaAndCuBycondition")
 	public String queryAreaAndCuBycondition(@RequestBody TeamParam param) {
@@ -38,11 +38,11 @@ public class ProjectTeamController extends AbstractController {
 		try {
 			list = projectTeamService.queryAreaAndCuByCondition(param);
 		} catch (Exception e) {
-			
+			return AjaxResult.returnToResult(false, e.getMessage());
 		}
-		return AjaxResult.returnToResult(false, list);
+		return AjaxResult.returnToResult(true, list);
 	}
-	
+
 	@ApiOperation("查询资源池人员信息")
 	@PostMapping("/searchEmployeeInfos")
 	public String searchEmployeeInfos(@RequestBody String param) {
@@ -51,11 +51,11 @@ public class ProjectTeamController extends AbstractController {
 		try {
 			teamData = projectTeamService.searchEmployeeInfos(queryMap);
 		} catch (Exception e) {
-			
+			return AjaxResult.returnToResult(false, e.getMessage());
 		}
-		return AjaxResult.returnToResult(false, teamData);
+		return AjaxResult.returnToResult(true, teamData);
 	}
-	
+
 	@ApiOperation("查询项目组人员信息")
 	@PostMapping("/getTeamInfos")
 	public String getProjectTeamData(@RequestBody String param) {
@@ -64,11 +64,11 @@ public class ProjectTeamController extends AbstractController {
 		try {
 			teamData = projectTeamService.getProjectTeamData(queryParam);
 		} catch (Exception e) {
-			
+			return AjaxResult.returnToResult(false, e.getMessage());
 		}
-		return AjaxResult.returnToResult(false, teamData);
+		return AjaxResult.returnToResult(true, teamData);
 	}
-	
+
 	@ApiOperation("保存项目组人员信息")
 	@PostMapping("/saveTeamInfos")
 	public String saveProjectTeamData(@RequestBody String param) {
@@ -76,7 +76,7 @@ public class ProjectTeamController extends AbstractController {
 		List<TeamInfo> teamInfos = JSONObject.parseArray(JSONObject.toJSONString(teamInfoMap), TeamInfo.class);
 		if (ListUtils.isEmpty(teamInfos)) {
 			System.out.println("ERROR");
-			return AjaxResult.returnToResult(false, "fail"); 
+			return AjaxResult.returnToResult(false, "fail");
 		}
 		String status = null;
 		try {
@@ -87,7 +87,7 @@ public class ProjectTeamController extends AbstractController {
 		}
 		return AjaxResult.returnToMessage(true, status);
 	}
-	
+
 	@ApiOperation("保存项目人员角色信息")
 	@PostMapping("/saveProjectRole")
 	public String saveProjectTeamRole(@RequestBody String param) {
@@ -102,7 +102,7 @@ public class ProjectTeamController extends AbstractController {
 		}
 		return AjaxResult.returnToMessage(true, "success");
 	}
-	
+
 	@ApiOperation("项目组关联项目")
 	@PostMapping("/teamRelatedPo")
 	public String teamRelatedPo(@RequestBody String param) {
@@ -129,7 +129,7 @@ public class ProjectTeamController extends AbstractController {
 
 		List<Map<String, Object>> result = projectTeamService.queryProjectInformation(paramMap);
 
-		return AjaxResult.returnToResult(false, result);
+		return AjaxResult.returnToResult(true, result);
 	}
 
 	@ApiOperation("查询PO角色信息")
@@ -138,28 +138,28 @@ public class ProjectTeamController extends AbstractController {
 
 		List<Map<String, Object>> result = projectTeamService.queryProjectRole();
 
-		return AjaxResult.returnToResult(false, result);
+		return AjaxResult.returnToResult(true, result);
 	}
-	
+
 	@ApiOperation("根据立项时间查询项目组关联的PO信息")
 	@PostMapping("/queryteamRelatedPoByProjectTime")
 	public String queryProjectInformationByProjectTime(@RequestBody String param) {
-		
+
 		Map<String, Object> paramMap = JSONObject.parseObject(param, HashMap.class);
-		
+
 		List<Map<String, Object>> result = projectTeamService.queryProjectInformationByProjectTime(paramMap);
 
-		return AjaxResult.returnToResult(false, result);
+		return AjaxResult.returnToResult(true, result);
 	}
-	
+
 	@ApiOperation("查询项目关键角色信息")
 	@PostMapping("/queryPoStaffInfo")
 	public String queryPoStaffInfo(@RequestBody String param) {
-		
+
 		Map<String, Object> paramMap = JSONObject.parseObject(param, HashMap.class);
-		
+
 		List<Map<String, Object>> result = projectTeamService.queryPoStaffInfo(paramMap);
 
-		return AjaxResult.returnToResult(false, result);
+		return AjaxResult.returnToResult(true, result);
 	}
 }

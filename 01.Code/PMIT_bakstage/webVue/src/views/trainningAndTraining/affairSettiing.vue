@@ -168,7 +168,7 @@
           <el-button
             type="primary"
             size="mini"
-            icon="el-icon-search"
+            icon="el-icon-view"
             title="考核事务维度查看"
             @click="handleView(scope.row.affairID);"
           ></el-button>

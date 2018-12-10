@@ -7,11 +7,16 @@ import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 import "normalize.css"; // A modern alternative to CSS resets
 import "element-ui/lib/theme-chalk/index.css";
+import "ztree/css/metroStyle/metroStyle.css";
 import Cookies from "js-cookie";
 // import { getToken } from "@/utils/auth"; // getToken from cookie
 import "@/styles/index.scss"; // global css
 import i18n from "./lang"; // Internationalization
 import "./icons"; // icon
+import jQuery from "jquery";
+import _ from "underscore";
+window.$ = window.jQuery = jQuery;
+window._ = _;
 Vue.config.productionTip = false;
 NProgress.configure({ showSpinner: false }); // NProgress Configuration
 Vue.use(elmentui);
