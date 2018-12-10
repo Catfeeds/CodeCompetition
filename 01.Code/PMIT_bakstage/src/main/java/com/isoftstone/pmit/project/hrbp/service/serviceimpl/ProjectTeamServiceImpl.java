@@ -53,8 +53,12 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 			Map<String, List<TeamInfo>> addAndDeleteTeamInfos = getAddAndDeleteTeamInfos(teamInfos,oldTeamInfos);
 			List<TeamInfo> addTeamInfos = addAndDeleteTeamInfos.get("addTeamInfos");
 			List<TeamInfo> deleteTeamInfos = addAndDeleteTeamInfos.get("deleteTeamInfos");
-			projectTeamMapper.addTeamInfo(addTeamInfos);
-			projectTeamMapper.deleteTeamInfo(deleteTeamInfos);
+			if (!ListUtils.isEmpty(addTeamInfos)) {
+				projectTeamMapper.addTeamInfo(addTeamInfos);
+			}
+			if (!ListUtils.isEmpty(deleteTeamInfos)) {
+				projectTeamMapper.deleteTeamInfo(deleteTeamInfos);
+			}
 		}
 		return "success";
 	}
