@@ -1,5 +1,6 @@
 package com.isoftstone.pmit.project.hrbp.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,14 +72,17 @@ public class ProjectTeamController extends AbstractController {
 	@ApiOperation("保存项目组人员信息")
 	@PostMapping("/saveTeamInfos")
 	public String saveProjectTeamData(@RequestBody String param) {
-		List<TeamInfo> teamInfos = (List<TeamInfo>) JSONObject.parseObject(param, HashMap.class).get("teamInfos");
+		List<Map<String, Object>> teamInfoMap = (List<Map<String, Object>>) JSONObject.parseObject(param, HashMap.class).get("teamInfos");
+		List<TeamInfo> teamInfos = JSONObject.parseArray(JSONObject.toJSONString(teamInfoMap), TeamInfo.class);
 		if (ListUtils.isEmpty(teamInfos)) {
+			System.out.println("ERROR");
 			return AjaxResult.returnToResult(false, "fail"); 
 		}
 		String status = null;
 		try {
 			status = projectTeamService.saveProjectTeamData(teamInfos);
 		} catch (Exception e) {
+			logger.error("saveProjectTeamData ERROR"+e.getMessage());
 			return AjaxResult.returnToMessage(false, "fail");
 		}
 		return AjaxResult.returnToMessage(true, status);
