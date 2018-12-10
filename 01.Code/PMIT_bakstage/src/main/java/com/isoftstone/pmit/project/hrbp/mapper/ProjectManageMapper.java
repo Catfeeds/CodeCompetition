@@ -16,4 +16,6 @@ public interface ProjectManageMapper {
     public void insertProjectNode(Map<String, Object> queryMap);
 
     public void deleteProject(Map<String, Object> queryMap);
+
+    public List<Map<String,String>> queryPMs(Map<String,Object> queryMap);
 }

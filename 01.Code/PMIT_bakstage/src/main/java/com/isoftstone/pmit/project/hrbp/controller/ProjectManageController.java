@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -75,6 +76,19 @@ public class ProjectManageController {
             return AjaxResult.returnToMessage(false, e.getMessage());
         }
         return AjaxResult.returnToResult(true, "Delete Project Success");
+    }
+
+    @ApiOperation(value = "项目经理查询", notes = "项目经理查询")
+    @PostMapping(value = "/queryPMs")
+    private String queryPMs(@RequestBody Map<String, Object> params){
+        List<Map<String,String>> result;
+        try {
+            result = service.queryPMs(params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.returnToMessage(false, e.getMessage());
+        }
+        return AjaxResult.returnToResult(true, result);
     }
 
 //    @ApiOperation(value = "项目组添加接口", notes = "项目组添加接口")

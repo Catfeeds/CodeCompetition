@@ -127,6 +127,9 @@
             <if test="null != pdu and '' != pdu">
                 AND pdu = #{pdu}
             </if>
+            <if test="null != teamID and '' != teamID">
+                AND projectID = #{teamID}
+            </if>
         </where>
         ) TMP
         WHERE row_num BETWEEN #{rowStart} AND #{rowEnd}
@@ -163,4 +166,28 @@
         DELETE FROM project_manage WHERE projectID = #{projectID}
     </delete>
 
+    <select id="queryPMs" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+          employeeID AS staffID,
+          employeeName AS staffName
+        FROM
+          base_staff_info
+        WHERE
+          currentStatus = 0
+        <if test="null != pmName and '' != pmName">
+            AND employeeName like '%${pmName}%'
+        </if>
+        <if test="null != pmID and '' != pmID">
+            AND employeeID like '%${pmID}%'
+        </if>
+        <if test="null != bu and '' != bu">
+            AND bu = #{bu}
+        </if>
+        <if test="null != du and '' != du">
+            AND du = #{du}
+        </if>
+        <if test="null != pdu and '' != pdu">
+            AND pdu = #{pdu}
+        </if>
+    </select>
 </mapper>

@@ -38,8 +38,9 @@ public class ProjectManageService implements IProjectManageService {
         result.put("totleSize", totleSize);
         if (totleSize != 0) {
             Integer pagenNo = Integer.valueOf(String.valueOf(params.get("pageNo")));
-            params.put("rowStart", (pagenNo - 1) * 10);
-            params.put("rowEnd", (pagenNo) * 10 - 1);
+            Integer pageSize = Integer.valueOf(String.valueOf(params.get("pageSize")));
+            params.put("rowStart", (pagenNo - 1) * pageSize);
+            params.put("rowEnd", (pagenNo) * pageSize - 1);
             List<Map<String, String>> datas = mapper.queryProjects(params);
             result.put("datas", datas);
         }
@@ -57,6 +58,10 @@ public class ProjectManageService implements IProjectManageService {
         mapper.deleteProject(queryMap);
     }
 
+    @Override
+    public List<Map<String, String>> queryPMs(Map<String, Object> queryMap) {
+        return mapper.queryPMs(queryMap);
+    }
 
 //    @Override
 //    public ProjectTreeNode queryProjectLevel(Set<String> projectIDs) {
