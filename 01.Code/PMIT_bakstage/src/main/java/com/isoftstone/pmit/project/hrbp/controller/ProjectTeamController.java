@@ -87,7 +87,7 @@ public class ProjectTeamController extends AbstractController {
 	@ApiOperation("保存项目人员角色信息")
 	@PostMapping("/saveProjectRole")
 	public String saveProjectTeamRole(@RequestBody String param) {
-		List<Map<String, Object>> paramMap = (List<Map<String, Object>>) JSONObject.parseObject(param, HashMap.class).get("teamRoles");
+		List<Map<String, Object>> paramMap = (List<Map<String, Object>>) JSONObject.parseObject(param, HashMap.class).get("projectRoles");
 		if (ListUtils.isEmpty(paramMap)) {
 			return AjaxResult.returnToMessage(false, "fail");
 		}

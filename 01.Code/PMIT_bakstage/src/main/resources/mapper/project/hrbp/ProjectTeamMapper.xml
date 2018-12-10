@@ -122,10 +122,8 @@
 			</if>
 	</select>
 
-	<select id="saveProjectRole" parameterType="java.util.List">
-		<foreach collection="list" index="index" item="projectMap">
-			insert into po_staff_info (project_id, po_role_id, team_id, staff_id, backup_staff_id, enter_time) values (#{projectId}, #{poRoleId}, #{teamId}, #{staffId}, #{backupStaffId}, now());
-		</foreach>
+	<select id="saveProjectRole" parameterType="java.util.Map">
+		insert into po_staff_info (project_id, po_role_id, team_id, staff_id, backup_staff_id, enter_time) values (#{projectId}, #{poRoleId}, #{teamId}, #{staffId}, #{backupStaffId}, now())
 	</select>
 	
 	<select id="deleteProjectRole" parameterType="java.util.Map">
@@ -167,7 +165,7 @@
 			psi.staff_id AS staffId,
 			bsi.employeeName AS staffName,
 			psi.backup_staff_id AS backupStaffId,
-			bbsi.employeeName AS staffName
+			bbsi.employeeName AS backupStaffName
 		from 
 			po_staff_info psi
 			inner join 

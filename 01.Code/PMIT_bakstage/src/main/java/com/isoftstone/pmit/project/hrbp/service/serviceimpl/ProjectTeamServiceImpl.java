@@ -63,7 +63,13 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 	@Override
 	public void saveProjectRole(List<Map<String, Object>> paramMap) {
 		projectTeamMapper.deleteProjectRole(paramMap.get(0));
-		projectTeamMapper.saveProjectTeamRole(paramMap);
+		try {
+		for(Map<String, Object> map : paramMap) {
+			projectTeamMapper.saveProjectRole(map);
+		}
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 	}
 
 	private Map<String, List<TeamInfo>> getAddAndDeleteTeamInfos(List<TeamInfo> teamInfos,
