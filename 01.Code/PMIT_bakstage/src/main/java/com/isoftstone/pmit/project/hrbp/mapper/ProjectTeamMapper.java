@@ -22,7 +22,7 @@ public interface ProjectTeamMapper {
 
 	void deleteTeamInfo(List<TeamInfo> deleteTeamInfos);
 
-	void saveProjectTeamRole(Map<String, Object> paramMap);
+	void saveProjectTeamRole(List<Map<String, Object>> paramMap);
 
 	void teamRelatedPo(Map<String, Object> map);
 
@@ -31,4 +31,8 @@ public interface ProjectTeamMapper {
     List<Map<String, Object>> queryProjectRole();
 
 	List<Map<String, Object>> queryProjectInformationByProjectTime(Map<String, Object> paramMap);
+
+	List<Map<String, Object>> queryPoStaffInfo(Map<String, Object> paramMap);
+
+	void deleteProjectRole(Map<String, Object> map);
 }

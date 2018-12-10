@@ -87,7 +87,10 @@ public class ProjectTeamController extends AbstractController {
 	@ApiOperation("保存项目人员角色信息")
 	@PostMapping("/saveProjectRole")
 	public String saveProjectTeamRole(@RequestBody String param) {
-		Map<String, Object> paramMap = JSONObject.parseObject(param, HashMap.class);
+		List<Map<String, Object>> paramMap = (List<Map<String, Object>>) JSONObject.parseObject(param, HashMap.class).get("teamRoles");
+		if (ListUtils.isEmpty(paramMap)) {
+			return AjaxResult.returnToMessage(false, "fail");
+		}
 		try {
 			projectTeamService.saveProjectRole(paramMap);
 		} catch (Exception e) {
@@ -141,6 +144,17 @@ public class ProjectTeamController extends AbstractController {
 		Map<String, Object> paramMap = JSONObject.parseObject(param, HashMap.class);
 		
 		List<Map<String, Object>> result = projectTeamService.queryProjectInformationByProjectTime(paramMap);
+
+		return AjaxResult.returnToResult(false, result);
+	}
+	
+	@ApiOperation("查询项目关键角色信息")
+	@PostMapping("/queryPoStaffInfo")
+	public String queryPoStaffInfo(@RequestBody String param) {
+		
+		Map<String, Object> paramMap = JSONObject.parseObject(param, HashMap.class);
+		
+		List<Map<String, Object>> result = projectTeamService.queryPoStaffInfo(paramMap);
 
 		return AjaxResult.returnToResult(false, result);
 	}

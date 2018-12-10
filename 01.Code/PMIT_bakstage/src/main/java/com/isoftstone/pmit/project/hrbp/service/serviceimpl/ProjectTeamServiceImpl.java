@@ -61,7 +61,8 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 
 	@Transactional(rollbackFor = Exception.class)
 	@Override
-	public void saveProjectRole(Map<String, Object> paramMap) {
+	public void saveProjectRole(List<Map<String, Object>> paramMap) {
+		projectTeamMapper.deleteProjectRole(paramMap.get(0));
 		projectTeamMapper.saveProjectTeamRole(paramMap);
 	}
 
@@ -100,6 +101,12 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 	public List<Map<String, Object>> queryProjectInformationByProjectTime(Map<String, Object> paramMap) {
 		
 		return projectTeamMapper.queryProjectInformationByProjectTime(paramMap);
+	}
+
+	@Override
+	public List<Map<String, Object>> queryPoStaffInfo(Map<String, Object> paramMap) {
+		
+		return projectTeamMapper.queryPoStaffInfo(paramMap);
 	}
 
 }

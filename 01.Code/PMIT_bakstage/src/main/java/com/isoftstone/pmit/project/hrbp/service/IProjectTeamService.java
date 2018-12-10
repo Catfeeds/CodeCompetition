@@ -16,7 +16,7 @@ public interface IProjectTeamService {
 
 	String saveProjectTeamData(List<TeamInfo> teamInfos);
 
-	void saveProjectRole(Map<String, Object> paramMap);
+	void saveProjectRole(List<Map<String, Object>> paramMap);
 
 	void teamRelatedPo(String teamId, String projectId);
 
@@ -25,4 +25,6 @@ public interface IProjectTeamService {
 	List<Map<String, Object>> queryProjectRole();
 
 	List<Map<String, Object>> queryProjectInformationByProjectTime(Map<String, Object> paramMap);
+
+	List<Map<String, Object>> queryPoStaffInfo(Map<String, Object> paramMap);
 }
