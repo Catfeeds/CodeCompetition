@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.ClassOpeningMapper">
+    <sql id="queryColumn">
+        opening_id as openingID,
+        system,
+        bu,
+        series,
+        training_name as trainingName,
+        opening_name as openingName,
+        lecturer,
+        training_time as trainingTime,
+        training_type as trainingType,
+        language,
+        class_type as classType,
+        address,
+        download,
+        online,
+        galleryful,
+        isExam,
+        publisher,
+        telephone,
+        enroll_method as enrollMethod,
+        notice,
+        opening_status as openingStatus
+    </sql>
+    <select id="queryAllClass" parameterType="com.isoftstone.pmit.project.hrbp.entity.ClassParam" resultType="com.isoftstone.pmit.project.hrbp.entity.ClassInfo">
+        select
+        bu,
+        training_name as trainingName,
+        opening_name as openingName,
+        lecturer,
+        training_time as trainingTime,
+        training_type as trainingType,
+        opening_status as openingStatus
+        from
+        opening_setup_info
+        where
+        status = 0
+        <if test="null != series and series != ''">
+            AND series = #{series}
+        </if>
+        <if test="null != bu and bu != ''">
+            AND bu = #{bu}
+        </if>
+        <if test="null != trainingType and trainingType != ''">
+            AND training_type = #{trainingType}
+        </if>
+        <if test="null != trainingName and trainingName != ''">
+            AND training_name like CONCAT('%',#{trainingName},'%')
+        </if>
+        <if test="null != lecturer and lecturer != ''">
+            AND lecturer like CONCAT('%',#{lecturer},'%')
+        </if>
+        <if test="null != startTime and null != endTime">
+            AND training_time between #{startTime} and #{endTime}
+        </if>
+    </select>
+    <select id="findClassByID" parameterType="ClassInfo" resultType="ClassInfo">
+        select
+        <include refid="queryColumn"/>
+        from opening_setup_info
+        where opening_id = #{openingID}
+    </select>
+    <delete id="deleteClass" parameterType="com.isoftstone.pmit.project.hrbp.entity.ClassInfo">
+        delete from opening_setup_info where opening_id = #{openingID}
+    </delete>
+    <insert id="insertClass" parameterType="com.isoftstone.pmit.project.hrbp.entity.ClassInfo">
+        insert into opening_setup_info(
+        <if test="system != null and system != ''">system,</if>
+        <if test="bu != null and bu != ''">bu,</if>
+        <if test="series != null and series != ''">series,</if>
+        <if test="trainingName != null and trainingName != ''">training_name,</if>
+        <if test="openingName != null and openingName != ''">opening_name,</if>
+        <if test="lecturer != null and lecturer != ''">lecturer,</if>
+        <if test="trainingTime != null">training_time,</if>
+        <if test="trainingType != null and trainingType != ''">training_type,</if>
+        <if test="language != null and language != ''">language,</if>
+        <if test="classType != null and classType != ''">class_type,</if>
+        <if test="address != null and address != ''">address,</if>
+        <if test="download != null and download != ''">download,</if>
+        <if test="online != null and online != ''">online,</if>
+        <if test="galleryful != null and galleryful != ''">galleryful,</if>
+        <if test="isExam != null and isExam != ''">isExam,</if>
+        <if test="publisher != null and publisher != ''">publisher,</if>
+        <if test="telephone != null and telephone != ''">telephone,</if>
+        <if test="enrollMethod != null and enrollMethod != ''">enroll_method,</if>
+        <if test="notice != null and notice != ''">notice,</if>
+        <if test="openingStatus != null and openingStatus != ''">opening_status</if>
+        )values (
+        <if test="system != null and system != ''">#{system},</if>
+        <if test="bu != null and bu != ''">#{bu},</if>
+        <if test="series != null and series != ''">#{series},</if>
+        <if test="trainingName != null and trainingName != ''">#{trainingName},</if>
+        <if test="openingName != null and openingName != ''">#{openingName},</if>
+        <if test="lecturer != null and lecturer != ''">#{lecturer},</if>
+        <if test="trainingTime != null">#{trainingTime},</if>
+        <if test="trainingType != null and trainingType != ''">#{trainingType},</if>
+        <if test="language != null and language != ''">#{language},</if>
+        <if test="classType != null and classType != ''">#{classType},</if>
+        <if test="address != null and address != ''">#{address},</if>
+        <if test="download != null and download != ''">#{download},</if>
+        <if test="online != null and online != ''">#{online},</if>
+        <if test="galleryful != null and galleryful != ''">#{galleryful},</if>
+        <if test="isExam != null and isExam != ''">#{isExam},</if>
+        <if test="publisher != null and publisher != ''">#{publisher},</if>
+        <if test="telephone != null and telephone != ''">#{telephone},</if>
+        <if test="enrollMethod != null and enrollMethod != ''">#{enrollMethod},</if>
+        <if test="notice != null and notice != ''">#{notice},</if>
+        <if test="openingStatus != null and openingStatus != ''">#{openingStatus}</if>
+        )
+    </insert>
+    <update id="updateClass" parameterType="ClassInfo">
+        update opening_setup_info
+        <set>
+            <if test="system != null and system != ''">system = #{system},</if>
+            <if test="bu != null and bu != ''">bu = #{bu},</if>
+            <if test="series != null and series != ''">series = #{series},</if>
+            <if test="trainingName != null and trainingName != ''">training_name = #{trainingName},</if>
+            <if test="openingName != null and openingName != ''">opening_name = #{openingName},</if>
+            <if test="lecturer != null and lecturer != ''">lecturer = #{lecturer},</if>
+            <if test="trainingTime != null">training_time = #{trainingTime},</if>
+            <if test="trainingType != null and trainingType != ''">training_type = #{trainingType},</if>
+            <if test="language != null and language != ''">language = #{language},</if>
+            <if test="classType != null and classType != ''">class_type = #{classType},</if>
+            <if test="address != null and address != ''">address = #{address},</if>
+            <if test="download != null and download != ''">download = #{download},</if>
+            <if test="online != null and online != ''">online = #{online},</if>
+            <if test="galleryful != null and galleryful != ''">galleryful = #{galleryful},</if>
+            <if test="isExam != null and isExam != ''">isExam = #{isExam},</if>
+            <if test="publisher != null and publisher != ''">publisher = #{publisher},</if>
+            <if test="telephone != null and telephone != ''">telephone = #{telephone},</if>
+            <if test="enrollMethod != null and enrollMethod != ''">enroll_method = #{enrollMethod},</if>
+            <if test="notice != null and notice != ''">notice = #{notice},</if>
+            <if test="openingStatus != null and openingStatus != ''">opening_status = #{openingStatus}</if>
+        </set>
+        where opening_id = #{openingID}
+    </update>
+</mapper>

@@ -6,7 +6,6 @@ import com.isoftstone.pmit.common.util.JsonUtils;
 import com.isoftstone.pmit.common.web.controller.AbstractController;
 import com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult;
 import com.isoftstone.pmit.project.hrbp.entity.LoginInformation;
-import com.isoftstone.pmit.project.hrbp.entity.EmpAndPageInfo;
 import com.isoftstone.pmit.project.hrbp.service.IUserManageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
