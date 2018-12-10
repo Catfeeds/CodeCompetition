@@ -27,22 +27,22 @@
 			base_staff_info
 		where
 			1=1
-		<if test="null != pdu">
+		<if test="null != pdu and pdu != ''">
             AND pdu = '${pdu}'
         </if>
-        <if test="null != gender">
+        <if test="null != gender and gender != ''">
             AND sex = '${gender}'
         </if>
-        <if test="null != area">
+        <if test="null != area and area != ''">
             AND workplacearea = '${area}'
         </if>
-        <if test="null != cu">
+        <if test="null != cu and cu != ''">
             AND costcenter = '${cu}'
         </if>
-        <if test="null != name">
+        <if test="null != name and name != ''">
             AND employeeName like '%${name}%'
         </if>
-        <if test="null != staffId">
+        <if test="null != staffId and staffId != ''">
             AND employeeId like '%${staffId}%'
         </if>
 	</select>
@@ -53,7 +53,7 @@
 			costCenter as cu
 		from 
 			base_staff_info
-		<if test="null != pdu">
+		<if test="null != pdu and pdu != ''">
 		where 
 			pdu = '${pdu}'
 		</if>
