@@ -45,6 +45,9 @@
         width="60"
         :label="$t('table.id')"
       ></el-table-column>
+      <el-table-column prop="bu" sortable header-align="center" label="产品线"></el-table-column>
+      <el-table-column prop="du" sortable header-align="center" label="DU"></el-table-column>
+      <el-table-column prop="pdu" sortable header-align="center" label="PDU"></el-table-column>
       <el-table-column prop="teamName" sortable header-align="center" label="项目组名称"></el-table-column>
       <el-table-column prop="pmName" sortable header-align="center" label="PM"></el-table-column>
       <el-table-column prop="projectName" sortable header-align="center" label="关联PO名称"></el-table-column>
@@ -61,14 +64,9 @@
           <span>{{ scope.row.endTime | formatDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column header-align="center" label="操作">
+      <el-table-column header-align="center" label="操作" width="80">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleProjectApproval(scope.$index, scope.row)"
-          >结项</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -253,12 +251,15 @@ export default {
         vm.currentPage * vm.pageSize
       );
     },
-    handlePOFilter() {
+    handlePOFilter(row) {
       this.selectIds = [];
       this.getAllPOInfo()
         .then(res => {
           if (res.success) {
             this.PODataSource = res.data;
+            if(row) {
+              this.$refs.multiTable.toggleRowSelection(row)
+            }            
           } else {
             this.PODataSource = [];
           }
@@ -275,12 +276,17 @@ export default {
       this.searchForm.pdu = this.teamInfo.pdu;
       this.createVisible = true;
       this.getPOFormDU();
+      this.handlePOFilter();
     },
     handleEdit(index, row) {
       this.createVisible = true;
-      this.formObj.projectName = row.projectName;
-      this.formObj.pmName = row.pmName;
-      this.formObj.product = row.product;
+      this.searchForm.poID = row.projectId;
+      this.searchForm.poName = row.projectName;
+      this.searchForm.product = row.bu;
+      this.searchForm.du = row.du;
+      this.searchForm.pdu = row.pdu;
+      this.getPOFormDU();
+      this.handlePOFilter(row);
     },
     handleProjectApproval(index, row) {},
     handleConfirm() {

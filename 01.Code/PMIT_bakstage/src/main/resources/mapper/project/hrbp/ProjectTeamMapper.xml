@@ -5,7 +5,7 @@
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.ProjectTeamMapper">
 
 	<select id="queryProjectTeamData" parameterType="java.util.Map"  resultType="com.isoftstone.pmit.project.hrbp.entity.TeamInfo">
-		select 
+		select
 			team_id as teamId,
 			team_name as teamName,
 			staff_id as staffId,
@@ -13,17 +13,17 @@
 			position as position,
 			parent_id as parentId,
 			level as level
-		from 
+		from
 			hrbp_projectTeam
-		where 
+		where
 			team_id = ${teamId}
 	</select>
-	
+
 	<select id="queryResourcePoolData" parameterType="java.util.Map" resultType="java.util.Map">
-		select 
+		select
 			employeeId as staffId,
 			employeeName as staffName
-		from 
+		from
 			base_staff_info
 		where
 			1=1
@@ -46,48 +46,48 @@
             AND employeeId like '%${staffId}%'
         </if>
 	</select>
-	
+
 	<select id="queryAreaAndCuByCondition" parameterType="java.util.Map" resultType="java.util.HashMap">
 		select distinct
 			workPlaceArea as area,
 			costCenter as cu
-		from 
+		from
 			base_staff_info
 		<if test="null != pdu and pdu != ''">
-		where 
+		where
 			pdu = '${pdu}'
 		</if>
 	</select>
-	
+
 	<select id="addTeamInfo" parameterType="java.util.List">
 		<foreach collection="list" index="index" item="teamInfo">
 			update base_staff_info set currentStatus = '1' where employeeId = #{teamInfo.staffId};
-			
-			insert into hrbp_projectTeam 
-				(team_id, team_name, staff_id, staff_name, parent_id, level) 
+
+			insert into hrbp_projectTeam
+				(team_id, team_name, staff_id, staff_name, parent_id, level)
 			values
 				(#{teamInfo.teamId}, #{teamInfo.teamName}, #{teamInfo.staffId}, #{teamInfo.staffName}, #{teamInfo.parentId}, #{teamInfo.level});
-			
-			insert into hrbp_projectTeamRecord 
-				(team_id, team_name, staff_id, staff_name, parent_id, level, change_time, status) 
+
+			insert into hrbp_projectTeamRecord
+				(team_id, team_name, staff_id, staff_name, parent_id, level, change_time, status)
 			values
 				(#{teamInfo.teamId}, #{teamInfo.teamName}, #{teamInfo.staffId}, #{teamInfo.staffName}, #{teamInfo.parentId}, #{teamInfo.level}, now(), 'enter');
 		</foreach>
 	</select>
-	
+
 	<select id="deleteTeamInfo" parameterType="java.util.List">
 		<foreach collection="list" index="index" item="teamInfo">
 			update base_staff_info set currentStatus = '0' where employeeId = #{teamInfo.staffId};
-			
+
 			delete from hrbp_projectTeam where team_id = #{teamInfo.teamId} and staff_id = #{teamInfo.staffId};
-						
-			insert into hrbp_projectTeamRecord 
-				(team_id, team_name, staff_id, staff_name, parent_id, level, change_time, status) 
+
+			insert into hrbp_projectTeamRecord
+				(team_id, team_name, staff_id, staff_name, parent_id, level, change_time, status)
 			values
 				(#{teamInfo.teamId}, #{teamInfo.teamName}, #{teamInfo.staffId}, #{teamInfo.staffName}, #{teamInfo.parentId}, #{teamInfo.level}, now(), 'out');
 		</foreach>
 	</select>
-	
+
 	<select id="teamRelatedPo" parameterType="java.util.Map">
 		insert into team_related_po values (#{teamId}, #{projectId})
 	</select>
@@ -125,40 +125,43 @@
 	<select id="saveProjectRole" parameterType="java.util.Map">
 		insert into po_staff_info (project_id, po_role_id, team_id, staff_id, backup_staff_id, enter_time) values (#{projectId}, #{poRoleId}, #{teamId}, #{staffId}, #{backupStaffId}, now())
 	</select>
-	
+
 	<select id="deleteProjectRole" parameterType="java.util.Map">
 		delete from po_staff_info where project_id = #{projectId} and po_role_id = #{poRoleId} and team_id = #{teamId}
 	</select>
-	
+
 	<select id="queryProjectRole" resultType="java.util.Map">
 		select po_role_id as poRoleId, po_role_name as poRoleName from po_role_info
 	</select>
-	
+
 	<select id="queryProjectInformationByProjectTime" parameterType="java.util.Map" resultType="java.util.Map">
-		SELECT 
+		SELECT
 			team.team_id AS teamId,
 			team.team_name AS teamName,
 			po.projectid AS projectId,
 			po.projectname AS projectName,
 			po.starttime AS startTime,
 			po.endtime AS endTime
-		FROM 
+		FROM
 			hrbp_projectteam team,
 			team_related_po tp,
 			project_information po
 		WHERE
 			team.team_id = tp.team_id AND
-			tp.project_id = po.projectId AND 
-			team.team_id = #{teamId} AND
+			tp.project_id = po.projectId AND
+			team.team_id = #{teamId}
+		<if test="null != startDate and startDate != ''">
+			AND
 			po.startTime <![CDATA[>=]]> str_to_date(#{startDate}, '%Y-%m-%d') AND
 			po.startTime <![CDATA[<=]]> str_to_date(#{endDate}, '%Y-%m-%d')
+		</if>
 		GROUP BY
 			projectId
 	</select>
-	
+
 	<select id="queryPoStaffInfo" parameterType="java.util.Map" resultType="java.util.Map">
 		select
-			psi.id AS id, 
+			psi.id AS id,
 			psi.project_id AS projectId,
 			psi.po_role_id AS poRoleId,
 			psi.team_id AS teamId,
@@ -166,18 +169,18 @@
 			bsi.employeeName AS staffName,
 			psi.backup_staff_id AS backupStaffId,
 			bbsi.employeeName AS backupStaffName
-		from 
+		from
 			po_staff_info psi
-			inner join 
+			inner join
 				base_staff_info bsi
-			on 
+			on
 				psi.staff_id = bsi.employeeID
-			inner join 
+			inner join
 				base_staff_info bbsi
-			on 
+			on
 				psi.backup_staff_id = bbsi.employeeID
-		where 
+		where
 			psi.project_id = #{projectId}
 	</select>
-	
+
 </mapper>
