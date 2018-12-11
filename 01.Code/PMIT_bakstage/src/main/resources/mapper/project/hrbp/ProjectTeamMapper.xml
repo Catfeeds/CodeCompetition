@@ -136,24 +136,33 @@
 
 	<select id="queryProjectInformationByProjectTime" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
-			team.team_id AS teamId,
-			team.team_name AS teamName,
+			team.projectId AS teamId,
+			team.projectName AS teamName,
+			team.pmId AS pmId,
+			team.pmName AS pmName,
 			po.projectid AS projectId,
 			po.projectname AS projectName,
 			po.starttime AS startTime,
-			po.endtime AS endTime
-		FROM
-			hrbp_projectteam team,
+			po.endtime AS endTime,
+			po.bu AS bu,
+			po.du AS du,
+			po.pdu AS pdu,
+			CASE WHEN 
+				endTime <![CDATA[<=]]> NOW()
+				THEN '结项'
+				ELSE '未结项'
+			END AS knotTime
+		FROM 
+			project_manage team,
 			team_related_po tp,
 			project_information po
 		WHERE
-			team.team_id = tp.team_id AND
+			team.projectId = tp.team_id AND
 			tp.project_id = po.projectId AND
-			team.team_id = #{teamId}
+			team.projectId = #{teamId}
 		<if test="null != startDate and startDate != ''">
-			AND
-			po.startTime <![CDATA[>=]]> str_to_date(#{startDate}, '%Y-%m-%d') AND
-			po.startTime <![CDATA[<=]]> str_to_date(#{endDate}, '%Y-%m-%d')
+			AND po.startTime <![CDATA[>=]]> str_to_date(#{startDate}, '%Y-%m-%d') 
+			AND po.startTime <![CDATA[<=]]> str_to_date(#{endDate}, '%Y-%m-%d')
 		</if>
 		GROUP BY
 			projectId
@@ -182,5 +191,9 @@
 		where
 			psi.project_id = #{projectId}
 	</select>
-
+	
+	<select id="deleteteamRelatedPo" parameterType="java.util.Map">
+		delete from team_related_po where team_id = #{teamId} and project_id = #{projectId}
+	</select>
+	
 </mapper>

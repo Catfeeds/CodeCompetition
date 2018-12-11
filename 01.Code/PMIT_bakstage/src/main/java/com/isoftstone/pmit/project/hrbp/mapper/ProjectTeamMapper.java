@@ -35,4 +35,6 @@ public interface ProjectTeamMapper {
 	List<Map<String, Object>> queryPoStaffInfo(Map<String, Object> paramMap);
 
 	void deleteProjectRole(Map<String, Object> map);
+
+	void deleteteamRelatedPo(Map<String, Object> paramMap);
 }

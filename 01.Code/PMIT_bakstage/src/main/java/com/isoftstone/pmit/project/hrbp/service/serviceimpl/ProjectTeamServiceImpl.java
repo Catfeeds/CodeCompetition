@@ -89,11 +89,13 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 	}
 
 	@Override
-	public void teamRelatedPo(String teamId, String projectId) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("teamId", teamId);
-		map.put("projectId", projectId);
-		projectTeamMapper.teamRelatedPo(map);
+	public void teamRelatedPo(String teamId, List<String> projectIds) {
+		for(String projectId : projectIds) {
+			Map<String, Object> map = new HashMap<>();
+			map.put("teamId", teamId);
+			map.put("projectId", projectId);
+			projectTeamMapper.teamRelatedPo(map);
+		}
 	}
 
 	@Override
@@ -117,6 +119,12 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 	public List<Map<String, Object>> queryPoStaffInfo(Map<String, Object> paramMap) {
 		
 		return projectTeamMapper.queryPoStaffInfo(paramMap);
+	}
+
+	@Override
+	public void deleteteamRelatedPo(Map<String, Object> paramMap) {
+		
+		projectTeamMapper.deleteteamRelatedPo(paramMap);
 	}
 
 }

@@ -108,10 +108,10 @@ public class ProjectTeamController extends AbstractController {
 	public String teamRelatedPo(@RequestBody String param) {
 		Map<String, Object> paramMap = JSONObject.parseObject(param, HashMap.class);
 		String teamId = (String) paramMap.get("teamId");
-		String projectId = (String) paramMap.get("projectId");
-		if (null != teamId && null != projectId) {
+		List<String> projectIds = (List<String>) paramMap.get("projectId");
+		if (null != teamId && ListUtils.isEmpty(projectIds)) {
 			try {
-				projectTeamService.teamRelatedPo(teamId, projectId);
+				projectTeamService.teamRelatedPo(teamId, projectIds);
 			} catch (Exception e) {
 				return AjaxResult.returnToMessage(false, "fail");
 			}
@@ -140,7 +140,23 @@ public class ProjectTeamController extends AbstractController {
 
 		return AjaxResult.returnToResult(true, result);
 	}
+	
+	@ApiOperation("删除项目组关联PO")
+	@PostMapping("/deleteteamRelatedPo")
+	public String deleteteamRelatedPo(@RequestBody String param) {
+		
+		Map<String, Object> paramMap = JSONObject.parseObject(param, HashMap.class);
+		
+		try {
+			projectTeamService.deleteteamRelatedPo(paramMap);
+		} catch (Exception e) {
+			
+			return AjaxResult.returnToMessage(false, "fail");
+		}
 
+		return AjaxResult.returnToMessage(true, "success");
+	}
+	
 	@ApiOperation("根据立项时间查询项目组关联的PO信息")
 	@PostMapping("/queryteamRelatedPoByProjectTime")
 	public String queryProjectInformationByProjectTime(@RequestBody String param) {
