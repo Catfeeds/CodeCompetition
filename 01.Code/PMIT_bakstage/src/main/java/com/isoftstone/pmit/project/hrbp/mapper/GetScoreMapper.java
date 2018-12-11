@@ -14,7 +14,6 @@ import java.util.Map;
 public interface GetScoreMapper {
 
     List<Map<String,Object>> getColumnName(PersonalScoreParameter parameter);
-    List<Map<String,Object>> getAllTransactionScore(PersonalScoreParameter parameter);
     List<Map<String,Object>> getAllCourseScore(PersonalScoreParameter parameter);
 
 
