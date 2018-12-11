@@ -3,6 +3,16 @@ package com.isoftstone.pmit.project.hrbp.entity;
 public class Course {
     private String courseName;
     private String courseID;
+    private int type;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
 
 
     public String getCourseName() {

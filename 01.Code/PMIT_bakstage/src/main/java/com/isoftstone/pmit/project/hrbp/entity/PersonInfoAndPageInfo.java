@@ -1,14 +1,14 @@
 package com.isoftstone.pmit.project.hrbp.entity;
 
 public class PersonInfoAndPageInfo {
-    private PageInfo pageInfo;
+    private PageParam pageInfo;
     private BaseStaffInfo baseStaffInfo;
 
-    public PageInfo getPageInfo() {
+    public PageParam getPageInfo() {
         return pageInfo;
     }
 
-    public void setPageInfo(PageInfo pageInfo) {
+    public void setPageInfo(PageParam pageInfo) {
         this.pageInfo = pageInfo;
     }
 

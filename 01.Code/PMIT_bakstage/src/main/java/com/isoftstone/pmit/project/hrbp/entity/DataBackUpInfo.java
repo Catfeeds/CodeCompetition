@@ -2,7 +2,7 @@ package com.isoftstone.pmit.project.hrbp.entity;
 
 import java.util.Date;
 
-public class DataBackUpInfo extends PageInfo{
+public class DataBackUpInfo extends PageParam{
 
     /**
      * 主键自增id

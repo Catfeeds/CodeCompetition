@@ -5,14 +5,14 @@ package com.isoftstone.pmit.project.hrbp.entity;
  * @author lf
  */
 public class EmpAndPageInfo {
-    private PageInfo pageInfo;
+    private PageParam pageInfo;
     private EmpInformationResult empInformationResult;
 
-    public PageInfo getPageInfo() {
+    public PageParam getPageInfo() {
         return pageInfo;
     }
 
-    public void setPageInfo(PageInfo pageInfo) {
+    public void setPageInfo(PageParam pageInfo) {
         this.pageInfo = pageInfo;
     }
 

@@ -4,78 +4,73 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.GetScoreMapper">
 
-    <select id="getColumnName" parameterType="java.util.Map" resultType="java.util.Map">
-        SELECT DISTINCT
-	        c.courseName as courseName,
-	        c.courseDimension as dimensionName
-
+    <select id="getColumnName" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalScoreParameter" resultType="java.util.Map">
+        (SELECT DISTINCT
+        c.courseName AS courseName,
+        c.courseDimension AS dimensionName,
+        item.itemtype AS type
         FROM
-	        course_table c
+        course_table c
+        INNER JOIN hrbp_examination_rule_item item ON c.courseName = item.itemName
+        INNER JOIN base_staff_info base ON base.employeeID = c.employeeID
         WHERE
-        c.employeeID IN (
-            SELECT
-                b.employeeID
-            FROM
-                base_staff_info b
-            where
-            1=1
-            <if test="bu != null and bu != ''">
-                and b.bu = #{bu}
-            </if>
+        item.itemName = c.courseName and
+        1=1
+        <if test="bu != null and bu != ''">
+            and base.bu = #{bu}
+        </if>
 
-            <if test="du != null and du != ''">
-                and  b.du = #{du}
-            </if>
+        <if test="du != null and du != ''">
+            and  base.du = #{du}
+        </if>
 
-            <if test="pdu != null and pdu != ''">
-                and   b.pdu = #{pdu}
-            </if>
+        <if test="pdu != null and pdu != ''">
+            and   base.pdu = #{pdu}
+        </if>
 
-            <if test="employeeID != null and employeeID != ''">
-                and  b.employeeID like '%${employeeID}%'
-            </if>
+        <if test="employeeID != null and employeeID != ''">
+            and  base.employeeID like '%${employeeID}%'
+        </if>
 
-            <if test=" employeeName != null and employeeName != ''">
-                or   b.employeeName like  '%${employeeName}%'
-            </if>
+        <if test=" employeeName != null and employeeName != ''">
+            or   base.employeeName like  '%${employeeName}%'
+        </if>
         )
         UNION
-        SELECT DISTINCT
-            t.transactionName as courseName,
-            t.dimensionName as dimensionName
+        (SELECT DISTINCT
+        t.transactionName AS courseName,
+        t.dimensionName AS dimensionName,
+        item.itemtype AS type
         FROM
-            transaction_table t
+        transaction_table t
+        INNER JOIN hrbp_examination_rule_item item ON t.transactionName = item.itemName
+        INNER JOIN base_staff_info base ON base.employeeID = t.employeeID
         WHERE
-            t.employeeID IN (
-                SELECT
-                    b.employeeID
-                FROM
-                    base_staff_info b
-                where
-            1=1
-            <if test="bu != null and bu != ''">
-                and b.bu = #{bu}
-            </if>
+        item.itemName = t.transactionName and
+        1=1
+        <if test="bu != null and bu != ''">
+            and base.bu = #{bu}
+        </if>
 
-            <if test="du != null and du != ''">
-                and  b.du = #{du}
-            </if>
+        <if test="du != null and du != ''">
+            and  base.du = #{du}
+        </if>
 
-            <if test="pdu != null and pdu != ''">
-                and   b.pdu = #{pdu}
-            </if>
+        <if test="pdu != null and pdu != ''">
+            and   base.pdu = #{pdu}
+        </if>
 
-            <if test="employeeID != null and employeeID != ''">
-                and  b.employeeID like '%${employeeID}%'
-            </if>
+        <if test="employeeID != null and employeeID != ''">
+            and  base.employeeID like '%${employeeID}%'
+        </if>
 
-            <if test=" employeeName != null and employeeName != ''">
-                or   b.employeeName like  '%${employeeName}%'
-            </if>
-            )
+        <if test=" employeeName != null and employeeName != ''">
+            or   base.employeeName like  '%${employeeName}%'
+        </if>
+        )
 
     </select>
-    <select id="getAllCourseScore" parameterType="java.util.Map" resultType="java.util.Map">
+    <select id="getAllCourseScore" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalScoreParameter" resultType="java.util.Map">
         SELECT
         source.employeeID AS employeeID,
         source.employeeName AS employeeName,
@@ -93,6 +88,8 @@
         base.positionRole AS positionRole,
         base.rank AS rank,
         base.bu AS bu,
+        base.du AS du,
+        base.pdu AS pdu,
         course.transactionName AS parentHeader,
         course.dimensionName AS childHeader,
         course.dimensionScore AS score
@@ -106,6 +103,8 @@
         base.positionRole AS positionRole,
         base.rank AS rank,
         base.bu AS bu,
+        base.du AS du,
+        base.pdu AS pdu,
         course.courseName AS parentHeader,
         course.courseDimension AS childHeader,
         course.courseScore AS score
@@ -142,27 +141,27 @@
         order by itemType
 
         <if test="bu != null and bu != ''">
-            and b.bu = #{bu}
+            and source.bu = #{bu}
         </if>
 
         <if test="du != null and du != ''">
-            and  b.du = #{du}
+            and  source.du = #{du}
         </if>
 
         <if test="pdu != null and pdu != ''">
-            and   b.pdu = #{pdu}
+            and   source.pdu = #{pdu}
         </if>
 
         <if test="employeeID != null and employeeID != ''">
-            and  b.employeeID like '%${employeeID}%'
+            and  source.employeeID like '%${employeeID}%'
         </if>
 
         <if test=" employeeName != null and employeeName != ''">
-            or   b.employeeName like  '%${employeeName}%'
+            or   source.employeeName like  '%${employeeName}%'
         </if>
 
     </select>
-    <select id="getAllTransactionScore" parameterType="java.util.Map" resultType="java.util.Map">
+    <select id="getAllTransactionScore" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalScoreParameter" resultType="java.util.Map">
         SELECT
         source.employeeID AS employeeID,
         source.employeeName AS employeeName,
@@ -215,33 +214,33 @@
         AND source.parentHeader = score.itemName
         AND score.itemtype = 1;
 
-                <if test="bu != null and bu != ''">
-                    and b.bu = #{bu}
-                </if>
+        <if test="bu != null and bu != ''">
+            and b.bu = #{bu}
+        </if>
 
-                <if test="du != null and du != ''">
-                    and  b.du = #{du}
-                </if>
+        <if test="du != null and du != ''">
+            and  b.du = #{du}
+        </if>
 
-                <if test="pdu != null and pdu != ''">
-                    and   b.pdu = #{pdu}
-                </if>
+        <if test="pdu != null and pdu != ''">
+            and   b.pdu = #{pdu}
+        </if>
 
-                <if test="employeeID != null and employeeID != ''">
-                    and  b.employeeID like '%${employeeID}%'
-                </if>
+        <if test="employeeID != null and employeeID != ''">
+            and  b.employeeID like '%${employeeID}%'
+        </if>
 
-                <if test=" employeeName != null and employeeName != ''">
-                    or   b.employeeName like  '%${employeeName}%'
-                </if>
+        <if test=" employeeName != null and employeeName != ''">
+            or   b.employeeName like  '%${employeeName}%'
+        </if>
     </select>
     <select id="getRoleCreditScore" parameterType="java.util.Set" resultType="com.isoftstone.pmit.project.hrbp.entity.TrainingPassScore">
         SELECT
-            t.training_name as trainingName,
-            e.passScores as passScores,
-            e.trainingCredits as trainingCredits
+        t.training_name as trainingName,
+        e.passScores as passScores,
+        e.trainingCredits as trainingCredits
         FROM
-	      hrbp_examination_rule e
+        hrbp_examination_rule e
         INNER JOIN training_info t ON
         <if test="parameter != null and parameter != ''">
             t.training_name = #{parameter}

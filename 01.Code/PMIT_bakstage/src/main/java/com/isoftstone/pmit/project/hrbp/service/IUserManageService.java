@@ -3,6 +3,8 @@ package com.isoftstone.pmit.project.hrbp.service;
 import com.github.pagehelper.PageInfo;
 import com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult;
 import com.isoftstone.pmit.project.hrbp.entity.LoginInformation;
+import com.isoftstone.pmit.project.hrbp.entity.PageParam;
+
 import java.util.List;
 
 /**
@@ -31,7 +33,7 @@ public interface IUserManageService {
      * @param
      * @return
      */
-    PageInfo<EmpInformationResult> findEmpInformation(com.isoftstone.pmit.project.hrbp.entity.PageInfo pageInfo);
+    PageInfo<EmpInformationResult> findEmpInformation(PageParam pageInfo);
 
     /**
      * 模糊查询用户信息

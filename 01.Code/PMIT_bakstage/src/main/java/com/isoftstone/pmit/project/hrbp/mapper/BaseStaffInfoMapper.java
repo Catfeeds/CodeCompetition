@@ -2,6 +2,7 @@ package com.isoftstone.pmit.project.hrbp.mapper;
 
 import com.isoftstone.pmit.project.hrbp.entity.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Map;
  * @author lf
  */
 @Mapper
+@Repository
 public interface BaseStaffInfoMapper {
 
     BaseStaffInfo getBaseStaffInfoById(Map<String,String> paraterMap);

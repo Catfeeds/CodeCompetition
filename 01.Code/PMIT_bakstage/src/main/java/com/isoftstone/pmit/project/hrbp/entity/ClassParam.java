@@ -25,13 +25,13 @@ public class ClassParam {
     @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date endTime;
     /** 分页参数 */
-    private PageInfo pageInfo;
+    private PageParam pageInfo;
 
-    public PageInfo getPageInfo() {
+    public PageParam getPageInfo() {
         return pageInfo;
     }
 
-    public void setPageInfo(PageInfo pageInfo) {
+    public void setPageInfo(PageParam pageInfo) {
         this.pageInfo = pageInfo;
     }
 

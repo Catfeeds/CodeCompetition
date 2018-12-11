@@ -1,6 +1,6 @@
 package com.isoftstone.pmit.project.hrbp.entity;
 
-public class PageInfo {
+public class PageParam {
     private int currPage;
     private int pageSize;
     /** 排序列 */

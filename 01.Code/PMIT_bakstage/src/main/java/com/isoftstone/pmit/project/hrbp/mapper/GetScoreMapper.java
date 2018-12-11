@@ -2,6 +2,7 @@ package com.isoftstone.pmit.project.hrbp.mapper;
 
 
 
+import com.isoftstone.pmit.project.hrbp.entity.PersonalScoreParameter;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -12,9 +13,9 @@ import java.util.Map;
 @Mapper
 public interface GetScoreMapper {
 
-    List<Map<String,Object>> getColumnName(Map<String,String> parameter);
-    List<Map<String,Object>> getAllTransactionScore(Map<String,String> parameter);
-    List<Map<String,Object>> getAllCourseScore(Map<String,String> parameter);
+    List<Map<String,Object>> getColumnName(PersonalScoreParameter parameter);
+    List<Map<String,Object>> getAllTransactionScore(PersonalScoreParameter parameter);
+    List<Map<String,Object>> getAllCourseScore(PersonalScoreParameter parameter);
 
 
 

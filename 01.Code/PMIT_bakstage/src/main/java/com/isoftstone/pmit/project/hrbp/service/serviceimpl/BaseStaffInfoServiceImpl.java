@@ -128,7 +128,7 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
             new PersonInfoAndPageInfo();
         }
         if (null == paramter.getPageInfo() ){
-            new PageInfo();
+            new PageParam();
         }
         paramterMap.put("currIndex",(paramter.getPageInfo().getCurrPage()-1)*paramter.getPageInfo().getPageSize());
         paramterMap.put("pageSize",paramter.getPageInfo().getPageSize());

@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult;
 import com.isoftstone.pmit.project.hrbp.entity.LoginInformation;
+import com.isoftstone.pmit.project.hrbp.entity.PageParam;
 import com.isoftstone.pmit.project.hrbp.mapper.LoginMapper;
 import com.isoftstone.pmit.project.hrbp.mapper.UserManageMapper;
 import com.isoftstone.pmit.project.hrbp.service.IUserManageService;
@@ -53,7 +54,7 @@ public class UserManageServiceImpl implements IUserManageService {
      * @return
      */
     @Override
-    public PageInfo<EmpInformationResult> findEmpInformation(com.isoftstone.pmit.project.hrbp.entity.PageInfo pageInfo) {
+    public PageInfo<EmpInformationResult> findEmpInformation(PageParam pageInfo) {
         PageHelper.startPage(pageInfo.getCurrPage(), pageInfo.getPageSize());
         String sortColumn = pageInfo.getSortColumn();
         String sortType = pageInfo.getSortType();

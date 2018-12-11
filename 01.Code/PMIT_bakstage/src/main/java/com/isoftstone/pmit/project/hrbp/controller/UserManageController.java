@@ -6,6 +6,7 @@ import com.isoftstone.pmit.common.util.JsonUtils;
 import com.isoftstone.pmit.common.web.controller.AbstractController;
 import com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult;
 import com.isoftstone.pmit.project.hrbp.entity.LoginInformation;
+import com.isoftstone.pmit.project.hrbp.entity.PageParam;
 import com.isoftstone.pmit.project.hrbp.service.IUserManageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -60,7 +61,7 @@ public class UserManageController extends AbstractController {
     @RequestMapping(value = "/findEmpInformation", method = { RequestMethod.POST })
     @ApiOperation(value="获取所有用户信息", notes="获取所有用户信息")
     public String findEmpInformation(@RequestBody String parameter){
-        com.isoftstone.pmit.project.hrbp.entity.PageInfo pageInfo = JsonUtils.readValue(parameter, com.isoftstone.pmit.project.hrbp.entity.PageInfo.class);
+        PageParam pageInfo = JsonUtils.readValue(parameter, PageParam.class);
         PageInfo resultList;
         try {
             resultList = userManageService.findEmpInformation(pageInfo);

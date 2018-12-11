@@ -2,6 +2,7 @@ package com.isoftstone.pmit.project.hrbp.controller;
 
 import com.isoftstone.pmit.common.util.AjaxResult;
 import com.isoftstone.pmit.project.hrbp.entity.Course;
+import com.isoftstone.pmit.project.hrbp.entity.PersonalScoreParameter;
 import com.isoftstone.pmit.project.hrbp.entity.StaffScoreInfos;
 import com.isoftstone.pmit.project.hrbp.service.IGradeSheetService;
 import io.swagger.annotations.Api;
@@ -12,9 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/hrbp/gradeSheet")
@@ -26,15 +24,15 @@ public class GradeSheetController {
 
     @RequestMapping(value = "/getColumnName", method = { RequestMethod.POST })
     @ApiOperation(value="表头", notes="表头")
-    public StaffScoreInfos getColumnName(@RequestBody Map<String,String> parameter){
-        StaffScoreInfos result = gradeSheetService.getColumnNameService(parameter);
-        /*try{
-            result =
+    public String getColumnName(@RequestBody PersonalScoreParameter parameter){
+        StaffScoreInfos result = null;
+        try{
+            result =gradeSheetService.getColumnNameService(parameter);
         }catch (Exception e) {
             AjaxResult.returnToMessage(false,e.getMessage());
         }
-        return AjaxResult.returnToResult(true, result);*/
-        return result;
+        return AjaxResult.returnToResult(true, result);
+
     }
 
 
