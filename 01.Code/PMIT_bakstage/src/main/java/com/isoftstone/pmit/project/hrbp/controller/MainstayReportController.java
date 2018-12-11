@@ -2,10 +2,10 @@ package com.isoftstone.pmit.project.hrbp.controller;
 
 
 import com.isoftstone.pmit.common.util.AjaxResult;
-import com.isoftstone.pmit.project.hrbp.entity.MainstayInfo;
 import com.isoftstone.pmit.project.hrbp.entity.TupleData;
-import com.isoftstone.pmit.project.hrbp.service.ILevelRlaBusService;
+import com.isoftstone.pmit.project.hrbp.service.ILevelService;
 import com.isoftstone.pmit.project.hrbp.service.IMainstayReportService;
+import com.isoftstone.pmit.project.hrbp.service.IProjectManageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +26,15 @@ public class MainstayReportController {
     private IMainstayReportService mainstayReportService;
 
     @Autowired
-    private ILevelRlaBusService levelRlaBusService;
+    private ILevelService levelService;
 
     @ApiOperation(value = "查询骨干信息层级", notes = "查询骨干信息层级")
     @PostMapping(value = "/queryMainstayLevel")
     public String queryMainstayLevel(@RequestBody Map<String, Object> params) {
         List<String> result;
         try {
-            params.put("region",params.get("workPlaceArea"));
-            result = levelRlaBusService.queryMainstayLevel(params);
+            params.put("region", params.get("workPlaceArea"));
+            result = levelService.queryTeamLevel(params);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());

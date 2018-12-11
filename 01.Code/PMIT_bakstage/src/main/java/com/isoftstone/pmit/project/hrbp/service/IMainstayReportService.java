@@ -1,6 +1,5 @@
 package com.isoftstone.pmit.project.hrbp.service;
 
-import com.isoftstone.pmit.project.hrbp.entity.MainstayInfo;
 import com.isoftstone.pmit.project.hrbp.entity.TupleData;
 
 import java.util.List;

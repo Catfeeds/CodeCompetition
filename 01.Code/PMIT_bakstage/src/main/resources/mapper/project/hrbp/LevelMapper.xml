@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.LevelMapper">
+    <select id="queryLevels" parameterType="java.lang.Integer" resultType="java.util.Map">
+        SELECT
+          *
+        FROM
+          hrbp_level_info
+        WHERE
+          levelID = #{levelID}
+    </select>
+
+    <select id="queryTeamLevel" parameterType="java.util.Map" resultType="java.lang.String">
+        SELECT DISTINCT
+        ${col} AS nodename
+        FROM
+        hrbp_level_team
+        <where>
+            <if test="null != bu and '' != bu">
+                AND BU = #{bu}
+            </if>
+            <if test="null != du and '' != du">
+                AND DU = #{du}
+            </if>
+            <if test="null != pdu and '' != pdu">
+                AND PDU = #{pdu}
+            </if>
+            <if test="null != region and '' != region">
+                AND region = #{region}
+            </if>
+            <if test="null != bg and '' != bg">
+                AND BG = #{bg}
+            </if>
+            <if test="null != deliverDep and '' != deliverDep">
+                AND deliverDep = #{deliverDep}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryLevelTeamNodes" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+          teamID,
+          isTemp,
+          projectName as teamName
+        <if test="null != levels">
+            <foreach collection="levels" item="item" open="," separator=",">
+                hrbp_level_team.${item}
+            </foreach>
+        </if>
+        FROM
+          hrbp_level_team
+        LEFT JOIN
+          project_manage
+        ON
+          hrbp_level_team.teamID = project_manage.projectID
+        <where>
+            <if test="null != authorityIDs">
+                <foreach collection="authorityIDs" item="item" open="teamID IN(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+</mapper>

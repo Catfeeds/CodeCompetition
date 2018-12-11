@@ -1,32 +1,22 @@
 package com.isoftstone.pmit.project.hrbp.entity;
 
-
 import java.util.List;
 
-public class LevelTreeNode{
-    private int nodeID;
-    private String nodePath;
+public class LevelTreeNode {
+    private String nodeID;
     private String nodeName;
+    private int level;
+    private String levelID;
+    private String levelName;
     private boolean isLeafNode;
-    private boolean isRelationNode;
-    private Integer relationID;
+    private List<LevelTreeNode>childList;
 
-    private List<LevelTreeNode> childList;
-
-    public int getNodeID() {
+    public String getNodeID() {
         return nodeID;
     }
 
-    public void setNodeID(int nodeID) {
+    public void setNodeID(String nodeID) {
         this.nodeID = nodeID;
-    }
-
-    public String getNodePath() {
-        return nodePath;
-    }
-
-    public void setNodePath(String nodePath) {
-        this.nodePath = nodePath;
     }
 
     public String getNodeName() {
@@ -37,28 +27,36 @@ public class LevelTreeNode{
         this.nodeName = nodeName;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public String getLevelID() {
+        return levelID;
+    }
+
+    public void setLevelID(String levelID) {
+        this.levelID = levelID;
+    }
+
+    public String getLevelName() {
+        return levelName;
+    }
+
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
+    }
+
     public boolean getIsLeafNode() {
         return isLeafNode;
     }
 
     public void setIsLeafNode(boolean isLeafNode) {
         this.isLeafNode = isLeafNode;
-    }
-
-    public boolean getIsRelationNode() {
-        return isRelationNode;
-    }
-
-    public void setIsRelationNode(boolean isRelationNode) {
-        this.isRelationNode = isRelationNode;
-    }
-
-    public Integer getRelationID() {
-        return relationID;
-    }
-
-    public void setRelationID(Integer relationID) {
-        this.relationID = relationID;
     }
 
     public List<LevelTreeNode> getChildList() {

@@ -133,6 +133,7 @@
         </where>
         ) TMP
         WHERE row_num BETWEEN #{rowStart} AND #{rowEnd}
+        ORDER BY projectID DESC
     </select>
 
     <insert id="insertProjectNode" parameterType="java.util.Map">

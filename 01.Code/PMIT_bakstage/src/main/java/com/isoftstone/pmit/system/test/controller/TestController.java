@@ -4,7 +4,6 @@ import com.github.pagehelper.PageInfo;
 import com.isoftstone.pmit.common.paramresolver.JsonParam;
 import com.isoftstone.pmit.common.util.AjaxResult;
 import com.isoftstone.pmit.common.util.JsonUtils;
-import com.isoftstone.pmit.project.hrbp.entity.LevelTreeNode;
 import com.isoftstone.pmit.project.hrbp.entity.ProjectTreeNode;
 import com.isoftstone.pmit.system.test.service.ITestSevice;
 import io.swagger.annotations.Api;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
