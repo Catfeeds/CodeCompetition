@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.ExaminationMapper">
+    <sql id="queryColumn">
+        examination_id as examinationID,
+        series,
+        bu,
+        training_type as trainingType,
+        training_name as trainingName,
+        language,
+        time_type as timeType,
+        examination_start_time as examinationStartTime,
+        examination_end_time as examinationEndTime,
+        examination_type as examinationType,
+        examination_style as examinationStyle,
+        address,
+        standard,
+        publisher,
+        notice,
+        examination_status as examinationStatus
+    </sql>
+    <select id="queryAllExamination" parameterType="com.isoftstone.pmit.project.hrbp.entity.ExaminationParam" resultType="com.isoftstone.pmit.project.hrbp.entity.ExaminationInfo">
+        select
+        <include refid="queryColumn"/>
+        from examination_setup_info
+        where 1=1
+        <if test="null != series and series != ''">
+            AND series = #{series}
+        </if>
+        <if test="null != bu and bu != ''">
+            AND bu = #{bu}
+        </if>
+        <if test="null != trainingType and trainingType != ''">
+            AND training_type = #{trainingType}
+        </if>
+        <if test="null != trainingName and trainingName != ''">
+            AND training_name like CONCAT('%',#{trainingName},'%')
+        </if>
+        <if test="null != startTime and null != endTime">
+            AND examination_start_time between #{startTime} and #{endTime}
+        </if>
+    </select>
+    <delete id="deleteExamination" parameterType="com.isoftstone.pmit.project.hrbp.entity.ExaminationInfo">
+        delete from examination_setup_info where examination_id = #{examinationID}
+    </delete>
+    <select id="queryExaminationByID" parameterType="com.isoftstone.pmit.project.hrbp.entity.ExaminationInfo" resultType="com.isoftstone.pmit.project.hrbp.entity.ExaminationInfo">
+        select
+        <include refid="queryColumn"/>
+        from examination_setup_info
+        where examination_id = #{examinationID}
+    </select>
+    <update id="updateExamination" parameterType="com.isoftstone.pmit.project.hrbp.entity.ExaminationInfo">
+        update examination_setup_info
+        <set>
+            <if test="series != null and series != ''">series = #{series},</if>
+            <if test="bu != null and bu != ''">bu = #{bu},</if>
+            <if test="trainingType != null and trainingType != ''">training_type = #{trainingType},</if>
+            <if test="trainingName != null and trainingName != ''">training_name = #{trainingName},</if>
+            <if test="language != null and language != ''">language = #{language},</if>
+            <if test="timeType != null and timeType != ''">time_type = #{timeType},</if>
+            <if test="examinationStartTime != null">examination_start_time = #{examinationStartTime},</if>
+            <if test="examinationEndTime != null ">examination_end_time = #{examinationEndTime},</if>
+            <if test="examinationType != null and examinationType != ''">examination_type = #{examinationType},</if>
+            <if test="examinationStyle != null and examinationStyle != ''">examination_style = #{examinationStyle},</if>
+            <if test="address != null and address != ''">address = #{address},</if>
+            <if test="standard != null and standard != ''">standard = #{standard},</if>
+            <if test="publisher != null and publisher != ''">publisher = #{publisher},</if>
+            <if test="notice != null and notice != ''">notice = #{notice},</if>
+            <if test="examinationStatus != null and examinationStatus != ''">examination_status = #{examinationStatus}</if>
+        </set>
+        where examination_id = #{examinationID}
+    </update>
+    <insert id="insertExamination">
+        insert into examination_setup_info(
+        <if test="series != null and series != ''">series,</if>
+        <if test="bu != null and bu != ''">bu,</if>
+        <if test="trainingType != null and trainingType != ''">training_type,</if>
+        <if test="trainingName != null and trainingName != ''">training_name,</if>
+        <if test="language != null and language != ''">language,</if>
+        <if test="timeType != null and timeType != ''">time_type,</if>
+        <if test="examinationStartTime != null ">examination_start_time,</if>
+        <if test="examinationEndTime != null ">examination_end_time,</if>
+        <if test="examinationType != null and examinationType != ''">examination_type,</if>
+        <if test="examinationStyle != null and examinationStyle != ''">examination_style,</if>
+        <if test="address != null and address != ''">address,</if>
+        <if test="standard != null and standard != ''">standard,</if>
+        <if test="publisher != null and publisher != ''">publisher,</if>
+        <if test="notice != null and notice != ''">notice,</if>
+        <if test="examinationStatus != null and examinationStatus != ''">examination_status</if>
+        )values (
+        <if test="series != null and series != ''">#{series},</if>
+        <if test="bu != null and bu != ''">#{bu},</if>
+        <if test="trainingType != null and trainingType != ''">#{trainingType},</if>
+        <if test="trainingName != null and trainingName != ''">#{trainingName},</if>
+        <if test="language != null and language != ''">#{language},</if>
+        <if test="timeType != null and timeType != ''">#{timeType},</if>
+        <if test="examinationStartTime != null ">#{examinationStartTime},</if>
+        <if test="examinationEndTime != null ">#{examinationEndTime},</if>
+        <if test="examinationType != null and examinationType != ''">#{examinationType},</if>
+        <if test="examinationStyle != null and examinationStyle != ''">#{examinationStyle},</if>
+        <if test="address != null and address != ''">#{address},</if>
+        <if test="standard != null and standard != ''">#{standard},</if>
+        <if test="publisher != null and publisher != ''">#{publisher},</if>
+        <if test="notice != null and notice != ''">#{notice},</if>
+        <if test="examinationStatus != null and examinationStatus != ''">#{examinationStatus}</if>
+        )
+    </insert>
+</mapper>

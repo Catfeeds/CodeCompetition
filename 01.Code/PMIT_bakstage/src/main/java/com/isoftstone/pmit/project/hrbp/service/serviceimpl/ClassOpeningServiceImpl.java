@@ -56,11 +56,20 @@ public class ClassOpeningServiceImpl implements IClassOpeningService {
         classOpeningMapper.insertClass(classInfo);
     }
 
+    /**
+     * 根据OpeningID查找开课项
+     * @param classInfo
+     * @return
+     */
     @Override
     public ClassInfo findClassByID(ClassInfo classInfo) {
         return classOpeningMapper.findClassByID(classInfo);
     }
 
+    /**
+     * 更新开课项
+     * @param classInfo
+     */
     @Override
     public void updateClass(ClassInfo classInfo) {
         classOpeningMapper.updateClass(classInfo);
