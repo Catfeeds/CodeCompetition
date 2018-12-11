@@ -109,7 +109,7 @@ public class ProjectTeamController extends AbstractController {
 		Map<String, Object> paramMap = JSONObject.parseObject(param, HashMap.class);
 		String teamId = (String) paramMap.get("teamId");
 		List<String> projectIds = (List<String>) paramMap.get("projectId");
-		if (null != teamId && ListUtils.isEmpty(projectIds)) {
+		if (null != teamId && !ListUtils.isEmpty(projectIds)) {
 			try {
 				projectTeamService.teamRelatedPo(teamId, projectIds);
 			} catch (Exception e) {

@@ -131,7 +131,7 @@
 	</select>
 
 	<select id="queryProjectRole" resultType="java.util.Map">
-		select po_role_id as poRoleId, po_role_name as poRoleName from po_role_info
+		select roleId as poRoleId, roleName as poRoleName from hrbp_special_role
 	</select>
 
 	<select id="queryProjectInformationByProjectTime" parameterType="java.util.Map" resultType="java.util.Map">
@@ -173,6 +173,7 @@
 			psi.id AS id,
 			psi.project_id AS projectId,
 			psi.po_role_id AS poRoleId,
+			hsr.roleName AS poRoleName,
 			psi.team_id AS teamId,
 			psi.staff_id AS staffId,
 			bsi.employeeName AS staffName,
@@ -180,6 +181,10 @@
 			bbsi.employeeName AS backupStaffName
 		from
 			po_staff_info psi
+			inner join
+				hrbp_special_role hsr
+			on
+				psi.po_role_id = hsr.roleId
 			inner join
 				base_staff_info bsi
 			on
