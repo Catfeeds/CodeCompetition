@@ -126,17 +126,12 @@
                 </el-form-item>
             </el-form>
         </el-dialog>
-        <key-role-settings v-show="showPrePeriod"></key-role-settings>
     </div>
 </template>
 
 <script>
-import keyRoleSettings from './keyRoleSettings'
 export default {
-    name:'keyRole',
-    components:{
-        keyRoleSettings
-    },
+    name:'keyRole',    
     data(){
         return {
             rules:[],

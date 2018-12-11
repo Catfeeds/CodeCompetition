@@ -1,234 +1,318 @@
 <template>
-    <div>
-        <el-form :inline="true">
-            <el-form-item label="立项时间">
-                <el-date-picker
-                    v-model="projectApprovalDate"
-                    type="daterange"
-                    range-separator="至"
-                    size="mini"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期">
-                </el-date-picker>
-            </el-form-item>
-            <el-form-item>
-                <el-button type="primary" @click="onSearch();" icon="el-icon-search" size="mini">搜 索</el-button>
-                <el-button  type="primary"  size="mini" @click="createVisible=!createVisible"  icon="el-icon-plus">{{ $t("table.add") }}</el-button>
-          </el-form-item>
-        </el-form>
-        <el-table :data="tableData"  style="width: 100%" max-height="250" border fit size="mini" stripe highlight-current-row>
-            <el-table-column fixed type="index" sortable header-align="center" align="center" width="60" :label="$t('table.id')"></el-table-column>
-            <el-table-column prop="projectName" sortable header-align="center" label="项目组名称"></el-table-column>
-            <el-table-column prop="pmName" sortable header-align="center" label="PM"></el-table-column>
-            <el-table-column prop="associatedPO" sortable header-align="center" label="关联PO名称"></el-table-column>
-            <el-table-column header-align="center" sortable label="状态">
-                <template slot-scope="scope">
-                    {{statusMap[scope.row.status]}}
-                </template>
-            </el-table-column>
-            <el-table-column prop="startDate" sortable header-align="center" label="立项时间"></el-table-column>
-            <el-table-column prop="endDate" sortable header-align="center" label="结项时间"></el-table-column>
-            <el-table-column label="操作">
-                <template slot-scope="scope">
-                    <el-button
-                    size="mini"
-                    @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-                    <el-button
-                    size="mini"
-                    type="danger"
-                    @click="handleProjectApproval(scope.$index, scope.row)">结项</el-button>
-                </template>
-            </el-table-column>
-        </el-table>
-        <el-row type="flex" justify="end">
-            <el-pagination
-                @size-change="handleSizeChange"
-                @current-change="handleSizeChange"
-                :current-page.sync="currentPage"
-                :page-size="pageSize"
-                layout="total, slot,prev, pager, next"
-                :total="total"
-                prev-text="上一页"
-                next-text="下一页"
-            ></el-pagination>
-        </el-row>
+  <div>
+    <el-form :inline="true">
+      <el-form-item>
+        <el-date-picker
+          v-model="projectDate"
+          type="daterange"
+          range-separator="至"
+          size="mini"
+          start-placeholder="立项开始日期"
+          end-placeholder="立项结束日期"
+        ></el-date-picker>
+      </el-form-item>
+      <el-form-item>
+        <el-button
+          type="primary"
+          @click="handleFilter"
+          icon="el-icon-search"
+          size="mini"
+        >{{ $t("table.search") }}</el-button>
+        <el-button
+          type="primary"
+          size="mini"
+          @click="handleAdd"
+          icon="el-icon-plus"
+        >{{ $t("table.add") }}</el-button>
+      </el-form-item>
+    </el-form>
+    <el-table
+      :data="tableData"
+      style="width: 100%"
+      max-height="250"
+      border
+      fit
+      size="mini"
+      stripe
+      highlight-current-row
+    >
+      <el-table-column
+        fixed
+        type="index"
+        sortable
+        header-align="center"
+        align="center"
+        width="60"
+        :label="$t('table.id')"
+      ></el-table-column>
+      <el-table-column prop="teamName" sortable header-align="center" label="项目组名称"></el-table-column>
+      <el-table-column prop="pmName" sortable header-align="center" label="PM"></el-table-column>
+      <el-table-column prop="projectName" sortable header-align="center" label="关联PO名称"></el-table-column>
+      <el-table-column header-align="center" sortable label="状态">
+        <template slot-scope="scope">{{statusMap[scope.row.status]}}</template>
+      </el-table-column>
+      <el-table-column prop="startTime" sortable header-align="center" label="立项时间">
+        <template slot-scope="scope">
+          <span>{{ scope.row.startTime | formatDate }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="endTime" sortable header-align="center" label="结项时间">
+        <template slot-scope="scope">
+          <span>{{ scope.row.endTime | formatDate }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column header-align="center" label="操作">
+        <template slot-scope="scope">
+          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <el-button
+            size="mini"
+            type="danger"
+            @click="handleProjectApproval(scope.$index, scope.row)"
+          >结项</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-row type="flex" justify="end">
+      <el-pagination
+        @current-change="handleSizeChange"
+        :current-page.sync="currentPage"
+        :page-size="pageSize"
+        layout="total, slot,prev, pager, next"
+        :total="total"
+        prev-text="上一页"
+        next-text="下一页"
+      ></el-pagination>
+    </el-row>
 
-        <el-dialog :title="dialogTitle" :visible.sync="createVisible" width="500px">
-            <el-form  :model="formObj" label-width="150px" :rules="rules"  ref="poForm">
-                <el-form-item label="项目组名称" prop="projectName">
-                    <el-input placeholder="项目组名称" size="small" v-model="formObj.projectName" clearable style="width:215px"></el-input>
-                </el-form-item>
-                <el-form-item label="PM" prop="pm">
-                    <el-input placeholder="PM" size="small" v-model="formObj.pmName" clearable style="width:215px"></el-input>
-                </el-form-item>
-                <el-form-item label="产品线" prop="product">
-                    <el-select  v-model="formObj.product" size="small" placeholder="产品线" @change="productChange" >
-                        <el-option
-                            v-for="item in formObj.productOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
-                        ></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="DU" prop="du">
-                    <el-select v-model="formObj.du" size="small" clearable placeholder="DU" @change="changeDU" >
-                        <el-option
-                            v-for="item in formObj.duOptions"
-                            :key="item.value"
-                            :label="item.label"
-                            :value="item.value"
-                        ></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="PDU" prop="pdu">
-                    <el-select v-model="formObj.pdu" size="small" clearable placeholder="PDU">
-                    <el-option
-                        v-for="item in formObj.pduOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                    ></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="PO" prop="po">
-                    <el-select v-model="formObj.po" reserve-keyword remote filterable size="small" 
-                        :loading="loading" clearable placeholder="请输入PO编号或名称搜索" :remote-method="remoteMethod">
-                    <el-option
-                        v-for="item in formObj.poOptions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
-                    ></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item  label="立项时间">
-                    {{formObj.startDate||'NA / NA / NA'}}
-                </el-form-item>
-                <el-form-item label="结项时间">
-                    {{formObj.endDate||'NA / NA / NA'}}
-                </el-form-item>
-                <el-form-item>
-                    <el-button  type="primary" size="mini" @click="handleConfirm">确 定</el-button>
-                </el-form-item>
-            </el-form>
-        </el-dialog>
-
-    </div>
+    <el-dialog title="选择PO信息" :visible.sync="createVisible" width="60%">
+      <el-form :model="searchForm" ref="searchForm" inline size="mini">
+        <el-form-item prop="product">
+          <el-input disabled v-model="teamInfo.bu" style="width:100px;"></el-input>
+        </el-form-item>
+        <el-form-item prop="du">
+          <el-select
+            v-model="searchForm.du"
+            size="mini"
+            clearable
+            placeholder="DU"
+            @change="changeDU"
+            style="width:130px;"
+          >
+            <el-option
+              v-for="item in searchForm.duOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="pdu">
+          <el-select
+            v-model="searchForm.pdu"
+            size="mini"
+            clearable
+            placeholder="PDU"
+            style="width:130px;"
+          >
+            <el-option
+              v-for="item in searchForm.pduOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item prop="po">
+          <el-input v-model="searchForm.poID" style="width:130px;" placeholder="合同编号"></el-input>
+        </el-form-item>
+        <el-form-item prop="poName">
+          <el-input v-model="searchForm.poName" style="width:130px;" placeholder="合同名称"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button
+            type="primary"
+            @click="handlePOFilter"
+            icon="el-icon-search"
+            size="mini"
+          >{{ $t("table.search") }}</el-button>
+        </el-form-item>
+      </el-form>
+      <el-table
+        ref="multiTable"
+        :data="PODataSource"
+        border
+        fit
+        size="mini"
+        stripe
+        height="260"
+        tooltip-effect="dark"
+        @selection-change="handleSelectionChange"
+        style="width: 100%;"
+      >
+        <el-table-column type="selection" header-align="center" align="center" width="45"></el-table-column>
+        <el-table-column prop="du" header-align="center" label="DU" width="120"></el-table-column>
+        <el-table-column prop="pdu" header-align="center" label="PDU" width="120"></el-table-column>
+        <el-table-column prop="projectName" header-align="center" label="PO名称" min-width="130"></el-table-column>
+        <el-table-column prop="startDate" header-align="center" label="立项时间" width="100">
+          <template slot-scope="scope">
+            <span>{{ scope.row.startDate | formatDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="endDate" header-align="center" label="结项时间" width="100">
+          <template slot-scope="scope">
+            <span>{{ scope.row.endDate | formatDate }}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="createVisible = false;" size="mini">取 消</el-button>
+        <el-button type="primary" @click="handleConfirm();" size="mini">确 定</el-button>
+      </div>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
-import {mapState,mapActions} from 'vuex'
+import { mapState, mapActions } from "vuex";
+import { formatDate } from "@/utils/date.js";
 export default {
-    data(){
-        return {
-            projectApprovalDate:'',
-            tableData:[],
-            pageSize:100,
-            currentPage:1,
-            loading:false,
-            total:0,
-            createVisible:false,
-            dialogTitle:'添 加',
-            statusMap:{
-                '0':'立项',
-                '1':'在研',
-                '2':'结项中',
-                '3':'已结项'
-            },
-            rules: {
-                projectName: [
-                    { required: true, message: '请输入项目名称', trigger: 'blur' },
-                    { min: 3, max: 5, message: '长度在 3 到 50 个字符', trigger: 'blur' }
-                ],
-                pm: [
-                    { required: true, message: '请输入PM姓名', trigger: 'blur' },
-                    { min: 3, max: 5, message: '长度在 3 到 50 个字符', trigger: 'blur' }
-                ],
-                product: [{ required: true, message: "请选择产品线", trigger: "change" }],
-                du: [{ required: true, message: "请选择DU", trigger: "change" }],
-                pdu: [{ required: true, message: "请选择PDU", trigger: "change" }],
-                po: [{ required: true, message: "请选择PO", trigger: "change" }]
-            }
-        }
-    },
-    mounted(){
-        console.log(this.$store.state.associatedPOStore.esForm);
-    },
-    computed:{
-        ...mapState({
-            formObj:state=>state.associatedPOStore.esForm
-        })
-    },
-    methods:{
-        ...mapActions(['getAPOProjectInfo','projectApproval',
-        'getESFormProductInfo','getESFormDU','getESFormPDUList']),
-        formatDate(date) {
-            var Y = date.getFullYear() + '-';
-            var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
-            var D = date.getDate() + ' ';
-            return Y+M+D;
-        },
-        onSearch(){
-            this.handleSizeChange();
-        },
-        handleSizeChange(){
-            //接口输入参数没加分页和日期
-            if(!this.projectApprovalDate){
-                return;
-            }
-            var vm=this;
-            this.getAPOProjectInfo({
-                startDate:this.formatDate(this.projectApprovalDate[0]),
-                endDate:this.formatDate(this.projectApprovalDate[1])
-            }).then(res=>{
-                vm.tableData=res && res.data && res.data.data ||[];
-                vm.total =vm.tableData.length;
-            })
-        },
-        handleEdit(index,row){
-            this.dialogTitle='编辑';
-            this.createVisible=true;
-            this.formObj.projectName=row.projectName;
-            this.formObj.pmName=row.pmName;
-            this.formObj.product=row.product;
-        },
-        handleProjectApproval(index,row){
-            //结项接口未实现
-            this.projectApproval(row.projectId).then(data=>{
-                //成功后禁用编辑和结项按钮
-            })
-        },
-        remoteMethod(){
-            var params = {
-                startDate:this.formatDate(this.projectApprovalDate[0]),
-                endDate:this.formatDate(this.projectApprovalDate[1]),
-            };
-            if(this.formObj.po){
-                params.poName=this.formObj.po;
-            }
-            var vm= this;
-            this.getAPOProjectInfo().then(res=>{
-                vm.formObj.poOptions = (res && res.data && res.data.data ||[]).map(function(item){
-                    return item.poName;
-                })
-            })
-        },
-        handleConfirm(){
-            this.$refs.poForm.validate(valid => {
-
-            });
-        },
-        productChange(){
-            this.getESFormDU();
-        },
-        changeDU(){
-            this.getESFormPDUList();
-        }
+  props: ["teamInfo"],
+  filters: {
+    formatDate(time) {
+      let date = new Date(time);
+      return formatDate(date, "yyyy-MM-dd");
     }
-}
+  },
+  data() {
+    return {
+      projectDate: "",
+      tableData: [],
+      dataSource: [],
+      PODataSource: [],
+      pageSize: 100,
+      currentPage: 1,
+      loading: false,
+      total: 0,
+      createVisible: false,
+      selectIds: [],
+      statusMap: {
+        "0": "立项",
+        "1": "在研",
+        "2": "结项中",
+        "3": "已结项"
+      }
+    };
+  },
+  mounted() {
+    if (this.teamInfo) {
+      this.handleFilter(null, this.teamInfo);
+    }
+  },
+  watch: {
+    teamInfo(data) {
+      this.handleFilter(null, data);
+    }
+  },
+  computed: {
+    ...mapState({
+      searchForm: state => state.associatedPOStore.searchForm
+    })
+  },
+  methods: {
+    ...mapActions([
+      "getAllPOInfo",
+      "getPrjectRelatedPO",
+      "getPOFormDU",
+      "getPOFormPDUList"
+    ]),
+    handleFilter(arg, data) {
+      let vm = this;
+      let param = {
+        teamId: data ? data.projectID + "" : vm.teamInfo.projectID + "",
+        startDate: "",
+        endDate: ""
+      };
+      if (vm.projectDate) {
+        param.startDate = formatDate(vm.projectDate[0], "yyyy-MM-dd");
+        param.endDate = formatDate(vm.projectDate[1], "yyyy-MM-dd");
+      }
+      vm.getPrjectRelatedPO(param).then(res => {
+        if (res.success) {
+          vm.dataSource = res.data;
+        } else {
+          vm.dataSource = [];
+        }
+        vm.handleSizeChange();
+      });
+    },
+    handleSizeChange() {
+      var vm = this;
+      vm.total = vm.dataSource.length;
+      vm.tableData = vm.dataSource.slice(
+        (vm.currentPage - 1) * vm.pageSize,
+        vm.currentPage * vm.pageSize
+      );
+    },
+    handlePOFilter() {
+      this.selectIds = [];
+      this.getAllPOInfo()
+        .then(res => {
+          if (res.success) {
+            this.PODataSource = res.data;
+          } else {
+            this.PODataSource = [];
+          }
+        })
+        .catch(() => {
+          this.PODataSource = [];
+        });
+    },
+    handleAdd() {
+      this.searchForm.poID = "";
+      this.searchForm.poName = "";
+      this.searchForm.product = this.teamInfo.bu;
+      this.searchForm.du = this.teamInfo.du;
+      this.searchForm.pdu = this.teamInfo.pdu;
+      this.createVisible = true;
+      this.getPOFormDU();
+    },
+    handleEdit(index, row) {
+      this.createVisible = true;
+      this.formObj.projectName = row.projectName;
+      this.formObj.pmName = row.pmName;
+      this.formObj.product = row.product;
+    },
+    handleProjectApproval(index, row) {},
+    handleConfirm() {
+      if (this.selectIds.length <= 0) {
+        this.$message.waring("请选择要关联的PO信息");
+        return;
+      }
+      this.$store
+        .dispatch("teamRelatedPO", {
+          teamId: this.teamInfo.projectID + "",
+          projectId: this.selectIds[0]
+        })
+        .then(res => {
+          if (res.success) {
+            this.$message.success("项目关联PO成功");
+            this.handleFilter();
+          } else {
+            this.$message.console.error("项目关联PO失败");
+          }
+          this.createVisible = false;
+        });
+    },
+    changeDU() {
+      this.searchForm.pdu = "";
+      this.getPOFormPDUList();
+    },
+    handleSelectionChange(selection) {
+      this.selectIds = selection.map(item => item.projectId);
+    }
+  }
+};
 </script>
 
 <style>
-
 </style>
