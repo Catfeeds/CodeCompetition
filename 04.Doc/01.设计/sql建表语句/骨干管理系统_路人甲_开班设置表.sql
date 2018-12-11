@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50560
 File Encoding         : 65001
 
-Date: 2018-12-10 22:59:11
+Date: 2018-12-11 18:03:50
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -40,7 +40,7 @@ CREATE TABLE `opening_setup_info` (
   `telephone` varchar(20) DEFAULT NULL COMMENT '咨询电话',
   `enroll_method` tinyint(1) DEFAULT NULL COMMENT '报名方式,1为线上,0为线下',
   `notice` varchar(255) DEFAULT NULL COMMENT '报名须知',
-  `opening_status` varchar(255) DEFAULT NULL COMMENT '班级状态,1为可报名,2为已报满,3已结束',
+  `opening_status` tinyint(1) DEFAULT '1' COMMENT '班级状态,1为可报名,2为已报满,3已结束',
   `status` int(11) DEFAULT '0' COMMENT '是否删除  0表示正常  1表示已删除',
   PRIMARY KEY (`opening_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;

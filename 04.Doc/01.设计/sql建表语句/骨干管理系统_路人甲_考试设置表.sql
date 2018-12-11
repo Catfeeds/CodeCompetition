@@ -31,11 +31,11 @@ CREATE TABLE `examination_setup_info` (
   `examination_end_time` datetime DEFAULT NULL COMMENT '考试结束时间',
   `examination_type` varchar(20) DEFAULT NULL COMMENT '考试类型,开卷/闭卷',
   `examination_style` varchar(20) DEFAULT NULL COMMENT '考试形式,在线/线下',
-  `address` varchar(20) DEFAULT NULL COMMENT '考试地址',
+  `address` varchar(36) DEFAULT NULL COMMENT '考试地址',
   `standard` varchar(20) DEFAULT NULL COMMENT '合格标准',
   `publisher` varchar(20) DEFAULT NULL COMMENT '发布人/接口人',
   `notice` varchar(255) DEFAULT NULL COMMENT '考试须知',
-  `examination_status` tinyint(1) DEFAULT NULL COMMENT '考试状态,1为已开始,2为进行中,3已结束',
+  `examination_status` tinyint(1) DEFAULT '1' COMMENT '考试状态,1为已开始,2为进行中,3已结束',
   PRIMARY KEY (`examination_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
