@@ -3,6 +3,7 @@ package com.isoftstone.pmit.common.model;
 import com.isoftstone.pmit.common.util.JsonUtils;
 import com.isoftstone.pmit.project.hrbp.entity.ExaminationRulesInfo;
 import com.isoftstone.pmit.project.hrbp.entity.SingleRuleInfo;
+import com.isoftstone.pmit.project.hrbp.entity.SpecialRolesInfo;
 
 import java.util.ArrayList;
 import java.util.List;

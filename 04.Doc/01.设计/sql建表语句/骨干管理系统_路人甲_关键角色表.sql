@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50723
 File Encoding         : 65001
 
-Date: 2018-12-08 00:37:22
+Date: 2018-12-11 14:57:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -23,12 +23,12 @@ CREATE TABLE `hrbp_special_role` (
   `roleId` int(4) NOT NULL AUTO_INCREMENT COMMENT '角色Id',
   `roleName` varchar(8) DEFAULT NULL COMMENT '角色名称',
   `system` varchar(16) DEFAULT NULL COMMENT '所属体系',
-  `creatorId` int(8) NOT NULL COMMENT '创建者工号',
+  `creatorId` varchar(8) DEFAULT NULL COMMENT '创建者工号',
   `creatorName` varchar(32) DEFAULT NULL COMMENT '创建者姓名',
   `createTime` date DEFAULT NULL COMMENT '创建时间',
   `updateStaffId` varchar(8) DEFAULT NULL COMMENT '更新人员工号',
   `updateStaffName` varchar(32) DEFAULT NULL COMMENT '更新人员姓名',
   `updateTime` date DEFAULT NULL COMMENT '最后更新时间',
-  PRIMARY KEY (`roleId`,`creatorId`),
+  PRIMARY KEY (`roleId`),
   KEY `roleNameSearch` (`roleName`) USING HASH
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8;
