@@ -85,7 +85,8 @@ export default {
     cancel: "Cancel",
     confirm: "Confirm",
     search: "Search",
-    add: "Add"
+    add: "Add",
+    save: "保存"
   },
   errorLog: {
     tips: "Please click the bug icon in the upper right corner",

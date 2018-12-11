@@ -1,5 +1,4 @@
 import api from "@/api/teamSettingsApi";
-import { resolve } from "path";
 
 const employeeSettings = {
   state: {
@@ -82,6 +81,18 @@ const employeeSettings = {
       return new Promise((resolve, reject) => {
         api
           .teamRelatedPO(param)
+          .then(res => {
+            resolve(res.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    delTeamRelatedPO(arg, param) {
+      return new Promise((resolve, reject) => {
+        api
+          .delTeamRelatedPO(param)
           .then(res => {
             resolve(res.data);
           })

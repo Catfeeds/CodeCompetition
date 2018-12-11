@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container team-settings">
     <el-tabs @tab-click="changeTab" v-model="activeTab">
       <el-tab-pane label="人员设置" name="employee">
         <emp-settings :teamInfo="postForm" ref="employeeSetting"></emp-settings>
@@ -62,7 +62,18 @@ export default {
       });
       this.$store.dispatch("updateVisitedView", route);
     },
-    changeTab() {}
+    changeTab(tab) {
+      if(tab.name === "PO") {
+        this.$refs.associatedPO.handleFilter(null, this.teamInfo);
+      }
+      if (tab.name === "keyRole") {
+        this.$refs.keyRole.getPOList({
+          teamId: this.postForm.projectID,
+          startDate: "",
+          endDate: ""
+        });
+      }
+    }
   }
 };
 </script>

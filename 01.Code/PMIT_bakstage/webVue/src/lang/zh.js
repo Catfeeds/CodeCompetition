@@ -83,7 +83,8 @@ export default {
     cancel: "取 消",
     confirm: "确 定",
     search: "搜索",
-    add: "添加"
+    add: "添加",
+    save: "保存"
   },
   errorLog: {
     tips: "请点击右上角bug小图标",

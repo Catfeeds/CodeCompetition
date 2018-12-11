@@ -96,7 +96,28 @@ function getPrjectRelatedPO(param) {
     data: param
   });
 }
-
+/**
+ * 删除项目关联PO
+ * @param {*} param {teamId, projectId}
+ */
+function delTeamRelatedPO(param) {
+  return request({
+    url: "hrbp/TeamManage/deleteteamRelatedPo",
+    method: "post",
+    data: param
+  });
+}
+/**
+ * 查询项目关键角色
+ * @param {*} param {projectId}
+ */
+function getProjectKeyRoleInfo(projectId) {
+  return request({
+    url: "hrbp/TeamManage/queryPoStaffInfo",
+    method: "post",
+    data: { projectId }
+  });
+}
 export default {
   getAreaAndCuBycondition,
   getEmployees,
@@ -106,5 +127,7 @@ export default {
   teamRelatedPO,
   saveProjectRole,
   getProjectRole,
-  getPrjectRelatedPO
+  getPrjectRelatedPO,
+  delTeamRelatedPO,
+  getProjectKeyRoleInfo
 };

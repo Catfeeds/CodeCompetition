@@ -45,28 +45,38 @@
         width="60"
         :label="$t('table.id')"
       ></el-table-column>
-      <el-table-column prop="bu" sortable header-align="center" label="产品线"></el-table-column>
-      <el-table-column prop="du" sortable header-align="center" label="DU"></el-table-column>
-      <el-table-column prop="pdu" sortable header-align="center" label="PDU"></el-table-column>
-      <el-table-column prop="teamName" sortable header-align="center" label="项目组名称"></el-table-column>
+      <el-table-column prop="bu" sortable header-align="center" width="120" label="产品线"></el-table-column>
+      <el-table-column prop="du" sortable header-align="center" width="120" label="DU"></el-table-column>
+      <el-table-column prop="pdu" sortable header-align="center" width="120" label="PDU"></el-table-column>
+      <el-table-column prop="teamName" sortable header-align="center" width="120" label="项目组名称"></el-table-column>
       <el-table-column prop="pmName" sortable header-align="center" label="PM"></el-table-column>
-      <el-table-column prop="projectName" sortable header-align="center" label="关联PO名称"></el-table-column>
-      <el-table-column header-align="center" sortable label="状态">
-        <template slot-scope="scope">{{statusMap[scope.row.status]}}</template>
-      </el-table-column>
-      <el-table-column prop="startTime" sortable header-align="center" label="立项时间">
+      <el-table-column
+        prop="projectName"
+        sortable
+        header-align="center"
+        min-width="150"
+        label="关联PO名称"
+      ></el-table-column>
+      <el-table-column prop="knotTime" header-align="center" sortable width="80" label="状态"></el-table-column>
+      <el-table-column prop="startTime" sortable header-align="center" width="100" label="立项时间">
         <template slot-scope="scope">
           <span>{{ scope.row.startTime | formatDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="endTime" sortable header-align="center" label="结项时间">
+      <el-table-column prop="endTime" sortable header-align="center" width="100" label="结项时间">
         <template slot-scope="scope">
           <span>{{ scope.row.endTime | formatDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column header-align="center" label="操作" width="80">
+      <el-table-column header-align="center" align="center" :label="$t('table.option')" width="50">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <el-button
+            type="text"
+            size="mini"
+            icon="el-icon-delete"
+            title="删除"
+            @click="handleDel(scope.row.projectId, scope.row.teamId)"
+          ></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -192,24 +202,8 @@ export default {
       loading: false,
       total: 0,
       createVisible: false,
-      selectIds: [],
-      statusMap: {
-        "0": "立项",
-        "1": "在研",
-        "2": "结项中",
-        "3": "已结项"
-      }
+      selectIds: []
     };
-  },
-  mounted() {
-    if (this.teamInfo) {
-      this.handleFilter(null, this.teamInfo);
-    }
-  },
-  watch: {
-    teamInfo(data) {
-      this.handleFilter(null, data);
-    }
   },
   computed: {
     ...mapState({
@@ -225,6 +219,7 @@ export default {
     ]),
     handleFilter(arg, data) {
       let vm = this;
+      vm.loading = true;
       let param = {
         teamId: data ? data.projectID + "" : vm.teamInfo.projectID + "",
         startDate: "",
@@ -240,6 +235,7 @@ export default {
         } else {
           vm.dataSource = [];
         }
+        vm.loading = false;
         vm.handleSizeChange();
       });
     },
@@ -251,15 +247,12 @@ export default {
         vm.currentPage * vm.pageSize
       );
     },
-    handlePOFilter(row) {
+    handlePOFilter() {
       this.selectIds = [];
       this.getAllPOInfo()
         .then(res => {
           if (res.success) {
             this.PODataSource = res.data;
-            if(row) {
-              this.$refs.multiTable.toggleRowSelection(row)
-            }            
           } else {
             this.PODataSource = [];
           }
@@ -278,15 +271,24 @@ export default {
       this.getPOFormDU();
       this.handlePOFilter();
     },
-    handleEdit(index, row) {
-      this.createVisible = true;
-      this.searchForm.poID = row.projectId;
-      this.searchForm.poName = row.projectName;
-      this.searchForm.product = row.bu;
-      this.searchForm.du = row.du;
-      this.searchForm.pdu = row.pdu;
-      this.getPOFormDU();
-      this.handlePOFilter(row);
+    handleDel(poId, teamId) {
+      let vm = this;
+      vm.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        vm.$store
+          .dispatch("delTeamRelatedPO", { teamId: teamId, projectId: poId })
+          .then(res => {
+            if (res.success) {
+              vm.$message.success("操作成功");
+              vm.handleFilter();
+            } else {
+              vm.$message.error("操作失败");
+            }
+          });
+      });
     },
     handleProjectApproval(index, row) {},
     handleConfirm() {
@@ -297,14 +299,14 @@ export default {
       this.$store
         .dispatch("teamRelatedPO", {
           teamId: this.teamInfo.projectID + "",
-          projectId: this.selectIds[0]
+          projectId: this.selectIds
         })
         .then(res => {
           if (res.success) {
             this.$message.success("项目关联PO成功");
             this.handleFilter();
           } else {
-            this.$message.console.error("项目关联PO失败");
+            this.$message.error("项目关联PO失败");
           }
           this.createVisible = false;
         });
