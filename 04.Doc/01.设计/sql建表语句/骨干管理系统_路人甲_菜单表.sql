@@ -47,8 +47,7 @@ INSERT INTO `hrbp_menu` VALUES ('601', 'TrainSetUp', '6', '601', '培养设置')
 INSERT INTO `hrbp_menu` VALUES ('602', 'ExaminationAffairsSetUp', '6', '602', '考核事务设置');
 INSERT INTO `hrbp_menu` VALUES ('603', 'ExaminationRoleSetUp', '6', '603', '考核规则设置');
 INSERT INTO `hrbp_menu` VALUES ('604', 'OpeningSetUp', '6', '604', '开班设置');
-INSERT INTO `hrbp_menu` VALUES ('605', 'ExaminationSetUp', '6', '605', '考试设置');
-INSERT INTO `hrbp_menu` VALUES ('606', 'ResultShow', '6', '606', '成绩展示');
+INSERT INTO `hrbp_menu` VALUES ('605', 'ResultShow', '6', '605', '成绩展示');
 INSERT INTO `hrbp_menu` VALUES ('701', 'RoleSetUp', '7', '701', '角色设置');
 INSERT INTO `hrbp_menu` VALUES ('702', 'UserManagement', '7', '702', '登录用户管理');
 INSERT INTO `hrbp_menu` VALUES ('703', 'BackupRestore', '7', '703', '备份与还原');
