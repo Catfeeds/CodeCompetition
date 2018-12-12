@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :inline="true" :model="searchForm">
+    <el-form :inline="true" :model="searchForm" class="search-condition">
       <el-row>
         <el-col :span="4">
           <el-form-item>
@@ -128,28 +128,28 @@
         <el-table-column
           align="center"
           :label="$t('table.option')"
-          width="120"
+          width="80"
           header-align="center"
         >
           <template slot-scope="scope">
             <el-button
-              type="primary"
-              size="small"
+              type="text"
+              size="mini"
               icon="el-icon-setting"
               title="团队设置"
               @click="teamSettings(scope.row.projectID)"
             ></el-button>
             <el-button
               v-if="false"
-              type="primary"
-              size="small"
+              type="text"
+              size="mini"
               icon="el-icon-edit"
               title="编辑"
               @click="projectEdit(scope.row)"
             ></el-button>
             <el-button
-              type="primary"
-              size="small"
+              type="text"
+              size="mini"
               icon="el-icon-delete"
               title="删除"
               @click="projectDelete(scope.row.projectID)"

@@ -195,23 +195,13 @@ export const asyncRouterMap = [
       },
       {
         path: "course",
-        component: () => import("@/views/trainningAndTraining/startSetting"),
+        component: () =>
+          import("@/views/trainningAndTraining/openClassSetting"),
         name: "OpeningSetUp",
         meta: {
           title: "courseOpen",
           noCache: true,
           icon: "",
-          requiresAuth: true
-        }
-      },
-      {
-        path: "examination",
-        component: () => import("@/views/trainningAndTraining/examSetting"),
-        name: "ExaminationSetUp",
-        meta: {
-          title: "examination",
-          icon: "",
-          noCache: true,
           requiresAuth: true
         }
       },

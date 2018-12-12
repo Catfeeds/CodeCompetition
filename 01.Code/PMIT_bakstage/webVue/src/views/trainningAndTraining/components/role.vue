@@ -52,17 +52,17 @@
           <span>{{ scope.row.updateTime | formatDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" width="130" header-align="center" :label="$t('table.option')">
+      <el-table-column align="center" width="80" header-align="center" :label="$t('table.option')">
         <template slot-scope="scope">
           <el-button
-            type="primary"
+            type="text"
             size="mini"
             icon="el-icon-edit"
             title="编辑"
             @click="handleEdit(scope.row);"
           ></el-button>
           <el-button
-            type="primary"
+            type="text"
             size="mini"
             icon="el-icon-delete"
             title="删除"

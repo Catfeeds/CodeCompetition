@@ -47,17 +47,17 @@
           <span>{{ scope.row.updateTime | formatDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" width="130" header-align="center" :label="$t('table.option')">
+      <el-table-column align="center" width="80" header-align="center" :label="$t('table.option')">
         <template slot-scope="scope">
           <el-button
-            type="primary"
+            type="text"
             size="mini"
             icon="el-icon-view"
             title="查看"
             @click="handleView(scope.row.ruleId);"
           ></el-button>
           <el-button
-            type="primary"
+            type="text"
             size="mini"
             icon="el-icon-delete"
             title="删除"
@@ -711,6 +711,7 @@ export default {
 .rule-setting {
   .el-dialog__body {
     height: 400px;
+    padding: 10px 20px;
     .el-card__header {
       padding: 10px 20px;
     }

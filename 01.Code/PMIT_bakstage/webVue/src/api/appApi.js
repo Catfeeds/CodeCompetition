@@ -23,6 +23,26 @@ function getBusinessRelationship(param) {
     data: param
   });
 }
+function getBU() {
+  return request({
+    url: "hrbp/trainingsetting/queryBu",
+    method: "post"
+  });
+}
+function getDU(bu) {
+  return request({
+    url: "hrbp/trainingsetting/queryDu",
+    method: "post",
+    data: { bu }
+  });
+}
+function getPDU(bu, du) {
+  return request({
+    url: "hrbp/trainingsetting/queryPdu",
+    method: "post",
+    data: { bu, du }
+  });
+}
 function getLogList(condition) {
   return request({
     url: "hrbp/levelBussinessRelationship/queryLevel",
@@ -35,5 +55,8 @@ export default {
   getMenuInfoByEmployeeId,
   getMenuInfoByRoleId,
   getBusinessRelationship,
-  getLogList
+  getLogList,
+  getBU,
+  getDU,
+  getPDU
 };

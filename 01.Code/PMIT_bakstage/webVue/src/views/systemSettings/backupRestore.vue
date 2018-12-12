@@ -70,12 +70,12 @@
           <el-table-column min-width="100px" header-align="center" label="备份原因" prop="reasonRemark"></el-table-column>
           <el-table-column
             align="center"
-            width="80"
+            width="50"
             header-align="center"
             :label="$t('table.option')"
           >
             <template slot-scope="scope">
-              <el-button type="primary" size="mini" @click="handleRestore(scope.row.dataName);">恢复</el-button>
+              <el-button type="text" icon="el-icon-back" size="mini" title="恢复" @click="handleRestore(scope.row.dataName);"></el-button>
             </template>
           </el-table-column>
         </el-table>

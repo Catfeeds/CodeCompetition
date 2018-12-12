@@ -7,21 +7,26 @@
 	<select id="queryBu" resultType="java.lang.String">
 		select distinct bu from bu_du_pdu
 	</select>
-
+	<select id="queryDu" parameterType="java.lang.String" resultType="java.lang.String">
+		select distinct du from bu_du_pdu where bu = #{bu}
+	</select>
+	<select id="queryPdu" parameterType="java.util.Map" resultType="java.lang.String">
+		select distinct pdu from bu_du_pdu where bu = #{bu} and du = #{du}
+	</select>
 	<select id="querySort" resultType="java.lang.String">
-		select 
-			distinct tmp.sort as sort 
+		select
+			distinct tmp.sort as sort
 		from (
 			select distinct sort from training_info union
 			select distinct system as sort from hrbp_examination_affair) tmp
 	</select>
 
 	<select id="querySeries" resultType="java.lang.String">
-		select 
-			distinct tmp.series as series 
+		select
+			distinct tmp.series as series
 		from (
 			select distinct series from training_info union
-			select distinct series from hrbp_examination_affair) tmp 
+			select distinct series from hrbp_examination_affair) tmp
 	</select>
 
 	<select id="queryTrainingList" parameterType="java.util.Map" resultType="com.isoftstone.pmit.project.hrbp.entity.TrainingInfo">
@@ -37,8 +42,8 @@
 			creator_name as creatorName,
 			create_time as createTime,
 			updater_id as updaterId,
-			updater_name as updateName, 
-			training_des as trainingDes, 
+			updater_name as updateName,
+			training_des as trainingDes,
 			training_duration as trainingDuration
 		from
 			training_info

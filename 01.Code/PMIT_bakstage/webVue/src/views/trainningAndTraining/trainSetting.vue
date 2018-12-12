@@ -26,9 +26,9 @@
       >
         <el-option
           v-for="item in courseTypeOptions"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
+          :key="item"
+          :label="item"
+          :value="item"
         ></el-option>
       </el-select>
       <el-select
@@ -68,8 +68,7 @@
         size="mini"
         icon="el-icon-search"
         @click="handleFilter"
-        >{{ $t("table.search") }}</el-button
-      >
+      >{{ $t("table.search") }}</el-button>
       <el-button
         class="filter-item"
         style="margin-left: 10px;"
@@ -77,8 +76,7 @@
         size="mini"
         icon="el-icon-plus"
         @click="handleCreate"
-        >{{ $t("table.add") }}</el-button
-      >
+      >{{ $t("table.add") }}</el-button>
     </div>
     <el-table
       v-loading="listLoading"
@@ -95,7 +93,7 @@
         header-align="center"
         align="center"
         :label="$t('table.id')"
-        width="80"
+        width="50"
         type="index"
       ></el-table-column>
 
@@ -107,44 +105,14 @@
         prop="trainingName"
       ></el-table-column>
 
-      <el-table-column
-        min-width="150px"
-        header-align="center"
-        label="所属系列"
-        sortable
-        prop="series"
-      ></el-table-column>
+      <el-table-column min-width="120px" header-align="center" label="所属系列" sortable prop="series"></el-table-column>
 
-      <el-table-column
-        min-width="150px"
-        header-align="center"
-        label="所属体系"
-        sortable
-        prop="sort"
-      ></el-table-column>
+      <el-table-column min-width="120px" header-align="center" label="所属体系" sortable prop="sort"></el-table-column>
 
-      <el-table-column
-        min-width="110"
-        header-align="center"
-        label="课程类型"
-        sortable
-        prop="type"
-      ></el-table-column>
+      <el-table-column min-width="100" header-align="center" label="课程类型" sortable prop="type"></el-table-column>
 
-      <el-table-column
-        width="120px"
-        header-align="center"
-        label="所属产品线"
-        sortable
-        prop="bu"
-      ></el-table-column>
-      <el-table-column
-        width="110"
-        header-align="center"
-        label="创建人"
-        sortable
-        prop="creatorName"
-      ></el-table-column>
+      <el-table-column width="120px" header-align="center" label="所属产品线" sortable prop="bu"></el-table-column>
+      <el-table-column width="100" header-align="center" label="创建人" sortable prop="creatorName"></el-table-column>
       <el-table-column
         min-width="110"
         header-align="center"
@@ -163,29 +131,24 @@
           <span>{{ scope.row.createTime | formatDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        align="center"
-        :label="$t('table.option')"
-        width="180"
-        header-align="center"
-      >
+      <el-table-column align="center" :label="$t('table.option')" width="110" header-align="center">
         <template slot-scope="scope">
           <el-button
-            type="primary"
+            type="text"
             size="mini"
             icon="el-icon-edit"
             title="编辑"
             @click="handleEdit(scope.row);"
           ></el-button>
           <el-button
-            type="primary"
+            type="text"
             size="mini"
             icon="el-icon-delete"
             title="删除"
             @click="handleDel(scope.row.trainingId);"
           ></el-button>
           <el-button
-            type="primary"
+            type="text"
             size="mini"
             icon="el-icon-view"
             title="查看"
@@ -206,21 +169,11 @@
       ></el-pagination>
     </el-row>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="45%">
-      <el-form
-        :model="trainForm"
-        size="mini"
-        label-width="120px"
-        ref="trainForm"
-        :rules="rules"
-      >
+      <el-form :model="trainForm" size="mini" label-width="120px" ref="trainForm" :rules="rules">
         <el-row v-if="isEdit || isDetail">
           <el-col>
             <el-form-item label="培训编号" prop="trainId">
-              <el-input
-                v-model="trainForm.trainId"
-                autocomplete="off"
-                disabled
-              ></el-input>
+              <el-input v-model="trainForm.trainId" autocomplete="off" disabled></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -304,16 +257,12 @@
                 maxlength="64"
                 disabled
               ></el-input>
-              <el-select
-                v-model="trainForm.courseType"
-                placeholder="请选择"
-                v-else
-              >
+              <el-select v-model="trainForm.courseType" placeholder="请选择" v-else>
                 <el-option
                   v-for="item in courseTypeOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+                  :key="item"
+                  :label="item"
+                  :value="item"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -328,16 +277,12 @@
                 maxlength="64"
                 disabled
               ></el-input>
-              <el-select
-                v-model="trainForm.trainType"
-                placeholder="请选择"
-                v-else
-              >
+              <el-select v-model="trainForm.trainType" placeholder="请选择" v-else>
                 <el-option
                   v-for="item in trainTypeOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
+                  :key="item"
+                  :label="item"
+                  :value="item"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -364,11 +309,7 @@
                 maxlength="64"
                 disabled
               ></el-input>
-              <el-select
-                v-model="trainForm.product"
-                placeholder="请选择"
-                v-else
-              >
+              <el-select v-model="trainForm.product" placeholder="请选择" v-else>
                 <el-option
                   v-for="item in productOptions"
                   :key="item.value"
@@ -390,19 +331,9 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false;" size="mini" v-if="!isDetail"
-          >取 消</el-button
-        >
-        <el-button @click="dialogVisible = false;" size="mini" v-if="isDetail"
-          >关 闭</el-button
-        >
-        <el-button
-          type="primary"
-          @click="submtForm('trainForm');"
-          size="mini"
-          v-if="!isDetail"
-          >确 定</el-button
-        >
+        <el-button @click="dialogVisible = false;" size="mini" v-if="!isDetail">取 消</el-button>
+        <el-button @click="dialogVisible = false;" size="mini" v-if="isDetail">关 闭</el-button>
+        <el-button type="primary" @click="submtForm('trainForm');" size="mini" v-if="!isDetail">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -411,6 +342,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { formatDate } from "@/utils/date";
+import constant from "@/utils/constant";
 export default {
   filters: {
     formatDate(time) {
@@ -433,15 +365,9 @@ export default {
     };
     return {
       systemOptions: [],
-      courseTypeOptions: [
-        { label: "公开课", value: "公开课" },
-        { label: "专业课", value: "专业课" }
-      ],
-      productOptions: [{ label: "2012", value: "2012" }],
-      trainTypeOptions: [
-        { label: "选修", value: "选修" },
-        { label: "必修", value: "必修" }
-      ],
+      courseTypeOptions: constant.COURSE_TYPE,
+      productOptions: [],
+      trainTypeOptions: constant.TRAIN_TYPE,
       seriesOptions: [],
       searchForm: {
         system: "",

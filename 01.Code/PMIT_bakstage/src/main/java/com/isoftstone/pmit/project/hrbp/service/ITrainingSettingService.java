@@ -8,7 +8,8 @@ import com.isoftstone.pmit.project.hrbp.entity.TrainingInfo;
 public interface ITrainingSettingService {
 
 	List<String> queryBu();
-
+	List<String> queryDu(String bu);
+	List<String> queryPdu(String bu, String du);
 	List<TrainingInfo> queryTrainingList(TrainingParam param);
 
 	String saveTrainingInfo(TrainingInfo trainingInfo);

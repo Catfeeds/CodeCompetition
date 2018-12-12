@@ -15,6 +15,7 @@ import scoreDisplayStore from "./store/modules/scoreDisplayStore";
 import eSettingsStore from "./store/modules/employeeSettingsStore";
 import associatedPOStore from "./store/modules/associatedPOStore";
 import keyRoleStore from "./store/modules/keyRoleStore";
+import openClassStore from "./store/modules/openClassStore";
 import getters from "./store/getters";
 
 Vue.use(Vuex);
@@ -35,7 +36,8 @@ export default new Vuex.Store({
     scoreDisplayStore,
     eSettingsStore,
     associatedPOStore,
-    keyRoleStore
+    keyRoleStore,
+    openClassStore
   },
   getters
 });

@@ -232,24 +232,24 @@
         sortable="custom"
         prop="telephone"
       ></el-table-column>
-      <el-table-column align="center" :label="$t('table.option')" width="180" header-align="center">
+      <el-table-column align="center" :label="$t('table.option')" width="110" header-align="center">
         <template slot-scope="scope">
           <el-button
-            type="primary"
+            type="text"
             size="mini"
             icon="el-icon-edit"
             title="编辑"
             @click="handleEdit(scope.row);"
           ></el-button>
           <el-button
-            type="primary"
+            type="text"
             size="mini"
             icon="el-icon-delete"
             title="删除"
             @click="handleDel(scope.row.employeeID);"
           ></el-button>
           <el-button
-            type="primary"
+            type="text"
             size="mini"
             icon="el-icon-view"
             title="查看详情"

@@ -138,7 +138,7 @@ const app = {
     getProductInfo() {
       return new Promise((resolve, reject) => {
         api
-          .getBusinessRelationship({})
+          .getBU({})
           .then(res => {
             let data = [];
             if (res.data.success) {
@@ -159,7 +159,7 @@ const app = {
     getDUInfo(commit, param) {
       return new Promise((resolve, reject) => {
         api
-          .getBusinessRelationship(param)
+          .getDU(param.bu)
           .then(res => {
             let data = [];
             if (res.data.success) {
@@ -180,7 +180,7 @@ const app = {
     getPDUInfo(commit, param) {
       return new Promise((resolve, reject) => {
         api
-          .getBusinessRelationship(param)
+          .getPDU(param.bu, param.du)
           .then(res => {
             let data = [];
             if (res.data.success) {
@@ -340,7 +340,7 @@ const app = {
       return new Promise((resolve, reject) => {
         api
           .getLogList(condition)
-          .then(res => {
+          .then(() => {
             resolve(logData);
           })
           .catch(error => {

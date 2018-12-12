@@ -16,7 +16,7 @@ import com.isoftstone.pmit.project.hrbp.service.ITrainingSettingService;
 
 @Service
 public class TrainingSettingService implements ITrainingSettingService {
-	
+
 	@Autowired
 	private TrainingSettingMapper trainingSettingMapper;
 
@@ -24,7 +24,17 @@ public class TrainingSettingService implements ITrainingSettingService {
 	public List<String> queryBu() {
 		return trainingSettingMapper.queryBu();
 	}
-
+	@Override
+	public List<String> queryDu(String bu) {
+		return trainingSettingMapper.queryDu(bu);
+	}
+	@Override
+	public List<String> queryPdu(String bu, String du) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("bu", bu);
+        map.put("du", du);
+		return trainingSettingMapper.queryPdu(map);
+	}
 	@Override
 	public List<TrainingInfo> queryTrainingList(TrainingParam param) {
 		Map<String, Object> map = new HashMap<>();
@@ -36,11 +46,11 @@ public class TrainingSettingService implements ITrainingSettingService {
 		List<TrainingInfo> trainingInfos = trainingSettingMapper.queryTrainingList(map);
 		return trainingInfos;
 	}
-	
+
 	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public String saveTrainingInfo(TrainingInfo param) {
-		
+
 		Map<String, Object> map = new HashMap<>();
 		map.put("trainingName", param.getTrainingName());
 
@@ -56,7 +66,7 @@ public class TrainingSettingService implements ITrainingSettingService {
 			creatorName = trainingSettingMapper.queryNameByID(param.getCreatorId());
 		}
 		map.put("creatorName", creatorName);
-		
+
 		map.put("updaterId", param.getUpdaterId());
 		String updaterName = null;
 		if(null != param.getUpdaterId() && param.getUpdaterId() != "") {
@@ -65,7 +75,7 @@ public class TrainingSettingService implements ITrainingSettingService {
 		map.put("updaterName", updaterName);
 		map.put("trainingDes", param.getTrainingDes());
 		map.put("trainingDuration", param.getTrainingDuration());
-		
+
 		if (null == param.getTrainingId()) {
 			Integer count = trainingSettingMapper.queryTrainingByName(map);
 			if (count > 0) {
@@ -77,7 +87,7 @@ public class TrainingSettingService implements ITrainingSettingService {
 		}
 		return "success";
 	}
-	
+
 	@Transactional(rollbackFor=Exception.class)
 	@Override
 	public void deleteTrainingInfo(Integer trainingId) {

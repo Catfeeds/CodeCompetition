@@ -80,11 +80,11 @@
         header-align="center"
         align="center"
         :label="$t('table.id')"
-        width="80"
+        width="60"
         type="index"
       ></el-table-column>
       <el-table-column
-        min-width="150px"
+        min-width="130px"
         header-align="center"
         label="所属体系"
         sortable
@@ -140,33 +140,33 @@
       <el-table-column
         align="center"
         :label="$t('table.option')"
-        width="230"
+        width="140"
         header-align="center"
       >
         <template slot-scope="scope">
           <el-button
-            type="primary"
+            type="text"
             size="mini"
             icon="el-icon-edit"
             title="编辑"
             @click="handleEdit(scope.row);"
           ></el-button>
           <el-button
-            type="primary"
+            type="text"
             size="mini"
             icon="el-icon-delete"
             title="删除"
             @click="handleDel(scope.row.affairID);"
           ></el-button>
           <el-button
-            type="primary"
+            type="text"
             size="mini"
             icon="el-icon-setting"
             title="考核事务维度设置"
             @click="handleSet(scope.row.affairID);"
           ></el-button>
           <el-button
-            type="primary"
+            type="text"
             size="mini"
             icon="el-icon-view"
             title="考核事务维度查看"
@@ -425,15 +425,7 @@ export default {
     };
     return {
       systemOptions: [],
-      courseTypeOptions: [
-        { label: "公开课", value: "公开课" },
-        { label: "专业课", value: "专业课" }
-      ],
-      productOptions: [{ label: "2012", value: "2012" }],
-      trainTypeOptions: [
-        { label: "选修", value: "选修" },
-        { label: "必修", value: "必修" }
-      ],
+      productOptions: [],
       seriesOptions: [],
       searchForm: {
         system: "",

@@ -126,7 +126,6 @@
               height="215"
               tooltip-effect="dark"
               style="width: 100%;"
-              cell-class-name="role-number"
             >
               <el-table-column
                 type="index"
@@ -208,7 +207,6 @@
               stripe
               height="215"
               tooltip-effect="dark"
-              cell-class-name="role-number"
               style="width: 100%;"
             >
               <el-table-column
@@ -534,13 +532,6 @@ export default {
 </script>
 <style rel="stylesheet/scss" lang="scss">
 .team-settings {
-  .el-table {
-    .el-button--mini {
-      margin-top: 3px;
-      padding: 0px;
-      font-size: 18px;
-    }
-  }
   .key-role-setting {
     .el-dialog__body {
       padding: 10px 20px;
@@ -549,13 +540,6 @@ export default {
       }
       .el-card__body {
         padding: 10px;
-        .role-number {
-          .el-button--mini {
-            margin-top: 3px;
-            padding: 0px;
-            font-size: 18px;
-          }
-        }
       }
     }
   }

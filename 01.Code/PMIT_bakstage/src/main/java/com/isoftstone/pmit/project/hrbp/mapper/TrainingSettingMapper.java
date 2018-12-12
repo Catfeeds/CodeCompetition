@@ -13,7 +13,8 @@ import org.springframework.stereotype.Repository;
 public interface TrainingSettingMapper {
 
 	List<String> queryBu();
-
+	List<String> queryDu(String bu);
+	List<String> queryPdu(Map<String, Object> map);
 	List<TrainingInfo> queryTrainingList(Map<String, Object> map);
 
 	void addTrainingInfo(Map<String, Object> map);

@@ -1,7 +1,10 @@
 package com.isoftstone.pmit.project.hrbp.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,9 +32,25 @@ public class TrainingSettingController extends AbstractController {
 	@PostMapping("/queryBu")
 	public String queryBu() {
 		List<String> bu = trainingSettingService.queryBu();
-		return AjaxResult.returnToResult(false, bu);
+		return AjaxResult.returnToResult(true, bu);
 	}
-
+	@ApiOperation("查询DU")
+	@PostMapping("/queryDu")
+	public String queryDu(@RequestBody String param) {
+		Map<String, Object> paramMap = JSONObject.parseObject(param, HashMap.class);
+		String bu = (String) paramMap.get("bu");
+		List<String> du = trainingSettingService.queryDu(bu);
+		return AjaxResult.returnToResult(true, du);
+	}
+	@ApiOperation("查询PDU")
+	@PostMapping("/queryPdu")
+	public String queryPdu(@RequestBody String param) {
+		Map<String, Object> paramMap = JSONObject.parseObject(param, HashMap.class);
+		String bu = (String) paramMap.get("bu");
+		String du = (String) paramMap.get("du");
+		List<String> pdu = trainingSettingService.queryPdu(bu, du);
+		return AjaxResult.returnToResult(true, pdu);
+	}
 	@ApiOperation("查询所属体系")
 	@PostMapping("/querySort")
 	public String querySort() {
