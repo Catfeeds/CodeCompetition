@@ -147,12 +147,12 @@
 			po.bu AS bu,
 			po.du AS du,
 			po.pdu AS pdu,
-			CASE WHEN 
+			CASE WHEN
 				endTime <![CDATA[<=]]> NOW()
 				THEN '结项'
 				ELSE '未结项'
 			END AS knotTime
-		FROM 
+		FROM
 			project_manage team,
 			team_related_po tp,
 			project_information po
@@ -161,7 +161,7 @@
 			tp.project_id = po.projectId AND
 			team.projectId = #{teamId}
 		<if test="null != startDate and startDate != ''">
-			AND po.startTime <![CDATA[>=]]> str_to_date(#{startDate}, '%Y-%m-%d') 
+			AND po.startTime <![CDATA[>=]]> str_to_date(#{startDate}, '%Y-%m-%d')
 			AND po.startTime <![CDATA[<=]]> str_to_date(#{endDate}, '%Y-%m-%d')
 		</if>
 		GROUP BY
@@ -194,11 +194,11 @@
 			on
 				psi.backup_staff_id = bbsi.employeeID
 		where
-			psi.project_id = #{projectId}
+			psi.project_id = #{projectId} order by psi.po_role_id asc
 	</select>
-	
+
 	<select id="deleteteamRelatedPo" parameterType="java.util.Map">
 		delete from team_related_po where team_id = #{teamId} and project_id = #{projectId}
 	</select>
-	
+
 </mapper>

@@ -55,7 +55,13 @@
       <el-table-column prop="amount" header-align="center" label="数量"></el-table-column>
       <el-table-column prop="staffIdAndName" header-align="center" label="角色员工"></el-table-column>
       <el-table-column prop="backupStaffNameAndId" header-align="center" label="备份员工"></el-table-column>
-      <el-table-column header-align="center" align="center" :label="$t('table.option')" width="80">
+      <el-table-column
+        prop="option"
+        header-align="center"
+        align="center"
+        :label="$t('table.option')"
+        width="80"
+      >
         <template slot-scope="scope">
           <el-button
             size="mini"
@@ -299,8 +305,14 @@ export default {
   },
   watch: {
     keyRoleDataSource(data) {
+      let hash = {};
       this.tableData = data.map(item => {
-        item.amount = 1;
+        if (!hash[item.poRoleId]) {
+          hash[item.poRoleId] = 1;
+          item.amount = data.filter(x => x.poRoleId === item.poRoleId).length;
+        } else {
+          item.amount = 0;
+        }
         if (item.staffName && item.staffId) {
           item.staffIdAndName = item.staffName + "(" + item.staffId + ")";
         } else {
@@ -332,7 +344,18 @@ export default {
       this.roleDataSource = [];
       this.empDataSource = [];
     },
-    arraySpanMethod() {},
+    arraySpanMethod({ row, column, rowIndex, columnIndex }) {
+      if (
+        column.property === "poRoleName" ||
+        column.property === "option" ||
+        column.property === "amount"
+      ) {
+        return {
+          rowspan: row.amount,
+          colspan: 1
+        };
+      }
+    },
     handleEdit(index, row) {
       this.dialogTitle = "编辑关键角色信息";
       this.getKeyRoleList();
@@ -366,10 +389,12 @@ export default {
             vm.$message.error("关键角色保存失败");
             vm.keyRoleDataSource = [];
           }
+          vm.dialogVisible = false;
         })
         .catch(() => {
           vm.$message.error("关键角色保存失败");
           vm.keyRoleDataSource = [];
+          vm.dialogVisible = false;
         });
     },
     onExtendPrePeriod() {
