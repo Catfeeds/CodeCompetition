@@ -35,16 +35,15 @@ CREATE TABLE `examination_setup_info` (
   `standard` varchar(20) DEFAULT NULL COMMENT '合格标准',
   `publisher` varchar(20) DEFAULT NULL COMMENT '发布人/接口人',
   `notice` varchar(255) DEFAULT NULL COMMENT '考试须知',
-  `examination_status` tinyint(1) DEFAULT '1' COMMENT '考试状态,1为已开始,2为进行中,3已结束',
   PRIMARY KEY (`examination_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of examination_setup_info
 -- ----------------------------
-INSERT INTO `examination_setup_info` VALUES ('1', '新员工', '2012', '公开课', '新员工培训', '1', '时间点', '2018-12-11 14:00:00', null, '开卷', '在线', 'www.baidu.com', '80分及格', '罗帆', '欢迎大家参加新员工培训', '1');
-INSERT INTO `examination_setup_info` VALUES ('2', '新员工', '2012', '公开课', '新员工培训第二期', '1', '时间点', '2018-12-11 14:00:00', null, '开卷', '在线', 'www.baidu.com', '80分及格', '罗帆', '欢迎大家参加新员工培训考试', '1');
-INSERT INTO `examination_setup_info` VALUES ('3', '质量安全', '2012', '公开课', '质量安全培训', '1', '时间段', '2018-12-11 14:00:00', '2018-12-15 00:00:00', '开卷', '在线', 'www.baidu.com', '80分及格', '罗帆', '欢迎大家参加质量安全培训考试', '1');
-INSERT INTO `examination_setup_info` VALUES ('4', '将军学院', '无线', '选修课', '将军学院人员意识培养', '1', '时间段', '2018-12-11 14:00:00', '2018-12-10 21:19:23', '开卷', '在线', 'www.baidu.com', '80分及格', '光少', '欢迎光少莅临将军学院', '1');
-INSERT INTO `examination_setup_info` VALUES ('5', '将军学院', '核心网', '选修课', '百人实施计划', '1', '时间段', '2018-12-11 14:00:00', '2018-12-10 21:19:23', '闭卷', '线下', null, '85分及格', '光少', '欢迎光少莅临将军学院', '1');
-INSERT INTO `examination_setup_info` VALUES ('7', '将军学院', '核心网', '公开课', '百人实施计划', '1', '时间点', '2018-12-10 21:19:23', null, '闭卷', '线下', null, '80分及格', '光少', '欢迎光少莅临将军学院', '1');
+INSERT INTO `examination_setup_info` VALUES ('1', '新员工', '2012', '公开课', '新员工培训', '1', '时间点', '2018-12-11 14:00:00', null, '开卷', '在线', 'www.baidu.com', '80分及格', '罗帆', '欢迎大家参加新员工培训');
+INSERT INTO `examination_setup_info` VALUES ('2', '新员工', '2012', '公开课', '新员工培训第二期', '1', '时间点', '2018-12-11 14:00:00', null, '开卷', '在线', 'www.baidu.com', '80分及格', '罗帆', '欢迎大家参加新员工培训考试');
+INSERT INTO `examination_setup_info` VALUES ('3', '质量安全', '2012', '公开课', '质量安全培训', '1', '时间段', '2018-12-11 14:00:00', '2018-12-15 00:00:00', '开卷', '在线', 'www.baidu.com', '80分及格', '罗帆', '欢迎大家参加质量安全培训考试');
+INSERT INTO `examination_setup_info` VALUES ('4', '将军学院', '无线', '选修课', '将军学院人员意识培养', '1', '时间段', '2018-12-11 14:00:00', '2018-12-10 21:19:23', '开卷', '在线', 'www.baidu.com', '80分及格', '光少', '欢迎光少莅临将军学院');
+INSERT INTO `examination_setup_info` VALUES ('5', '将军学院', '核心网', '选修课', '百人实施计划', '1', '时间段', '2018-12-11 14:00:00', '2018-12-10 21:19:23', '闭卷', '线下', null, '85分及格', '光少', '欢迎光少莅临将军学院');
+INSERT INTO `examination_setup_info` VALUES ('7', '将军学院', '核心网', '公开课', '百人实施计划', '1', '时间点', '2018-12-10 21:19:23', null, '闭卷', '线下', null, '80分及格', '光少', '欢迎光少莅临将军学院');
