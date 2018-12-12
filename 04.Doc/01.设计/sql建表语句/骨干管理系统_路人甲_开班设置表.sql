@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50560
 File Encoding         : 65001
 
-Date: 2018-12-11 18:03:50
+Date: 2018-12-12 14:43:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -40,12 +40,11 @@ CREATE TABLE `opening_setup_info` (
   `telephone` varchar(20) DEFAULT NULL COMMENT '咨询电话',
   `enroll_method` tinyint(1) DEFAULT NULL COMMENT '报名方式,1为线上,0为线下',
   `notice` varchar(255) DEFAULT NULL COMMENT '报名须知',
-  `status` int(11) DEFAULT '0' COMMENT '是否删除  0表示正常  1表示已删除',
   PRIMARY KEY (`opening_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of opening_setup_info
 -- ----------------------------
-INSERT INTO `opening_setup_info` VALUES ('14', '管理', '2012', '百人计划', '百人安全意识培训', '百人安全意识培训', '罗帆', '2018-12-10 17:47:16', '公开课', '1', '面授', '4E01', '', '', '80', '1', '罗帆', '12345678901', '1', 'all','0');
-INSERT INTO `opening_setup_info` VALUES ('15', '管理', '无线网络', '质量安全', '质量安全培训', '质量安全培训第一期', 'zhaoye', '2018-12-10 21:19:23', '公开课', '1', '在线', null, 'www.baidu.com', 'www.baidu.com', '80', '1', 'lixiang', '1242526733', '1', '非一般的体验', '0');
+INSERT INTO `opening_setup_info` VALUES ('14', '管理', '2012', '百人计划', '百人安全意识培训', '百人安全意识培训', '罗帆', '2018-12-10 17:47:16', '公开课', '1', '面授', '4E01', '', '', '80', '1', '罗帆', '12345678901', '1', 'all');
+INSERT INTO `opening_setup_info` VALUES ('15', '管理', '无线网络', '质量安全', '质量安全培训', '质量安全培训第一期', 'zhaoye', '2018-12-10 21:19:23', '公开课', '1', '在线', null, 'www.baidu.com', 'www.baidu.com', '80', '1', 'lixiang', '1242526733', '1', '非一般的体验');

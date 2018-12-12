@@ -18,8 +18,7 @@
         address,
         standard,
         publisher,
-        notice,
-        examination_status as examinationStatus
+        notice
     </sql>
     <select id="queryAllExamination" parameterType="com.isoftstone.pmit.project.hrbp.entity.ExaminationParam" resultType="com.isoftstone.pmit.project.hrbp.entity.ExaminationInfo">
         select
@@ -67,8 +66,7 @@
             <if test="address != null and address != ''">address = #{address},</if>
             <if test="standard != null and standard != ''">standard = #{standard},</if>
             <if test="publisher != null and publisher != ''">publisher = #{publisher},</if>
-            <if test="notice != null and notice != ''">notice = #{notice},</if>
-            <if test="examinationStatus != null and examinationStatus != ''">examination_status = #{examinationStatus}</if>
+            <if test="notice != null and notice != ''">notice = #{notice}</if>
         </set>
         where examination_id = #{examinationID}
     </update>
@@ -87,8 +85,7 @@
         <if test="address != null and address != ''">address,</if>
         <if test="standard != null and standard != ''">standard,</if>
         <if test="publisher != null and publisher != ''">publisher,</if>
-        <if test="notice != null and notice != ''">notice,</if>
-        <if test="examinationStatus != null and examinationStatus != ''">examination_status</if>
+        <if test="notice != null and notice != ''">notice</if>
         )values (
         <if test="series != null and series != ''">#{series},</if>
         <if test="bu != null and bu != ''">#{bu},</if>
@@ -103,8 +100,7 @@
         <if test="address != null and address != ''">#{address},</if>
         <if test="standard != null and standard != ''">#{standard},</if>
         <if test="publisher != null and publisher != ''">#{publisher},</if>
-        <if test="notice != null and notice != ''">#{notice},</if>
-        <if test="examinationStatus != null and examinationStatus != ''">#{examinationStatus}</if>
+        <if test="notice != null and notice != ''">#{notice}</if>
         )
     </insert>
 </mapper>

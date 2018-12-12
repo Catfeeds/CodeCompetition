@@ -23,22 +23,14 @@
         publisher,
         telephone,
         enroll_method as enrollMethod,
-        notice,
-        opening_status as openingStatus
+        notice
     </sql>
     <select id="queryAllClass" parameterType="com.isoftstone.pmit.project.hrbp.entity.ClassParam" resultType="com.isoftstone.pmit.project.hrbp.entity.ClassInfo">
         select
-        bu,
-        training_name as trainingName,
-        opening_name as openingName,
-        lecturer,
-        training_time as trainingTime,
-        training_type as trainingType,
-        opening_status as openingStatus
+        <include refid="queryColumn"/>
         from
         opening_setup_info
-        where
-        status = 0
+        where 1=1
         <if test="null != series and series != ''">
             AND series = #{series}
         </if>
@@ -87,8 +79,7 @@
         <if test="publisher != null and publisher != ''">publisher,</if>
         <if test="telephone != null and telephone != ''">telephone,</if>
         <if test="enrollMethod != null and enrollMethod != ''">enroll_method,</if>
-        <if test="notice != null and notice != ''">notice,</if>
-        <if test="openingStatus != null and openingStatus != ''">opening_status</if>
+        <if test="notice != null and notice != ''">notice</if>
         )values (
         <if test="system != null and system != ''">#{system},</if>
         <if test="bu != null and bu != ''">#{bu},</if>
@@ -108,8 +99,7 @@
         <if test="publisher != null and publisher != ''">#{publisher},</if>
         <if test="telephone != null and telephone != ''">#{telephone},</if>
         <if test="enrollMethod != null and enrollMethod != ''">#{enrollMethod},</if>
-        <if test="notice != null and notice != ''">#{notice},</if>
-        <if test="openingStatus != null and openingStatus != ''">#{openingStatus}</if>
+        <if test="notice != null and notice != ''">#{notice}</if>
         )
     </insert>
     <update id="updateClass" parameterType="ClassInfo">
@@ -133,8 +123,7 @@
             <if test="publisher != null and publisher != ''">publisher = #{publisher},</if>
             <if test="telephone != null and telephone != ''">telephone = #{telephone},</if>
             <if test="enrollMethod != null and enrollMethod != ''">enroll_method = #{enrollMethod},</if>
-            <if test="notice != null and notice != ''">notice = #{notice},</if>
-            <if test="openingStatus != null and openingStatus != ''">opening_status = #{openingStatus}</if>
+            <if test="notice != null and notice != ''">notice = #{notice}</if>
         </set>
         where opening_id = #{openingID}
     </update>

@@ -53,8 +53,6 @@ public class ClassInfo {
     private String notice;
     /** 班级状态,1为可报名,2为已报满,3已结束 */
     private Integer openingStatus;
-    /** 是否删除  0表示正常  1表示已删除 */
-    private int status;
 
     public int getOpeningID() {
         return openingID;
@@ -224,11 +222,4 @@ public class ClassInfo {
         this.openingStatus = openingStatus;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
 }
