@@ -23,7 +23,8 @@
         publisher,
         telephone,
         enroll_method as enrollMethod,
-        notice
+        notice,
+        case when training_time > now() then '3' else '1' end openingStatus
     </sql>
     <select id="queryAllClass" parameterType="com.isoftstone.pmit.project.hrbp.entity.ClassParam" resultType="com.isoftstone.pmit.project.hrbp.entity.ClassInfo">
         select

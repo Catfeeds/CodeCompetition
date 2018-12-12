@@ -41,7 +41,7 @@ public class ExaminationInfo {
     public String publisher;
     /** 考试须知 */
     public String notice;
-    /** 考试状态,1为已开始,2为进行中,3已结束 */
+    /** 考试状态,1为未开始,2为进行中,3已结束 */
     private Integer examinationStatus;
 
     public Integer getExaminationID() {

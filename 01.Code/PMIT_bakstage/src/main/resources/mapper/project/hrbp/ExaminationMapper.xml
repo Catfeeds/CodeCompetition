@@ -18,7 +18,10 @@
         address,
         standard,
         publisher,
-        notice
+        notice,
+        case when examination_start_time > now() then '1'
+        when  <![CDATA[examination_end_time < now()]]> then  '3'
+        else '2' end examinationStatus
     </sql>
     <select id="queryAllExamination" parameterType="com.isoftstone.pmit.project.hrbp.entity.ExaminationParam" resultType="com.isoftstone.pmit.project.hrbp.entity.ExaminationInfo">
         select
