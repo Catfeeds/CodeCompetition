@@ -29,4 +29,6 @@ public interface IProjectTeamService {
 	List<Map<String, Object>> queryPoStaffInfo(Map<String, Object> paramMap);
 
 	void deleteteamRelatedPo(Map<String, Object> paramMap);
+
+	void deletePoStaffInfo(Map<String, Object> paramMap);
 }

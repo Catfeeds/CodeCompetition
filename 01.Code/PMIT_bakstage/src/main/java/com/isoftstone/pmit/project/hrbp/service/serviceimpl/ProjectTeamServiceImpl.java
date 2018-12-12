@@ -127,4 +127,10 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 		projectTeamMapper.deleteteamRelatedPo(paramMap);
 	}
 
+	@Override
+	public void deletePoStaffInfo(Map<String, Object> paramMap) {
+		
+		projectTeamMapper.deletePoStaffInfo(paramMap);
+	}
+
 }

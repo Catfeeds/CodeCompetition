@@ -185,20 +185,40 @@
 				hrbp_special_role hsr
 			on
 				psi.po_role_id = hsr.roleId
-			inner join
+			left join
 				base_staff_info bsi
 			on
 				psi.staff_id = bsi.employeeID
-			inner join
+			left join
 				base_staff_info bbsi
 			on
 				psi.backup_staff_id = bbsi.employeeID
 		where
-			psi.project_id = #{projectId} order by psi.po_role_id asc
+			psi.project_id = #{projectId} 
+			<if test="null != teamId and teamId != ''">
+				and	psi.team_id = #{teamId}
+			</if>
+			<if test="null != poRoleId and poRoleId != ''">
+				and	psi.po_role_id = #{poRoleId}
+			</if>
+		order by 
+			psi.po_role_id asc
 	</select>
 
 	<select id="deleteteamRelatedPo" parameterType="java.util.Map">
 		delete from team_related_po where team_id = #{teamId} and project_id = #{projectId}
 	</select>
-
+	
+	<select id="deletePoStaffInfo" parameterType="java.util.Map">
+		delete from 
+			po_staff_info 
+		where 
+			project_id = #{projectId} 
+		<if test="null != teamId and teamId != ''">
+			and	team_id = #{teamId}
+		</if>
+		<if test="null != poRoleId and poRoleId != ''">
+			and	po_role_id = #{poRoleId}
+		</if>
+	</select>
 </mapper>

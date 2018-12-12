@@ -1,6 +1,5 @@
 package com.isoftstone.pmit.project.hrbp.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -153,7 +152,6 @@ public class ProjectTeamController extends AbstractController {
 			
 			return AjaxResult.returnToMessage(false, "fail");
 		}
-
 		return AjaxResult.returnToMessage(true, "success");
 	}
 	
@@ -178,4 +176,18 @@ public class ProjectTeamController extends AbstractController {
 
 		return AjaxResult.returnToResult(true, result);
 	}
+	
+	@ApiOperation("删除项目关键角色")
+	@PostMapping("/deletePoStaffInfo")
+	public String deletePoStaffInfo(@RequestBody String param) {
+
+		Map<String, Object> paramMap = JSONObject.parseObject(param, HashMap.class);
+		try {
+			projectTeamService.deletePoStaffInfo(paramMap);
+		} catch (Exception e) {
+			return AjaxResult.returnToMessage(false, "fail");
+		}
+		return AjaxResult.returnToMessage(true, "success");
+	}
+	
 }
