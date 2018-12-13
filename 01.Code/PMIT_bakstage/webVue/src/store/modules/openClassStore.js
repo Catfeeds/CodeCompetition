@@ -23,7 +23,6 @@ const openClass = {
       systemOptions: [],
       trainOptions: [],
       trainName: "",
-      classSericesOptions: [],
       classSerices: "",
       courseType: "",
       lecturer: "",
@@ -66,10 +65,6 @@ const openClass = {
     updateStartTrainListData(state, value) {
       state.startForm.trainOptions = value;
       state.startForm.trainName = "";
-    },
-    updateClassSericesOptions(state, value) {
-      state.startForm.classSericesOptions = value;
-      state.startForm.classSerices = "";
     },
     updateStartSystemData(state, value) {
       state.searchForm.systemOptions = value;
@@ -170,8 +165,8 @@ const openClass = {
           trainingName: state.startForm.trainName,
           openingName: state.startForm.classSerices,
           lecturer: state.startForm.lecturer,
-          trainingTime: state.searchForm.trainTime
-            ? formatDate(state.startForm.trainTime, "yyyy-MM-dd HH:mm")
+          trainingTime: state.startForm.trainTime
+            ? formatDate(state.startForm.trainTime, "yyyy-MM-dd hh:mm")
             : "",
           trainingType: state.startForm.courseType,
           language: state.startForm.language,
@@ -206,8 +201,8 @@ const openClass = {
           trainingName: state.startForm.trainName,
           openingName: state.startForm.classSerices,
           lecturer: state.startForm.lecturer,
-          trainingTime: state.searchForm.trainTime
-            ? formatDate(state.startForm.trainTime, "yyyy-MM-dd HH:mm")
+          trainingTime: state.startForm.trainTime
+            ? formatDate(state.startForm.trainTime, "yyyy-MM-dd hh:mm")
             : "",
           trainingType: state.startForm.courseType,
           language: state.startForm.language,
@@ -252,7 +247,7 @@ const openClass = {
       state.startForm.trainName = data.trainingName;
       state.startForm.classSerices = data.openingName;
       state.startForm.lecturer = data.lecturer;
-      state.searchForm.trainTime = data.trainingTime;
+      state.startForm.trainTime = data.trainingTime;
       state.startForm.courseType = data.trainingType;
       state.startForm.language = isDetail
         ? state.startForm.languageOptions.find(

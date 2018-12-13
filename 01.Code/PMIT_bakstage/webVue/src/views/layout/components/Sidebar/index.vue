@@ -7,6 +7,7 @@
       mode="vertical"
       background-color="#304156"
       text-color="#bfcbd9"
+      unique-opened
       active-text-color="#409EFF"
     >
       <sidebar-item

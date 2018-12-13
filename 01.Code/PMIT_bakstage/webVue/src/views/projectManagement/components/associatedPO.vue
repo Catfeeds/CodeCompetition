@@ -27,6 +27,7 @@
       </el-form-item>
     </el-form>
     <el-table
+      v-loading="loading"
       :data="tableData"
       style="width: 100%"
       max-height="250"

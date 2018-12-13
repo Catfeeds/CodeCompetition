@@ -64,7 +64,7 @@
             >{{ $t("table.search") }}</el-button>
           </el-form-item>
         </el-form>
-        <div id="empListTree" class="ztree" style="height:270px;"></div>
+        <div v-loading="loading" id="empListTree" class="ztree" style="height:270px;"></div>
         <el-row type="flex" justify="end">
           <el-pagination
             @size-change="handleSizeChange"
@@ -98,6 +98,7 @@ export default {
   data() {
     let vm = this;
     return {
+      loading: false,
       currentTreeId: "",
       currentPage: 1,
       total: 0,
@@ -239,6 +240,7 @@ export default {
       });
       vm.currentPage = 1;
       vm.searchForm.pdu = vm.teamInfo.pdu;
+      vm.loading = true;
       vm.getTMEmployees(vm.searchForm).then(res => {
         if (res.success) {
           vm.employeeDataSource = res.data.filter(item => {
@@ -247,6 +249,7 @@ export default {
         } else {
           vm.employeeDataSource = [];
         }
+        vm.loading = false;
         vm.handleSizeChange();
       });
     },

@@ -67,11 +67,7 @@ export default {
         this.$refs.associatedPO.handleFilter(null, this.teamInfo);
       }
       if (tab.name === "keyRole") {
-        this.$refs.keyRole.getPOList({
-          teamId: this.postForm.projectID,
-          startDate: "",
-          endDate: ""
-        });
+        this.$refs.keyRole.init(this.postForm.projectID);
       }
     }
   }

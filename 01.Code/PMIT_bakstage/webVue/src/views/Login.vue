@@ -161,6 +161,7 @@ export default {
               if (!res.status) {
                 Cookies.set("loginName", vm.loginForm.userName);
                 Cookies.set("status", "logined");
+                vm.$store.dispatch("delAllViews");
                 vm.$store
                   .dispatch("getUserInfo", vm.loginForm.userName)
                   .then(() => {

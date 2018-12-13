@@ -30,14 +30,13 @@ const employeeSettings = {
   },
   actions: {
     getPOList({ dispatch, commit }, param) {
-      dispatch("getPrjectRelatedPO", param)
+      return dispatch("getPrjectRelatedPO", param)
         .then(res => {
           if (res.success) {
             commit(
               "updatePOData",
               res.data.filter(item => item.knotTime === "未结项")
             );
-            return dispatch("getKeyRoleTableData");
           } else {
             commit("updatePOData", []);
           }
@@ -50,20 +49,18 @@ const employeeSettings = {
       if (!state.searchForm.poId) {
         commit("updateKeyRoleTableData", []);
       }
-      return new Promise(() => {
-        api
-          .getProjectKeyRoleInfo(state.searchForm.poId)
-          .then(res => {
-            if (res.data.success) {
-              commit("updateKeyRoleTableData", res.data.data);
-            } else {
-              commit("updateKeyRoleTableData", []);
-            }
-          })
-          .catch(() => {
+      return api
+        .getProjectKeyRoleInfo(state.searchForm.poId)
+        .then(res => {
+          if (res.data.success) {
+            commit("updateKeyRoleTableData", res.data.data);
+          } else {
             commit("updateKeyRoleTableData", []);
-          });
-      });
+          }
+        })
+        .catch(() => {
+          commit("updateKeyRoleTableData", []);
+        });
     },
     getKeyRoleList({ commit }) {
       return new Promise(() => {
@@ -101,6 +98,34 @@ const employeeSettings = {
       return new Promise((resolve, reject) => {
         api
           .saveProjectRole(param)
+          .then(res => {
+            resolve(res.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    getKeyRoleInfo({ state }, param) {
+      return new Promise((resolve, reject) => {
+        api
+          .getProjectKeyRoleInfo(
+            state.searchForm.poId,
+            param.teamId,
+            param.poRoleId
+          )
+          .then(res => {
+            resolve(res.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
+    },
+    delKeyRoleInfo({ state }, param) {
+      return new Promise((resolve, reject) => {
+        api
+          .delTeamPOKeyRole(state.searchForm.poId, param.teamId, param.poRoleId)
           .then(res => {
             resolve(res.data);
           })

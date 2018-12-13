@@ -114,7 +114,7 @@
           header-align="center"
           label="开班系列名称"
           sortable="custom"
-          prop="series"
+          prop="openingName"
         ></el-table-column>
         <el-table-column
           width="100px"
@@ -209,7 +209,7 @@
                 autocomplete="off"
                 required
                 maxlength="64"
-                disabled
+                readonly
               ></el-input>
               <el-select
                 v-model="startForm.product"
@@ -234,7 +234,7 @@
                 autocomplete="off"
                 required
                 maxlength="64"
-                disabled
+                readonly
               ></el-input>
               <el-select
                 v-else
@@ -259,7 +259,7 @@
                 autocomplete="off"
                 required
                 maxlength="64"
-                disabled
+                readonly
               ></el-input>
               <el-select
                 v-else
@@ -286,7 +286,7 @@
                 autocomplete="off"
                 required
                 maxlength="64"
-                disabled
+                readonly
               ></el-input>
               <el-select
                 v-model="startForm.courseType"
@@ -311,7 +311,7 @@
                 autocomplete="off"
                 required
                 maxlength="64"
-                disabled
+                readonly
               ></el-input>
               <el-select v-model="startForm.trainName" placeholder="请选择" v-else>
                 <el-option
@@ -326,27 +326,12 @@
           <el-col :span="8">
             <el-form-item label="开班系列名称" prop="classSerices">
               <el-input
-                v-if="isDetail"
                 v-model="startForm.classSerices"
                 autocomplete="off"
                 required
                 maxlength="64"
-                disabled
+                :readonly="isDetail"
               ></el-input>
-              <el-select
-                v-model="startForm.classSerices"
-                filterable
-                allow-create
-                placeholder="请选择"
-                v-else
-              >
-                <el-option
-                  v-for="item in startForm.classSericesOptions"
-                  :key="item"
-                  :label="item"
-                  :value="item"
-                ></el-option>
-              </el-select>
             </el-form-item>
           </el-col>
         </el-row>
@@ -356,7 +341,7 @@
               <el-input
                 v-model="startForm.lecturer"
                 autocomplete="off"
-                :disabled="isDetail"
+                :readonly="isDetail"
                 maxlength="50"
               ></el-input>
             </el-form-item>
@@ -368,7 +353,7 @@
                 type="datetime"
                 size="mini"
                 format="yyyy-MM-dd HH:mm"
-                :disabled="isDetail"
+                :readonly="isDetail"
                 prefix-icon="null"
                 placeholder="选择培训时间"
               ></el-date-picker>
@@ -382,7 +367,7 @@
                 autocomplete="off"
                 required
                 maxlength="64"
-                disabled
+                readonly
               ></el-input>
               <el-select v-model="startForm.language" placeholder="请选择" v-else>
                 <el-option
@@ -402,7 +387,7 @@
                 v-model="startForm.openClassType"
                 autocomplete="off"
                 v-if="isDetail"
-                disabled
+                readonly
                 maxlength="4"
               ></el-input>
               <el-select v-model="startForm.openClassType" placeholder="请选择" v-else>
@@ -420,7 +405,7 @@
               <el-input
                 v-model="startForm.startLocation"
                 autocomplete="off"
-                :disabled="isDetail"
+                :readonly="isDetail"
                 maxlength="50"
               ></el-input>
             </el-form-item>
@@ -432,7 +417,7 @@
                 autocomplete="off"
                 required
                 maxlength="128"
-                :disabled="isDetail"
+                :readonly="isDetail"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -443,7 +428,7 @@
               <el-input
                 v-model="startForm.trainAddr"
                 autocomplete="off"
-                :disabled="isDetail"
+                :readonly="isDetail"
                 maxlength="128"
               ></el-input>
             </el-form-item>
@@ -453,7 +438,7 @@
               <el-input
                 v-model="startForm.capacity"
                 autocomplete="off"
-                :disabled="isDetail"
+                :readonly="isDetail"
                 maxlength="4"
               ></el-input>
             </el-form-item>
@@ -466,7 +451,7 @@
                 autocomplete="off"
                 required
                 maxlength="64"
-                disabled
+                readonly
               ></el-input>
               <el-select v-model="startForm.isExam" placeholder="请选择" v-else>
                 <el-option
@@ -485,7 +470,7 @@
               <el-input
                 v-model="startForm.publisher"
                 autocomplete="off"
-                :disabled="isDetail"
+                :readonly="isDetail"
                 maxlength="20"
               ></el-input>
             </el-form-item>
@@ -495,7 +480,7 @@
               <el-input
                 v-model="startForm.telephone"
                 autocomplete="off"
-                :disabled="isDetail"
+                :readonly="isDetail"
                 maxlength="20"
               ></el-input>
             </el-form-item>
@@ -508,7 +493,7 @@
                 autocomplete="off"
                 required
                 maxlength="64"
-                disabled
+                readonly
               ></el-input>
               <el-select v-model="startForm.regType" placeholder="请选择" v-else>
                 <el-option
@@ -525,7 +510,7 @@
           <el-col :span="24">
             <el-form-item label="报名须知" prop="regNote">
               <el-input
-                :disabled="isDetail"
+                :readonly="isDetail"
                 type="textarea"
                 v-model="startForm.regNote"
                 :autosize="{ minRows: 2, maxRows: 4 }"
@@ -605,6 +590,9 @@ export default {
         ],
         trainName: [
           { required: true, message: "请选择培训名称", trigger: "change" }
+        ],
+        classSerices: [
+          { required: true, message: "请输入开班系列名称", trigger: "blur" }
         ],
         lecturer: [{ required: true, message: "请输入讲师", trigger: "blur" }],
         trainTime: [

@@ -91,7 +91,7 @@
         size="mini"
         stripe
         highlight-current-row
-        max-height="400"
+        max-height="420"
         style="width: 100%"
       >
         <el-table-column
@@ -359,6 +359,7 @@ export default {
       vm.onSearchForm(null, val);
     },
     teamSettings(projectId) {
+      console.log(this.$store.getters.visitedViews);
       this.$router.push({ path: "teamSettings/" + projectId });
     },
     projectEdit(row) {
@@ -381,6 +382,11 @@ export default {
           if (res.success) {
             vm.$message.success("项目删除成功");
             vm.onSearchForm(null, vm.currentPage);
+            let view = vm.$store.getters.visitedViews.find(
+              item =>
+                item.path.indexOf("projectManagement/teamSettings/" + id) >= 0
+            );
+            vm.$store.dispatch("delView", view);
           } else {
             vm.$message.error("项目删除失败");
           }

@@ -109,13 +109,28 @@ function delTeamRelatedPO(param) {
 }
 /**
  * 查询项目关键角色
- * @param {*} param {projectId}
+ * @param {*} param {projectId} POID
+ * @param {*} param {teamId} 项目组ID
+ * @param {*} param {poRoleId} PO角色ID
  */
-function getProjectKeyRoleInfo(projectId) {
+function getProjectKeyRoleInfo(projectId, teamId, poRoleId) {
   return request({
     url: "hrbp/TeamManage/queryPoStaffInfo",
     method: "post",
-    data: { projectId }
+    data: { projectId, teamId, poRoleId }
+  });
+}
+/**
+ * 删除PO中的关键角色
+ * @param {*} param {projectId} POID
+ * @param {*} teamId 项目ID
+ * @param {*} poRoleId PO关键角色ID
+ */
+function delTeamPOKeyRole(projectId, teamId, poRoleId) {
+  return request({
+    url: "hrbp/TeamManage/deletePoStaffInfo",
+    method: "post",
+    data: { projectId, teamId, poRoleId }
   });
 }
 export default {
@@ -129,5 +144,6 @@ export default {
   getProjectRole,
   getPrjectRelatedPO,
   delTeamRelatedPO,
-  getProjectKeyRoleInfo
+  getProjectKeyRoleInfo,
+  delTeamPOKeyRole
 };

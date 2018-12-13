@@ -28,12 +28,12 @@
               @click="onCreate"
               icon="el-icon-plus"
             >{{ $t("table.add") }}</el-button>
-            <el-button type="primary" @click="onExtendPrePeriod" size="mini">继承上一期</el-button>
           </el-form-item>
         </el-col>
       </el-row>
     </el-form>
     <el-table
+      v-loading="loading"
       :data="tableData"
       border
       fix
@@ -65,14 +65,14 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            @click="handleEdit(scope.$index, scope.row)"
+            @click="handleEdit(scope.row)"
             type="text"
             icon="el-icon-edit"
             title="编辑"
           ></el-button>
           <el-button
             size="mini"
-            @click="handleDelete(scope.$index, scope.row)"
+            @click="handleDelete(scope.row)"
             type="text"
             icon="el-icon-delete"
             title="删除"
@@ -92,7 +92,7 @@
             <div slot="header" class="clearfix">
               <span>关键角色设置</span>
               <el-button
-                v-if="isAddRow"
+                v-if="isAddRow && !isEdit"
                 type="text"
                 size="mini"
                 @click="handleAddRoleNum"
@@ -138,7 +138,7 @@
               <el-table-column header-align="center" label="关键角色" min-width="100">
                 <template slot-scope="scope">
                   <el-select
-                    v-if="scope.row.isAdd"
+                    v-if="scope.row.isAdd&&!isEdit"
                     v-model="scope.row.roleId"
                     size="mini"
                     placeholder="角色"
@@ -184,6 +184,7 @@
                     @click="handleRoleRowEdit(scope.row)"
                   ></el-button>
                   <el-button
+                    v-if="!isEdit"
                     size="mini"
                     type="text"
                     title="删除"
@@ -221,10 +222,15 @@
               <el-table-column prop="roleName" header-align="center" label="关键角色" width="100"></el-table-column>
               <el-table-column header-align="center" label="角色员工" min-width="100">
                 <template slot-scope="scope">
-                  <el-select v-model="scope.row.staffId" filterable size="mini" placeholder="请选择">
+                  <el-select
+                    v-model="scope.row.staffId"
+                    filterable
+                    size="mini"
+                    placeholder="请选择"
+                  >
                     <el-option
                       v-for="item in searchForm.teamStaffOptions"
-                      :key="item.staffId"
+                      :key="item.staffName"
                       :label="item.staffName"
                       :value="item.staffId"
                     ></el-option>
@@ -241,7 +247,7 @@
                   >
                     <el-option
                       v-for="item in searchForm.teamStaffOptions"
-                      :key="item.staffId"
+                      :key="item.staffName"
                       :label="item.staffName"
                       :value="item.staffId"
                     ></el-option>
@@ -283,6 +289,7 @@ export default {
   props: ["teamInfo"],
   data() {
     return {
+      isEdit: false,
       isAddRow: true,
       isEditRow: false,
       loading: false,
@@ -291,6 +298,7 @@ export default {
       dialogVisible: false,
       roleDataSource: [],
       empDataSource: [],
+      selectedStaff: [],
       editRowData: null
     };
   },
@@ -303,6 +311,7 @@ export default {
   },
   watch: {
     keyRoleDataSource(data) {
+      this.selectedStaff = [];
       let hash = {};
       this.tableData = data.map(item => {
         if (!hash[item.poRoleId]) {
@@ -322,7 +331,7 @@ export default {
         } else {
           item.backupStaffNameAndId = "";
         }
-
+        this.selectedStaff.push(item.staffId, item.backupStaffId);
         return item;
       });
     }
@@ -334,7 +343,17 @@ export default {
       "getKeyRoleList",
       "getEmployeeByTeam"
     ]),
+    init(projectId) {
+      this.getPOList({
+        teamId: projectId,
+        startDate: "",
+        endDate: ""
+      }).then(() => {
+        this.changePO();
+      });
+    },
     onCreate() {
+      this.isEdit = false;
       this.dialogTitle = "添加关键角色信息";
       this.dialogVisible = true;
       this.getKeyRoleList();
@@ -354,13 +373,58 @@ export default {
         };
       }
     },
-    handleEdit(index, row) {
-      this.dialogTitle = "编辑关键角色信息";
-      this.getKeyRoleList();
-      this.getEmployeeByTeam(this.teamInfo.projectID + "");
-      this.dialogVisible = true;
+    handleEdit(row) {
+      let vm = this;
+      vm.isEditRow = true;
+      vm.isAddRow = false;
+      vm.isEdit = true;
+      vm.dialogTitle = "编辑关键角色信息";
+      vm.getKeyRoleList();
+      vm.getEmployeeByTeam(vm.teamInfo.projectID + "");
+      vm.$store.dispatch("getKeyRoleInfo", row).then(res => {
+        if (res.success) {
+          vm.dialogVisible = true;
+          vm.empDataSource = res.data.map(item => {
+            return {
+              staffId: item.staffId,
+              roleId: item.poRoleId,
+              roleName: item.poRoleName,
+              backupStaffId: item.backupStaffId
+            };
+          });
+          vm.editRowData = {
+            roleId: res.data[0].poRoleId,
+            roleName: res.data[0].poRoleName,
+            roleNum: res.data.length
+          };
+          vm.roleDataSource = [
+            {
+              roleId: res.data[0].poRoleId,
+              roleName: res.data[0].poRoleName,
+              isAdd: true,
+              roleNum: res.data.length
+            }
+          ];
+        }
+      });
     },
-    handleDelete() {},
+    handleDelete(row) {
+      let vm = this;
+      vm.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        vm.$store.dispatch("delKeyRoleInfo", row).then(res => {
+          if (res.success) {
+            vm.$message.success("关键角色删除成功");
+            vm.changePO();
+          } else {
+            vm.$message.error("关键角色删除失败");
+          }
+        });
+      });
+    },
     handleConfirm() {
       let vm = this;
       let param = {
@@ -395,12 +459,15 @@ export default {
           vm.dialogVisible = false;
         });
     },
-    onExtendPrePeriod() {
-      this.showPrePeriod = true;
-    },
-    remoteMethod() {},
     changePO() {
-      this.getKeyRoleTableData();
+      this.loading = true;
+      this.getKeyRoleTableData()
+        .then(() => {
+          this.loading = false;
+        })
+        .catch(() => {
+          this.loading = false;
+        });
     },
     handleAddRoleNum() {
       this.isEditRow = false;
@@ -435,7 +502,7 @@ export default {
           let employee = {
             roleId: newRow.roleId,
             roleName: _.find(this.searchForm.keyRoleOptions, {
-              poRoleId: newRow.roleId
+              poRoleId: newRow.roleId * 1
             }).poRoleName,
             staffId: "",
             staffName: "",
@@ -453,7 +520,7 @@ export default {
       this.roleDataSource.map(item => {
         if (item.isAdd) {
           item.roleName = _.find(this.searchForm.keyRoleOptions, {
-            poRoleId: item.roleId
+            poRoleId: item.roleId * 1
           }).poRoleName;
           item.isAdd = false;
         }
