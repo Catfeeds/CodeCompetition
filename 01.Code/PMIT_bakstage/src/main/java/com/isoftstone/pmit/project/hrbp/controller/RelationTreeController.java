@@ -21,18 +21,6 @@ public class RelationTreeController {
     @Autowired
     private IRelationTreeService service;
 
-    @ApiOperation(value = "添加层级树节点", notes = "添加层级树节点")
-    @PostMapping(value = "/addTreeNode")
-    public String addTreeNode(@RequestBody Map<String, Object> params) {
-        try {
-            service.addTeamNode(params);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return AjaxResult.returnToMessage(false, e.getMessage());
-        }
-        return AjaxResult.returnToMessage(true, "Add Node Success");
-    }
-
     @ApiOperation(value = "查询层级树", notes = "查询层级树")
     @PostMapping(value = "/queryTree")
     public String queryTree() {
@@ -44,6 +32,18 @@ public class RelationTreeController {
             return AjaxResult.returnToMessage(false, e.getMessage());
         }
         return AjaxResult.returnToResult(true, result);
+    }
+
+    @ApiOperation(value = "添加层级树节点", notes = "添加层级树节点")
+    @PostMapping(value = "/addTreeNode")
+    public String addTreeNode(@RequestBody Map<String, Object> params) {
+        try {
+            service.addTeamNode(params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.returnToMessage(false, e.getMessage());
+        }
+        return AjaxResult.returnToMessage(true, "Add Node Success");
     }
 
     @ApiOperation(value = "删除层级树", notes = "删除层级树")
@@ -72,5 +72,17 @@ public class RelationTreeController {
             return AjaxResult.returnToMessage(false, e.getMessage());
         }
         return AjaxResult.returnToMessage(true, "Upsate Tree Node Success");
+    }
+
+    @ApiOperation(value = "移动节点", notes = "移动节点")
+    @PostMapping(value = "/moveTreeNode")
+    public String moveTreeNode(@RequestBody Map<String, Object> params) {
+        try {
+            service.moveTreeNode(params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.returnToMessage(false, e.getMessage());
+        }
+        return AjaxResult.returnToMessage(true, "Move Tree Node Success");
     }
 }

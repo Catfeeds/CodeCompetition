@@ -1,10 +1,10 @@
 package com.isoftstone.pmit.common.exception;
 
-public class RelationTreeNodeAddException extends RuntimeException {
+public class RelationTreeNodeException extends RuntimeException {
 
     private String message;
 
-    public RelationTreeNodeAddException(String message) {
+    public RelationTreeNodeException(String message) {
         this.message = message;
     }
 

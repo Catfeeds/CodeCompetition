@@ -1,8 +1,7 @@
 package com.isoftstone.pmit.project.hrbp.common;
 
-import com.isoftstone.pmit.project.hrbp.entity.ProjectTreeNode;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TreeUtil {
 
@@ -26,14 +25,10 @@ public class TreeUtil {
 
     public static String getParentPath(String nodePath, Integer nodeID) {
         String parentPath;
-        if (nodePath == null || nodePath.isEmpty()) {
-            parentPath = ":" + nodeID + ":";
-        } else {
-            parentPath = nodePath + nodeID + ":";
-        }
+        parentPath = nodePath + nodeID + ":";
         return parentPath;
     }
-    
+
 //    public static String getParentPath(BaseTreeNode parentNode){
 //        return getParentPath(parentNode.getNodePath(),parentNode.getNodeID());
 //    }

@@ -1,6 +1,6 @@
 package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 
-import com.isoftstone.pmit.common.exception.RelationTreeNodeAddException;
+import com.isoftstone.pmit.common.exception.RelationTreeNodeException;
 import com.isoftstone.pmit.project.hrbp.common.TreeUtil;
 import com.isoftstone.pmit.project.hrbp.entity.RelationTreeNode;
 import com.isoftstone.pmit.project.hrbp.mapper.RelationTreeMapper;
@@ -46,6 +46,13 @@ public class RelationTreeService implements IRelationTreeService {
     @Transactional
     public void addTeamNode(Map<String, Object> params) {
         checkAddNodeInfo(params);
+        String addNodeType = (String) params.get("addNodeType");
+        if (!addNodeType.equalsIgnoreCase("Team")) {
+            if (params.containsKey("addTeamID")) {
+                params.remove("addTeamID");
+            }
+        }
+
         Integer parentNodeID = (Integer) params.get("parentNodeID");
         String parentNodePath = (String) params.get("parentNodePath");
         String nodePath = TreeUtil.getParentPath(parentNodePath, parentNodeID);
@@ -55,6 +62,7 @@ public class RelationTreeService implements IRelationTreeService {
 
     @Override
     public void deleteNode(Map<String, Object> params) {
+        checkDeleteNodeInfo(params);
         Integer nodeID = Integer.valueOf(String.valueOf(params.get("nodeID")));
         params.put("nodePath", ":" + nodeID + ":");
         mapper.deleteNode(params);
@@ -70,12 +78,15 @@ public class RelationTreeService implements IRelationTreeService {
 
     @Override
     public void updateTreeNode(Map<String, Object> queryMap) {
+        checkUpdateNodeInfo(queryMap);
         mapper.updateTreeNode(queryMap);
     }
 
     @Override
     @Transactional
     public void moveTreeNode(Map<String, Object> paramMap) {
+        checkMoveNodeInfo(paramMap);
+
         Integer targetNodeID = (Integer) paramMap.get("targetNodeID");
         String targetNodePath = (String) paramMap.get("targetNodePath");
         Integer moveNodeID = (Integer) paramMap.get("moveNodeID");
@@ -100,7 +111,6 @@ public class RelationTreeService implements IRelationTreeService {
         Map<String, Object> queryMap = buildQueryParamMap(nodeList);
         return mapper.queryRelationNode(queryMap);
     }
-
 
     private List<RelationTreeNode> buildTree(List<RelationTreeNode> treeNodeList) {
         List<RelationTreeNode> result = new ArrayList<RelationTreeNode>();
@@ -193,25 +203,64 @@ public class RelationTreeService implements IRelationTreeService {
     private void checkAddNodeInfo(Map<String, Object> queryMap) {
         // TODO: 2018/12/12 查询层级关系，判断插入级别是否合理
 
-
         String parentNodeType = (String) queryMap.get("parentNodeType");
         if (parentNodeType.equalsIgnoreCase("Team")) {
-            throw new RelationTreeNodeAddException(parentNodeType + "不支持插入子节点");
+            throw new RelationTreeNodeException(parentNodeType + "不支持插入子节点");
+        }
+        if (parentNodeType.equalsIgnoreCase("BG")) {
+            throw new RelationTreeNodeException(parentNodeType + "不支持插入子节点,请从BD节点开始建立树结构");
         }
 
         String addNodeType = (String) queryMap.get("addNodeType");
 
         if (addNodeType.equalsIgnoreCase("Team") && list.contains(parentNodeType)) {
-            throw new RelationTreeNodeAddException(String.valueOf(list) + "不支持插入项目组子节点");
+            throw new RelationTreeNodeException(String.valueOf(list) + "不支持插入项目组子节点");
         }
 
         Integer parentTypeIndex = map.get(parentNodeType);
         Integer addNodeTypeIndex = map.get(addNodeType);
 
         if (parentTypeIndex >= addNodeTypeIndex) {
-            throw new RelationTreeNodeAddException(addNodeType + "级别" +
+            throw new RelationTreeNodeException(addNodeType + "级别" +
                     (parentTypeIndex == addNodeTypeIndex ? "等于" : "大于")
                     + parentNodeType + ",不允许插入");
+        }
+    }
+
+    private void checkMoveNodeInfo(Map<String, Object> queryMap) {
+        // TODO: 2018/12/12 查询层级关系，判断插入级别是否合理
+
+        String targetNodeType = (String) queryMap.get("targetNodeType");
+        if (targetNodeType.equalsIgnoreCase("BG")) {
+            throw new RelationTreeNodeException(targetNodeType + "不支持插入子节点");
+        }
+
+        String moveNodeType = (String) queryMap.get("moveNodeType");
+        if (list.contains(moveNodeType)) {
+            throw new RelationTreeNodeException(String.valueOf(list) + "不支持移动");
+        }
+
+        Integer targetNodeTypeIndex = map.get(targetNodeType);
+        Integer moveNodeTypeIndex = map.get(moveNodeType);
+
+        if (targetNodeTypeIndex >= moveNodeTypeIndex) {
+            throw new RelationTreeNodeException(moveNodeType + "级别" +
+                    (targetNodeTypeIndex == moveNodeTypeIndex ? "等于" : "大于")
+                    + targetNodeType + ",不允许插入");
+        }
+    }
+
+    private void checkDeleteNodeInfo(Map<String, Object> queryMap) {
+        String nodeType = (String) queryMap.get("nodeType");
+        if (list.contains(nodeType)) {
+            throw new RelationTreeNodeException(String.valueOf(list) + "不支持删除");
+        }
+    }
+
+    private void checkUpdateNodeInfo(Map<String, Object> queryMap) {
+        String nodeType = (String) queryMap.get("nodeType");
+        if (list.contains(nodeType)) {
+            throw new RelationTreeNodeException(String.valueOf(list) + "不支持修改");
         }
     }
 }

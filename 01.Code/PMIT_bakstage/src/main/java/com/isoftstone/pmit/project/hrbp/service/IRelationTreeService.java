@@ -12,11 +12,11 @@ public interface IRelationTreeService {
 
     public void deleteNode(Map<String, Object> params);
 
-    public void deleteNodeAndChildren(Map<String,Object> params);
-
-    public void moveTreeNode(Map<String, Object> params);
+    public void deleteNodeAndChildren(Map<String, Object> params);
 
     public void updateTreeNode(Map<String, Object> params);
+
+    public void moveTreeNode(Map<String, Object> params);
 
     public List<RelationTreeNode> queryLevelRlaLeafNode(List<Map<String, Object>> nodeList);
 }
