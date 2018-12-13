@@ -3,9 +3,8 @@ package com.isoftstone.pmit.project.hrbp.controller;
 
 import com.isoftstone.pmit.common.util.AjaxResult;
 import com.isoftstone.pmit.project.hrbp.entity.TupleData;
-import com.isoftstone.pmit.project.hrbp.service.ILevelService;
+import com.isoftstone.pmit.project.hrbp.service.ITeamLevelService;
 import com.isoftstone.pmit.project.hrbp.service.IMainstayReportService;
-import com.isoftstone.pmit.project.hrbp.service.IProjectManageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ public class MainstayReportController {
     private IMainstayReportService mainstayReportService;
 
     @Autowired
-    private ILevelService levelService;
+    private ITeamLevelService levelService;
 
     @ApiOperation(value = "查询骨干信息层级", notes = "查询骨干信息层级")
     @PostMapping(value = "/queryMainstayLevel")
@@ -34,7 +33,7 @@ public class MainstayReportController {
         List<String> result;
         try {
             params.put("region", params.get("workPlaceArea"));
-            result = levelService.queryTeamLevel(params);
+            result = levelService.queryLevel(params);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());

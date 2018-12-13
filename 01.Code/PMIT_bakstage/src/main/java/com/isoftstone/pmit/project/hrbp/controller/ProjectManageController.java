@@ -2,7 +2,7 @@ package com.isoftstone.pmit.project.hrbp.controller;
 
 
 import com.isoftstone.pmit.common.util.AjaxResult;
-import com.isoftstone.pmit.project.hrbp.service.ILevelService;
+import com.isoftstone.pmit.project.hrbp.service.ITeamLevelService;
 import com.isoftstone.pmit.project.hrbp.service.IProjectManageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,15 +25,14 @@ public class ProjectManageController {
     private IProjectManageService projectManageService;
 
     @Autowired
-    private ILevelService levelService;
+    private ITeamLevelService teamLevelService;
 
     @ApiOperation(value = "项目组层级关系查询接口", notes = "项目组层级关系查询接口")
     @PostMapping(value = "/queryProjectLevel")
     public String queryLevel(@RequestBody Map<String, Object> params) {
         List<String> result;
         try {
-            params.put("region", params.get("workPlaceArea"));
-            result = levelService.queryTeamLevel(params);
+            result = teamLevelService.queryLevel(params);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
@@ -48,6 +47,8 @@ public class ProjectManageController {
 
         try {
             if (parameter.get("teamID") == null) {
+                List<Long> teamIDs = teamLevelService.queryProjects(parameter);
+                parameter.put("teamIDs", teamIDs);
                 result = projectManageService.queryProjects(parameter);
             } else {
                 result = projectManageService.queryProject(parameter);
@@ -59,12 +60,14 @@ public class ProjectManageController {
         return AjaxResult.returnToResult(true, result);
     }
 
-
     @ApiOperation(value = "项目组添加接口", notes = "项目组添加接口")
     @PostMapping(value = "/addProjectNode")
     public String addProjectNode(@RequestBody Map<String, Object> params) {
         try {
-            projectManageService.addProjectNode(params);
+            Long teamID = projectManageService.addProjectNode(params);
+            params.put("teamID",teamID);
+
+
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());

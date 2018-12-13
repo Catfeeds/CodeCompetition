@@ -29,8 +29,8 @@
             <if test="null != workPlaceArea and '' != workPlaceArea">
                 AND base_staff_info.workPlaceArea = #{workPlaceArea}
             </if>
-            <if test="null != pdu and '' != pdu">
-                AND base_staff_info.pdu = #{pdu}
+            <if test="null != cu and '' != cu">
+                AND base_staff_info.pdu = #{cu}
             </if>
         </where>
     </select>
@@ -69,8 +69,8 @@
             <if test="null != workPlaceArea and '' != workPlaceArea">
                 AND base_staff_info.workPlaceArea = #{workPlaceArea}
             </if>
-            <if test="null != pdu and '' != pdu">
-                AND base_staff_info.pdu = #{pdu}
+            <if test="null != cu and '' != cu">
+                AND base_staff_info.pdu = #{cu}
             </if>
         </where>
         GROUP BY base_staff_info.costCenter
@@ -110,8 +110,8 @@
             <if test="null != workPlaceArea and '' != workPlaceArea">
                 AND base_staff_info.workPlaceArea = #{workPlaceArea}
             </if>
-            <if test="null != pdu and '' != pdu">
-                AND base_staff_info.pdu = #{pdu}
+            <if test="null != cu and '' != cu">
+                AND base_staff_info.pdu = #{cu}
             </if>
         </where>
         GROUP BY po_role.po_role_id
@@ -150,8 +150,8 @@
             <if test="null != workPlaceArea and '' != workPlaceArea">
                 AND base_staff_info.workPlaceArea = #{workPlaceArea}
             </if>
-            <if test="null != pdu and '' != pdu">
-                AND base_staff_info.pdu = #{pdu}
+            <if test="null != cu and '' != cu">
+                AND base_staff_info.pdu = #{cu}
             </if>
         </where>
     </select>
@@ -303,8 +303,8 @@
               <if test="null != workPlaceArea and '' != workPlaceArea">
                   AND base_staff_info.workPlaceArea = #{workPlaceArea}
               </if>
-              <if test="null != pdu and '' != pdu">
-                  AND base_staff_info.pdu = #{pdu}
+              <if test="null != cu and '' != cu">
+                  AND base_staff_info.pdu = #{cu}
               </if>
           </where>
           ) staff_info
@@ -347,8 +347,8 @@
             <if test="null != workPlaceArea and '' != workPlaceArea">
                 AND base_staff_info.workPlaceArea = #{workPlaceArea}
             </if>
-            <if test="null != pdu and '' != pdu">
-                AND base_staff_info.pdu = #{pdu}
+            <if test="null != cu and '' != cu">
+                AND base_staff_info.pdu = #{cu}
             </if>
             <if test="null != post and '' != post">
                 AND base_staff_info.generalPosition = #{post}
@@ -411,8 +411,8 @@
               <if test="null != workPlaceArea and '' != workPlaceArea">
                   AND base_staff_info.workPlaceArea = #{workPlaceArea}
               </if>
-              <if test="null != pdu and '' != pdu">
-                  AND base_staff_info.pdu = #{pdu}
+              <if test="null != cu and '' != cu">
+                  AND base_staff_info.pdu = #{cu}
               </if>
               <if test="null != post and '' != post">
                   AND base_staff_info.generalPosition = #{post}

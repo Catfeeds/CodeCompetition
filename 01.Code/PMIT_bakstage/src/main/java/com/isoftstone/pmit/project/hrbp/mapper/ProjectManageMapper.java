@@ -13,7 +13,7 @@ public interface ProjectManageMapper {
 
     public List<Map<String, String>> queryProjects(Map<String, Object> queryMap);
 
-    public void insertProjectNode(Map<String, Object> queryMap);
+    public Long insertProjectNode(Map<String, Object> queryMap);
 
     public void deleteProject(Map<String, Object> queryMap);
 

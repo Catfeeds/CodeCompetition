@@ -50,10 +50,11 @@ public class ProjectManageService implements IProjectManageService {
     }
 
     @Override
-    public void addProjectNode(Map<String, Object> queryMap) {
-        mapper.insertProjectNode(queryMap);
+    public Long addProjectNode(Map<String, Object> queryMap) {
+        return mapper.insertProjectNode(queryMap);
     }
 
+    @Override
     public void deleteProject(Map<String, Object> queryMap) {
         mapper.deleteProject(queryMap);
     }

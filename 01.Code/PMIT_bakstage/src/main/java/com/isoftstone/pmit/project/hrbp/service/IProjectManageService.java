@@ -11,7 +11,7 @@ public interface IProjectManageService {
 
     public Map<String, Object> queryProject(Map<String, Object> parameter);
 
-    public void addProjectNode(Map<String, Object> queryMap);
+    public Long addProjectNode(Map<String, Object> queryMap);
 
     public void deleteProject(Map<String, Object> queryMap);
 
