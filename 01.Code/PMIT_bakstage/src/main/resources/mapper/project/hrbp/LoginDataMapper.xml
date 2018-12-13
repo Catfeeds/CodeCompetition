@@ -13,7 +13,6 @@
 
     <select id="findStaffByEmployeeId" parameterType="java.lang.String" resultMap="StaffResult">
         select
-        login_id loginId,
         employee_ID employeeId,
         employee_name employeeName,
         pass_word password,
