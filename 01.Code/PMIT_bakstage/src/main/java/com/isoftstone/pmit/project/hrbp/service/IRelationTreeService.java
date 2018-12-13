@@ -6,17 +6,17 @@ import java.util.List;
 import java.util.Map;
 
 public interface IRelationTreeService {
-    public List<RelationTreeNode> queryTeamLevelTree();
+    public List<RelationTreeNode> queryTeamTree();
 
-    public void addTeamLevelNode(Map<String, Object> queryMap);
+    public void addTeamNode(Map<String, Object> params);
 
-    public void deleteNode(String nodePath, Integer nodeID);
+    public void deleteNode(Map<String, Object> params);
 
     public void deleteNodeAndChildren(Map<String,Object> params);
 
-    public void moveLevelRlaNode(Map<String, Object> queryMap, String tableName);
+    public void moveTreeNode(Map<String, Object> params);
 
-    public void updateLevelRlaNode(Map<String, Object> queryMap, String tableName);
+    public void updateTreeNode(Map<String, Object> params);
 
-    public List<RelationTreeNode> queryLevelRlaLeafNode(List<Map<String, Object>> nodeList, String tableName);
+    public List<RelationTreeNode> queryLevelRlaLeafNode(List<Map<String, Object>> nodeList);
 }

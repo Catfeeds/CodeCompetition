@@ -20,7 +20,7 @@ public class LevelController {
     @Autowired
     private ILevelService service;
 
-    @PostMapping(value = "/queryLevelTree")
+    @PostMapping(value = "/queryTree")
     @ApiOperation(value = "查询关系树", notes = "查询关系树")
     private String queryLevelTree(@RequestBody Map<String, Object> params) {
         List<LevelTreeNode> result;

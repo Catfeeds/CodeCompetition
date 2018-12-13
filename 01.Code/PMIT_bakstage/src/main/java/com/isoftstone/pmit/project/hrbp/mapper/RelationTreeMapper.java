@@ -11,17 +11,17 @@ import java.util.Map;
 @Mapper
 public interface RelationTreeMapper {
 
-    public List<RelationTreeNode> queryLevelTree();
+    public List<RelationTreeNode> queryTree();
+
+    public void addTeamNode(Map<String, Object> queryMap);
+
+    public void deleteNode(Map<String, Object> queryMap);
+
+    public void deleteNodeAndChildren(Map<String, Object> queryMap);
+
+    public void updateTreeNode(Map<String, Object> queryMap);
+
+    public void moveTreeNode(Map<String, Object> queryMap);
 
     public List<RelationTreeNode> queryRelationNode(Map<String, Object> queryMap);
-
-    public void addTeamLevelNode(Map<String, Object> queryMap);
-
-    public void deleteLevelRlaNode(Map<String, Object> queryMap);
-
-    public void updateLevelRlaNode(Map<String, Object> queryMap);
-
-    public void moveLevelRlaNode(Map<String, Object> queryMap);
-
-
 }

@@ -36,52 +36,52 @@ public class RelationTreeService implements IRelationTreeService {
     }
 
     @Override
-    public List<RelationTreeNode> queryTeamLevelTree() {
-        List<RelationTreeNode> levelNodes = mapper.queryLevelTree();
+    public List<RelationTreeNode> queryTeamTree() {
+        List<RelationTreeNode> levelNodes = mapper.queryTree();
         List<RelationTreeNode> trees = buildTree(levelNodes);
         return trees;
     }
 
     @Override
     @Transactional
-    public void addTeamLevelNode(Map<String, Object> queryMap) {
-        checkAddNodeInfo(queryMap);
-        Integer parentNodeID = (Integer) queryMap.get("parentNodeID");
-        String parentNodePath = (String) queryMap.get("parentNodePath");
+    public void addTeamNode(Map<String, Object> params) {
+        checkAddNodeInfo(params);
+        Integer parentNodeID = (Integer) params.get("parentNodeID");
+        String parentNodePath = (String) params.get("parentNodePath");
         String nodePath = TreeUtil.getParentPath(parentNodePath, parentNodeID);
-        queryMap.put("addNodePath", nodePath);
-        mapper.addTeamLevelNode(queryMap);
+        params.put("addNodePath", nodePath);
+        mapper.addTeamNode(params);
     }
 
     @Override
-    public void deleteNode(String nodePath, Integer nodeID) {
-
+    public void deleteNode(Map<String, Object> params) {
+        Integer nodeID = Integer.valueOf(String.valueOf(params.get("nodeID")));
+        params.put("nodePath", ":" + nodeID + ":");
+        mapper.deleteNode(params);
     }
 
     @Override
-    public void deleteNodeAndChildren(Map<String,Object> params) {
-        Map<String, Object> deleteParamMap = new HashMap<String, Object>();
-//        deleteParamMap.put("nodeID", nodeID);
-//        deleteParamMap.put("nodePath", TreeUtil.getParentPath(nodePath, nodeID));
-        mapper.deleteLevelRlaNode(deleteParamMap);
+    public void deleteNodeAndChildren(Map<String, Object> params) {
+        String nodePath = String.valueOf(params.get("nodePath"));
+        Integer nodeID = Integer.valueOf(String.valueOf(params.get("nodeID")));
+        params.put("nodePath", TreeUtil.getParentPath(nodePath, nodeID));
+        mapper.deleteNodeAndChildren(params);
     }
 
     @Override
-    public void updateLevelRlaNode(Map<String, Object> queryMap, String tableName) {
-        queryMap.put("tableName", tableName);
-        mapper.updateLevelRlaNode(queryMap);
+    public void updateTreeNode(Map<String, Object> queryMap) {
+        mapper.updateTreeNode(queryMap);
     }
 
     @Override
     @Transactional
-    public void moveLevelRlaNode(Map<String, Object> paramMap, String tableName) {
+    public void moveTreeNode(Map<String, Object> paramMap) {
         Integer targetNodeID = (Integer) paramMap.get("targetNodeID");
         String targetNodePath = (String) paramMap.get("targetNodePath");
         Integer moveNodeID = (Integer) paramMap.get("moveNodeID");
         String moveNodePath = (String) paramMap.get("moveNodePath");
 
         Map<String, Object> queryMap = new HashMap<String, Object>();
-        queryMap.put("tableName", tableName);
 
         queryMap.put("moveNodeID", moveNodeID);
         String replaceSourcePath = TreeUtil.getParentPath(moveNodePath, moveNodeID);
@@ -92,13 +92,12 @@ public class RelationTreeService implements IRelationTreeService {
         String replaceTargetPath = TreeUtil.getParentPath(replaceParentPath, moveNodeID);
         queryMap.put("replaceTargetPath", replaceTargetPath);
 
-        mapper.moveLevelRlaNode(queryMap);
+        mapper.moveTreeNode(queryMap);
     }
 
     @Override
-    public List<RelationTreeNode> queryLevelRlaLeafNode(List<Map<String, Object>> nodeList, String tableName) {
+    public List<RelationTreeNode> queryLevelRlaLeafNode(List<Map<String, Object>> nodeList) {
         Map<String, Object> queryMap = buildQueryParamMap(nodeList);
-        queryMap.put("tableName", tableName);
         return mapper.queryRelationNode(queryMap);
     }
 

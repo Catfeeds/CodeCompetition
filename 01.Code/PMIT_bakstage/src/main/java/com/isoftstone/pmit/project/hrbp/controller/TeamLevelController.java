@@ -35,7 +35,7 @@ public class TeamLevelController {
         return AjaxResult.returnToResult(true, result);
     }
 
-    @PostMapping(value = "/queryLevelTree")
+    @PostMapping(value = "/queryTree")
     @ApiOperation(value = "查询关系树", notes = "查询关系树")
     private String queryLevelTree(@RequestBody Map<String, Object> params) {
         List<LevelTreeNode> result;
