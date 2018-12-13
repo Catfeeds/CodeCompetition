@@ -77,6 +77,10 @@ public class UserManageServiceImpl implements IUserManageService {
         return userManageMapper.queryUserByKeyword(parameter);
     }
 
+    /**
+     * 删除用户角色
+     * @param employeeID
+     */
     @Override
     public void deleteUserRole(String employeeID) {
         userManageMapper.deleteUserRole(employeeID);

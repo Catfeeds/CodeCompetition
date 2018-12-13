@@ -79,8 +79,8 @@
         <if test="isExam != null and isExam != ''">isExam,</if>
         <if test="publisher != null and publisher != ''">publisher,</if>
         <if test="telephone != null and telephone != ''">telephone,</if>
-        <if test="enrollMethod != null and enrollMethod != ''">enroll_method,</if>
-        <if test="notice != null and notice != ''">notice</if>
+        <if test="notice != null and notice != ''">notice,</if>
+        <if test="enrollMethod != null and enrollMethod != ''">enroll_method</if>
         )values (
         <if test="system != null and system != ''">#{system},</if>
         <if test="bu != null and bu != ''">#{bu},</if>
@@ -99,8 +99,8 @@
         <if test="isExam != null and isExam != ''">#{isExam},</if>
         <if test="publisher != null and publisher != ''">#{publisher},</if>
         <if test="telephone != null and telephone != ''">#{telephone},</if>
-        <if test="enrollMethod != null and enrollMethod != ''">#{enrollMethod},</if>
-        <if test="notice != null and notice != ''">#{notice}</if>
+        <if test="notice != null and notice != ''">#{notice},</if>
+        <if test="enrollMethod != null and enrollMethod != ''">#{enrollMethod}</if>
         )
     </insert>
     <update id="updateClass" parameterType="ClassInfo">
@@ -123,8 +123,8 @@
             <if test="isExam != null and isExam != ''">isExam = #{isExam},</if>
             <if test="publisher != null and publisher != ''">publisher = #{publisher},</if>
             <if test="telephone != null and telephone != ''">telephone = #{telephone},</if>
-            <if test="enrollMethod != null and enrollMethod != ''">enroll_method = #{enrollMethod},</if>
-            <if test="notice != null and notice != ''">notice = #{notice}</if>
+            <if test="notice != null and notice != ''">notice = #{notice},</if>
+            <if test="enrollMethod != null and enrollMethod != ''">enroll_method = #{enrollMethod}</if>
         </set>
         where opening_id = #{openingID}
     </update>
