@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * @author lf
  */
-public class ClassParam {
+public class CourseParam {
     /** 所属产品线 */
     private String bu;
     /** 所属系列 */

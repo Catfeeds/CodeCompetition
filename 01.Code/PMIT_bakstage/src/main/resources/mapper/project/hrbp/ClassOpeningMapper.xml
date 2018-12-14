@@ -26,11 +26,11 @@
         notice,
         case when training_time > now() then '3' else '1' end openingStatus
     </sql>
-    <select id="queryAllClass" parameterType="com.isoftstone.pmit.project.hrbp.entity.ClassParam" resultType="com.isoftstone.pmit.project.hrbp.entity.ClassInfo">
+    <select id="queryAllClass" parameterType="com.isoftstone.pmit.project.hrbp.entity.CourseParam" resultType="com.isoftstone.pmit.project.hrbp.entity.CourseInfo">
         select
         <include refid="queryColumn"/>
         from
-        mms_opening_setup_info
+        mms_course_setting
         where 1=1
         <if test="null != series and series != ''">
             AND series = #{series}
@@ -51,17 +51,17 @@
             AND training_time between #{startTime} and #{endTime}
         </if>
     </select>
-    <select id="findClassByID" parameterType="ClassInfo" resultType="ClassInfo">
+    <select id="findClassByID" parameterType="CourseInfo" resultType="CourseInfo">
         select
         <include refid="queryColumn"/>
-        from mms_opening_setup_info
+        from mms_course_setting
         where opening_id = #{openingID}
     </select>
-    <delete id="deleteClass" parameterType="com.isoftstone.pmit.project.hrbp.entity.ClassInfo">
-        delete from mms_opening_setup_info where opening_id = #{openingID}
+    <delete id="deleteClass" parameterType="com.isoftstone.pmit.project.hrbp.entity.CourseInfo">
+        delete from mms_course_setting where opening_id = #{openingID}
     </delete>
-    <insert id="insertClass" parameterType="com.isoftstone.pmit.project.hrbp.entity.ClassInfo">
-        insert into mms_opening_setup_info(
+    <insert id="insertClass" parameterType="com.isoftstone.pmit.project.hrbp.entity.CourseInfo">
+        insert into mms_course_setting(
         <if test="system != null and system != ''">system,</if>
         <if test="bu != null and bu != ''">bu,</if>
         <if test="series != null and series != ''">series,</if>
@@ -103,8 +103,8 @@
         <if test="enrollMethod != null and enrollMethod != ''">#{enrollMethod}</if>
         )
     </insert>
-    <update id="updateClass" parameterType="ClassInfo">
-        update mms_opening_setup_info
+    <update id="updateClass" parameterType="CourseInfo">
+        update mms_course_setting
         <set>
             <if test="system != null and system != ''">system = #{system},</if>
             <if test="bu != null and bu != ''">bu = #{bu},</if>

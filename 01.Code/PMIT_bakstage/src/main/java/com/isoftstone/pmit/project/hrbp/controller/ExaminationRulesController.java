@@ -80,7 +80,6 @@ public class ExaminationRulesController extends AbstractController {
         if (!rst) {
             return AjaxResult.returnToMessage(false, "保存考核规则失败");
         }
-
         return AjaxResult.returnToMessage(true, "保存考核规则成功");
     }
 

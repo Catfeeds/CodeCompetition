@@ -1,8 +1,8 @@
 package com.isoftstone.pmit.project.hrbp.service;
 
 import com.github.pagehelper.PageInfo;
-import com.isoftstone.pmit.project.hrbp.entity.ClassInfo;
-import com.isoftstone.pmit.project.hrbp.entity.ClassParam;
+import com.isoftstone.pmit.project.hrbp.entity.CourseInfo;
+import com.isoftstone.pmit.project.hrbp.entity.CourseParam;
 
 /**
  * @author lf
@@ -11,34 +11,34 @@ public interface IClassOpeningService {
 
     /**
      * 查询所有开课项
-     * @param classParam
+     * @param courseParam
      * @return
      */
-    PageInfo<ClassInfo> queryAllClass(ClassParam classParam);
+    PageInfo<CourseInfo> queryAllClass(CourseParam courseParam);
 
     /**
      * 删除开课项
-     * @param classInfo
+     * @param courseInfo
      */
-    void deleteClass(ClassInfo classInfo);
+    void deleteClass(CourseInfo courseInfo);
 
     /**
      * 添加开课项
-     * @param classInfo
+     * @param courseInfo
      * @return
      */
-    void insertClass(ClassInfo classInfo);
+    void insertClass(CourseInfo courseInfo);
 
     /**
      * 根据OpeningID查找开课项
-     * @param classInfo
+     * @param courseInfo
      * @return
      */
-    ClassInfo findClassByID(ClassInfo classInfo);
+    CourseInfo findClassByID(CourseInfo courseInfo);
 
     /**
      * 更新开课项
-     * @param classInfo
+     * @param courseInfo
      */
-    void updateClass(ClassInfo classInfo);
+    void updateClass(CourseInfo courseInfo);
 }

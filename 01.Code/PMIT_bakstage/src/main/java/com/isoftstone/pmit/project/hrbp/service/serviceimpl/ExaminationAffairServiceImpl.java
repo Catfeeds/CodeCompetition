@@ -39,10 +39,8 @@ public class ExaminationAffairServiceImpl implements IExaminationAffairService {
     }
 
     @Override
-    public void insertAffair(ExaminationAffair examinationAffair) {
-        EmpInformationResult empInformationByEmpId = userManageMapper.findEmpInformationByEmpId(examinationAffair.getEmployeeID());
-        examinationAffair.setCreateBy(empInformationByEmpId.getEmployeeName());
-        examinationAffairMapper.insertAffair(examinationAffair);
+    public Integer insertAffair(ExaminationAffair examinationAffair) {
+        return examinationAffairMapper.insertAffair(examinationAffair);
     }
 
     @Override

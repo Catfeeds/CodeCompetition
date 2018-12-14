@@ -42,7 +42,7 @@ public interface ExaminationAffairMapper {
      * 添加考核事务
      * @param examinationAffair
      */
-    void insertAffair(ExaminationAffair examinationAffair);
+    Integer insertAffair(ExaminationAffair examinationAffair);
 
     /**
      * 事务所属体系接口

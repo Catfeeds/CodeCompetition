@@ -9,7 +9,7 @@ import java.util.Date;
  * 开课模型
  * @author lf
  */
-public class ClassInfo {
+public class CourseInfo {
     /** 开班id */
     private int openingID;
     /** 所属体系 */

@@ -86,28 +86,14 @@ public class ExaminationAffairController extends AbstractController {
     @PostMapping(value = "/insertAffair")
     public String insertAffair(@RequestBody String parameter) {
         ExaminationAffair examinationAffair = JsonUtils.readValue(parameter, ExaminationAffair.class);
-        //获取前台传递的affairName;
-        String insertAffairName = examinationAffair.getAffairName();
-        List<ExaminationAffair> tempResultList = examinationAffairService.findAllAffairName();
-        if (!ListUtils.isEmpty(tempResultList)) {
-            for (ExaminationAffair affair : tempResultList) {
-                //获取数据库中affairName;
-                if (null != affair) {
-                    String tempAffairName = affair.getAffairName();
-                    if (insertAffairName.equals(tempAffairName)) {
-                        return AjaxResult.returnToMessage(false, "事务已存在");
-                    }
-                }
-            }
-        }
-        try {
-            examinationAffairService.insertAffair(examinationAffair);
-        } catch (Exception e) {
-            e.printStackTrace();
-            logger.info("====insertAffair error=============" + e);
+        Integer result = examinationAffairService.insertAffair(examinationAffair);
+        if (result ==0){
+            return AjaxResult.returnToMessage(false, "事务名重复重复");
+        }else if(result==1){
+            return AjaxResult.returnToMessage(true, "添加成功");
+        }else{
             return AjaxResult.returnToMessage(false, "添加失败");
         }
-        return AjaxResult.returnToMessage(true, "添加成功");
     }
 
     @RequestMapping(value = "/findExamAffairSystem", method = {RequestMethod.POST})

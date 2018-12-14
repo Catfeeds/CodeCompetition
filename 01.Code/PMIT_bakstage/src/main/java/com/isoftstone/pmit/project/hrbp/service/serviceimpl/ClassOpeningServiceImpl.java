@@ -2,8 +2,8 @@ package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.isoftstone.pmit.project.hrbp.entity.ClassInfo;
-import com.isoftstone.pmit.project.hrbp.entity.ClassParam;
+import com.isoftstone.pmit.project.hrbp.entity.CourseInfo;
+import com.isoftstone.pmit.project.hrbp.entity.CourseParam;
 import com.isoftstone.pmit.project.hrbp.mapper.ClassOpeningMapper;
 import com.isoftstone.pmit.project.hrbp.service.IClassOpeningService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,56 +22,56 @@ public class ClassOpeningServiceImpl implements IClassOpeningService {
 
     /**
      *  查询所有课程
-     * @param classParam
+     * @param courseParam
      * @return
      */
     @Override
-    public PageInfo<ClassInfo> queryAllClass(ClassParam classParam) {
-        PageHelper.startPage(classParam.getPageInfo().getCurrPage(),classParam.getPageInfo().getPageSize());
-        String sortType = classParam.getPageInfo().getSortType();
-        String sortColumn = classParam.getPageInfo().getSortColumn();
+    public PageInfo<CourseInfo> queryAllClass(CourseParam courseParam) {
+        PageHelper.startPage(courseParam.getPageInfo().getCurrPage(), courseParam.getPageInfo().getPageSize());
+        String sortType = courseParam.getPageInfo().getSortType();
+        String sortColumn = courseParam.getPageInfo().getSortColumn();
         if (null != sortColumn && sortColumn != "" &&sortType != "" && null != sortType) {
             PageHelper.orderBy(sortColumn + " " + sortType);
         }
-        List<ClassInfo> classInfoList = classOpeningMapper.queryAllClass(classParam);
-        PageInfo<ClassInfo> classInfoPageInfo = new PageInfo<>(classInfoList);
+        List<CourseInfo> courseInfoList = classOpeningMapper.queryAllClass(courseParam);
+        PageInfo<CourseInfo> classInfoPageInfo = new PageInfo<>(courseInfoList);
         return classInfoPageInfo ;
     }
 
     /**
      * 删除开课项
-     * @param classInfo
+     * @param courseInfo
      */
     @Override
-    public void deleteClass(ClassInfo classInfo) {
-        classOpeningMapper.deleteClass(classInfo);
+    public void deleteClass(CourseInfo courseInfo) {
+        classOpeningMapper.deleteClass(courseInfo);
     }
 
     /**
      * 添加开课项
-     * @param classInfo
+     * @param courseInfo
      */
     @Override
-    public void insertClass(ClassInfo classInfo) {
-        classOpeningMapper.insertClass(classInfo);
+    public void insertClass(CourseInfo courseInfo) {
+        classOpeningMapper.insertClass(courseInfo);
     }
 
     /**
      * 根据OpeningID查找开课项
-     * @param classInfo
+     * @param courseInfo
      * @return
      */
     @Override
-    public ClassInfo findClassByID(ClassInfo classInfo) {
-        return classOpeningMapper.findClassByID(classInfo);
+    public CourseInfo findClassByID(CourseInfo courseInfo) {
+        return classOpeningMapper.findClassByID(courseInfo);
     }
 
     /**
      * 更新开课项
-     * @param classInfo
+     * @param courseInfo
      */
     @Override
-    public void updateClass(ClassInfo classInfo) {
-        classOpeningMapper.updateClass(classInfo);
+    public void updateClass(CourseInfo courseInfo) {
+        classOpeningMapper.updateClass(courseInfo);
     }
 }

@@ -66,11 +66,11 @@ public class ExaminationAffair {
         this.series = series;
     }
 
-    public String getBu() {
+    public String getDu() {
         return bu;
     }
 
-    public void setBu(String bu) {
+    public void setDu(String du) {
         this.bu = bu;
     }
 

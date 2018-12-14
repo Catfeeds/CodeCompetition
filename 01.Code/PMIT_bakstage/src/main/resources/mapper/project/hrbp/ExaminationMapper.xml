@@ -26,7 +26,7 @@
     <select id="queryAllExamination" parameterType="com.isoftstone.pmit.project.hrbp.entity.ExaminationParam" resultType="com.isoftstone.pmit.project.hrbp.entity.ExaminationInfo">
         select
         <include refid="queryColumn"/>
-        from mms_examination_setup_info
+        from mms_examination_setting
         where 1=1
         <if test="null != series and series != ''">
             AND series = #{series}
@@ -45,16 +45,16 @@
         </if>
     </select>
     <delete id="deleteExamination" parameterType="com.isoftstone.pmit.project.hrbp.entity.ExaminationInfo">
-        delete from mms_examination_setup_info where examination_id = #{examinationID}
+        delete from mms_examination_setting where examination_id = #{examinationID}
     </delete>
     <select id="queryExaminationByID" parameterType="com.isoftstone.pmit.project.hrbp.entity.ExaminationInfo" resultType="com.isoftstone.pmit.project.hrbp.entity.ExaminationInfo">
         select
         <include refid="queryColumn"/>
-        from mms_examination_setup_info
+        from mms_examination_setting
         where examination_id = #{examinationID}
     </select>
     <update id="updateExamination" parameterType="com.isoftstone.pmit.project.hrbp.entity.ExaminationInfo">
-        update mms_examination_setup_info
+        update mms_examination_setting
         <set>
             <if test="series != null and series != ''">series = #{series},</if>
             <if test="bu != null and bu != ''">bu = #{bu},</if>
@@ -74,7 +74,7 @@
         where examination_id = #{examinationID}
     </update>
     <insert id="insertExamination">
-        insert into mms_examination_setup_info(
+        insert into mms_examination_setting(
         <if test="series != null and series != ''">series,</if>
         <if test="bu != null and bu != ''">bu,</if>
         <if test="trainingType != null and trainingType != ''">training_type,</if>
