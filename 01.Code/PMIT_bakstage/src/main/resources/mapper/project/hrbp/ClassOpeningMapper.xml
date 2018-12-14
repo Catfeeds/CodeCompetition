@@ -30,7 +30,7 @@
         select
         <include refid="queryColumn"/>
         from
-        opening_setup_info
+        mms_opening_setup_info
         where 1=1
         <if test="null != series and series != ''">
             AND series = #{series}
@@ -54,14 +54,14 @@
     <select id="findClassByID" parameterType="ClassInfo" resultType="ClassInfo">
         select
         <include refid="queryColumn"/>
-        from opening_setup_info
+        from mms_opening_setup_info
         where opening_id = #{openingID}
     </select>
     <delete id="deleteClass" parameterType="com.isoftstone.pmit.project.hrbp.entity.ClassInfo">
-        delete from opening_setup_info where opening_id = #{openingID}
+        delete from mms_opening_setup_info where opening_id = #{openingID}
     </delete>
     <insert id="insertClass" parameterType="com.isoftstone.pmit.project.hrbp.entity.ClassInfo">
-        insert into opening_setup_info(
+        insert into mms_opening_setup_info(
         <if test="system != null and system != ''">system,</if>
         <if test="bu != null and bu != ''">bu,</if>
         <if test="series != null and series != ''">series,</if>
@@ -104,7 +104,7 @@
         )
     </insert>
     <update id="updateClass" parameterType="ClassInfo">
-        update opening_setup_info
+        update mms_opening_setup_info
         <set>
             <if test="system != null and system != ''">system = #{system},</if>
             <if test="bu != null and bu != ''">bu = #{bu},</if>

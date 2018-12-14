@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.DimensionMapper">
     <insert id="insertDimension" parameterType="ExaminationDimension" keyProperty="dimensionID" useGeneratedKeys="true">
-        insert into hrbp_examination_dimension(
+        insert into mms_examination_dimension(
         <if test="dimensionName != null and dimensionName != ''">dimension_name,</if>
         <if test="mark != null and mark != ''">mark</if>
         <if test="explanation != null and explanation != ''">,explanation</if>
@@ -15,7 +15,7 @@
         )
     </insert>
     <insert id="insertAffairDimension">
-        insert into hrbp_affair_dimension(affair_id,dimension_id)values (#{affairID},#{dimensionId})
+        insert into mms_affair_dimension(affair_id,dimension_id)values (#{affairID},#{dimensionId})
     </insert>
     <select id="queryDimension" parameterType="java.lang.Integer" resultType="ExaminationDimension">
         select
@@ -23,17 +23,17 @@
         ed.mark as mark,
         ed.explanation as explanation
         FROM
-        hrbp_examination_dimension ed
-        LEFT JOIN hrbp_affair_dimension ad
+        mms_examination_dimension ed
+        LEFT JOIN mms_affair_dimension ad
         ON ed.dimension_id = ad.dimension_id
-        LEFT JOIN hrbp_examination_affair ea
+        LEFT JOIN mms_examination_affair ea
         on ad.affair_id = ea.affair_id
         where ea.affair_id = #{affairID}
     </select>
     <delete id="deleteAffairAndDimension" parameterType="ExaminationAffair">
-        delete from hrbp_affair_dimension where affair_id = #{affairID}
+        delete from mms_affair_dimension where affair_id = #{affairID}
     </delete>
     <delete id="deleteDimension" parameterType="ExaminationDimension">
-         delete from hrbp_affair_dimension where dimension_id = #{dimensionID}
+         delete from mms_affair_dimension where dimension_id = #{dimensionID}
     </delete>
 </mapper>

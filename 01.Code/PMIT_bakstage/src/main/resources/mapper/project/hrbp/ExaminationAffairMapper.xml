@@ -9,12 +9,12 @@
         affair_name as affairName,
         system as system,
         series as series,
-        du as du,
+        bu as bu,
         create_by as createBy,
         update_by as updateBy,
         update_time as updateTime
         from
-        hrbp_examination_affair
+        mms_examination_affair
         where 1=1
         <if test="null != affairName and affairName != ''">
             and affair_name like CONCAT('%',#{affairName},'%')
@@ -25,59 +25,59 @@
         <if test="null != series and series != ''">
             and series like CONCAT('%',#{series},'%')
         </if>
-        <if test="null != du and du != ''">
-            and du  = #{du}
+        <if test="null != bu and bu != ''">
+            and bu  = #{bu}
         </if>
     </select>
     <delete id="deleteAffair" parameterType="java.lang.Integer">
        DELETE ea,ad,ed
-       FROM hrbp_examination_affair ea
-       LEFT OUTER JOIN hrbp_affair_dimension ad
+       FROM mms_examination_affair ea
+       LEFT OUTER JOIN mms_affair_dimension ad
        ON ea.affair_id = ad.affair_id
-       LEFT OUTER JOIN hrbp_examination_dimension ed
+       LEFT OUTER JOIN mms_examination_dimension ed
        ON ad.dimension_id = ed.dimension_id
        WHERE ea.affair_id = #{affairID}
     </delete>
     <update id="updateAffair" parameterType="ExaminationAffair">
-        update hrbp_examination_affair
+        update mms_examination_affair
         <set>
             <if test="affairName != null and affairName != ''">affair_name = #{affairName},</if>
             <if test="system != null and system != ''">system = #{system},</if>
             <if test="series != null and series != ''">series = #{series},</if>
-            <if test="du != null and du != ''">du = #{du},</if>
+            <if test="bu != null and bu != ''">bu = #{bu},</if>
             <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
             update_time = now()
         </set>
         where affair_id = #{affairID}
     </update>
-    
+
     <select id="findExamAffairByAffairId" parameterType="java.lang.Integer" resultType="ExaminationAffair">
         select
         affair_id as affairID,
         affair_name as affairName,
         system as system,
         series as series,
-        du as du,
+        bu as bu,
         create_by as createBy,
         update_by as updateBy,
         update_time as updateTime
         from
-        hrbp_examination_affair
+        mms_examination_affair
         where affair_id = #{affairID}
     </select>
     <insert id="insertAffair" parameterType="ExaminationAffair">
-        insert into hrbp_examination_affair(
+        insert into mms_examination_affair(
         <if test="affairName != null and affairName != ''">affair_name,</if>
         <if test="system != null and system != ''">system,</if>
         <if test="series != null and series != ''">series,</if>
-        <if test="du != null and du != ''">du,</if>
+        <if test="bu != null and bu != ''">bu,</if>
         <if test="createBy != null and createBy != ''">create_by,</if>
         update_time
         )values (
         <if test="affairName != null and affairName != ''">#{affairName},</if>
         <if test="system != null and system != ''">#{system},</if>
         <if test="series != null and series != ''">#{series},</if>
-        <if test="du != null and du != ''">#{du},</if>
+        <if test="bu != null and bu != ''">#{bu},</if>
         <if test="createBy != null and createBy != ''">#{createBy},</if>
         now()
         )
@@ -85,16 +85,16 @@
     <select id="findExamAffairSystem" resultType="ExaminationAffair">
         select
         DISTINCT(system)
-        from hrbp_examination_affair
+        from mms_examination_affair
     </select>
     <select id="findExamAffairSeries" resultType="ExaminationAffair">
         select
         DISTINCT(series)
-        from hrbp_examination_affair
+        from mms_examination_affair
     </select>
     <select id="findAllAffairName" resultType="ExaminationAffair">
         select
         DISTINCT(affair_name) as AffairName
-        from hrbp_examination_affair
+        from mms_examination_affair
     </select>
 </mapper>

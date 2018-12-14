@@ -17,7 +17,7 @@
         employee_name employeeName,
         pass_word password,
         role_id roleID
-        from login_information
+        from mms_login_information
         where
         employee_ID=#{employeeID}
     </select>
@@ -29,9 +29,9 @@
 	    si.positionRole as positionRole,
         hr.role_name as roleName
         FROM
-	    login_information li
-        LEFT JOIN base_staff_info si ON si.employeeID = li.employee_ID
-        LEFT JOIN hrbp_role hr ON li.role_id = hr.role_id
+	    mms_login_information li
+        LEFT JOIN mms_base_staff_info si ON si.employeeID = li.employee_ID
+        LEFT JOIN mms_role hr ON li.role_id = hr.role_id
         WHERE
 	    li.employee_ID =#{employeeID}
     </select>
@@ -43,9 +43,9 @@
 	    si.positionRole as positionRole,
         hr.role_name as roleName
         FROM
-	    login_information li
-        LEFT JOIN base_staff_info si ON si.employeeID = li.employee_ID
-        LEFT JOIN hrbp_role hr ON li.role_id = hr.role_id
+	    mms_login_information li
+        LEFT JOIN mms_base_staff_info si ON si.employeeID = li.employee_ID
+        LEFT JOIN mms_role hr ON li.role_id = hr.role_id
     </select>
 
 </mapper>

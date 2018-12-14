@@ -10,9 +10,9 @@
         c.courseDimension AS dimensionName,
         item.itemtype AS type
         FROM
-        course_table c
-        INNER JOIN hrbp_examination_rule_item item ON c.courseName = item.itemName
-        INNER JOIN base_staff_info base ON base.employeeID = c.employeeID
+        mms_course_table c
+        INNER JOIN mms_examination_rule_item item ON c.courseName = item.itemName
+        INNER JOIN mms_base_staff_info base ON base.employeeID = c.employeeID
         WHERE
         item.itemName = c.courseName and
         1=1
@@ -42,9 +42,9 @@
         t.dimensionName AS dimensionName,
         item.itemtype AS type
         FROM
-        transaction_table t
-        INNER JOIN hrbp_examination_rule_item item ON t.transactionName = item.itemName
-        INNER JOIN base_staff_info base ON base.employeeID = t.employeeID
+        mms_transaction_table t
+        INNER JOIN mms_examination_rule_item item ON t.transactionName = item.itemName
+        INNER JOIN mms_base_staff_info base ON base.employeeID = t.employeeID
         WHERE
         item.itemName = t.transactionName and
         1=1
@@ -94,8 +94,8 @@
         course.dimensionName AS childHeader,
         course.dimensionScore AS score
         FROM
-        transaction_table course
-        INNER JOIN base_staff_info base ON course.employeeID = base.employeeID)
+        mms_transaction_table course
+        INNER JOIN mms_base_staff_info base ON course.employeeID = base.employeeID)
         union
         (SELECT
         base.employeeID AS employeeID,
@@ -109,8 +109,8 @@
         course.courseDimension AS childHeader,
         course.courseScore AS score
         FROM
-        course_table course
-        INNER JOIN base_staff_info base ON course.employeeID = base.employeeID)
+        mms_course_table course
+        INNER JOIN mms_base_staff_info base ON course.employeeID = base.employeeID)
         ) source
         INNER JOIN (
         SELECT
@@ -122,7 +122,7 @@
         item.credit,
         item.pass
         FROM
-        hrbp_examination_rule_item item
+        mms_examination_rule_item item
         INNER JOIN (
         SELECT
         base.bu,
@@ -130,9 +130,9 @@
         rule.roleLevel,
         rule.ruleId
         FROM
-        hrbp_special_role role
-        INNER JOIN hrbp_examination_rule rule ON role.roleId = rule.roleId
-        INNER JOIN base_staff_info base ON role.creatorId = base.employeeID
+        mms_special_role role
+        INNER JOIN mms_examination_rule rule ON role.roleId = rule.roleId
+        INNER JOIN mms_base_staff_info base ON role.creatorId = base.employeeID
         ) ruleItem ON ruleItem.ruleId = item.ruleId
         ) score ON source.bu = score.bu
         AND source.rank = score.roleLevel
@@ -191,11 +191,11 @@
         basei.employeeName AS modifier,
         trandieScore.affair_id AS nameId
         FROM
-        transaction_dimension_score trandieScore
-        INNER JOIN base_staff_info base ON base.employeeID = trandieScore.employee_id
-        INNER JOIN base_staff_info basei ON basei.employeeID = trandieScore.modifier
-        LEFT JOIN hrbp_examination_affair examination ON examination.affair_id = trandieScore.affair_id
-        LEFT JOIN hrbp_examination_dimension dimension ON dimension.dimension_id = trandieScore.dimension_id
+        mms_transaction_dimension_score trandieScore
+        INNER JOIN mms_base_staff_info base ON base.employeeID = trandieScore.employee_id
+        INNER JOIN mms_base_staff_info basei ON basei.employeeID = trandieScore.modifier
+        LEFT JOIN mms_examination_affair examination ON examination.affair_id = trandieScore.affair_id
+        LEFT JOIN mms_examination_dimension dimension ON dimension.dimension_id = trandieScore.dimension_id
         GROUP BY  trandieScore.employee_id ,trandieScore.affair_id
         UNION
         SELECT
@@ -212,10 +212,10 @@
         bases.employeeName AS modifier,
         testScore.opening_id AS nameId
         FROM
-        course_test_score testScore
-        INNER JOIN base_staff_info base ON base.employeeId = testScore.employee_id
-        INNER JOIN base_staff_info bases ON bases.employeeID = testScore.modifier
-        LEFT JOIN opening_setup_info opening ON opening.opening_id = testScore.opening_id
+        mms_course_test_score testScore
+        INNER JOIN mms_base_staff_info base ON base.employeeId = testScore.employee_id
+        INNER JOIN mms_base_staff_info bases ON bases.employeeID = testScore.modifier
+        LEFT JOIN mms_opening_setup_info opening ON opening.opening_id = testScore.opening_id
         ) scores
         <where>
             <if test="series != null and series != ''">
@@ -245,18 +245,18 @@
 
     <delete id="deletePersonalScores" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalScore">
         <if test="types == '评价' and types != null">
-            delete from transaction_dimension_score  where  transaction_dimension_id = #{scoresID} and affair_id = #{nameId}
+            delete from mms_transaction_dimension_score  where  transaction_dimension_id = #{scoresID} and affair_id = #{nameId}
         </if>
         <if test="types == '培训' and types != null">
-            delete from course_test_score where  cour_score_id = #{scoresID}
+            delete from mms_course_test_score where  cour_score_id = #{scoresID}
         </if>
     </delete>
     <update id="updatePersonalScores" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalScore">
         <if test="types == '评价' and types != null">
-            update transaction_dimension_score set  where  transaction_dimension_id = #{scoresID}
+            update mms_transaction_dimension_score set  where  transaction_dimension_id = #{scoresID}
         </if>
         <if test="types == '培训' and types != null">
-            update course_test_score set test_score = #{score} ,modifier = #{modifier}  where  cour_score_id = #{scoresID}
+            update mms_course_test_score set test_score = #{score} ,modifier = #{modifier}  where  cour_score_id = #{scoresID}
         </if>
     </update>
     <select id="getPersonalTransactionInfo" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalScore" resultType="com.isoftstone.pmit.project.hrbp.entity.PersonalTranAndDimeScore">
@@ -272,7 +272,7 @@
         change_time AS changeTime,
         type AS types
         FROM
-        transaction_dimension_score
+        mms_transaction_dimension_score
         <where>
             <if test="employeeID != null and employeeID != ''" >
                 employee_id = #{employeeID}

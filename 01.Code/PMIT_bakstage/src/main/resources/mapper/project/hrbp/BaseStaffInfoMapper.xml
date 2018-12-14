@@ -150,7 +150,7 @@
 	TIMESTAMPDIFF(YEAR,graduationTime,utc_date()) AS lengthOfService,
 	TIMESTAMPDIFF(YEAR,departureDate,utc_date()) AS divisionAge
   FROM
-	base_staff_info where employeeID=#{employeeID}
+	mms_base_staff_info where employeeID=#{employeeID}
     </select>
     <select id="getFamilyInfomationById" resultMap="familyInformation" parameterType="java.util.Map">
         SELECT
@@ -174,7 +174,7 @@
 	dayOfBuyHouse,
 	propertyAddress
 FROM
-	family_information
+	mms_family_information
   where employeeID=#{employeeID}
     </select>
     <select id="getCompanyQualificationById" parameterType="java.util.Map" resultType="com.isoftstone.pmit.project.hrbp.entity.CompanyQualification">
@@ -186,7 +186,7 @@ FROM
             certificateNum,
             employeeID
       FROM
-	    company_qualification
+	    mms_company_qualification
 	  where employeeID=#{employeeID}
     </select>
     <select id="getPersonalStyleById" parameterType="java.util.Map" resultMap="personalStyle">
@@ -203,7 +203,7 @@ FROM
             photosOfLife,
             documentPhoto
         FROM
-	        personal_style
+	        mms_personal_style
 	    where employeeID=#{employeeID}
     </select>
     <select id="getTechicalInforationById" resultMap="technicallInformation" parameterType="java.util.Map">
@@ -214,7 +214,7 @@ FROM
             areasOfExpertise,
             technicalName
         FROM
-	      technical_information
+	      mms_technical_information
 	    where employeeID=#{employeeID}
     </select>
     <select id="getTeamInfoById" resultType="com.isoftstone.pmit.project.hrbp.entity.TeamInfo" parameterType="java.util.Map">
@@ -225,14 +225,14 @@ FROM
             staff_id,
             team_name,
             team_id
-        from hrbp_projectteamrecord
+        from mms_hrbp_projectteamrecord
         where
           staff_id = #{employeeId}
 
     </select>
 
     <update id="updateBaseStaffInfo" parameterType="BaseStaffInfo">
-        update base_staff_info
+        update mms_base_staff_info
         <set>
             <if test="workPlace != null ">
                 workPlace = #{workPlace}
@@ -248,7 +248,7 @@ FROM
     </update>
     <update id="updateTechnicalInformation" parameterType="java.util.List" >
         <foreach collection="list" item="technicalInformation" index="index"  separator=";">
-            update technical_information
+            update mms_technical_information
             set
              <if test="null != technicalInformation.areasOfExpertise ">
                     areasofexpertise = #{technicalInformation.areasOfExpertise}
@@ -260,7 +260,7 @@ FROM
         </foreach>
     </update>
     <update id="updateFamilyInformation" parameterType="FamilyInformation">
-        update family_information set
+        update mms_family_information set
         <if test="nationality != null">
             nationality = #{nationality}
         </if>
@@ -336,7 +336,7 @@ FROM
         </where>
     </update>
     <update id="updatePersonalStyle" parameterType="PersonalStyle">
-        update personal_style set
+        update mms_personal_style set
         <if test="food != null">
             food = #{food}
         </if>
@@ -371,24 +371,24 @@ FROM
     </update>
 
     <delete id="deletePersonalInformationById" parameterType="java.util.Map">
-        delete from base_staff_info where  employeeID = #{employeeID};
-        delete  from company_qualification where employeeID = #{employeeID};
-        delete  from family_information where employeeID = #{employeeID};
-        delete  from personal_style where employeeID = #{employeeID};
-        delete  from technical_information where employeeID = #{employeeID};
+        delete from mms_base_staff_info where  employeeID = #{employeeID};
+        delete  from mms_company_qualification where employeeID = #{employeeID};
+        delete  from mms_family_information where employeeID = #{employeeID};
+        delete  from mms_personal_style where employeeID = #{employeeID};
+        delete  from mms_technical_information where employeeID = #{employeeID};
     </delete>
     <delete id="deletePersonalInformationsByList" parameterType="java.util.List">
         <foreach collection="list" item="employeeIdList" separator="," >
-            delete from base_staff_info where  employeeID = #{employeeIdList};
-            delete  from company_qualification where employeeID = #{employeeIdList};
-            delete  from family_information where employeeID = #{employeeIdList};
-            delete  from personal_style where employeeID = #{employeeIdList};
-            delete  from technical_information where employeeID = #{employeeIdList};
+            delete from mms_base_staff_info where  employeeID = #{employeeIdList};
+            delete  from mms_company_qualification where employeeID = #{employeeIdList};
+            delete  from mms_family_information where employeeID = #{employeeIdList};
+            delete  from mms_personal_style where employeeID = #{employeeIdList};
+            delete  from mms_technical_information where employeeID = #{employeeIdList};
         </foreach>
     </delete>
 
     <insert id="insertBaseStaffInfo" parameterType="com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo">
-        insert into base_staff_info values(
+        insert into mms_base_staff_info values(
             #{employeeID},
             #{employeeName},
             #{idNumber},
@@ -436,7 +436,7 @@ FROM
         )
     </insert>
     <insert id="insertPersonalStyle" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalStyle">
-        insert into personal_style values (
+        insert into mms_personal_style values (
           #{employeeID},
           #{food},
           #{game},
@@ -451,7 +451,7 @@ FROM
         )
     </insert>
     <insert id="insertFamilyInformation" parameterType="com.isoftstone.pmit.project.hrbp.entity.FamilyInformation">
-        insert into family_information values (
+        insert into mms_family_information values (
           #{employeeID},
           #{birthdayDate},
           #{nationality},
@@ -475,7 +475,7 @@ FROM
     </insert>
     <insert id="insertTechnicalInformation" parameterType="com.isoftstone.pmit.project.hrbp.entity.TechnicalInformation">
         <foreach collection="list" item="tech" separator=";">
-            insert  into  technical_information values (
+            insert  into  mms_technical_information values (
             #{tech.employeeID},
             #{tech.technologyPlatform},
             #{tech.technologyGrade},
@@ -485,7 +485,7 @@ FROM
     </insert>
     <insert id="insertCompanyQualification" parameterType="com.isoftstone.pmit.project.hrbp.entity.CompanyQualification">
         <foreach collection="list" item="company" separator=";">
-            insert into company_qualification values  (
+            insert into mms_company_qualification values  (
                 #{company.qualificationName},
                 #{company.qualificationType},
                 #{company.certificationLevel},
@@ -523,7 +523,7 @@ FROM
           directLeaderId,
           directLeaderId
         from
-          base_staff_info
+        mms_base_staff_info
         where
           1=1
           <if test="bu != null and bu != ''">
@@ -549,6 +549,6 @@ FROM
 
     </select>
     <select id="getPersonalListSize" resultType="java.lang.Integer">
-        select count(*) from base_staff_info
+        select count(*) from mms_base_staff_info
     </select>
 </mapper>

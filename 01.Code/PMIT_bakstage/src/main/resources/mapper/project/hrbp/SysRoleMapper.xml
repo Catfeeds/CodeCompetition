@@ -17,13 +17,13 @@
       hr.role_name roleName,
       hr.description description
       from
-      login_information li
-      inner join hrbp_role hr on hr.role_id = li.role_id
+      mms_login_information li
+      inner join mms_role hr on hr.role_id = li.role_id
       where li.employee_ID= #{employeeID}
     </select>
 
     <insert id="insertSystemRole" parameterType="com.isoftstone.pmit.project.hrbp.entity.SysRole" useGeneratedKeys="true" keyProperty="roleId" >
-        insert into hrbp_role(
+        insert into mms_role(
         <if test="roleName != null and roleName != ''">role_name,</if>
         create_time,
         <if test="description != null and description != ''">description</if>
@@ -36,7 +36,7 @@
     </insert>
 
     <update id="updateSystemRole" parameterType="SysRole">
-        update hrbp_role
+        update mms_role
         <set>
             <if test="roleName != null and roleName != ''">role_name = #{roleName},</if>
             create_time = now(),
@@ -49,6 +49,6 @@
         select
         <include refid="roleColumn"/>
         from
-        hrbp_role
+        mms_role
     </select>
 </mapper>

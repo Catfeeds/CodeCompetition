@@ -11,9 +11,9 @@
 	    si.positionRole as positionRole,
         hr.role_name as roleName
         FROM
-	    login_information li
-        LEFT JOIN base_staff_info si ON si.employeeID = li.employee_ID
-        LEFT JOIN hrbp_role hr ON li.role_id = hr.role_id
+	    mms_login_information li
+        LEFT JOIN mms_base_staff_info si ON si.employeeID = li.employee_ID
+        LEFT JOIN mms_role hr ON li.role_id = hr.role_id
         WHERE
 	    li.employee_ID =#{employeeID}
     </select>
@@ -24,7 +24,7 @@
     si.pdu pdu,
     si.positionRole positionRole
     FROM
-    base_staff_info si
+        mms_base_staff_info si
     where 1=1
     <if test="null != keyword">
         AND si.employeeName like CONCAT('%',#{keyword},'%') or si.employeeID like CONCAT('%',#{keyword},'%')
@@ -32,11 +32,11 @@
     </select>
 
     <delete id="deleteUserRole" parameterType="java.lang.String">
-        delete from login_information where employee_ID = #{employeeID}
+        delete from mms_login_information where employee_ID = #{employeeID}
     </delete>
 
     <insert id="insertUserRole" parameterType="LoginInformation">
-        insert into login_information(
+        insert into mms_login_information(
         <if test="employeeID != null and employeeID != ''">employee_ID,</if>
         <if test="employeeName != null and employeeName != ''">employee_name,</if>
         pass_word,
@@ -49,7 +49,7 @@
         )
     </insert>
     <update id="updateUserRole" parameterType="LoginInformation">
-        update login_information
+        update mms_login_information
         <set>
             <if test="roleID != null and roleID != ''">role_id = #{roleID}</if>
         </set>
@@ -63,13 +63,13 @@
 	    si.positionRole as positionRole,
         hr.role_name as roleName
         FROM
-	    login_information li
-        LEFT JOIN base_staff_info si ON si.employeeID = li.employee_ID
-        LEFT JOIN hrbp_role hr ON li.role_id = hr.role_id
+	    mms_login_information li
+        LEFT JOIN mms_base_staff_info si ON si.employeeID = li.employee_ID
+        LEFT JOIN mms_role hr ON li.role_id = hr.role_id
     </select>
-	
+
 	<update id="updateUserPassword" >
-        update login_information
+        update mms_login_information
         <set>
             pass_word = MD5(#{changePwd})
         </set>

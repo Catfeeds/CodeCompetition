@@ -7,7 +7,7 @@
         SELECT
         COUNT(*) AS totleSize
         FROM
-        project_manage
+        mms_project_manage
         <where>
             <if test="null != teamIDs and !teamIDs.isEmpty()">
                <foreach collection="teamIDs" item="item" open="projectID IN (" separator="," close=")">
@@ -26,9 +26,9 @@
         (
         SELECT
         @r:=@r+1 as row_num,
-        project_manage.*
+        mms_project_manage.*
         FROM
-        project_manage
+        mms_project_manage
         <where>
             <if test="null != teamIDs and !teamIDs.isEmpty()">
                 <foreach collection="teamIDs" item="item" open="projectID IN (" separator="," close=")">
@@ -52,7 +52,7 @@
 
     <insert id="insertProjectNode" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="projectID">
         INSERT INTO
-        project_manage(
+        mms_project_manage(
         <if test="null != pmID">
             pmID,
         </if>
@@ -81,7 +81,7 @@
           employeeID AS staffID,
           employeeName AS staffName
         FROM
-          base_staff_info
+        mms_base_staff_info
         WHERE
           currentStatus = 0
         <if test="null != pmName and '' != pmName">

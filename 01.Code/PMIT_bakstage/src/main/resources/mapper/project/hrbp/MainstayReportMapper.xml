@@ -8,52 +8,52 @@
           SUM(CASE WHEN po_role.po_role_id IS NULL THEN 0 ELSE 1 END) AS backnonenum,
           SUM(CASE WHEN po_role.po_role_id IS NULL THEN 1 ELSE 0 END) AS nobacknonenum
         FROM
-          base_staff_info
+        mms_base_staff_info
         LEFT JOIN
           (
           SELECT
             staff_id,
             po_role_id
           FROM
-            po_staff_info,po_temp
+            mms_po_staff_info,mms_po_temp
           WHERE
-            po_staff_info.project_id =po_temp.poID
+            mms_po_staff_info.project_id =mms_po_temp.poID
             AND
-            po_temp.endDate >= CURRENT_DATE
+            mms_po_temp.endDate >= CURRENT_DATE
           ) po_role
-        ON base_staff_info.employeeID = po_role.staff_id
+        ON mms_base_staff_info.employeeID = po_role.staff_id
         <where>
             <if test="null != bu and '' != bu">
-                base_staff_info.bu = #{bu}
+                mms_base_staff_info.bu = #{bu}
             </if>
             <if test="null != workPlaceArea and '' != workPlaceArea">
-                AND base_staff_info.workPlaceArea = #{workPlaceArea}
+                AND mms_base_staff_info.workPlaceArea = #{workPlaceArea}
             </if>
             <if test="null != cu and '' != cu">
-                AND base_staff_info.pdu = #{cu}
+                AND mms_base_staff_info.pdu = #{cu}
             </if>
         </where>
     </select>
 
     <select id="queryCostCenterMainstay" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT
-          base_staff_info.costCenter AS name,
+        mms_base_staff_info.costCenter AS name,
           COUNT(*) AS number
         FROM
-          base_staff_info
+        mms_base_staff_info
         LEFT JOIN
           (
           SELECT
             staff_id,
             po_role_id
           FROM
-            po_staff_info,po_temp
+        mms_po_staff_info,mms_po_temp
           WHERE
-            po_staff_info.project_id =po_temp.poID
+        mms_po_staff_info.project_id =mms_po_temp.poID
             AND
-            po_temp.endDate >= CURRENT_DATE
+        mms_po_temp.endDate >= CURRENT_DATE
           ) po_role
-        ON base_staff_info.employeeID = po_role.staff_id
+        ON mms_base_staff_info.employeeID = po_role.staff_id
         <where>
             <choose>
                 <when test="isBacknone">
@@ -64,16 +64,16 @@
                 </otherwise>
             </choose>
             <if test="null != bu and '' != bu">
-                AND base_staff_info.bu = #{bu}
+                AND mms_base_staff_info.bu = #{bu}
             </if>
             <if test="null != workPlaceArea and '' != workPlaceArea">
-                AND base_staff_info.workPlaceArea = #{workPlaceArea}
+                AND mms_base_staff_info.workPlaceArea = #{workPlaceArea}
             </if>
             <if test="null != cu and '' != cu">
-                AND base_staff_info.pdu = #{cu}
+                AND mms_base_staff_info.pdu = #{cu}
             </if>
         </where>
-        GROUP BY base_staff_info.costCenter
+        GROUP BY mms_base_staff_info.costCenter
     </select>
 
     <select id="queryMainstayByPost" parameterType="java.util.Map" resultType="java.util.Map">
@@ -88,13 +88,13 @@
             staff_id,
             po_role_id
           FROM
-            po_staff_info,po_temp
+        mms_po_staff_info,mms_po_temp
           WHERE
-            po_staff_info.project_id =po_temp.poID
+        mms_po_staff_info.project_id =mms_po_temp.poID
             AND
-            po_temp.endDate >= CURRENT_DATE
+        mms_po_temp.endDate >= CURRENT_DATE
           ) po_role
-        ON base_staff_info.employeeID = po_role.staff_id
+        ON mms_base_staff_info.employeeID = po_role.staff_id
         <where>
             <choose>
                 <when test="isBacknone">
@@ -105,13 +105,13 @@
                 </otherwise>
             </choose>
             <if test="null != bu and '' != bu">
-                AND base_staff_info.bu = #{bu}
+                AND mms_base_staff_info.bu = #{bu}
             </if>
             <if test="null != workPlaceArea and '' != workPlaceArea">
-                AND base_staff_info.workPlaceArea = #{workPlaceArea}
+                AND mms_base_staff_info.workPlaceArea = #{workPlaceArea}
             </if>
             <if test="null != cu and '' != cu">
-                AND base_staff_info.pdu = #{cu}
+                AND mms_base_staff_info.pdu = #{cu}
             </if>
         </where>
         GROUP BY po_role.po_role_id
@@ -119,22 +119,22 @@
 
     <select id="queryTrainingStaffs" parameterType="java.util.Map" resultType="java.lang.String">
         SELECT
-        base_staff_info.employeeID
+        mms_base_staff_info.employeeID
         FROM
-        base_staff_info
+        mms_base_staff_info
         LEFT JOIN
         (
         SELECT
         staff_id,
         po_role_id
         FROM
-        po_staff_info,po_temp
+        mms_po_staff_info,mms_po_temp
         WHERE
-        po_staff_info.project_id =po_temp.poID
+        mms_po_staff_info.project_id =mms_po_temp.poID
         AND
-        po_temp.endDate >= CURRENT_DATE
+        mms_po_temp.endDate >= CURRENT_DATE
         ) po_role
-        ON base_staff_info.employeeID = po_role.staff_id
+        ON mms_base_staff_info.employeeID = po_role.staff_id
         <where>
             <choose>
                 <when test="isBacknone">
@@ -145,13 +145,13 @@
                 </otherwise>
             </choose>
             <if test="null != bu and '' != bu">
-                AND base_staff_info.bu = #{bu}
+                AND mms_base_staff_info.bu = #{bu}
             </if>
             <if test="null != workPlaceArea and '' != workPlaceArea">
-                AND base_staff_info.workPlaceArea = #{workPlaceArea}
+                AND mms_base_staff_info.workPlaceArea = #{workPlaceArea}
             </if>
             <if test="null != cu and '' != cu">
-                AND base_staff_info.pdu = #{cu}
+                AND mms_base_staff_info.pdu = #{cu}
             </if>
         </where>
     </select>
@@ -173,7 +173,7 @@
             </choose>
             staffID
           FROM
-            train_temp
+        mms_train_temp
           <where>
               <if test="null != staffIDs">
                   staffID IN
@@ -272,22 +272,22 @@
         FROM
           (
           SELECT
-            base_staff_info.employeeID AS staff_id
+        mms_base_staff_info.employeeID AS staff_id
           FROM
-            base_staff_info
+        mms_base_staff_info
           LEFT JOIN
             (
             SELECT
               staff_id,
               po_role_id
             FROM
-              po_staff_info,po_temp
+        mms_po_staff_info,mms_po_temp
             WHERE
-              po_staff_info.project_id = po_temp.poID
+        mms_po_staff_info.project_id = mms_po_temp.poID
               AND
-              po_temp.endDate >= CURRENT_DATE
+        mms_po_temp.endDate >= CURRENT_DATE
             ) po_role
-          ON base_staff_info.employeeID = po_role.staff_id
+          ON mms_base_staff_info.employeeID = po_role.staff_id
           <where>
               <choose>
                   <when test="isBacknone">
@@ -298,40 +298,40 @@
                   </otherwise>
               </choose>
               <if test="null != bu and '' != bu">
-                  AND base_staff_info.bu = #{bu}
+                  AND mms_base_staff_info.bu = #{bu}
               </if>
               <if test="null != workPlaceArea and '' != workPlaceArea">
-                  AND base_staff_info.workPlaceArea = #{workPlaceArea}
+                  AND mms_base_staff_info.workPlaceArea = #{workPlaceArea}
               </if>
               <if test="null != cu and '' != cu">
-                  AND base_staff_info.pdu = #{cu}
+                  AND mms_base_staff_info.pdu = #{cu}
               </if>
           </where>
           ) staff_info
         LEFT JOIN
-          family_information
+        mms_family_information
         ON
-          staff_info.staff_id =family_information.employeeID
+          staff_info.staff_id =mms_family_information.employeeID
     </select>
 
     <select id="queryBaseStaffInfoSize" parameterType="java.util.Map" resultType="java.lang.Integer">
         SELECT
         COUNT(*) AS totleNumber
         FROM
-        base_staff_info
+        mms_base_staff_info
         LEFT JOIN
         (
         SELECT
         staff_id,
         po_role_id
         FROM
-        po_staff_info,po_temp
+        mms_po_staff_info,mms_po_temp
         WHERE
-        po_staff_info.project_id =po_temp.poID
+        mms_po_staff_info.project_id =mms_po_temp.poID
         AND
-        po_temp.endDate >= CURRENT_DATE
+        mms_po_temp.endDate >= CURRENT_DATE
         ) po_role
-        ON base_staff_info.employeeID = po_role.staff_id
+        ON mms_base_staff_info.employeeID = po_role.staff_id
         <where>
             <choose>
                 <when test="isBacknone">
@@ -342,22 +342,22 @@
                 </otherwise>
             </choose>
             <if test="null != bu and '' != bu">
-                AND base_staff_info.bu = #{bu}
+                AND mms_base_staff_info.bu = #{bu}
             </if>
             <if test="null != workPlaceArea and '' != workPlaceArea">
-                AND base_staff_info.workPlaceArea = #{workPlaceArea}
+                AND mms_base_staff_info.workPlaceArea = #{workPlaceArea}
             </if>
             <if test="null != cu and '' != cu">
-                AND base_staff_info.pdu = #{cu}
+                AND mms_base_staff_info.pdu = #{cu}
             </if>
             <if test="null != post and '' != post">
-                AND base_staff_info.generalPosition = #{post}
+                AND mms_base_staff_info.generalPosition = #{post}
             </if>
             <if test="null != staffID and '' != staffID">
-                AND base_staff_info.employeeID like '%${staffID}%'
+                AND mms_base_staff_info.employeeID like '%${staffID}%'
             </if>
             <if test="null != staffName and '' != staffName">
-                AND base_staff_info.employeeName like '%${staffName}%'
+                AND mms_base_staff_info.employeeName like '%${staffName}%'
             </if>
         </where>
     </select>
@@ -382,20 +382,20 @@
         education AS education,
         if211 AS if211
         FROM
-        base_staff_info
+        mms_base_staff_info
         LEFT JOIN
         (
         SELECT
         staff_id,
         po_role_id
         FROM
-        po_staff_info,po_temp
+        mms_po_staff_info,mms_po_temp
         WHERE
-        po_staff_info.project_id =po_temp.poID
+        mms_po_staff_info.project_id =mms_po_temp.poID
         AND
-        po_temp.endDate >= CURRENT_DATE
+        mms_po_temp.endDate >= CURRENT_DATE
         ) po_role
-        ON base_staff_info.employeeID = po_role.staff_id
+        ON mms_base_staff_info.employeeID = po_role.staff_id
         <where>
             <choose>
                   <when test="isBacknone">
@@ -406,22 +406,22 @@
                   </otherwise>
               </choose>
               <if test="null != bu and '' != bu">
-                  AND base_staff_info.bu = #{bu}
+                  AND mms_base_staff_info.bu = #{bu}
               </if>
               <if test="null != workPlaceArea and '' != workPlaceArea">
-                  AND base_staff_info.workPlaceArea = #{workPlaceArea}
+                  AND mms_base_staff_info.workPlaceArea = #{workPlaceArea}
               </if>
               <if test="null != cu and '' != cu">
-                  AND base_staff_info.pdu = #{cu}
+                  AND mms_base_staff_info.pdu = #{cu}
               </if>
               <if test="null != post and '' != post">
-                  AND base_staff_info.generalPosition = #{post}
+                  AND mms_base_staff_info.generalPosition = #{post}
               </if>
               <if test="null != staffID and '' != staffID">
-                  AND base_staff_info.employeeID like '%${staffID}%'
+                  AND mms_base_staff_info.employeeID like '%${staffID}%'
               </if>
               <if test="null != staffName and '' != staffName">
-                  AND base_staff_info.employeeName like '%${staffName}%'
+                  AND mms_base_staff_info.employeeName like '%${staffName}%'
               </if>
           </where>
           ) TMP
@@ -437,7 +437,7 @@
           passScore,
           sourseScore
         FROM
-          train_temp
+        mms_train_temp
         <where>
             <if test="null != staffIDs">
                 staffID IN

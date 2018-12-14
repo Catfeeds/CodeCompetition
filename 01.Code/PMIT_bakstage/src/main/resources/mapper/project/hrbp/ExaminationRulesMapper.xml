@@ -4,9 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.ExaminationRulesMapper">
     <select id="querySpecialRolesInfo" parameterType="java.util.Map" resultType="com.isoftstone.pmit.project.hrbp.entity.SpecialRolesInfo">
-        select * from hrbp_special_role role
+        select * from mms_special_role role
         <if test="null != bu and '' != bu">
-            inner join base_staff_info base on role.creatorId = base.employeeID and bu = #{bu}
+            inner join mms_base_staff_info base on role.creatorId = base.employeeID and bu = #{bu}
         </if>
         <where>
             <if test="null != system and '' != system">
@@ -19,7 +19,7 @@
     </select>
 
     <insert id="addSpecialRole" parameterType="SpecialRolesInfo">
-        insert into hrbp_special_role (
+        insert into mms_special_role (
         <if test="roleName != null and roleName != ''">roleName,</if>
         <if test="system != null and system != ''">system,</if>
         <if test="creatorId != null and creatorId != ''">creatorId,</if>
@@ -33,20 +33,20 @@
         now()
         from dual
         where not exists (
-		    select bu from base_staff_info base where employeeID=#{creatorId}
+		    select bu from mms_base_staff_info base where employeeID=#{creatorId}
             and bu in (
-                select base.bu from hrbp_special_role role
-                inner join base_staff_info base on role.creatorId = base.employeeID
+                select base.bu from mms_special_role role
+                inner join mms_base_staff_info base on role.creatorId = base.employeeID
                 where role.roleName=#{roleName}
             )
 		)
     </insert>
 
     <update id="updateSpecialRole" parameterType="SpecialRolesInfo">
-        update hrbp_special_role role
+        update mms_special_role role
 		inner join (
 			select 1 from dual where not exists
-				(select * from hrbp_special_role where roleName=#{roleName} and creatorId=#{creatorId})
+				(select * from mms_special_role where roleName=#{roleName} and creatorId=#{creatorId})
 		) temp on role.roleId = #{roleId}
 		set
 		    role.roleName = #{roleName},
@@ -57,15 +57,15 @@
     </update>
 
     <delete id="deleteSpecialRole" parameterType="int">
-        delete from hrbp_special_role where roleId = #{roleId}
+        delete from mms_special_role where roleId = #{roleId}
     </delete>
 
     <select id="queryExaminationRulesInfo" parameterType="java.util.Map" resultType="com.isoftstone.pmit.project.hrbp.entity.ExaminationRulesInfo">
-        select * from hrbp_examination_rule exam
+        select * from mms_examination_rule exam
         <if test="null != bu and '' != bu">
-            inner join base_staff_info base on exam.creatorId = base.employeeID and base.bu = #{bu}
+            inner join mms_base_staff_info base on exam.creatorId = base.employeeID and base.bu = #{bu}
         </if>
-        inner join hrbp_special_role role on exam.roleId = role.roleId
+        inner join mms_special_role role on exam.roleId = role.roleId
         <if test="null != system and '' != system">
             and role.system = #{system}
         </if>
@@ -75,20 +75,20 @@
     </select>
 
     <insert id="addExaminationRulesInfo" parameterType="ExaminationRulesInfo" useGeneratedKeys="true" keyProperty="ruleId">
-        insert into hrbp_examination_rule (roleId, roleLevel, creatorId, creatorName, createTime, updateStaffId, updateStaffName, updateTime)
+        insert into mms_examination_rule (roleId, roleLevel, creatorId, creatorName, createTime, updateStaffId, updateStaffName, updateTime)
         select #{roleId}, #{roleLevel}, #{creatorId}, #{creatorName}, now(), #{updateStaffId}, #{updateStaffName}, now() from dual
 		where not exists (
-		    select bu from base_staff_info where employeeID=#{creatorId}
+		    select bu from mms_base_staff_info where employeeID=#{creatorId}
             and bu in (
-                select base.bu from hrbp_examination_rule rule
-                inner join base_staff_info base on rule.creatorId = base.employeeID
+                select base.bu from mms_examination_rule rule
+                inner join mms_base_staff_info base on rule.creatorId = base.employeeID
                 where roleId=#{roleId} and roleLevel=#{roleLevel}
             )
 		)
     </insert>
 
     <update id="updateExaminationRulesInfo" parameterType="ExaminationRulesInfo" useGeneratedKeys="true" keyProperty="ruleId">
-        update hrbp_examination_rule set
+        update mms_examination_rule set
             updateStaffId = #{updateStaffId},
             updateStaffName = #{updateStaffName},
             updateTime = #{updateTime}
@@ -96,15 +96,15 @@
     </update>
 
     <delete id="deleteExaminationRulesInfo" parameterType="int">
-        delete from hrbp_examination_rule where ruleId = #{ruleId}
+        delete from mms_examination_rule where ruleId = #{ruleId}
     </delete>
 
     <select id="querySigleRuleInfo" parameterType="int" resultType="com.isoftstone.pmit.project.hrbp.entity.SingleRuleInfo">
-        select * from hrbp_examination_rule_item where ruleId = #{ruleId}
+        select * from mms_examination_rule_item where ruleId = #{ruleId}
     </select>
 
     <insert id="addSigleRuleInfo" parameterType="java.util.List">
-        insert into hrbp_examination_rule_item values
+        insert into mms_examination_rule_item values
         <foreach collection="list" index="index" item="item" separator=",">
             (#{item.ruleId},
             #{item.itemId},
@@ -116,6 +116,6 @@
     </insert>
 
     <delete id="deleteSingleRuleInfo" parameterType="int">
-        delete from hrbp_examination_rule_item where ruleId = #{ruleId}
+        delete from mms_examination_rule_item where ruleId = #{ruleId}
     </delete>
 </mapper>

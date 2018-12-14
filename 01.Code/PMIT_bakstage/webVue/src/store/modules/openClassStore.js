@@ -166,7 +166,7 @@ const openClass = {
           openingName: state.startForm.classSerices,
           lecturer: state.startForm.lecturer,
           trainingTime: state.startForm.trainTime
-            ? formatDate(state.startForm.trainTime, "yyyy-MM-dd hh:mm")
+            ? formatDate(state.startForm.trainTime, "yyyy-MM-dd hh:mm:ss")
             : "",
           trainingType: state.startForm.courseType,
           language: state.startForm.language,
@@ -202,7 +202,7 @@ const openClass = {
           openingName: state.startForm.classSerices,
           lecturer: state.startForm.lecturer,
           trainingTime: state.startForm.trainTime
-            ? formatDate(state.startForm.trainTime, "yyyy-MM-dd hh:mm")
+            ? formatDate(state.startForm.trainTime, "yyyy-MM-dd hh:mm:ss")
             : "",
           trainingType: state.startForm.courseType,
           language: state.startForm.language,

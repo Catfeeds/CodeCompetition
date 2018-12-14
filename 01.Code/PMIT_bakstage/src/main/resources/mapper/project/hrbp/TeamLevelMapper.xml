@@ -7,7 +7,7 @@
         SELECT DISTINCT
         ${col} AS nodename
         FROM
-        hrbp_level_team
+        mms_level_team
         <where>
             <if test="null != bg and '' != bg">
                 AND BG = #{bg}
@@ -34,7 +34,7 @@
         SELECT
           teamID
         FROM
-          hrbp_level_team
+        mms_level_team
         <where>
             isTemp = FALSE
             <if test="null != bg and '' != bg">
@@ -60,7 +60,7 @@
 
     <insert id="addTeamNode" parameterType="java.util.Map">
         INSERT INTO
-          hrbp_level_team
+        mms_level_team
         (
         <if test="null != bg and '' != bg">
             BG,
@@ -113,15 +113,15 @@
           projectName as teamName
         <if test="null != levels">
             <foreach collection="levels" item="item" open="," separator=",">
-                hrbp_level_team.${item}
+                mms_level_team.${item}
             </foreach>
         </if>
         FROM
-          hrbp_level_team
+        mms_level_team
         LEFT JOIN
-          project_manage
+        mms_project_manage
         ON
-          hrbp_level_team.teamID = project_manage.projectID
+        mms_level_team.teamID = mms_project_manage.projectID
         <where>
             <if test="null != authorityIDs">
                 <foreach collection="authorityIDs" item="item" open="teamID IN(" separator="," close=")">
@@ -133,7 +133,7 @@
 
     <insert id="addLevelTreeNode" parameterType="java.util.Map" keyProperty="key" useGeneratedKeys="true">
         INSERT INTO
-          hrbp_level_team
+        mms_level_team
         (
         <if test="null != bg and '' != bg">
             BG,
@@ -181,7 +181,7 @@
 
     <delete id="deleteTeamTempNode" parameterType="java.util.Map">
         DELETE FROM
-        hrbp_level_team
+        mms_level_team
         <where>
             <choose>
                 <when test="null != bg and '' != bg">
@@ -242,7 +242,7 @@
         SELECT
         *
         FROM
-        hrbp_level_info
+        mms_level_info
         WHERE
         levelID = #{levelID}
     </select>

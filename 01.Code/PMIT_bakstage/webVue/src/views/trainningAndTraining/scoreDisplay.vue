@@ -151,17 +151,17 @@
           header-align="center"
           label="属性"
           sortable="custom"
-          prop="property"
+          prop="types"
         ></el-table-column>
         <el-table-column
           min-width="120"
           header-align="center"
           label="得分时间"
           sortable="custom"
-          prop="trainingTime"
+          prop="scoreTime"
         >
           <template slot-scope="scope">
-            <span>{{ scope.row.trainingTime | formatDate }}</span>
+            <span>{{ scope.row.scoreTime | formatDate }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -169,14 +169,14 @@
           header-align="center"
           label="名称"
           sortable="custom"
-          prop="trainingType"
+          prop="affairName"
         ></el-table-column>
         <el-table-column
           width="110"
           header-align="center"
           label="所属系列"
           sortable="custom"
-          prop="openingStatus"
+          prop="series"
         ></el-table-column>
         <el-table-column
           width="120"
@@ -190,21 +190,35 @@
           header-align="center"
           label="得分"
           sortable="custom"
-          prop="bu"
-        ></el-table-column>
+          prop="score"
+        >
+          <template slot-scope="scope">
+            <el-input-number
+              v-if="scope.row.isAdd"
+              style="width:80px"
+              v-model="scope.row.score"
+              size="mini"
+              controls-position="right"
+              :min="1"
+              :max="100"
+              :step="1"
+            ></el-input-number>
+            <span v-else>{{scope.row.score}}</span>
+          </template>
+        </el-table-column>
         <el-table-column
           min-width="80"
           header-align="center"
-          label="状态"
+          label="成本中心"
           sortable="custom"
-          prop="bu"
+          prop="costCenter"
         ></el-table-column>
         <el-table-column
           width="110"
           header-align="center"
           label="最后修改人"
           sortable="custom"
-          prop="bu"
+          prop="modifier"
         ></el-table-column>
         <el-table-column
           width="80"
@@ -225,7 +239,7 @@
               size="mini"
               icon="el-icon-delete"
               title="删除"
-              @click="handleDel(scope.row.openingID);"
+              @click="handleDel(scope.row);"
             ></el-button>
           </template>
         </el-table-column>
@@ -294,25 +308,39 @@ export default {
     ...mapActions(["getScoreProduct", "getScoreSeries", "getScoreDataList"]),
     handleFilter(arg, curPage) {
       let vm = this;
-      if(!curPage) {
+      if (!curPage) {
         vm.page.currentPage = 1;
       }
       vm.listLoading = true;
-      vm.getScoreDataList(vm.page).then(()=>{
-        vm.listLoading = false;
-      }).catch(()=>{
-        vm.listLoading = false;
-      })
+      vm.getScoreDataList(vm.page)
+        .then(() => {
+          vm.listLoading = false;
+        })
+        .catch(() => {
+          vm.listLoading = false;
+        });
     },
     handleCurrentChange(val) {
       this.page.currentPage = val;
       this.handleFilter(null, this.page);
     },
-    handleEdit(row) {
-
-    },
-    handleDel(id) {
-
+    handleEdit(row) {},
+    handleDel(row) {
+      let vm = this;
+      vm.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(() => {
+        vm.$store.dispatch("delScoreInfo", row).then(res => {
+          if (res.success) {
+            vm.$message.success(res.message);
+            vm.handleFilter(null, vm.page);
+          } else {
+            vm.$message.error(res.message);
+          }
+        });
+      });
     },
     handleSort(column) {
       if (column.prop) {
@@ -320,9 +348,6 @@ export default {
         this.page.sortType = column.order === "descending" ? "desc" : "asc";
         this.handleFilter(null, this.page);
       }
-    },
-    cellClassFn(obj) {
-      return obj.row[obj.column.property] == 0 ? "cell-zero" : "";
     },
     handleExport() {
       this.$message.info("功能正在完善中。。。");

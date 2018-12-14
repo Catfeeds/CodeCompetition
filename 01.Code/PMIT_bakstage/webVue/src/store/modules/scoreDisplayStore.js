@@ -79,6 +79,30 @@ let actions = {
           commit("updateTableDataSourcee", { list: [], total: 0 });
         }
       });
+  },
+  delScoreInfo(param) {
+    return new Promise((resolve, reject) => {
+      api
+        .delScoreInfo(param)
+        .then(res => {
+          resolve(res.data);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+  editScoreInfo(param) {
+    return new Promise((resolve, reject) => {
+      api
+        .editScoreInfo(param)
+        .then(res => {
+          resolve(res.data);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
   }
 };
 export default {

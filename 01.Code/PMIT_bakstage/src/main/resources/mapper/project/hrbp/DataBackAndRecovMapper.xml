@@ -13,7 +13,7 @@
         data_name as dataName,
         reason_remark as reasonRemark
         from
-        data_backup_info order by backup_time desc
+        mms_data_backup_info order by backup_time desc
     </select>
 
 	<select id="deleteDatebase" parameterType="java.lang.String">
@@ -21,7 +21,7 @@
 	</select>
 
 	<insert id="saveBackUpInfo" parameterType="DataBackUpInfo">
-		insert into data_backup_info(employee_id,employee_name,data_name,reason_remark,backup_time)values (
+		insert into mms_data_backup_info(employee_id,employee_name,data_name,reason_remark,backup_time)values (
 		#{employeeId},#{employeeName},#{dataName},#{reasonRemark},now())
 	</insert>
 

@@ -11,7 +11,7 @@
 		m.parent_id as parentId,
 		m.note as note
 		FROM
-			hrbp_menu m
+			mms_menu m
 		order by
 			m.order_num
 	</select>
@@ -22,14 +22,14 @@
 			m.parent_id as parentId,
 			m.note as note
 		FROM
-			hrbp_menu m 
+			mms_menu m
 			left join
-				hrbp_role_menu rm
+				mms_role_menu rm
 			on
 				m.menu_id = rm.menu_id
-        where 
+        where
 			rm.role_id = '${_parameter}'
-		order by 
+		order by
 			m.order_num
     </select>
 
@@ -40,13 +40,13 @@
 			m.parent_id as parentId,
 			m.note as note
 		FROM
-			hrbp_menu m
+			mms_menu m
 		left join
-			hrbp_role_menu rm on m.menu_id = rm.menu_id
+			mms_role_menu rm on m.menu_id = rm.menu_id
 		left join
-			hrbp_role hr on rm.role_id = hr.role_id
+			mms_role hr on rm.role_id = hr.role_id
 		left join
-			login_information li on hr.role_id = li.role_id
+			mms_login_information li on hr.role_id = li.role_id
 		where
 			li.employee_ID = #{employeeID}
 	</select>
