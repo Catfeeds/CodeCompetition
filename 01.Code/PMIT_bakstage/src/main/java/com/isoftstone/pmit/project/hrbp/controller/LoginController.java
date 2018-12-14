@@ -33,7 +33,7 @@ public class LoginController extends AbstractController {
         return "/logout";
     }
 
-    @PostMapping(value = "/loginIn")
+    @RequestMapping(value = "/loginIn", method = { RequestMethod.POST })
     @ApiOperation(value="登陆模块", notes="查询用户信息登陆")
     public LoginInfo loginIn(@RequestBody String parameter ) {
         LoginInformation loginInformation = JsonUtils.readValue(parameter, LoginInformation.class);
