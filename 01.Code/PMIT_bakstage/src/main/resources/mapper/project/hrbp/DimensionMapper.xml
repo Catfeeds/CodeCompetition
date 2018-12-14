@@ -34,6 +34,6 @@
         delete from hrbp_affair_dimension where affair_id = #{affairID}
     </delete>
     <delete id="deleteDimension" parameterType="ExaminationDimension">
-         delete from hrbp_affair_dimension where dimension_id = #{dimensionId}
+         delete from hrbp_affair_dimension where dimension_id = #{dimensionID}
     </delete>
 </mapper>
