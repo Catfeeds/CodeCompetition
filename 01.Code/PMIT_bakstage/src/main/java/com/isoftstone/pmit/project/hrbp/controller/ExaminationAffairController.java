@@ -2,6 +2,7 @@ package com.isoftstone.pmit.project.hrbp.controller;
 
 import com.isoftstone.pmit.common.util.AjaxResult;
 import com.isoftstone.pmit.common.util.JsonUtils;
+import com.isoftstone.pmit.common.util.ListUtils;
 import com.isoftstone.pmit.common.web.controller.AbstractController;
 import com.isoftstone.pmit.project.hrbp.entity.ExaminationAffair;
 import com.isoftstone.pmit.project.hrbp.service.IExaminationAffairService;
@@ -88,7 +89,7 @@ public class ExaminationAffairController extends AbstractController {
         //获取前台传递的affairName;
         String insertAffairName = examinationAffair.getAffairName();
         List<ExaminationAffair> tempResultList = examinationAffairService.findAllAffairName();
-        if (tempResultList != null && !tempResultList.isEmpty()) {
+        if (!ListUtils.isEmpty(tempResultList)) {
             for (ExaminationAffair affair : tempResultList) {
                 //获取数据库中affairName;
                 if (null != affair) {

@@ -27,17 +27,13 @@ public class LoginController extends AbstractController {
 
     private Logger log = LoggerFactory.getLogger(LoginController.class);
 
-    @RequestMapping(value = "/loginIn" )
-    public String login() {
-        return "/loginIn";
-    }
-
     @ApiOperation(value="用户登出", notes="用户登出")
     @RequestMapping(value = "/logout" ,method = { RequestMethod.POST })
     public String loginOut() {
         return "/logout";
     }
-    @RequestMapping(value = "/loginIn", method = { RequestMethod.POST })
+
+    @PostMapping(value = "/loginIn")
     @ApiOperation(value="登陆模块", notes="查询用户信息登陆")
     public LoginInfo loginIn(@RequestBody String parameter ) {
         LoginInformation loginInformation = JsonUtils.readValue(parameter, LoginInformation.class);
