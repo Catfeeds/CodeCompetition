@@ -57,7 +57,7 @@ const user = {
     },
 
     // 获取用户信息
-    getUserInfo({ commit }, employeeId) {
+    getUserInfo({ dispatch, commit }, employeeId) {
       return new Promise((resolve, reject) => {
         getUserInfo(employeeId)
           .then(res => {
@@ -69,6 +69,7 @@ const user = {
             commit("setName", data.employeeName);
             commit("setId", data.employeeID);
             commit("setAvatar", data.picture);
+            dispatch("getMenuInfoByEmployeeId", data.employeeID);
             resolve();
           })
           .catch(error => {

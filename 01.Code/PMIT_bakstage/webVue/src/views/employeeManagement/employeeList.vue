@@ -72,7 +72,7 @@
         icon="el-icon-search"
         @click="handleFilter"
       >{{ $t("table.search") }}</el-button>
-      <el-button
+      <el-button v-if="false"
         class="filter-item"
         style="margin-left: 8px;"
         type="primary"
@@ -232,9 +232,9 @@
         sortable="custom"
         prop="telephone"
       ></el-table-column>
-      <el-table-column align="center" :label="$t('table.option')" width="110" header-align="center">
+      <el-table-column align="center" :label="$t('table.option')" width="80" header-align="center">
         <template slot-scope="scope">
-          <el-button
+          <el-button v-if="false"
             type="text"
             size="mini"
             icon="el-icon-edit"

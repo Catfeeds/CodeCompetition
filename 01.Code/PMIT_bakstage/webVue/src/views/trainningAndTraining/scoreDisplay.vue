@@ -1,20 +1,74 @@
 <template>
-  <div class="app-container">
-    <el-form :inline="true">
-      <el-form-item label>
-        <el-select v-model="product" size="mini" clearable placeholder="产品线" @change="productChange">
-          <el-option v-for="item in productOptions" :key="item" :label="item" :value="item"></el-option>
+  <div class="app-container score-display">
+    <el-form :inline="true" :model="searchForm" class="search-condition">
+      <el-form-item>
+        <el-select
+          size="mini"
+          v-model="searchForm.series"
+          clearable
+          placeholder="所属系列"
+          style="width:120px"
+        >
+          <el-option
+            v-for="item in searchForm.seriesOptions"
+            :key="item"
+            :label="item"
+            :value="item"
+          ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label>
-        <el-select v-model="area" size="mini" clearable placeholder="区域" @change="areaChange">
-          <el-option v-for="item in areaOptions" :key="item" :label="item" :value="item"></el-option>
+      <el-form-item>
+        <el-select
+          v-model="searchForm.property"
+          clearable
+          size="mini"
+          placeholder="属性"
+          style="width:110px;"
+        >
+          <el-option
+            v-for="item in searchForm.propertypeOptions"
+            :key="item"
+            :label="item"
+            :value="item"
+          ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label>
-        <el-select v-model="pdu" size="mini" clearable placeholder="交付部">
-          <el-option v-for="item in pduOptions" :key="item" :label="item" :value="item"></el-option>
+      <el-form-item>
+        <el-select
+          v-model="searchForm.product"
+          clearable
+          size="mini"
+          placeholder="所属产品线"
+          style="width:120px"
+        >
+          <el-option
+            v-for="item in searchForm.productOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          ></el-option>
         </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-input
+          v-model="searchForm.trainName"
+          size="mini"
+          clearable
+          placeholder="培训名称"
+          style="width:120px"
+        ></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-date-picker
+          v-model="searchForm.scoreTime"
+          size="mini"
+          type="datetimerange"
+          range-separator="至"
+          format="yyyy-MM-dd HH:mm"
+          value-format="yyyy-MM-dd HH:mm"
+          start-placeholder="得分开始时间"
+          end-placeholder="得分结束时间"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button
@@ -27,7 +81,6 @@
       <el-form-item>
         <el-button
           class="filter-item"
-          style="margin-left: 8px;"
           type="primary"
           size="mini"
           icon="el-icon-download"
@@ -44,18 +97,12 @@
           :show-file-list="false"
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
         >
-          <el-button
-            size="mini"
-            style="margin-left: 8px;"
-            icon="el-icon-upload2"
-            type="primary"
-          >{{ $t("button.import") }}</el-button>
+          <el-button size="mini" icon="el-icon-upload2" type="primary">{{ $t("button.import") }}</el-button>
         </el-upload>
       </el-form-item>
       <el-form-item>
         <el-button
           class="filter-item"
-          style="margin-left: 8px;"
           type="primary"
           size="mini"
           icon="el-icon-download"
@@ -63,53 +110,138 @@
         >{{ $t("button.template") }}</el-button>
       </el-form-item>
     </el-form>
-    <el-table :data="tableData" style="width: 100%"
-     border  fit   size="mini" stripe 
-      highlight-current-row max-height="350" :cell-class-name="cellClassFn">
-      <el-table-column fixed type="index" width="60"></el-table-column>
-      <el-table-column label="编号" min-width="80" prop="employeeID" width="60"></el-table-column>
-      <el-table-column label="姓名" min-width="80" prop="employeeName" width="60"></el-table-column>
-      <el-table-column
-        v-for="(pItem, index) in headers"
-        :key="index"
-        :label="pItem.name"
-        :prop="pItem.courses && pItem.courses.length ===1? pItem.courses[0].courseID :pItem.id"
-        header-align="center"
-        align="center"
-        width="100"
+    <div>
+      <el-table
+        v-loading="listLoading"
+        :data="dataTable"
+        border
+        fit
+        size="mini"
+        stripe
+        max-height="420"
+        highlight-current-row
+        style="width: 100%;"
+        @sort-change="handleSort"
       >
         <el-table-column
-          v-if="pItem.courses && pItem.courses.length > 1"
-            label="总分"
-            header-align="center"
-            align="center"
-            :formatter="calcTotalScore"
-          >
-          </el-table-column>
-        
-        <el-table-column
-          v-if="pItem.courses && pItem.courses.length > 1"
-          v-for="item in pItem.courses"
-          :key="item.courseID"
-          :label="item.courseName"
-          :prop="item.courseID"
           header-align="center"
           align="center"
+          :label="$t('table.id')"
+          width="50"
+          type="index"
         ></el-table-column>
-      </el-table-column>
-    </el-table>
-    <el-row type="flex" justify="end">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleSizeChange"
-        :current-page.sync="currentPage"
-        :page-size="pageSize"
-        layout="total, slot, prev, pager, next"
-        :total="total"
-        prev-text="上一页"
-        next-text="下一页"
-      ></el-pagination>
-    </el-row>
+
+        <el-table-column
+          width="100px"
+          header-align="center"
+          label="软通工号"
+          sortable="custom"
+          prop="employeeID"
+        ></el-table-column>
+
+        <el-table-column
+          width="100px"
+          header-align="center"
+          label="员工姓名"
+          sortable="custom"
+          prop="employeeName"
+        ></el-table-column>
+        <el-table-column
+          width="90px"
+          header-align="center"
+          label="属性"
+          sortable="custom"
+          prop="property"
+        ></el-table-column>
+        <el-table-column
+          min-width="120"
+          header-align="center"
+          label="得分时间"
+          sortable="custom"
+          prop="trainingTime"
+        >
+          <template slot-scope="scope">
+            <span>{{ scope.row.trainingTime | formatDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          min-width="100"
+          header-align="center"
+          label="名称"
+          sortable="custom"
+          prop="trainingType"
+        ></el-table-column>
+        <el-table-column
+          width="110"
+          header-align="center"
+          label="所属系列"
+          sortable="custom"
+          prop="openingStatus"
+        ></el-table-column>
+        <el-table-column
+          width="120"
+          header-align="center"
+          label="所属产品线"
+          sortable="custom"
+          prop="bu"
+        ></el-table-column>
+        <el-table-column
+          min-width="80"
+          header-align="center"
+          label="得分"
+          sortable="custom"
+          prop="bu"
+        ></el-table-column>
+        <el-table-column
+          min-width="80"
+          header-align="center"
+          label="状态"
+          sortable="custom"
+          prop="bu"
+        ></el-table-column>
+        <el-table-column
+          width="110"
+          header-align="center"
+          label="最后修改人"
+          sortable="custom"
+          prop="bu"
+        ></el-table-column>
+        <el-table-column
+          width="80"
+          header-align="center"
+          align="center"
+          :label="$t('table.option')"
+        >
+          <template slot-scope="scope">
+            <el-button
+              type="text"
+              size="mini"
+              icon="el-icon-edit"
+              title="编辑"
+              @click="handleEdit(scope.row);"
+            ></el-button>
+            <el-button
+              type="text"
+              size="mini"
+              icon="el-icon-delete"
+              title="删除"
+              @click="handleDel(scope.row.openingID);"
+            ></el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-row type="flex" justify="end">
+        <el-pagination
+          @current-change="handleCurrentChange"
+          :current-page="page.currentPage"
+          :page-size="page.pageSize"
+          layout="total, slot, prev, pager, next"
+          :total="page.totalRecord"
+          prev-text="上一页"
+          next-text="下一页"
+        ></el-pagination>
+      </el-row>
+    </div>
     <div style="display:none">
       <form
         ref="templateForm"
@@ -128,78 +260,66 @@ import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
   mounted() {
-    this.getSDProductInfo();
+    this.getScoreProduct();
+    this.getScoreSeries();
     this.handleFilter();
   },
   data() {
     return {
-      headers: [],
-      tableData: [],
-      currentPage: 1,
-      pageSize: 100,
-      total: 0
+      listLoading: false,
+      dataTable: [],
+      page: {
+        currentPage: 1,
+        pageSize: 100,
+        totalRecord: 0,
+        sortColumn: "employeeID",
+        sortType: "desc"
+      }
     };
   },
 
   computed: {
-    ...mapGetters(["getSDParams"]),
     ...mapState({
-      productOptions: state => state.scoreDisplayStore.productData,
-      areaOptions: state => state.scoreDisplayStore.areaData,
-      pduOptions: state => state.scoreDisplayStore.pduData,
+      searchForm: state => state.scoreDisplayStore.searchForm,
       dataSource: state => state.scoreDisplayStore.scoreData
-    }),
-    product: {
-      get() {
-        return this.$store.state.scoreDisplayStore.selectedProduct;
-      },
-      set(val) {
-        this.$store.commit("setSDSelectedProduct", val);
-      }
-    },
-    area: {
-      get() {
-        return this.$store.state.scoreDisplayStore.selectedArea;
-      },
-      set(val) {
-        this.$store.commit("setSDSelectedArea", val);
-      }
-    },
-    pdu: {
-      get() {
-        return this.$store.state.scoreDisplayStore.selectedPDU;
-      },
-      set(val) {
-        this.$store.commit("setSDSelectedPDU", val);
-      }
-    }
+    })
   },
   watch: {
     dataSource(data) {
-      this.tableData = data.allCourseScoreList;
-      this.headers = data.columnNameMap;
-      this.total= data.size;
+      this.dataTable = data.list;
+      this.page.totalRecord = data.total;
     }
   },
   methods: {
-    ...mapActions(["getSDProductInfo", "getSDAreas", "getSDPDUList"]),
-    productChange() {
-      this.$store.commit("setSDAreaData", []);
-      this.getSDAreas(this.product);
+    ...mapActions(["getScoreProduct", "getScoreSeries", "getScoreDataList"]),
+    handleFilter(arg, curPage) {
+      let vm = this;
+      if(!curPage) {
+        vm.page.currentPage = 1;
+      }
+      vm.listLoading = true;
+      vm.getScoreDataList(vm.page).then(()=>{
+        vm.listLoading = false;
+      }).catch(()=>{
+        vm.listLoading = false;
+      })
     },
-    areaChange() {
-      this.$store.commit("setSDPDUData", []);
-      this.getSDPDUList(this.area);
+    handleCurrentChange(val) {
+      this.page.currentPage = val;
+      this.handleFilter(null, this.page);
     },
-    handleFilter(arg,curPage) {
-      this.currentPage =curPage || 1;
-      var params = this.getSDParams();
-      // params.currPage = this.currentPage;
-      // params.pageSize=this.pageSize;
-      this.$store.dispatch("getTrainingScore1", params);
+    handleEdit(row) {
+
     },
-    handleSizeChange() {
-      this.handleFilter(null,this.currentPage);
+    handleDel(id) {
+
+    },
+    handleSort(column) {
+      if (column.prop) {
+        this.page.sortColumn = column.prop;
+        this.page.sortType = column.order === "descending" ? "desc" : "asc";
+        this.handleFilter(null, this.page);
+      }
     },
     cellClassFn(obj) {
       return obj.row[obj.column.property] == 0 ? "cell-zero" : "";
@@ -230,7 +350,7 @@ export default {
       this.page.currentPage = 1;
       this.getEmployeeList();
     },
-    handleError(){
+    handleError() {
       this.$message.error("文件导入失败,请检查文件格式是否合法");
     },
     handleTemplate() {
@@ -240,9 +360,22 @@ export default {
 };
 </script>
 
-<style>
+<style rel="stylesheet/scss" lang="scss" scope>
 .cell-zero div {
   background-color: red;
   color: #fff;
+}
+.score-display {
+  .search-condition {
+    .el-date-editor--datetimerange.el-input__inner {
+      width: 270px;
+    }
+    .el-range-editor.el-input__inner {
+      padding: 3px 0px 3px 10px;
+    }
+    .el-date-editor .el-range-separator {
+      padding: 0px;
+    }
+  }
 }
 </style>

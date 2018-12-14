@@ -1,93 +1,88 @@
-import api from "@/api/reportDisplayApi";
-import scoreApi from "@/api/scoreDisplayApi";
-
+import api from "@/api/scoreDisplayApi";
+import constant from "@/utils/constant";
+import { formatDate } from "@/utils/date";
 let state = {
-  selectedProduct: "",
-  selectedArea: "",
-  selectedPDU: "",
-  productData: [],
-  areaData: [],
-  pduData: [],
+  searchForm: {
+    series: "",
+    seriesOptions: [],
+    property: "",
+    propertypeOptions: constant.SCORE_PROPERTY,
+    product: "",
+    productOptions: [],
+    trainName: "",
+    scoreTime: ""
+  },
   scoreData: []
 };
 
-let getters = {
-  getSDParams(state) {
-    return function() {
-      return {
-        bu: state.selectedProduct,
-        region: state.selectedArea,
-        pdu: state.selectedPDU
-      };
-    };
-  }
-};
 let mutations = {
-  setSDSelectedProduct(state, val) {
-    state.selectedProduct = val || "";
+  updateScoreSeriesData(state, value) {
+    state.searchForm.seriesOptions = value;
+    state.searchForm.series = "";
   },
-  setSDSelectedArea(state, val) {
-    state.selectedArea = val || "";
+  updateScoreProductData(state, value) {
+    state.searchForm.productOptions = value;
+    state.searchForm.product = "";
   },
-  setSDSelectedPDU(state, val) {
-    state.selectedPDU = val || "";
-  },
-  setSDProductData(state, val) {
-    state.productData = val || [];
-    // state.productData.unshift("");
-    state.selectedProduct = "";
-  },
-  setSDAreaData(state, val) {
-    state.areaData = val || [];
-    // state.areaData.unshift("");
-    state.selectedArea ="";
-  },
-  setSDPDUData(state, val) {
-    state.pduData = val || [];
-    // state.pduData.unshift("");
-    state.selectedPDU = "";
-  },
-  setScoreData(state, val) {
-    state.scoreData = val || {};
+  updateTableDataSourcee(state, value) {
+    state.scoreData = value;
   }
 };
 
 let actions = {
-  getSDProductInfo({ dispatch, state, commit }) {
-    return api.getMainstayLevel().then(function(ret) {
-      commit("setSDProductData", ret && ret.data.data);
-      if (state.selectedProduct) {
-        return dispatch("getSDAreas");
-      }
-    });
-  },
-  getSDAreas({ dispatch, state, commit }) {
-    return api.getMainstayLevel({ bu: state.selectedProduct }).then(ret => {
-      commit("setSDAreaData", ret && ret.data && ret.data.data);
-      if (state.selectedArea) {
-        return dispatch("getSDPDUList");
-      }
-    });
-  },
-  getSDPDUList({ commit, state }) {
-    return api
-      .getMainstayLevel({
-        bu: state.selectedProduct,
-        workPlaceArea: state.selectedArea
+  getScoreProduct({ dispatch, commit }) {
+    return dispatch("getProductInfo")
+      .then(data => {
+        commit("updateScoreProductData", data);
       })
-      .then(ret => {
-        commit("setSDPDUData", ret && ret.data && ret.data.data);
+      .catch(() => {
+        commit("updateScoreProductData", []);
       });
   },
-  getTrainingScore1({ commit,state }, param) {
-    return scoreApi.getTrainingScore(param).then(ret => {
-      commit("setScoreData", ret && ret.data);
-    });
+  getScoreSeries({ dispatch, commit }) {
+    return dispatch("querySeries")
+      .then(res => {
+        if (res.success) {
+          commit("updateScoreSeriesData", res.data);
+        } else {
+          commit("updateScoreSeriesData", []);
+        }
+      })
+      .catch(() => {
+        commit("updateStartSeriesData", []);
+      });
+  },
+  getScoreDataList({ commit, state }, pageInfo) {
+    return api
+      .getScoreList({
+        bu: state.searchForm.product,
+        series: state.searchForm.series,
+        affairName: state.searchForm.trainName,
+        types: state.searchForm.property,
+        startTime: state.searchForm.scoreTime
+          ? formatDate(state.searchForm.scoreTime[0], "yyyy-MM-dd HH:mm:ss")
+          : "",
+        endTime: state.searchForm.scoreTime
+          ? formatDate(state.searchForm.scoreTime[1], "yyyy-MM-dd HH:mm:ss")
+          : "",
+        pageParam: {
+          currPage: pageInfo ? pageInfo.currentPage : 1,
+          pageSize: pageInfo ? pageInfo.pageSize : 100,
+          sortColumn: pageInfo ? pageInfo.sortColumn : "",
+          sortType: pageInfo ? pageInfo.sortType : ""
+        }
+      })
+      .then(res => {
+        if (res.data.success) {
+          commit("updateTableDataSourcee", res.data.data);
+        } else {
+          commit("updateTableDataSourcee", { list: [], total: 0 });
+        }
+      });
   }
 };
 export default {
   state,
-  getters,
   mutations,
   actions
 };

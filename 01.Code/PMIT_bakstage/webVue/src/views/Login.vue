@@ -69,7 +69,6 @@
 </template>
 
 <script>
-import {} from "@/utils/validate";
 import LangSelect from "@/components/LangSelect";
 import Cookies from "js-cookie";
 export default {
@@ -162,14 +161,7 @@ export default {
                 Cookies.set("loginName", vm.loginForm.userName);
                 Cookies.set("status", "logined");
                 vm.$store.dispatch("delAllViews");
-                vm.$store
-                  .dispatch("getUserInfo", vm.loginForm.userName)
-                  .then(() => {
-                    vm.$router.push({ path: vm.redirect || "/" });
-                  })
-                  .catch(() => {
-                    vm.$router.push({ path: vm.redirect || "/" });
-                  });
+                vm.$router.push({ path: vm.redirect || "/" });
               } else {
                 vm.$message.error(res.message);
               }

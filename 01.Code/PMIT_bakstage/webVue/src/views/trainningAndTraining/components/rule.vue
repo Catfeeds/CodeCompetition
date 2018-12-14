@@ -86,11 +86,10 @@
       :close-on-click-modal="false"
     >
       <el-steps :active="active" finish-status="success" simple>
-        <el-step title="基本信息"></el-step>
-        <el-step title="选择课程和事务"></el-step>
-        <el-step title="生成结果"></el-step>
+        <el-step title="参数设置"></el-step>
+        <el-step title="生成规则"></el-step>
       </el-steps>
-      <div v-if="isBaseInfo" style="margin-top:50px;">
+      <div v-if="isSet">
         <el-form
           :model="ruleForm"
           size="mini"
@@ -98,14 +97,22 @@
           ref="ruleForm"
           :rules="rules"
           inline
+          inline-message
+          style="margin-top:10px;"
+          class="ruleForm-condition"
         >
           <el-form-item label="所属体系" prop="system">
-            <el-select v-model="ruleForm.system" placeholder="请选择">
+            <el-select
+              v-model="ruleForm.system"
+              inline-message
+              placeholder="请选择"
+              style="width:130px;"
+            >
               <el-option v-for="item in systemOptions" :key="item" :label="item" :value="item"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="所属角色" prop="role">
-            <el-select v-model="ruleForm.role" placeholder="请选择">
+            <el-select v-model="ruleForm.role" placeholder="请选择" style="width:130px;">
               <el-option
                 v-for="item in roleOptions"
                 :key="item.roleId"
@@ -115,19 +122,18 @@
             </el-select>
           </el-form-item>
           <el-form-item label="职级" prop="rank">
-            <el-select v-model="ruleForm.rank" filterable allow-create placeholder="请选择">
-              <el-option
-                v-for="item in rankOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
+            <el-select
+              v-model="ruleForm.rank"
+              filterable
+              allow-create
+              placeholder="请选择/输入"
+              style="width:130px;"
+            >
+              <el-option v-for="item in rankOptions" :key="item" :label="item" :value="item"></el-option>
             </el-select>
           </el-form-item>
         </el-form>
-      </div>
-      <div v-if="isSelect">
-        <el-row :gutter="12" style="margin-top:5px;">
+        <el-row :gutter="12">
           <el-col :span="14">
             <el-card shadow="never">
               <div slot="header" class="clearfix">待选课程列表</div>
@@ -175,7 +181,7 @@
                 fit
                 size="mini"
                 stripe
-                height="215"
+                height="187"
                 tooltip-effect="dark"
                 @selection-change="handleTrainSelectionChange"
                 style="width: 100%;"
@@ -231,7 +237,7 @@
                 fit
                 size="mini"
                 stripe
-                height="215"
+                height="187"
                 tooltip-effect="dark"
                 @selection-change="handleAffairSelectionChange"
                 style="width: 100%;"
@@ -251,73 +257,113 @@
         </el-row>
       </div>
       <div v-if="isResult" class="score">
-        <el-row style="margin-top:5px;">
-          <el-form :model="tableForm" ref="tableForm" inline-message size="mini">
+        <el-row :gutter="12" style="margin-top:10px;">
+          <el-col :span="14">
             <el-card shadow="never">
-              <div slot="header" class="clearfix">单项规则设置</div>
-              <el-row>*说明：学员的实际得分若低于及格分数则此项得分为0.</el-row>
-              <el-table
-                :data="tableForm.ruleDataSource"
-                border
-                fit
-                size="mini"
-                stripe
-                height="215"
-                tooltip-effect="dark"
-                style="width: 100%;"
-              >
-                <el-table-column
-                  header-align="center"
-                  align="center"
-                  :label="$t('table.id')"
-                  width="80"
-                  type="index"
-                ></el-table-column>
-                <el-table-column prop="trainName" header-align="center" label="培训名称" width="200"></el-table-column>
-                <el-table-column prop="credit" header-align="center" label="学分" min-width="130">
-                  <template slot-scope="scope">
-                    <el-form-item
-                      :prop="'ruleDataSource.'+scope.$index+'.credit'"
-                      :rules="rules.score"
-                      style="margin-bottom:0px;"
-                    >
-                      <el-input
-                        :disabled="scope.row.trainId<0"
-                        v-model="scope.row.credit"
-                        size="mini"
-                        clearable
-                        style="width: 130px"
-                        placeholder="请输入学分"
-                      ></el-input>
-                    </el-form-item>
-                  </template>
-                </el-table-column>
-                <el-table-column prop="passing" header-align="center" label="及格分" min-width="130">
-                  <template slot-scope="scope">
-                    <el-form-item
-                      :prop="'ruleDataSource.'+scope.$index+'.passing'"
-                      :rules="rules.score"
-                      style="margin-bottom:0px;"
-                    >
-                      <el-input
-                        v-model="scope.row.passing"
-                        size="mini"
-                        clearable
-                        style="width: 130px"
-                        placeholder="请输入及格分"
-                      ></el-input>
-                    </el-form-item>
-                  </template>
-                </el-table-column>
-              </el-table>
+              <div slot="header" class="clearfix">单项得分校验规则设置</div>
+              <el-form :model="tableForm" ref="tableForm" inline-message size="mini">
+                <el-table
+                  :data="tableForm.ruleDataSource"
+                  border
+                  fit
+                  size="mini"
+                  stripe
+                  height="255"
+                  tooltip-effect="dark"
+                  style="width: 100%;"
+                >
+                  <el-table-column
+                    header-align="center"
+                    align="center"
+                    :label="$t('table.id')"
+                    width="50"
+                    type="index"
+                  ></el-table-column>
+                  <el-table-column prop="trainName" header-align="center" label="培训名称" width="200"></el-table-column>
+                  <el-table-column prop="credit" header-align="center" label="最高得分" min-width="130">
+                    <template slot-scope="scope">
+                      <el-form-item
+                        :prop="'ruleDataSource.'+scope.$index+'.credit'"
+                        :rules="scope.row.trainId>=0&&rules.score"
+                        style="margin-bottom:0px;"
+                      >
+                        <el-input
+                          :disabled="scope.row.trainId<0"
+                          v-model="scope.row.credit"
+                          size="mini"
+                          clearable
+                          style="width: 130px"
+                          placeholder="请输入最高得分"
+                        ></el-input>
+                      </el-form-item>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-form>
             </el-card>
-          </el-form>
+          </el-col>
+          <el-col :span="10">
+            <el-card shadow="never">
+              <div slot="header" class="clearfix">总分规则设置</div>
+              <el-form>
+                <el-table
+                  :data="tableForm.ruleDataSource"
+                  border
+                  fit
+                  size="mini"
+                  stripe
+                  height="255"
+                  tooltip-effect="dark"
+                  style="width: 100%;"
+                >
+                  <el-table-column
+                    header-align="center"
+                    align="center"
+                    :label="$t('table.id')"
+                    width="50"
+                    type="index"
+                  ></el-table-column>
+                  <el-table-column prop="trainName" header-align="center" label="培训名称" width="200"></el-table-column>
+                  <el-table-column prop="credit" header-align="center" label="最高得分" min-width="130">
+                    <template slot-scope="scope">
+                      <el-form-item
+                        :prop="'ruleDataSource.'+scope.$index+'.credit'"
+                        :rules="rules.score"
+                        style="margin-bottom:0px;"
+                        v-if="scope.row.trainId<0"
+                      >
+                        <el-input
+                          v-model="scope.row.credit"
+                          size="mini"
+                          clearable
+                          style="width: 130px"
+                          placeholder="请输入学分"
+                        ></el-input>
+                      </el-form-item>
+                      <el-form-item
+                        :prop="'ruleDataSource.'+scope.$index+'.credit'"
+                        style="margin-bottom:0px;"
+                        v-else
+                      >
+                        <el-input
+                          v-model="scope.row.credit"
+                          size="mini"
+                          disabled
+                          style="width: 130px"
+                        ></el-input>
+                      </el-form-item>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-form>
+            </el-card>
+          </el-col>
         </el-row>
       </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogBaseVisible = false;" size="mini">取 消</el-button>
-        <el-button type="primary" @click="prev" v-if="isSelect||isResult" size="mini">上一步</el-button>
-        <el-button type="primary" @click="next" v-if="isBaseInfo || isSelect" size="mini">下一步</el-button>
+        <el-button type="primary" @click="prev" v-if="isResult" size="mini">上一步</el-button>
+        <el-button type="primary" @click="next" v-if="isSet" size="mini">下一步</el-button>
         <el-button type="primary" @click="handleSubmit();" v-if="isResult" size="mini">完 成</el-button>
       </div>
     </el-dialog>
@@ -364,7 +410,7 @@ export default {
   data() {
     let validaNumer = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error("请输入分数"));
+        return callback(new Error("请输入最高得分"));
       }
       if (isNaN(value)) {
         return callback(new Error("只能输入整数和小数"));
@@ -386,8 +432,7 @@ export default {
     };
     return {
       active: 0,
-      isBaseInfo: true,
-      isSelect: false,
+      isSet: true,
       isResult: false,
       isInit: true,
       loading: false,
@@ -453,26 +498,20 @@ export default {
     ]),
     next() {
       let vm = this;
-      if (vm.isBaseInfo) {
+      if (vm.isSet) {
         vm.$refs.ruleForm.validate(valid => {
           if (valid) {
+            if (vm.selectedTrain.length <= 0 && vm.selectedAffair.length <= 0) {
+              vm.$message.warning("培训课程和考核事务没有选择");
+              return;
+            }
             vm.active++;
-            vm.isSelect = vm.active === 1;
-            vm.isResult = vm.active === 2;
-            vm.isBaseInfo = false;
+            vm.isSet = vm.active === 0;
+            vm.isResult = vm.active === 1;
           } else {
             return false;
           }
         });
-      } else if (vm.isSelect) {
-        if (vm.selectedTrain.length <= 0 && vm.selectedAffair.length <= 0) {
-          vm.$message.warning("培训课程和考核事务没有选择");
-          return;
-        }
-        vm.active++;
-        vm.isSelect = vm.active === 1;
-        vm.isResult = vm.active === 2;
-        vm.isBaseInfo = false;
       }
       if (vm.isResult) {
         vm.tableForm.ruleDataSource = vm.selectedTrain
@@ -494,7 +533,7 @@ export default {
           passing: ""
         });
       }
-      if (vm.isSelect) {
+      if (vm.isSet) {
         setTimeout(() => {
           if (vm.selectedTrain.length > 0) {
             vm.toggleSelection(vm.selectedTrain, "trainTable");
@@ -508,10 +547,9 @@ export default {
     prev() {
       let vm = this;
       vm.active--;
-      vm.isBaseInfo = vm.active === 0;
-      vm.isSelect = vm.active === 1;
+      vm.isSet = vm.active === 0;
       vm.isResult = false;
-      if (vm.isSelect) {
+      if (vm.isSet) {
         setTimeout(() => {
           if (vm.selectedTrain.length > 0) {
             vm.toggleSelection(vm.selectedTrain, "trainTable");
@@ -555,6 +593,9 @@ export default {
         .then(res => {
           if (res.success) {
             vm.initList = res.data;
+            vm.rankOptions = Array.from(
+              new Set(res.data.map(item => item.roleLevel))
+            );
             vm.tableData = vm.initList.slice(0, vm.page.pageSize);
             vm.page.totalRecord = res.data.length;
           } else {
@@ -634,8 +675,7 @@ export default {
       vm.getSystemInfo();
       vm.getSeriesInfo();
       vm.active = 0;
-      vm.isBaseInfo = true;
-      vm.isSelect = false;
+      vm.isSet = true;
       vm.isResult = false;
       vm.isEdit = false;
       vm.dialogBaseVisible = true;
@@ -654,7 +694,7 @@ export default {
               roleId: vm.ruleForm.role * 1,
               roleLevel: vm.ruleForm.rank,
               creatorId: vm.employeeId,
-              creatorName: vm.employeeName              
+              creatorName: vm.employeeName
             },
             singleRuleInfo: vm.tableForm.ruleDataSource
               .filter(item => {
@@ -670,17 +710,17 @@ export default {
                 };
               })
           };
-          vm.$store.dispatch("addRuleInfo", formData).then(res=>{
-            if(res.success) {
+          vm.$store.dispatch("addRuleInfo", formData).then(res => {
+            if (res.success) {
               vm.$message.success("规则添加成功");
               vm.getRuleList();
-            }else{
+            } else {
               vm.$message.success("规则添加失败");
             }
             vm.selectedTrain = [];
             vm.selectedAffair = [];
             vm.dialogBaseVisible = false;
-          })
+          });
         } else {
           return false;
         }
@@ -717,6 +757,11 @@ export default {
     }
     .el-card__body {
       padding: 10px;
+    }
+    .ruleForm-condition {
+      .el-form-item--mini.el-form-item {
+        margin-bottom: 10px;
+      }
     }
   }
 }

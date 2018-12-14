@@ -186,7 +186,7 @@
             @change="newProductChange"
           >
             <el-option
-              v-for="item in newForm.productOptions"
+              v-for="item in searchForm.productOptions"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -284,7 +284,6 @@ export default {
   mounted() {
     var vm = this;
     this.getPGProductInfo();
-    this.getNewFormProductInfo();
     this.getProjectGroupInfo({ pageSize: vm.pageSize })
       .then(() => {
         vm.listLoading = false;

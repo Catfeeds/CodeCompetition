@@ -84,33 +84,39 @@
         type="index"
       ></el-table-column>
       <el-table-column
-        min-width="130px"
+        width="100px"
+        header-align="center"
+        label="事务编号"
+        sortable
+        prop="affairID"
+      ></el-table-column>
+      <el-table-column
+        min-width="120px"
+        header-align="center"
+        label="事务名称"
+        sortable
+        prop="affairName"
+      ></el-table-column>
+      <el-table-column
+        min-width="110px"
         header-align="center"
         label="所属体系"
         sortable
         prop="system"
       ></el-table-column>
       <el-table-column
-        min-width="150px"
-        header-align="center"
-        label="事务名称"
-        sortable
-        prop="affairName"
-      ></el-table-column>
-
-      <el-table-column
-        min-width="150px"
+        min-width="110px"
         header-align="center"
         label="所属系列"
         sortable
         prop="series"
       ></el-table-column>
       <el-table-column
-        width="120px"
+        width="110px"
         header-align="center"
         label="所属产品线"
         sortable
-        prop="du"
+        prop="bu"
       ></el-table-column>
       <el-table-column
         width="110"
@@ -534,7 +540,7 @@ export default {
     getAffairsList() {
       let vm = this;
       let condition = {
-        du: vm.searchForm.product,
+        bu: vm.searchForm.product,
         series: vm.searchForm.series,
         system: vm.searchForm.system,
         affairName: vm.searchForm.affairsName
@@ -586,7 +592,7 @@ export default {
       vm.$refs.affairsForm.validate(valid => {
         if (valid) {
           let formData = {
-            du: vm.affairsForm.product,
+            bu: vm.affairsForm.product,
             series: vm.affairsForm.series,
             system: vm.affairsForm.system,
             affairName: vm.affairsForm.affairsName,
@@ -670,7 +676,7 @@ export default {
       this.affairsForm.affairsName = rowData.affairName;
       this.affairsForm.series = rowData.series;
       this.affairsForm.system = rowData.system;
-      this.affairsForm.product = rowData.du;
+      this.affairsForm.product = rowData.bu;
       this.dialogBaseTitle = "修改考核事务信息";
       this.dialogBaseVisible = true;
       this.clearValidate("affairsForm");

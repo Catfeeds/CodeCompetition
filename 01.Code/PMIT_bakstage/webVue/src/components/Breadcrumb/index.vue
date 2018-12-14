@@ -9,11 +9,12 @@
         <span
           v-if="item.redirect === 'noredirect' || index == levelList.length - 1"
           class="no-redirect"
-          >{{ generateTitle(item.meta.title) }}</span
-        >
-        <router-link v-else :to="item.redirect || item.path">{{
+        >{{ generateTitle(item.meta.title) }}</span>
+        <router-link v-else :to="item.redirect || item.path">
+          {{
           generateTitle(item.meta.title)
-        }}</router-link>
+          }}
+        </router-link>
       </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>
@@ -48,19 +49,18 @@ export default {
         }
       });
       const first = matched[0];
-      if (
-        first &&
-        first.name.trim().toLocaleLowerCase() !==
-          "StoneReport".toLocaleLowerCase()
-      ) {
-        matched = [
-          { path: "/dashboard", meta: { title: "reportDisplay" } }
-        ].concat(matched);
-      } else {
-        matched = [{ path: "", meta: { title: "reportDisplay" } }].concat(
-          matched
-        );
+      if (first && first.name.trim().toLocaleLowerCase() !== "personalcenter") {
+        if (first && first.name.trim().toLocaleLowerCase() !== "stonepeport") {
+          matched = [
+            { path: "/dashboard", meta: { title: "reportDisplay" } }
+          ].concat(matched);
+        } else {
+          matched = [{ path: "", meta: { title: "reportDisplay" } }].concat(
+            matched
+          );
+        }
       }
+
       this.levelList = matched;
     }
   }

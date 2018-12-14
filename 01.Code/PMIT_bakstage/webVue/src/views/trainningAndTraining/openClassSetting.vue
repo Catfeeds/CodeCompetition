@@ -100,21 +100,26 @@
           width="50"
           type="index"
         ></el-table-column>
-
+        <el-table-column
+          width="100px"
+          header-align="center"
+          label="开班编号"
+          sortable="custom"
+          prop="openingID"
+        ></el-table-column>
+        <el-table-column
+          min-width="120px"
+          header-align="center"
+          label="开班名称"
+          sortable="custom"
+          prop="openingName"
+        ></el-table-column>
         <el-table-column
           width="150px"
           header-align="center"
           label="培训名称"
           sortable="custom"
           prop="trainingName"
-        ></el-table-column>
-
-        <el-table-column
-          min-width="150px"
-          header-align="center"
-          label="开班系列名称"
-          sortable="custom"
-          prop="openingName"
         ></el-table-column>
         <el-table-column
           width="100px"
@@ -147,7 +152,11 @@
           label="班级状态"
           sortable="custom"
           prop="openingStatus"
-        ></el-table-column>
+        >
+          <template slot-scope="scope">
+            <span>{{ statusMap[scope.row.openingStatus] }}</span>
+          </template>
+        </el-table-column>
         <el-table-column
           width="120"
           header-align="center"
@@ -324,7 +333,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="开班系列名称" prop="classSerices">
+            <el-form-item label="开班名称" prop="classSerices">
               <el-input
                 v-model="startForm.classSerices"
                 autocomplete="off"
@@ -547,7 +556,7 @@ export default {
       if (!value) {
         return callback(new Error("请输入可容纳人数"));
       }
-      let reg =  /^\+?[1-9][0-9]*$/;
+      let reg = /^\+?[1-9][0-9]*$/;
       if (!reg.test(value)) {
         return callback(new Error("只能输入正整数"));
       }
@@ -575,6 +584,11 @@ export default {
       dialogVisible: false,
       isEdit: false,
       isDetail: false,
+      statusMap: {
+        1: "可报名",
+        2: "已满员",
+        3: "已结束"
+      },
       rules: {
         product: [
           { required: true, message: "请选择产品线", trigger: "change" }
@@ -743,7 +757,7 @@ export default {
       vm.isDetail = true;
       vm.isEdit = false;
       rowData.isDetail = vm.isDetail;
-      vm.setStartInfo(rowData)
+      vm.setStartInfo(rowData);
       vm.clearValidate();
     }
   }
