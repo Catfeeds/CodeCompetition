@@ -2,10 +2,7 @@ package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.isoftstone.pmit.project.hrbp.entity.Course;
-import com.isoftstone.pmit.project.hrbp.entity.PersonalScoreParameter;
-import com.isoftstone.pmit.project.hrbp.entity.StaffScoreInfos;
-import com.isoftstone.pmit.project.hrbp.entity.Train;
+import com.isoftstone.pmit.project.hrbp.entity.*;
 import com.isoftstone.pmit.project.hrbp.mapper.GetScoreMapper;
 import com.isoftstone.pmit.project.hrbp.service.IGradeSheetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +42,8 @@ public class GradeSheetServiceImpl implements IGradeSheetService {
         scoreInfos.setSize(size);
         return scoreInfos;
     }
+
+
 
     //获取列头名
     private List<Train> getColumnNameMap(List<Map<String, Object>> parameter) {
@@ -173,6 +172,50 @@ public class GradeSheetServiceImpl implements IGradeSheetService {
             entry.getKey();
         }
         return resultList;
+    }
+
+    @Override
+    public PageInfo<PersonalScore> getAllPersonalScores(PersonalScoreParam param) {
+        if (param == null){
+            new PersonalScoreParam();
+        }
+        PageHelper.startPage(param.getPageParam().getCurrPage(), param.getPageParam().getPageSize());
+        String sortColumn = param.getPageParam().getSortColumn();
+        String sortType = param.getPageParam().getSortType();
+        if (null != sortColumn && sortColumn != "" && sortType != "" && null != sortType) {
+            PageHelper.orderBy(sortColumn + " " + sortType);
+        }
+        List<PersonalScore> allPersonalScores = getScoreMapper.getAllPersonalScores(param);
+        PageInfo<PersonalScore> resultScores = new PageInfo<>(allPersonalScores);
+
+        return resultScores;
+    }
+
+    /**
+     * 删除一个人某一门成绩
+     * */
+    @Override
+    public boolean deletePersonalScores(PersonalScore personalScore) {
+        if (personalScore == null){
+            return false;
+        }
+        boolean scores = getScoreMapper.deletePersonalScores(personalScore);
+
+
+        return scores;
+    }
+
+    /**
+     * 获取一个人的某一个事务的所有得分列表
+     * */
+    @Override
+    public List<PersonalTranAndDimeScore> getPersonalTransactionInfo(PersonalScore personalScore) {
+        if (personalScore == null){
+            personalScore = new PersonalScore();
+        }
+        List<PersonalTranAndDimeScore> personalTransactionInfo = getScoreMapper.getPersonalTransactionInfo(personalScore);
+
+        return personalTransactionInfo;
     }
 }
 

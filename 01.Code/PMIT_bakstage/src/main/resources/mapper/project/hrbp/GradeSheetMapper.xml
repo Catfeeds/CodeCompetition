@@ -161,5 +161,126 @@
         </if>
 
     </select>
+    <select id="getAllPersonalScores" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalScoreParam" resultType="com.isoftstone.pmit.project.hrbp.entity.PersonalScore">
+        SELECT
+        scores.employeeID AS employeeID,
+        scores.employeeName AS employeeName,
+        scores.bu AS bu,
+        scores.costCenter AS costCenter,
+        scores.types AS types,
+        scores.score_time as scoreTime,
+        scores.affair_name AS affairName,
+        scores.series AS series,
+        scores.score AS score,
+        scores.modifier AS modifier,
+        scores.scoresID AS scoresID,
+        scores.nameId AS nameId
+        FROM
+        (
+        SELECT
+        trandieScore.transaction_dimension_id AS scoresID,
+        trandieScore.employee_id AS employeeID,
+        base.employeeName AS employeeName,
+        base.bu AS bu,
+        base.costCenter AS costCenter,
+        trandieScore.type AS types,
+        MAX(trandieScore.change_time) AS score_time,
+        examination.affair_name AS affair_name,
+        examination.series AS series,
+        sum(trandieScore.score) AS score,
+        basei.employeeName AS modifier,
+        trandieScore.affair_id AS nameId
+        FROM
+        transaction_dimension_score trandieScore
+        INNER JOIN base_staff_info base ON base.employeeID = trandieScore.employee_id
+        INNER JOIN base_staff_info basei ON basei.employeeID = trandieScore.modifier
+        LEFT JOIN hrbp_examination_affair examination ON examination.affair_id = trandieScore.affair_id
+        LEFT JOIN hrbp_examination_dimension dimension ON dimension.dimension_id = trandieScore.dimension_id
+        GROUP BY  trandieScore.employee_id ,trandieScore.affair_id
+        UNION
+        SELECT
+        testScore.cour_score_id AS scoresID,
+        testScore.employee_id AS employeeID,
+        base.employeeName AS employeeName,
+        base.bu AS bu,
+        base.costCenter AS costCenter,
+        testScore.type AS types,
+        opening.training_time AS training_time,
+        opening.training_name AS training_name,
+        opening.series AS series,
+        testScore.test_score AS score,
+        bases.employeeName AS modifier,
+        testScore.opening_id AS nameId
+        FROM
+        course_test_score testScore
+        INNER JOIN base_staff_info base ON base.employeeId = testScore.employee_id
+        INNER JOIN base_staff_info bases ON bases.employeeID = testScore.modifier
+        LEFT JOIN opening_setup_info opening ON opening.opening_id = testScore.opening_id
+        ) scores
+        <where>
+            <if test="series != null and series != ''">
+                 scores.series = #{series}
+            </if>
+            <if test="types != null and types != ''">
+                and scores.types = #{types}
+            </if>
+            <if test="bu != null and bu != ''">
+                and scores.bu = #{bu}
+            </if>
+            <if test="affairName != null and affairName != ''">
+                and  scores.affairName = #{affairName}
+            </if>
+            <if test="employeeName != null and employeeName != ''">
+                and scores.employeeName = #{employeeName}
+            </if>
+            <if test="employeeID != null and employeeID != ''">
+                and scores.employeeID = #{employeeID}
+            </if>
+            <if test="null != startTime and null != endTime">
+                AND scores.scoreTime between #{startTime} and #{endTime}
+            </if>
 
+        </where>
+    </select>
+
+    <delete id="deletePersonalScores" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalScore">
+        <if test="types == '评价' and types != null">
+            delete from transaction_dimension_score  where  transaction_dimension_id = #{scoresID} and affair_id = #{nameId}
+        </if>
+        <if test="types == '培训' and types != null">
+            delete from course_test_score where  cour_score_id = #{scoresID}
+        </if>
+    </delete>
+    <update id="updatePersonalScores" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalScore">
+        <if test="types == '评价' and types != null">
+            update transaction_dimension_score set  where  transaction_dimension_id = #{scoresID}
+        </if>
+        <if test="types == '培训' and types != null">
+            update course_test_score set test_score = #{score} ,modifier = #{modifier}  where  cour_score_id = #{scoresID}
+        </if>
+    </update>
+    <select id="getPersonalTransactionInfo" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalScore" resultType="com.isoftstone.pmit.project.hrbp.entity.PersonalTranAndDimeScore">
+        SELECT
+        transaction_dimension_id AS tranAndDieId,
+        employee_id AS employeeID,
+        affair_id AS affairId,
+        dimension_id AS dimensionId,
+        score AS score,
+        evaluation AS evaluation,
+        evaluator AS evaluator,
+        modifier AS evaluator,
+        change_time AS changeTime,
+        type AS types
+        FROM
+        transaction_dimension_score
+        <where>
+            <if test="employeeID != null and employeeID != ''" >
+                employee_id = #{employeeID}
+            </if>
+            <if test="nameID != null and nameID != ''">
+                and  affair_id = #{nameID}
+            </if>
+        </where>
+
+    </select>
 </mapper>
