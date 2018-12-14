@@ -23,9 +23,9 @@
         </div>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item style="cursor:default">
-            <span style="display:block;">
+            <router-link to="/personal">
             {{employeeName}}
-            </span>
+            </router-link>
           </el-dropdown-item>
           <el-dropdown-item divided>
           <router-link to="/">

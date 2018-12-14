@@ -27,7 +27,7 @@ function filterAsyncRouter(routes, menus) {
 const app = {
   state: {
     sidebar: {
-      opened: false, // !+Cookies.get("sidebarStatus"),
+      opened: !!+Cookies.get("sidebarStatus"),
       withoutAnimation: false
     },
     device: "desktop",

@@ -1,13 +1,13 @@
 import request from "@/utils/request";
 
-function getTrainingScore(param) {
+function getScoreList(param) {
   return request({
-    url: "hrbp/gradeSheet/getColumnName",
+    url: "hrbp/gradeSheet/getTotalPersonalsScore",
     method: "post",
-    data: {},//param
+    data: param
   });
 }
 
 export default {
-  getTrainingScore
+  getScoreList
 };

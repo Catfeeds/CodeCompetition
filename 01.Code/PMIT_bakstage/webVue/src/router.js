@@ -23,6 +23,26 @@ export const constantRouterMap = [
     hidden: true
   },
   {
+    path: "/personal",
+    component: Layout,
+    redirect: "noredirect",
+    hidden: true,
+    meta: { title: "personalCenter", icon: "table", noCache: true },
+    children: [
+      {
+        path: "",
+        component: () => import("@/views/systemSettings/personalCenter"),
+        name: "PersonalCenter",
+        meta: {
+          title: "personalCenter",
+          icon: "",
+          noCache: true,
+          requiresAuth: true
+        }
+      }
+    ]
+  },
+  {
     path: "",
     component: Layout,
     redirect: "dashboard",

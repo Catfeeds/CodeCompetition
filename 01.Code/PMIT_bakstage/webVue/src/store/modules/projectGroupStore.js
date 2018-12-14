@@ -102,12 +102,6 @@ const projectGroup = {
         commit("updatePGPDUData", data);
       });
     },
-    getNewFormProductInfo({ dispatch, commit }) {
-      return dispatch("getProductInfo").then(data => {
-        commit("updateNewFormProductData", data);
-        return dispatch("getNewFormDU");
-      });
-    },
     getNewFormDU({ dispatch, state, commit }) {
       if (!state.newForm.product) {
         commit("updateNewFormDUData", []);
