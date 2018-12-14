@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS `training_info`;
+DROP TABLE IF EXISTS `mms_training_info`;
 
-CREATE TABLE `training_info` (
+CREATE TABLE `mms_training_info` (
   `training_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '培训ID',
   `training_name` varchar(20) NOT NULL COMMENT '培训名称',
   `series` varchar(20) DEFAULT NULL COMMENT '所属系列',
@@ -17,5 +17,5 @@ CREATE TABLE `training_info` (
   `training_duration` varchar(20) DEFAULT NULL COMMENT '培训时长',
   `status` int(11) DEFAULT '0' COMMENT '是否删除  0表示正常  1表示已删除',
   PRIMARY KEY (`training_id`,`training_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
 

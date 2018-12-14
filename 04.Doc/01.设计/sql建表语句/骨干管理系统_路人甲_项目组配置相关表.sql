@@ -1,13 +1,13 @@
-DROP TABLE IF EXISTS `hrbp_projectteam`;
-DROP TABLE IF EXISTS `hrbp_projectteamrecord`;
-DROP TABLE IF EXISTS `po_role_info`;
-DROP TABLE IF EXISTS `po_staff_info`;
-DROP TABLE IF EXISTS `project_information`;
-DROP TABLE IF EXISTS `team_related_po`;
+DROP TABLE IF EXISTS `mms_project_team`;
+DROP TABLE IF EXISTS `mms_project_team_record`;
+DROP TABLE IF EXISTS `mms_po_role_info`;
+DROP TABLE IF EXISTS `mms_po_staff_info`;
+DROP TABLE IF EXISTS `mms_project_information`;
+DROP TABLE IF EXISTS `mms_team_related_po`;
 
 
 -- 项目组人员配置表
-CREATE TABLE `hrbp_projectteam` (
+CREATE TABLE `mms_project_team` (
   `team_id` varchar(20) NOT NULL COMMENT '项目组ID',
   `team_name` varchar(20) DEFAULT NULL COMMENT '项目组名称',
   `staff_id` varchar(20) NOT NULL COMMENT '软通工号',
@@ -20,7 +20,7 @@ CREATE TABLE `hrbp_projectteam` (
 ;
 
 -- 出入项目组记录表
-CREATE TABLE `hrbp_projectteamrecord` (
+CREATE TABLE `mms_project_team_record` (
   `team_id` varchar(20) NOT NULL COMMENT '项目组ID',
   `team_name` varchar(20) DEFAULT NULL COMMENT '项目组名称',
   `staff_id` varchar(20) NOT NULL COMMENT '软通工号',
@@ -35,16 +35,16 @@ CREATE TABLE `hrbp_projectteamrecord` (
 ;
 
 -- 项目角色表
-CREATE TABLE `po_role_info` (
+CREATE TABLE `mms_po_role_info` (
   `po_role_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '项目角色ID',
   `po_role_name` varchar(20) NOT NULL COMMENT '项目角色名称',
   PRIMARY KEY (`po_role_id`,`po_role_name`),
   UNIQUE KEY `po_role_id` (`po_role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
 ;
 
 -- 项目角色配置表
-CREATE TABLE `po_staff_info` (
+CREATE TABLE `mms_po_staff_info` (
   `project_id` varchar(30) NOT NULL COMMENT 'po号(合同ID)',
   `project_name` varchar(50) DEFAULT NULL COMMENT '合同名称',
   `staff_id` varchar(30) NOT NULL COMMENT '软通工号',
@@ -56,7 +56,7 @@ CREATE TABLE `po_staff_info` (
 ;
 
 -- 合同信息表
-CREATE TABLE `project_information` (
+CREATE TABLE `mms_project_information` (
   `projectId` varchar(20) NOT NULL COMMENT 'PO号(合同ID)',
   `projectName` varchar(50) DEFAULT NULL COMMENT '合同名称',
   `startTime` date DEFAULT NULL COMMENT '立项时间',
@@ -69,7 +69,7 @@ CREATE TABLE `project_information` (
 ;
 
 -- 项目组关联合同表
-CREATE TABLE `team_related_po` (
+CREATE TABLE `mms_team_related_po` (
   `team_id` VARCHAR(30) NOT NULL COMMENT '项目组ID',
   `project_id` VARCHAR(30) NOT NULL COMMENT 'PO号(合同ID)'
 ) ENGINE=INNODB DEFAULT CHARSET=utf8
