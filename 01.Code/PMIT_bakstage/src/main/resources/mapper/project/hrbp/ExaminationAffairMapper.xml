@@ -65,14 +65,14 @@
         mms_examination_affair
         where affair_id = #{affairID}
     </select>
-    <insert id="insertAffair" parameterType="ExaminationAffair">
+    <insert id="insertAffair" parameterType="com.isoftstone.pmit.project.hrbp.entity.ExaminationAffair">
         insert into mms_examination_affair(affair_name,system,series,bu,create_by,update_by,update_time)
         select #{affairName},#{system},#{series},#{bu},(SELECT
 	    employeeName
         FROM
 	    base_staff_info
         WHERE
-	    employeeID = #{employeeID}) employeeName,null,NOW() from dual
+	    employeeID = #{employeeID}) employeeName,#{updateBy},NOW() from dual
         where not exists(
 	    select * from mms_examination_affair where affair_name = #{affairName} and system = #{system} and series = #{series} and bu = #{bu}
         )

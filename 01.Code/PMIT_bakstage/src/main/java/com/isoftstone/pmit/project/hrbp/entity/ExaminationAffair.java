@@ -15,6 +15,15 @@ public class ExaminationAffair {
     private String system;
     /** 所属系列 */
     private String series;
+
+    public String getBu() {
+        return bu;
+    }
+
+    public void setBu(String bu) {
+        this.bu = bu;
+    }
+
     /** 所属产业线 */
     private String bu;
     /** 操作人ID */
@@ -64,14 +73,6 @@ public class ExaminationAffair {
 
     public void setSeries(String series) {
         this.series = series;
-    }
-
-    public String getDu() {
-        return bu;
-    }
-
-    public void setDu(String du) {
-        this.bu = bu;
     }
 
     public String getCreateBy() {
