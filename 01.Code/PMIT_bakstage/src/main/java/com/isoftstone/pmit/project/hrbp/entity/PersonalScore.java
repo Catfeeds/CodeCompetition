@@ -3,17 +3,29 @@ package com.isoftstone.pmit.project.hrbp.entity;
 import java.util.Date;
 
 public class PersonalScore {
+    /**员工ID*/
     private String employeeID;
+    /**员工姓名*/
     private String employeeName;
+    /**所属产品线*/
     private String bu;
+    /**成本中心*/
     private String costCenter;
+    /**类型(培训成绩/考试成绩/评价成绩)*/
     private String types;
+    /**得分时间*/
     private Date scoreTime;
+    /**名称(培训名称/评价名称)*/
     private String affairName;
+    /**所属系列*/
     private String series;
+    /**成绩*/
     private float score;
+    /**最后修改人*/
     private String modifier;
+    /**唯一的ID*/
     private int scoresID;
+    /**所属类型的名称的ID*/
     private int nameID;
 
     public int getNameID() {

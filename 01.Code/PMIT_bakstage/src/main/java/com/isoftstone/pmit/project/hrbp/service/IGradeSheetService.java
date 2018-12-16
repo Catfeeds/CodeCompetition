@@ -15,4 +15,7 @@ public interface IGradeSheetService {
     boolean deletePersonalScores(PersonalScore personalScore);
 
     List<PersonalTranAndDimeScore> getPersonalTransactionInfo(PersonalScore personalScore);
+
+    boolean updatePersonalTraningScores(Map<String,Object> parameter);
+
 }

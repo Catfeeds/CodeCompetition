@@ -10,16 +10,16 @@ Target Server Type    : MYSQL
 Target Server Version : 50720
 File Encoding         : 65001
 
-Date: 2018-11-30 16:16:24
+Date: 2018-12-14 17:00:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for `personal_style`
+-- Table structure for `mms_personal_style`
 -- ----------------------------
-DROP TABLE IF EXISTS `personal_style`;
-CREATE TABLE `personal_style` (
+DROP TABLE IF EXISTS `mms_personal_style`;
+CREATE TABLE `mms_personal_style` (
   `employeeID` varchar(16) NOT NULL COMMENT '员工工号',
   `food` varchar(100) DEFAULT NULL COMMENT '喜欢的食物',
   `game` varchar(200) DEFAULT NULL COMMENT '喜欢的游戏',
@@ -35,7 +35,7 @@ CREATE TABLE `personal_style` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of personal_style
+-- Records of mms_personal_style
 -- ----------------------------
-INSERT INTO `personal_style` VALUES ('1', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', null);
-INSERT INTO `personal_style` VALUES ('100178', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', null);
+INSERT INTO `mms_personal_style` VALUES ('10008611', '西兰花', '英雄联盟', '跑步', '人性的弱点', '机械先驱', '一万次悲伤', '先问自己', '不守时', '/hrbp/', '/hrbp/');
+INSERT INTO `mms_personal_style` VALUES ('100178', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string');

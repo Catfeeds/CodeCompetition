@@ -10,16 +10,16 @@ Target Server Type    : MYSQL
 Target Server Version : 50720
 File Encoding         : 65001
 
-Date: 2018-11-30 16:16:04
+Date: 2018-12-14 17:00:59
 */
 
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for `family_information`
+-- Table structure for `mms_family_information`
 -- ----------------------------
-DROP TABLE IF EXISTS `family_information`;
-CREATE TABLE `family_information` (
+DROP TABLE IF EXISTS `mms_family_information`;
+CREATE TABLE `mms_family_information` (
   `employeeID` varchar(16) NOT NULL COMMENT '软通工号',
   `birthdayDate` varchar(64) DEFAULT NULL COMMENT '出生年月',
   `nationality` varchar(16) DEFAULT NULL COMMENT '民族',
@@ -43,7 +43,7 @@ CREATE TABLE `family_information` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of family_information
+-- Records of mms_family_information
 -- ----------------------------
-INSERT INTO `family_information` VALUES ('1', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string');
-INSERT INTO `family_information` VALUES ('100178', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string', 'string');
+INSERT INTO `mms_family_information` VALUES ('	10008612', '2011/11/1', 's士大夫', '陕西', '共和党', '188', '80', '西安', '西安', '谁', '陕西', '110', '在职', '1个女孩', '不行', '1个小时', '否', '无', '无');
+INSERT INTO `mms_family_information` VALUES ('10008611', '2011/11/1', 's士大夫', '陕西', '共和党', '122', '33', '西安', '西安', '黑', '陕西', '110', '在职', '1个女孩', '学', '1个小时', '是', '2018/10/10', '无');

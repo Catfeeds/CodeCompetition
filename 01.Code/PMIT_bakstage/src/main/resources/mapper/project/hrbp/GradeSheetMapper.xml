@@ -243,17 +243,45 @@
         </where>
     </select>
 
-    <delete id="deletePersonalScores" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalScore">
+    <delete id="deletePersonalScores" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalScore" >
         <if test="types == '评价' and types != null">
-            delete from mms_transaction_dimension_score  where  transaction_dimension_id = #{scoresID} and affair_id = #{nameId}
+            delete from mms_transaction_dimension_score
+            <where>
+                <if test="employeeID != null and employeeID != ''" >
+                    employee_id = #{employeeID}
+                </if>
+                <if test="nameID != null and nameID != ''">
+                    and  affair_id = #{nameID}
+                </if>
+            </where>
         </if>
         <if test="types == '培训' and types != null">
             delete from mms_course_test_score where  cour_score_id = #{scoresID}
         </if>
     </delete>
-    <update id="updatePersonalScores" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalScore">
+    <update id="updatePersonalScores" parameterType="java.util.Map">
         <if test="types == '评价' and types != null">
-            update mms_transaction_dimension_score set  where  transaction_dimension_id = #{scoresID}
+            update mms_transaction_dimension_score set
+            <if test="evaluator != null and evaluator != ''">
+                evaluator = #{evaluator},
+            </if>
+            <if test="changeTime != null">
+                changeTime = NOW(),
+            </if>
+            <if test="evaluation != null and evaluation != ''">
+                evaluation = #{evaluation},
+            </if>
+            <if test="score != 0">
+                score = #{score},
+            </if>
+            <if test="evaluator != null and evaluator != ''">
+                evaluator = #{evaluator}
+            </if>
+            <where>
+                <if test="tranAndDieId != null and tranAndDieId != ''">
+                    transaction_dimension_id = #{tranAndDieId}
+                </if>
+            </where>
         </if>
         <if test="types == '培训' and types != null">
             update mms_course_test_score set test_score = #{score} ,modifier = #{modifier}  where  cour_score_id = #{scoresID}

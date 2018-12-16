@@ -217,6 +217,15 @@ public class GradeSheetServiceImpl implements IGradeSheetService {
 
         return personalTransactionInfo;
     }
+
+    @Override
+    public boolean updatePersonalTraningScores(Map<String,Object> parameter) {
+        if (parameter == null){
+           parameter = new HashMap<>();
+        }
+        boolean scores = getScoreMapper.updatePersonalScores(parameter);
+        return scores;
+    }
 }
 
 
