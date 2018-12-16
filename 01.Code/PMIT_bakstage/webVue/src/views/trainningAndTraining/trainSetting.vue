@@ -24,12 +24,7 @@
         class="filter-item"
         style="width: 130px"
       >
-        <el-option
-          v-for="item in courseTypeOptions"
-          :key="item"
-          :label="item"
-          :value="item"
-        ></el-option>
+        <el-option v-for="item in courseTypeOptions" :key="item" :label="item" :value="item"></el-option>
       </el-select>
       <el-select
         v-model="searchForm.product"
@@ -96,20 +91,85 @@
         width="50"
         type="index"
       ></el-table-column>
-      <el-table-column
-        width="100px"
-        header-align="center"
-        label="培训编号"
-        sortable
-        prop="trainingId"
-      ></el-table-column>
+      <el-table-column width="100px" header-align="center" label="培训编号" sortable prop="trainingId"></el-table-column>
       <el-table-column
         min-width="100px"
         header-align="center"
         label="培训名称"
         sortable
         prop="trainingName"
-      ></el-table-column>
+      >
+        <template slot-scope="scope">
+          <el-popover placement="right-end" title="培训详情" width="480" trigger="hover">
+            <el-form size="mini" label-width="120px">
+              <el-row>
+                <el-col>
+                  <el-form-item label="培训编号">
+                    <el-input v-model="scope.row.trainingId" readonly></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col>
+                  <el-form-item label="培训名称">
+                    <el-input v-model="scope.row.trainingName" readonly></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="所属系列">
+                    <el-input v-model="scope.row.series" readonly></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="所属体系">
+                    <el-input v-model="scope.row.sort" readonly></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="课程类型">
+                    <el-input v-model="scope.row.classType" readonly></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="培训类型">
+                    <el-input v-model="scope.row.type" readonly></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="培训时长(小时)">
+                    <el-input v-model="scope.row.trainingDuration" readonly></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="所属产品线">
+                    <el-input v-model="scope.row.bu" readonly></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+              <el-row>
+                <el-col>
+                  <el-form-item label="培训简介">
+                    <el-input
+                      readonly
+                      type="textarea"
+                      v-model="scope.row.trainingDes"
+                      :autosize="{ minRows: 2, maxRows: 4 }"
+                      resize="none"
+                    ></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+            <el-button type="text" slot="reference">{{scope.row.trainingName}}</el-button>
+          </el-popover>
+        </template>
+      </el-table-column>
 
       <el-table-column min-width="100px" header-align="center" label="所属系列" sortable prop="series"></el-table-column>
 
@@ -137,7 +197,7 @@
           <span>{{ scope.row.createTime | formatDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" :label="$t('table.option')" width="110" header-align="center">
+      <el-table-column align="center" :label="$t('table.option')" width="80" header-align="center">
         <template slot-scope="scope">
           <el-button
             type="text"
@@ -152,13 +212,6 @@
             icon="el-icon-delete"
             title="删除"
             @click="handleDel(scope.row.trainingId);"
-          ></el-button>
-          <el-button
-            type="text"
-            size="mini"
-            icon="el-icon-view"
-            title="查看"
-            @click="handleDetail(scope.row);"
           ></el-button>
         </template>
       </el-table-column>
@@ -176,39 +229,24 @@
     </el-row>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="45%">
       <el-form :model="trainForm" size="mini" label-width="120px" ref="trainForm" :rules="rules">
-        <el-row v-if="isEdit || isDetail">
+        <el-row v-if="isEdit">
           <el-col>
             <el-form-item label="培训编号" prop="trainId">
-              <el-input v-model="trainForm.trainId" autocomplete="off" disabled></el-input>
+              <el-input v-model="trainForm.trainId" autocomplete="off" readonly></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col>
             <el-form-item label="培训名称" prop="trainName">
-              <el-input
-                v-model="trainForm.trainName"
-                autocomplete="off"
-                required
-                maxlength="64"
-                :disabled="isDetail"
-              ></el-input>
+              <el-input v-model="trainForm.trainName" autocomplete="off" required maxlength="64"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="所属系列" prop="series">
-              <el-input
-                v-if="isDetail"
-                v-model="trainForm.series"
-                autocomplete="off"
-                required
-                maxlength="64"
-                disabled
-              ></el-input>
               <el-select
-                v-else
                 v-model="trainForm.series"
                 filterable
                 allow-create
@@ -226,16 +264,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="所属体系" prop="system">
-              <el-input
-                v-if="isDetail"
-                v-model="trainForm.system"
-                autocomplete="off"
-                required
-                maxlength="64"
-                disabled
-              ></el-input>
               <el-select
-                v-else
                 v-model="trainForm.system"
                 filterable
                 allow-create
@@ -255,15 +284,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="课程类型" prop="courseType">
-              <el-input
-                v-if="isDetail"
-                v-model="trainForm.courseType"
-                autocomplete="off"
-                required
-                maxlength="64"
-                disabled
-              ></el-input>
-              <el-select v-model="trainForm.courseType" placeholder="请选择" v-else>
+              <el-select v-model="trainForm.courseType" placeholder="请选择">
                 <el-option
                   v-for="item in courseTypeOptions"
                   :key="item"
@@ -275,21 +296,8 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="培训类型" prop="trainType">
-              <el-input
-                v-if="isDetail"
-                v-model="trainForm.trainType"
-                autocomplete="off"
-                required
-                maxlength="64"
-                disabled
-              ></el-input>
-              <el-select v-model="trainForm.trainType" placeholder="请选择" v-else>
-                <el-option
-                  v-for="item in trainTypeOptions"
-                  :key="item"
-                  :label="item"
-                  :value="item"
-                ></el-option>
+              <el-select v-model="trainForm.trainType" placeholder="请选择">
+                <el-option v-for="item in trainTypeOptions" :key="item" :label="item" :value="item"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -297,25 +305,12 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="培训时长(小时)" prop="trainTime">
-              <el-input
-                v-model="trainForm.trainTime"
-                autocomplete="off"
-                :disabled="isDetail"
-                maxlength="4"
-              ></el-input>
+              <el-input v-model="trainForm.trainTime" autocomplete="off" maxlength="4"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="所属产品线" prop="product">
-              <el-input
-                v-if="isDetail"
-                v-model="trainForm.product"
-                autocomplete="off"
-                required
-                maxlength="64"
-                disabled
-              ></el-input>
-              <el-select v-model="trainForm.product" placeholder="请选择" v-else>
+              <el-select v-model="trainForm.product" placeholder="请选择">
                 <el-option
                   v-for="item in productOptions"
                   :key="item.value"
@@ -328,7 +323,6 @@
         </el-row>
         <el-form-item label="培训简介" prop="description">
           <el-input
-            :disabled="isDetail"
             type="textarea"
             v-model="trainForm.description"
             :autosize="{ minRows: 2, maxRows: 4 }"
@@ -337,9 +331,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false;" size="mini" v-if="!isDetail">取 消</el-button>
-        <el-button @click="dialogVisible = false;" size="mini" v-if="isDetail">关 闭</el-button>
-        <el-button type="primary" @click="submtForm('trainForm');" size="mini" v-if="!isDetail">确 定</el-button>
+        <el-button @click="dialogVisible = false;" size="mini">取 消</el-button>
+        <el-button type="primary" @click="submtForm('trainForm');" size="mini">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -404,7 +397,6 @@ export default {
       dialogTitle: "添加培训信息",
       dialogVisible: false,
       isEdit: false,
-      isDetail: false,
       rules: {
         trainName: [
           { required: true, message: "请输入培训名称", trigger: "blur" }
@@ -482,7 +474,6 @@ export default {
     },
     handleCreate() {
       this.isEdit = false;
-      this.isDetail = false;
       this.trainForm.trainId = "";
       this.trainForm.trainName = "";
       this.trainForm.description = "";
@@ -600,7 +591,6 @@ export default {
       });
     },
     handleEdit(rowData) {
-      this.isDetail = false;
       this.isEdit = true;
       this.getProductInfo();
       this.getSeries();
@@ -616,22 +606,6 @@ export default {
       this.trainForm.product = rowData.bu;
       this.dialogTitle = "修改培训信息";
       this.dialogVisible = true;
-      this.clearValidate();
-    },
-    handleDetail(rowData) {
-      this.trainForm.trainId = rowData.trainingId;
-      this.trainForm.trainName = rowData.trainingName;
-      this.trainForm.description = rowData.trainingDesc;
-      this.trainForm.series = rowData.series;
-      this.trainForm.system = rowData.sort;
-      this.trainForm.courseType = rowData.classType;
-      this.trainForm.trainType = rowData.type;
-      this.trainForm.trainTime = rowData.trainingDuration;
-      this.trainForm.product = rowData.bu;
-      this.dialogTitle = "查看培训信息";
-      this.dialogVisible = true;
-      this.isEdit = false;
-      this.isDetail = true;
       this.clearValidate();
     }
   }

@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0d09f1"],{6980:function(n,e,l){"use strict";l.r(e);var o,u,p=l("2877"),s={},t=Object(p["a"])(s,o,u,!1,null,null,null);t.options.__file="personalCenter.vue",e["default"]=t.exports}}]);
-//# sourceMappingURL=chunk-2d0d09f1.1e8462cf.js.map

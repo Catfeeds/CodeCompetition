@@ -113,7 +113,130 @@
           label="开班名称"
           sortable="custom"
           prop="openingName"
-        ></el-table-column>
+        >
+          <template slot-scope="scope">
+            <el-popover placement="right-end" title="开班详情" width="800" trigger="hover">
+              <el-form size="mini" label-width="120px">
+                <el-row>
+                  <el-col :span="8">
+                    <el-form-item label="所属产品线">
+                      <el-input v-model="scope.row.bu" readonly></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="所属系列">
+                      <el-input v-model="scope.row.series" readonly></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="所属体系">
+                      <el-input v-model="scope.row.system" readonly></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="8">
+                    <el-form-item label="课程类型">
+                      <el-input v-model="scope.row.trainingType" readonly></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="培训名称">
+                      <el-input v-model="scope.row.trainingName" readonly></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="开班名称">
+                      <el-input v-model="scope.row.openingName" readonly></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="8">
+                    <el-form-item label="讲师">
+                      <el-input v-model="scope.row.lecturer" readonly></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="培训时间">
+                      <el-input v-model="scope.row.trainTime" readonly></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="语言">
+                      <el-input v-model="scope.row.langName" readonly></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="8">
+                    <el-form-item label="开班形式">
+                      <el-input v-model="scope.row.classType" readonly></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="开班地点">
+                      <el-input v-model="scope.row.address" readonly></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="课件下载地址">
+                      <el-input v-model="scope.row.download" readonly></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="8">
+                    <el-form-item label="在线培训地址">
+                      <el-input v-model="scope.row.online" readonly></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="可容纳人数">
+                      <el-input v-model="scope.row.galleryful" readonly></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="是否需要考试">
+                      <el-input v-model="scope.row.isExamination" readonly></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="8">
+                    <el-form-item label="接口人">
+                      <el-input v-model="scope.row.publisher" readonly></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="咨询电话">
+                      <el-input v-model="scope.row.telephone" readonly></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="8">
+                    <el-form-item label="报名方式">
+                      <el-input v-model="scope.row.signUpType" readonly></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+                <el-row>
+                  <el-col :span="24">
+                    <el-form-item label="报名须知">
+                      <el-input
+                        readonly
+                        type="textarea"
+                        v-model="scope.row.notice"
+                        :autosize="{ minRows: 2, maxRows: 4 }"
+                        resize="none"
+                      ></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+              </el-form>
+              <el-button type="text" slot="reference">{{scope.row.trainingName}}</el-button>
+            </el-popover>
+          </template>
+        </el-table-column>
         <el-table-column
           width="150px"
           header-align="center"
@@ -165,7 +288,7 @@
           prop="bu"
         ></el-table-column>
         <el-table-column
-          width="110"
+          width="80"
           header-align="center"
           align="center"
           :label="$t('table.option')"
@@ -184,13 +307,6 @@
               icon="el-icon-delete"
               title="删除"
               @click="handleDel(scope.row.openingID);"
-            ></el-button>
-            <el-button
-              type="text"
-              size="mini"
-              icon="el-icon-view"
-              title="查看"
-              @click="handleDetail(scope.row);"
             ></el-button>
           </template>
         </el-table-column>
@@ -212,20 +328,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="所属产品线" prop="product">
-              <el-input
-                v-if="isDetail"
-                v-model="startForm.product"
-                autocomplete="off"
-                required
-                maxlength="64"
-                readonly
-              ></el-input>
-              <el-select
-                v-model="startForm.product"
-                placeholder="请选择"
-                @change="getStartTrain"
-                v-else
-              >
+              <el-select v-model="startForm.product" placeholder="请选择" @change="getStartTrain">
                 <el-option
                   v-for="item in searchForm.productOptions"
                   :key="item.value"
@@ -237,20 +340,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="所属系列" prop="series">
-              <el-input
-                v-if="isDetail"
-                v-model="startForm.series"
-                autocomplete="off"
-                required
-                maxlength="64"
-                readonly
-              ></el-input>
-              <el-select
-                v-else
-                v-model="startForm.series"
-                @change="getStartTrain"
-                placeholder="请选择"
-              >
+              <el-select v-model="startForm.series" @change="getStartTrain" placeholder="请选择">
                 <el-option
                   v-for="item in searchForm.seriesOptions"
                   :key="item"
@@ -262,20 +352,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="所属体系" prop="system">
-              <el-input
-                v-if="isDetail"
-                v-model="startForm.system"
-                autocomplete="off"
-                required
-                maxlength="64"
-                readonly
-              ></el-input>
-              <el-select
-                v-else
-                v-model="startForm.system"
-                @change="getStartTrain"
-                placeholder="请选择"
-              >
+              <el-select v-model="startForm.system" @change="getStartTrain" placeholder="请选择">
                 <el-option
                   v-for="item in searchForm.systemOptions"
                   :key="item"
@@ -289,20 +366,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="课程类型" prop="courseType">
-              <el-input
-                v-if="isDetail"
-                v-model="startForm.courseType"
-                autocomplete="off"
-                required
-                maxlength="64"
-                readonly
-              ></el-input>
-              <el-select
-                v-model="startForm.courseType"
-                @change="getStartTrain"
-                placeholder="请选择"
-                v-else
-              >
+              <el-select v-model="startForm.courseType" @change="getStartTrain" placeholder="请选择">
                 <el-option
                   v-for="item in searchForm.courseTypeOptions"
                   :key="item"
@@ -314,15 +378,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="培训名称" prop="trainName">
-              <el-input
-                v-if="isDetail"
-                v-model="startForm.trainName"
-                autocomplete="off"
-                required
-                maxlength="64"
-                readonly
-              ></el-input>
-              <el-select v-model="startForm.trainName" placeholder="请选择" v-else>
+              <el-select v-model="startForm.trainName" placeholder="请选择">
                 <el-option
                   v-for="item in startForm.trainOptions"
                   :key="item.trainingId"
@@ -334,25 +390,14 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="开班名称" prop="classSerices">
-              <el-input
-                v-model="startForm.classSerices"
-                autocomplete="off"
-                required
-                maxlength="64"
-                :readonly="isDetail"
-              ></el-input>
+              <el-input v-model="startForm.classSerices" autocomplete="off" required maxlength="64"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="8">
             <el-form-item label="讲师" prop="lecturer">
-              <el-input
-                v-model="startForm.lecturer"
-                autocomplete="off"
-                :readonly="isDetail"
-                maxlength="50"
-              ></el-input>
+              <el-input v-model="startForm.lecturer" autocomplete="off" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -362,7 +407,6 @@
                 type="datetime"
                 size="mini"
                 format="yyyy-MM-dd HH:mm"
-                :readonly="isDetail"
                 prefix-icon="null"
                 placeholder="选择培训时间"
               ></el-date-picker>
@@ -370,15 +414,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="语言" prop="language">
-              <el-input
-                v-if="isDetail"
-                v-model="startForm.language"
-                autocomplete="off"
-                required
-                maxlength="64"
-                readonly
-              ></el-input>
-              <el-select v-model="startForm.language" placeholder="请选择" v-else>
+              <el-select v-model="startForm.language" placeholder="请选择">
                 <el-option
                   v-for="item in startForm.languageOptions"
                   :key="item.value"
@@ -392,14 +428,7 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="开班形式" prop="openClassType">
-              <el-input
-                v-model="startForm.openClassType"
-                autocomplete="off"
-                v-if="isDetail"
-                readonly
-                maxlength="4"
-              ></el-input>
-              <el-select v-model="startForm.openClassType" placeholder="请选择" v-else>
+              <el-select v-model="startForm.openClassType" placeholder="请选择">
                 <el-option
                   v-for="item in startForm.openClassTypeOptions"
                   :key="item"
@@ -411,12 +440,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="开班地点" prop="startLocation">
-              <el-input
-                v-model="startForm.startLocation"
-                autocomplete="off"
-                :readonly="isDetail"
-                maxlength="50"
-              ></el-input>
+              <el-input v-model="startForm.startLocation" autocomplete="off" maxlength="50"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -426,7 +450,6 @@
                 autocomplete="off"
                 required
                 maxlength="128"
-                :readonly="isDetail"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -434,35 +457,17 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="在线培训地址" prop="trainAddr">
-              <el-input
-                v-model="startForm.trainAddr"
-                autocomplete="off"
-                :readonly="isDetail"
-                maxlength="128"
-              ></el-input>
+              <el-input v-model="startForm.trainAddr" autocomplete="off" maxlength="128"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="可容纳人数" prop="capacity">
-              <el-input
-                v-model="startForm.capacity"
-                autocomplete="off"
-                :readonly="isDetail"
-                maxlength="4"
-              ></el-input>
+              <el-input v-model="startForm.capacity" autocomplete="off" maxlength="4"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="是否需要考试" prop="isExam">
-              <el-input
-                v-if="isDetail"
-                v-model="startForm.isExam"
-                autocomplete="off"
-                required
-                maxlength="64"
-                readonly
-              ></el-input>
-              <el-select v-model="startForm.isExam" placeholder="请选择" v-else>
+              <el-select v-model="startForm.isExam" placeholder="请选择">
                 <el-option
                   v-for="item in startForm.isExamOptions"
                   :key="item.value"
@@ -476,35 +481,17 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="接口人" prop="publisher">
-              <el-input
-                v-model="startForm.publisher"
-                autocomplete="off"
-                :readonly="isDetail"
-                maxlength="20"
-              ></el-input>
+              <el-input v-model="startForm.publisher" autocomplete="off" maxlength="20"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="咨询电话" prop="telephone">
-              <el-input
-                v-model="startForm.telephone"
-                autocomplete="off"
-                :readonly="isDetail"
-                maxlength="20"
-              ></el-input>
+              <el-input v-model="startForm.telephone" autocomplete="off" maxlength="20"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="报名方式" prop="regType">
-              <el-input
-                v-if="isDetail"
-                v-model="startForm.regType"
-                autocomplete="off"
-                required
-                maxlength="64"
-                readonly
-              ></el-input>
-              <el-select v-model="startForm.regType" placeholder="请选择" v-else>
+              <el-select v-model="startForm.regType" placeholder="请选择">
                 <el-option
                   v-for="item in startForm.regTypeOptions"
                   :key="item.value"
@@ -519,7 +506,6 @@
           <el-col :span="24">
             <el-form-item label="报名须知" prop="regNote">
               <el-input
-                :readonly="isDetail"
                 type="textarea"
                 v-model="startForm.regNote"
                 :autosize="{ minRows: 2, maxRows: 4 }"
@@ -530,9 +516,8 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false;" size="mini" v-if="!isDetail">取 消</el-button>
-        <el-button @click="dialogVisible = false;" size="mini" v-if="isDetail">关 闭</el-button>
-        <el-button type="primary" @click="submtForm('startForm');" size="mini" v-if="!isDetail">确 定</el-button>
+        <el-button @click="dialogVisible = false;" size="mini">取 消</el-button>
+        <el-button type="primary" @click="submtForm('startForm');" size="mini">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -583,7 +568,6 @@ export default {
       dialogTitle: "添加开班计划",
       dialogVisible: false,
       isEdit: false,
-      isDetail: false,
       statusMap: {
         1: "可报名",
         2: "已满员",
@@ -643,7 +627,17 @@ export default {
   },
   watch: {
     dataSource(data) {
-      this.dataTable = data.list;
+      this.dataTable = data.list.map(item => {
+        item.trainTime = formatDate(
+          new Date(item.trainingTime),
+          "yyyy-MM-dd hh:mm"
+        );
+        item.langName =
+          item.language === 1 ? "中文" : item.language === 0 ? "英文" : "";
+        item.isExamination = item.isExam === 1 ? "是" : "否";
+        item.signUpType = item.enrollMethod === 1 ? "线上" : "线下";
+        return item;
+      });
       this.page.totalRecord = data.total;
     }
   },
@@ -690,7 +684,6 @@ export default {
       vm.dialogTitle = "添加开班计划";
       vm.dialogVisible = true;
       vm.isEdit = false;
-      vm.isDetail = false;
       vm.$refs.startForm.resetFields();
     },
     submtForm() {
@@ -744,19 +737,7 @@ export default {
       vm.getStartSystem();
       vm.dialogTitle = "编辑开班计划";
       vm.dialogVisible = true;
-      vm.isDetail = false;
       vm.isEdit = true;
-      rowData.isDetail = vm.isDetail;
-      vm.setStartInfo(rowData);
-      vm.clearValidate();
-    },
-    handleDetail(rowData) {
-      let vm = this;
-      vm.dialogTitle = "查看开班计划";
-      vm.dialogVisible = true;
-      vm.isDetail = true;
-      vm.isEdit = false;
-      rowData.isDetail = vm.isDetail;
       vm.setStartInfo(rowData);
       vm.clearValidate();
     }

@@ -1,114 +1,139 @@
 <template>
   <div class="role-container">
-    <el-table
-      v-loading="loading"
-      :data="tableData"
-      border
-      fit
-      size="mini"
-      stripe
-      max-height="375"
-      highlight-current-row
-      style="width: 100%;"
-    >
-      <el-table-column
-        header-align="center"
-        align="center"
-        :label="$t('table.id')"
-        type="index"
-        width="80"
-      ></el-table-column>
-
-      <el-table-column min-width="150px" header-align="center" label="所属体系" prop="system" sortable></el-table-column>
-      <el-table-column
-        min-width="150px"
-        header-align="center"
-        label="角色名称"
-        prop="roleName"
-        sortable
-      ></el-table-column>
-      <el-table-column
-        min-width="100px"
-        header-align="center"
-        label="创建人"
-        prop="creatorName"
-        sortable
-      ></el-table-column>
-      <el-table-column
-        min-width="150px"
-        header-align="center"
-        label="最后更新人"
-        prop="updateStaffName"
-        sortable
-      ></el-table-column>
-      <el-table-column
-        min-width="150px"
-        header-align="center"
-        label="最后更新时间"
-        prop="updateTime"
-        sortable
+    <el-form :model="roleForm" size="mini" ref="roleForm" :rules="rules">
+      <el-table
+        v-loading="loading"
+        :data="tableData"
+        border
+        fit
+        size="mini"
+        stripe
+        max-height="375"
+        highlight-current-row
+        style="width: 100%;"
       >
-        <template slot-scope="scope">
-          <span>{{ scope.row.updateTime | formatDate }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" width="80" header-align="center" :label="$t('table.option')">
-        <template slot-scope="scope">
-          <el-button
-            type="text"
-            size="mini"
-            icon="el-icon-edit"
-            title="编辑"
-            @click="handleEdit(scope.row);"
-          ></el-button>
-          <el-button
-            type="text"
-            size="mini"
-            icon="el-icon-delete"
-            title="删除"
-            @click="handleDel(scope.row.roleId);"
-          ></el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+        <el-table-column
+          header-align="center"
+          align="center"
+          :label="$t('table.id')"
+          type="index"
+          width="80"
+        ></el-table-column>
+
+        <el-table-column
+          min-width="150px"
+          header-align="center"
+          label="所属体系"
+          prop="system"
+          :sortable="!isAdd"
+        >
+          <template slot-scope="scope">
+            <el-form-item label prop="system" v-if="scope.row.isAdd">
+              <el-select
+                v-model="roleForm.system"
+                placeholder="请选择"
+                style="width:130px;"
+              >
+                <el-option v-for="item in systemOptions" :key="item" :label="item" :value="item"></el-option>
+              </el-select>
+            </el-form-item>
+            <span v-else>{{scope.row.system}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          min-width="150px"
+          header-align="center"
+          label="角色名称"
+          prop="roleName"
+          :sortable="!isAdd"
+        >
+          <template slot-scope="scope">
+            <el-form-item label prop="roleName" v-if="scope.row.isAdd">
+              <el-input v-model="roleForm.roleName" autocomplete="off" required maxlength="64" style="width:130px;"></el-input>
+            </el-form-item>
+            <span v-else>{{scope.row.roleName}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          min-width="100px"
+          header-align="center"
+          label="创建人"
+          prop="creatorName"
+          :sortable="!isAdd"
+        ></el-table-column>
+        <el-table-column
+          min-width="150px"
+          header-align="center"
+          label="最后更新人"
+          prop="updateStaffName"
+          :sortable="!isAdd"
+        ></el-table-column>
+        <el-table-column
+          min-width="150px"
+          header-align="center"
+          label="最后更新时间"
+          prop="updateTime"
+          :sortable="!isAdd"
+        >
+          <template slot-scope="scope">
+            <span v-if="!scope.row.isAdd">{{ scope.row.updateTime | formatDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          width="80"
+          header-align="center"
+          :label="$t('table.option')"
+        >
+          <template slot-scope="scope">
+            <el-button
+              v-if="!scope.row.isAdd"
+              type="text"
+              size="mini"
+              icon="el-icon-edit"
+              title="编辑"
+              @click="handleEdit(scope.row);"
+            ></el-button>
+            <el-button
+              v-if="!scope.row.isAdd"
+              type="text"
+              size="mini"
+              icon="el-icon-delete"
+              title="删除"
+              @click="handleDel(scope.row.roleId);"
+            ></el-button>
+            <el-button
+              v-if="scope.row.isAdd"
+              type="text"
+              size="mini"
+              icon="el-icon-circle-plus-outline"
+              title="保存"
+              @click="handleSubmit(scope.row);"
+            ></el-button>
+            <el-button
+              v-if="scope.row.isAdd"
+              type="text"
+              size="mini"
+              icon="el-icon-remove-outline"
+              title="取消"
+              @click="getRoleList();"
+            ></el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-form>
     <el-row type="flex" justify="end">
       <el-pagination
         @current-change="handleCurrentChange"
         :current-page="page.currentPage"
         :page-size="page.pageSize"
+        :disabled="isAdd"
         layout="total, slot, prev, pager, next"
         :total="page.totalRecord"
         prev-text="上一页"
         next-text="下一页"
       ></el-pagination>
     </el-row>
-    <el-dialog :title="dialogBaseTitle" :visible.sync="dialogBaseVisible" width="30%">
-      <el-form :model="roleForm" size="mini" label-width="120px" ref="roleForm" :rules="rules">
-        <el-form-item label="角色名称" prop="roleName">
-          <el-input v-model="roleForm.roleName" autocomplete="off" required maxlength="64"></el-input>
-        </el-form-item>
-        <el-form-item label="所属体系" prop="system">
-          <el-select
-            v-model="roleForm.system"
-            filterable
-            allow-create
-            default-first-option
-            placeholder="请选择"
-          >
-            <el-option
-              v-for="item in systemOptions"
-              :key="item"
-              :label="item"
-              :value="item"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogBaseVisible = false;" size="mini">取 消</el-button>
-        <el-button type="primary" @click="handleSubmit();" size="mini">确 定</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -137,9 +162,8 @@ export default {
       loading: false,
       tableData: [],
       initList: [],
-      dialogBaseTitle: "添加关键角色",
-      dialogBaseVisible: false,
       isEdit: false,
+      isAdd: false,
       page: {
         pageNum: 1,
         pageSize: 10,
@@ -168,6 +192,7 @@ export default {
     getRoleList() {
       let vm = this;
       vm.loading = true;
+      vm.isAdd = false;
       vm.getRoleInfo(vm.condition)
         .then(res => {
           if (res.success) {
@@ -197,14 +222,20 @@ export default {
       );
     },
     handleEdit(rowData) {
+      if (this.validTableStatus()) {
+        return;
+      }
       this.isEdit = true;
+      this.isAdd = true;
       this.roleForm.roleId = rowData.roleId;
       this.roleForm.roleName = rowData.roleName;
       this.roleForm.system = rowData.system;
-      this.dialogBaseTitle = "编辑关键角色";
-      this.dialogBaseVisible = true;
+      rowData.isAdd = true;
     },
     handleDel(roleId) {
+      if (this.validTableStatus()) {
+        return;
+      }
       let vm = this;
       vm.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -223,15 +254,21 @@ export default {
       });
     },
     handleFilter() {
+      if (this.validTableStatus()) {
+        return;
+      }
       this.page.currentPage = 1;
       this.getRoleList();
     },
     handleAdd() {
+      if (this.validTableStatus()) {
+        return;
+      }
       this.roleForm.roleName = "";
       this.roleForm.system = "";
       this.isEdit = false;
-      this.dialogBaseTitle = "添加关键角色";
-      this.dialogBaseVisible = true;
+      this.isAdd = true;
+      this.tableData.unshift({ isAdd: true });
     },
     handleSubmit() {
       let vm = this;
@@ -250,6 +287,7 @@ export default {
             formData.roleId = -1;
             formData.creatorName = vm.employeeName;
           }
+          vm.isAdd = false;
           vm.$store.dispatch("saveRoleInfo", formData).then(res => {
             if (res.success) {
               vm.$message.success(res.message);
@@ -258,12 +296,18 @@ export default {
             } else {
               vm.$message.error(res.message);
             }
-            vm.dialogBaseVisible = false;
           });
         } else {
           return false;
         }
       });
+    },
+    validTableStatus() {
+      if (this.tableData.find(item => item.isAdd)) {
+        this.$message.warning("表格存在正在编辑的数据，请先保存");
+        return true;
+      }
+      return false;
     }
   }
 };

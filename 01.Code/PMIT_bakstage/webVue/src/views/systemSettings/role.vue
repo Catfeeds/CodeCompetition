@@ -22,25 +22,24 @@
         width="80"
       ></el-table-column>
 
-      <el-table-column
-        min-width="150px"
-        header-align="center"
-        label="角色名称"
-        prop="roleName"
-      ></el-table-column>
+      <el-table-column min-width="150px" header-align="center" label="角色名称" prop="roleName">
+        <template slot-scope="scope">
+          <el-popover placement="right-end" title="菜单项" width="300" trigger="hover">
+            <el-tree
+              aria-required
+              :data="scope.row.menuInfo"
+              node-key="id"
+              default-expand-all
+              :props="defaultProps"
+              ref="tree"
+            ></el-tree>
+            <el-button type="text" slot="reference">{{scope.row.roleName}}</el-button>
+          </el-popover>
+        </template>
+      </el-table-column>
 
-      <el-table-column
-        min-width="150px"
-        header-align="center"
-        label="角色描述"
-        prop="description"
-      ></el-table-column>
-      <el-table-column
-        align="center"
-        :label="$t('table.option')"
-        width="80"
-        header-align="center"
-      >
+      <el-table-column min-width="150px" header-align="center" label="角色描述" prop="description"></el-table-column>
+      <el-table-column align="center" :label="$t('table.option')" width="110" header-align="center">
         <template slot-scope="scope">
           <el-button
             type="text"
@@ -60,27 +59,12 @@
       </el-table-column>
     </el-table>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="30%">
-      <el-form
-        :model="roleForm"
-        size="mini"
-        label-width="80px"
-        ref="roleForm"
-        :rules="rules"
-      >
+      <el-form :model="roleForm" size="mini" label-width="80px" ref="roleForm" :rules="rules">
         <el-form-item label="角色名称" prop="roleName">
-          <el-input
-            v-model="roleForm.roleName"
-            autocomplete="off"
-            required
-            maxlength="64"
-          ></el-input>
+          <el-input v-model="roleForm.roleName" autocomplete="off" required maxlength="64"></el-input>
         </el-form-item>
         <el-form-item label="角色描述" prop="description">
-          <el-input
-            v-model="roleForm.description"
-            autocomplete="off"
-            maxlength="128"
-          ></el-input>
+          <el-input v-model="roleForm.description" autocomplete="off" maxlength="128"></el-input>
         </el-form-item>
         <el-form-item label="菜单项" prop="menuTree">
           <div style="height:150px;">
@@ -101,9 +85,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false;" size="mini">取 消</el-button>
-        <el-button type="primary" @click="submtForm('roleForm');" size="mini"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="submtForm('roleForm');" size="mini">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -187,20 +169,47 @@ export default {
   },
   methods: {
     getRoleList() {
-      this.loading = true;
-      this.$store
+      let vm = this;
+      vm.loading = true;
+      vm.$store
         .dispatch("getSysRoleList")
         .then(res => {
           if (res.success) {
-            this.tableData = res.data;
+            res.data.forEach(item => {
+              vm.$store
+                .dispatch("getMenuInfoByRoleId", item.roleId)
+                .then(res => {
+                  if (res.success) {
+                    item.menuInfo = res.data
+                      .filter(item => !item.parentId && item.menuId > 1)
+                      .map(item => {
+                        return {
+                          id: item.menuId,
+                          name: item.note,
+                          children: res.data
+                            .filter(menu => menu.parentId === item.menuId)
+                            .map(menu => {
+                              return {
+                                id: menu.menuId,
+                                name: menu.note
+                              };
+                            })
+                        };
+                      });
+                  } else {
+                    item.menuInfo = [];
+                  }
+                  vm.tableData.push(item);
+                });
+            });
           } else {
-            this.tableData = [];
+            vm.tableData = [];
           }
-          this.loading = false;
+          vm.loading = false;
         })
         .catch(error => {
           console.log(error);
-          this.loading = false;
+          vm.loading = false;
         });
     },
     handleDel(id) {

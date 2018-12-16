@@ -86,10 +86,11 @@
       :close-on-click-modal="false"
     >
       <el-steps :active="active" finish-status="success" simple>
-        <el-step title="参数设置"></el-step>
-        <el-step title="生成规则"></el-step>
+        <el-step title="基本信息"></el-step>
+        <el-step title="选择课程和事务"></el-step>
+        <el-step title="生成结果"></el-step>
       </el-steps>
-      <div v-if="isSet">
+      <div v-if="isBaseInfo" style="margin-top:10px;">
         <el-form
           :model="ruleForm"
           size="mini"
@@ -97,30 +98,7 @@
           ref="ruleForm"
           :rules="rules"
           inline
-          inline-message
-          style="margin-top:10px;"
-          class="ruleForm-condition"
         >
-          <el-form-item label="所属体系" prop="system">
-            <el-select
-              v-model="ruleForm.system"
-              inline-message
-              placeholder="请选择"
-              style="width:130px;"
-            >
-              <el-option v-for="item in systemOptions" :key="item" :label="item" :value="item"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="所属角色" prop="role">
-            <el-select v-model="ruleForm.role" placeholder="请选择" style="width:130px;">
-              <el-option
-                v-for="item in roleOptions"
-                :key="item.roleId"
-                :label="item.roleName"
-                :value="item.roleId"
-              ></el-option>
-            </el-select>
-          </el-form-item>
           <el-form-item label="职级" prop="rank">
             <el-select
               v-model="ruleForm.rank"
@@ -132,8 +110,27 @@
               <el-option v-for="item in rankOptions" :key="item" :label="item" :value="item"></el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="考核角色" prop="role">
+            <div style="height:280px; width:300px; border: 1px solid #dcdfe6;">
+              <el-scrollbar>
+                <el-tree
+                  style="300px"
+                  aria-required
+                  :data="roleTreeData"
+                  show-checkbox
+                  node-key="id"
+                  default-expand-all
+                  :props="defaultProps"
+                  :default-checked-keys="selectedNodes"
+                  ref="tree"
+                ></el-tree>
+              </el-scrollbar>
+            </div>
+          </el-form-item>
         </el-form>
-        <el-row :gutter="12">
+      </div>
+      <div v-if="isSelect">
+        <el-row :gutter="12" style="margin-top:5px;">
           <el-col :span="14">
             <el-card shadow="never">
               <div slot="header" class="clearfix">待选课程列表</div>
@@ -146,16 +143,6 @@
                   style="width: 130px"
                   placeholder="培训名称"
                 ></el-input>
-                <el-select
-                  size="mini"
-                  v-model="searchForm.system"
-                  clearable
-                  class="filter-item"
-                  style="width: 130px"
-                  placeholder="所属体系"
-                >
-                  <el-option v-for="item in systemOptions" :key="item" :label="item" :value="item"></el-option>
-                </el-select>
                 <el-select
                   size="mini"
                   v-model="searchForm.series"
@@ -176,12 +163,12 @@
               </div>
               <el-table
                 ref="trainTable"
-                :data="trainDataSource"
+                :data="trainTableData"
                 border
                 fit
                 size="mini"
                 stripe
-                height="187"
+                height="215"
                 tooltip-effect="dark"
                 @selection-change="handleTrainSelectionChange"
                 style="width: 100%;"
@@ -214,13 +201,13 @@
                 ></el-input>
                 <el-select
                   size="mini"
-                  v-model="searchForm.affairSystem"
+                  v-model="searchForm.affairSeries"
                   clearable
                   class="filter-item"
                   style="width: 130px"
-                  placeholder="所属体系"
+                  placeholder="所属系列"
                 >
-                  <el-option v-for="item in systemOptions" :key="item" :label="item" :value="item"></el-option>
+                  <el-option v-for="item in seriesOptions" :key="item" :label="item" :value="item"></el-option>
                 </el-select>
                 <el-button
                   class="filter-item"
@@ -232,12 +219,12 @@
               </div>
               <el-table
                 ref="affairTable"
-                :data="affairDataSource"
+                :data="affairTableData"
                 border
                 fit
                 size="mini"
                 stripe
-                height="187"
+                height="215"
                 tooltip-effect="dark"
                 @selection-change="handleAffairSelectionChange"
                 style="width: 100%;"
@@ -257,11 +244,11 @@
         </el-row>
       </div>
       <div v-if="isResult" class="score">
-        <el-row :gutter="12" style="margin-top:10px;">
-          <el-col :span="14">
-            <el-card shadow="never">
-              <div slot="header" class="clearfix">单项得分校验规则设置</div>
-              <el-form :model="tableForm" ref="tableForm" inline-message size="mini">
+        <el-form :model="tableForm" ref="tableForm" inline-message size="mini">
+          <el-row :gutter="12" style="margin-top:10px;">
+            <el-col :span="12">
+              <el-card shadow="never">
+                <div slot="header" class="clearfix">单项得分校验规则设置</div>
                 <el-table
                   :data="tableForm.ruleDataSource"
                   border
@@ -279,16 +266,16 @@
                     width="50"
                     type="index"
                   ></el-table-column>
-                  <el-table-column prop="trainName" header-align="center" label="培训名称" width="200"></el-table-column>
+                  <el-table-column prop="trainName" header-align="center" label="培训名称" width="150"></el-table-column>
                   <el-table-column prop="credit" header-align="center" label="最高得分" min-width="130">
                     <template slot-scope="scope">
                       <el-form-item
                         :prop="'ruleDataSource.'+scope.$index+'.credit'"
-                        :rules="scope.row.trainId>=0&&rules.score"
+                        :rules="rules.score"
                         style="margin-bottom:0px;"
+                        v-if="scope.row.trainId>=0"
                       >
                         <el-input
-                          :disabled="scope.row.trainId<0"
                           v-model="scope.row.credit"
                           size="mini"
                           clearable
@@ -296,55 +283,7 @@
                           placeholder="请输入最高得分"
                         ></el-input>
                       </el-form-item>
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </el-form>
-            </el-card>
-          </el-col>
-          <el-col :span="10">
-            <el-card shadow="never">
-              <div slot="header" class="clearfix">总分规则设置</div>
-              <el-form>
-                <el-table
-                  :data="tableForm.ruleDataSource"
-                  border
-                  fit
-                  size="mini"
-                  stripe
-                  height="255"
-                  tooltip-effect="dark"
-                  style="width: 100%;"
-                >
-                  <el-table-column
-                    header-align="center"
-                    align="center"
-                    :label="$t('table.id')"
-                    width="50"
-                    type="index"
-                  ></el-table-column>
-                  <el-table-column prop="trainName" header-align="center" label="培训名称" width="200"></el-table-column>
-                  <el-table-column prop="credit" header-align="center" label="最高得分" min-width="130">
-                    <template slot-scope="scope">
-                      <el-form-item
-                        :prop="'ruleDataSource.'+scope.$index+'.credit'"
-                        :rules="rules.score"
-                        style="margin-bottom:0px;"
-                        v-if="scope.row.trainId<0"
-                      >
-                        <el-input
-                          v-model="scope.row.credit"
-                          size="mini"
-                          clearable
-                          style="width: 130px"
-                          placeholder="请输入学分"
-                        ></el-input>
-                      </el-form-item>
-                      <el-form-item
-                        :prop="'ruleDataSource.'+scope.$index+'.credit'"
-                        style="margin-bottom:0px;"
-                        v-else
-                      >
+                      <el-form-item style="margin-bottom:0px;" v-else>
                         <el-input
                           v-model="scope.row.credit"
                           size="mini"
@@ -355,15 +294,69 @@
                     </template>
                   </el-table-column>
                 </el-table>
-              </el-form>
-            </el-card>
-          </el-col>
-        </el-row>
+              </el-card>
+            </el-col>
+            <el-col :span="12">
+              <el-card shadow="never">
+                <div slot="header" class="clearfix">总分规则设置</div>
+                <el-table
+                  :data="tableForm.sumDataSource"
+                  border
+                  fit
+                  size="mini"
+                  stripe
+                  height="255"
+                  tooltip-effect="dark"
+                  style="width: 100%;"
+                >
+                  <el-table-column
+                    prop="trainName"
+                    header-align="center"
+                    align="center"
+                    label="考核项"
+                    width="100"
+                  ></el-table-column>
+                  <el-table-column prop="itemType" header-align="center" label="条件" width="130">
+                    <template slot-scope="scope">
+                      <el-form-item style="margin-bottom:0px;">
+                        <el-select v-model="scope.row.itemType" style="width:100px;">
+                          <el-option
+                            v-for="item in conditionOptions"
+                            :key="item"
+                            :label="item"
+                            :value="item"
+                          ></el-option>
+                        </el-select>
+                      </el-form-item>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="credit" header-align="center" label="分数" min-width="150">
+                    <template slot-scope="scope">
+                      <el-form-item
+                        :prop="'sumDataSource.'+scope.$index+'.credit'"
+                        :rules="rules.sumScore"
+                        style="margin-bottom:0px;"
+                      >
+                        <el-input
+                          v-model="scope.row.credit"
+                          size="mini"
+                          clearable
+                          style="width: 120px"
+                          placeholder="请输入分数"
+                        ></el-input>
+                      </el-form-item>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-card>
+            </el-col>
+          </el-row>
+        </el-form>
       </div>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogBaseVisible = false;" size="mini">取 消</el-button>
-        <el-button type="primary" @click="prev" v-if="isResult" size="mini">上一步</el-button>
-        <el-button type="primary" @click="next" v-if="isSet" size="mini">下一步</el-button>
+        <el-button type="primary" @click="prev" v-if="isSelect||isResult" size="mini">上一步</el-button>
+        <el-button type="primary" @click="next" v-if="isBaseInfo || isSelect" size="mini">下一步</el-button>
         <el-button type="primary" @click="handleSubmit();" v-if="isResult" size="mini">完 成</el-button>
       </div>
     </el-dialog>
@@ -408,7 +401,8 @@ export default {
   },
   props: ["condition"],
   data() {
-    let validaNumer = (rule, value, callback) => {
+    let vm = this;
+    let validScore = (rule, value, callback) => {
       if (!value) {
         return callback(new Error("请输入最高得分"));
       }
@@ -420,30 +414,69 @@ export default {
       }
       if (rule.field.indexOf(".credit") >= 0) {
         let sum = 0;
-        let lth = this.tableForm.ruleDataSource.length - 1;
-        this.tableForm.ruleDataSource.map((item, index) => {
+        let lth = vm.tableForm.ruleDataSource.length - 1;
+        vm.tableForm.ruleDataSource.map((item, index) => {
           if (index !== lth && !isNaN(item.credit)) {
             sum += Number(item.credit);
           }
         });
-        this.tableForm.ruleDataSource[lth].credit = sum;
+        vm.tableForm.ruleDataSource[lth].credit = sum;
       }
       return callback();
     };
+    let validSumScore = (rule, value, callback) => {
+      if (
+        vm.tableForm.sumDataSource.filter(item => !!item.credit).length <= 0
+      ) {
+        return callback(new Error("至少输入一项考核分数"));
+      } else {
+        return callback();
+      }
+      if (isNaN(value)) {
+        return callback(new Error("只能输入整数和小数"));
+      }
+      if (Number(value) > 100 || Number(value) < 0) {
+        return callback(new Error("只能0~100的整数和小数"));
+      }
+    };
+    let validMenuTree = (rule, value, callback) => {
+      vm.ruleForm.role = vm.$refs.tree
+        .getCheckedNodes(false, true)
+        .filter(item => !item.children)
+        .map(item => item.id);
+      vm.ruleForm.system = vm.$refs.tree
+        .getCheckedNodes(false, true)
+        .filter(item => !!item.children)
+        .map(item => item.name);
+      if (vm.ruleForm.role.length <= 0) {
+        callback(new Error(rule.message));
+      } else {
+        callback();
+      }
+    };
     return {
       active: 0,
-      isSet: true,
+      isBaseInfo: true,
+      isSelect: false,
       isResult: false,
       isInit: true,
       loading: false,
       tableData: [],
       initList: [],
       ruleList: [],
+      trainTableData: [],
+      affairTableData: [],
       rankOptions: [],
       selectedTrain: [],
+      selectedNodes: [],
       selectedAffair: [],
+      conditionOptions: ["<", "≤", ">", "≥"],
       dialogBaseVisible: false,
       dialogViewVisible: false,
+      defaultProps: {
+        children: "children",
+        label: "name"
+      },
       page: {
         pageNum: 1,
         pageSize: 10,
@@ -457,32 +490,54 @@ export default {
       searchForm: {
         affairsName: "",
         series: "",
-        system: "",
         trainName: "",
-        affairSystem: ""
+        affairSeries: ""
       },
       tableForm: {
-        ruleDataSource: []
+        ruleDataSource: [],
+        sumDataSource: []
       },
       rules: {
-        system: [
-          { required: true, message: "请选择所属体系", trigger: "change" }
-        ],
         role: [
-          { required: true, message: "请选择所属角色", trigger: "change" }
+          {
+            required: true,
+            message: "请选择需要考核的角色",
+            validator: validMenuTree,
+            trigger: "change"
+          }
         ],
         rank: [
           { required: true, message: "请选择/输入职级", trigger: "change" }
         ],
-        score: [{ required: true, validator: validaNumer, trigger: "blur" }]
+        score: [{ required: true, validator: validScore, trigger: "blur" }],
+        sumScore: [{ validator: validSumScore, trigger: "blur" }]
       }
     };
+  },
+  watch: {
+    trainDataSource(data) {
+      if (data) {
+        this.trainTableData = data.filter(
+          item => this.ruleForm.system.indexOf(item.sort) >= 0
+        );
+      } else {
+        this.trainTableData = [];
+      }
+    },
+    affairDataSource(data) {
+      if (data) {
+        this.affairTableData = data.filter(
+          item => this.ruleForm.system.indexOf(item.system) >= 0
+        );
+      } else {
+        this.affairTableData = [];
+      }
+    }
   },
   computed: {
     ...mapGetters(["employeeId", "employeeName"]),
     ...mapState({
-      roleOptions: state => state.ruleStore.roleOptions,
-      systemOptions: state => state.ruleStore.systemOptions,
+      roleTreeData: state => state.ruleStore.roleTreeData,
       seriesOptions: state => state.ruleStore.seriesOptions,
       trainDataSource: state => state.ruleStore.trainDataSource,
       affairDataSource: state => state.ruleStore.affairDataSource
@@ -491,27 +546,34 @@ export default {
   methods: {
     ...mapActions([
       "getAllRole",
-      "getSystemInfo",
       "getSeriesInfo",
       "getAllTrain",
       "getAllAffair"
     ]),
     next() {
       let vm = this;
-      if (vm.isSet) {
+      if (vm.isBaseInfo) {
+        vm.getTrainInfo();
+        vm.getAffairInfo();
         vm.$refs.ruleForm.validate(valid => {
           if (valid) {
-            if (vm.selectedTrain.length <= 0 && vm.selectedAffair.length <= 0) {
-              vm.$message.warning("培训课程和考核事务没有选择");
-              return;
-            }
             vm.active++;
-            vm.isSet = vm.active === 0;
-            vm.isResult = vm.active === 1;
+            vm.isSelect = vm.active === 1;
+            vm.isResult = vm.active === 2;
+            vm.isBaseInfo = false;
           } else {
             return false;
           }
         });
+      } else if (vm.isSelect) {
+        if (vm.selectedTrain.length <= 0 && vm.selectedAffair.length <= 0) {
+          vm.$message.warning("培训课程和考核事务没有选择");
+          return;
+        }
+        vm.active++;
+        vm.isSelect = vm.active === 1;
+        vm.isResult = vm.active === 2;
+        vm.isBaseInfo = false;
       }
       if (vm.isResult) {
         vm.tableForm.ruleDataSource = vm.selectedTrain
@@ -521,19 +583,31 @@ export default {
               trainId: item.trainId,
               trainName: item.trainName,
               itemType: item.itemType,
-              credit: "",
-              passing: ""
+              credit: ""
             };
           });
         vm.tableForm.ruleDataSource.push({
           trainId: -1,
           trainName: "总分",
           itemType: -1,
-          credit: "",
-          passing: ""
+          credit: ""
         });
+        vm.tableForm.sumDataSource = [
+          {
+            trainId: 1,
+            trainName: "及格",
+            itemType: vm.conditionOptions[3],
+            credit: ""
+          },
+          {
+            trainId: 2,
+            trainName: "卓越",
+            itemType: vm.conditionOptions[3],
+            credit: ""
+          }
+        ];
       }
-      if (vm.isSet) {
+      if (vm.isSelect) {
         setTimeout(() => {
           if (vm.selectedTrain.length > 0) {
             vm.toggleSelection(vm.selectedTrain, "trainTable");
@@ -547,9 +621,10 @@ export default {
     prev() {
       let vm = this;
       vm.active--;
-      vm.isSet = vm.active === 0;
+      vm.isBaseInfo = vm.active === 0;
+      vm.isSelect = vm.active === 1;
       vm.isResult = false;
-      if (vm.isSet) {
+      if (vm.isSelect) {
         setTimeout(() => {
           if (vm.selectedTrain.length > 0) {
             vm.toggleSelection(vm.selectedTrain, "trainTable");
@@ -558,6 +633,9 @@ export default {
             vm.toggleSelection(vm.selectedAffair, "affairTable");
           }
         }, 200);
+      }
+      if (vm.isBaseInfo) {
+        vm.selectedNodes = vm.ruleForm.role;
       }
     },
     toggleSelection(rows, tableName) {
@@ -572,16 +650,16 @@ export default {
       this.getAllTrain({
         bu: "",
         series: this.searchForm.series,
-        sort: this.searchForm.system,
+        sort: "",
         trainingName: this.searchForm.trainName,
         classType: ""
       });
     },
     getAffairInfo() {
       this.getAllAffair({
-        du: "",
-        series: "",
-        system: this.searchForm.affairSystem,
+        bu: "",
+        series: this.searchForm.affairSeries,
+        system: "",
         affairName: this.searchForm.affairsName
       });
     },
@@ -670,12 +748,10 @@ export default {
       vm.ruleForm.system = "";
       vm.ruleForm.role = "";
       vm.ruleForm.rank = "";
-      vm.getTrainInfo();
-      vm.getAffairInfo();
-      vm.getSystemInfo();
       vm.getSeriesInfo();
       vm.active = 0;
-      vm.isSet = true;
+      vm.isBaseInfo = true;
+      vm.isSelect = false;
       vm.isResult = false;
       vm.isEdit = false;
       vm.dialogBaseVisible = true;
@@ -691,7 +767,7 @@ export default {
             system: vm.ruleForm.system,
             oneRule: {
               ruleId: -1,
-              roleId: vm.ruleForm.role * 1,
+              roleId: vm.ruleForm.role,
               roleLevel: vm.ruleForm.rank,
               creatorId: vm.employeeId,
               creatorName: vm.employeeName
@@ -705,8 +781,17 @@ export default {
                   itemId: item.trainId,
                   itemType: item.itemType,
                   itemName: item.trainName,
-                  credit: item.credit * 1,
-                  pass: item.passing * 1
+                  credit: item.credit * 1
+                };
+              }),
+            sumRuleInfo: vm.tableForm.sumDataSource
+              .filter(item => !!item.credit)
+              .map(item => {
+                return {
+                  itemId: item.trainId,
+                  itemType: item.itemType,
+                  itemName: item.trainName,
+                  credit: item.credit * 1
                 };
               })
           };

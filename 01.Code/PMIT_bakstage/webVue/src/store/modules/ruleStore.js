@@ -1,7 +1,8 @@
 import api from "@/api/ruleApi";
+import _ from "underscore";
 export default {
   state: {
-    roleOptions: [],
+    roleTreeData: [],
     systemOptions: [],
     seriesOptions: [],
     trainDataSource: [],
@@ -9,7 +10,24 @@ export default {
   },
   mutations: {
     updateRoleData(state, value) {
-      state.roleOptions = value;
+      state.roleTreeData = _.chain(value)
+        .pluck("system")
+        .uniq()
+        .map(function(item, index) {
+          return {
+            id: index + 1,
+            name: item,
+            children: value
+              .filter(node => node.system === item)
+              .map(node => {
+                return {
+                  id: node.roleId,
+                  name: node.roleName
+                };
+              })
+          };
+        })
+        .value();
     },
     updateSystemData(state, value) {
       state.systemOptions = value;

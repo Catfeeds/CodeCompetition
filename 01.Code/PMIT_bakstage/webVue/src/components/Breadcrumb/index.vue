@@ -50,7 +50,7 @@ export default {
       });
       const first = matched[0];
       if (first && first.name.trim().toLocaleLowerCase() !== "personalcenter") {
-        if (first && first.name.trim().toLocaleLowerCase() !== "stonepeport") {
+        if (first && first.name.trim().toLocaleLowerCase() !== "stonereport") {
           matched = [
             { path: "/dashboard", meta: { title: "reportDisplay" } }
           ].concat(matched);
