@@ -1,7 +1,7 @@
 package com.isoftstone.pmit.project.hrbp.util;
 
 import com.isoftstone.pmit.common.model.ExaminationRulesParam;
-
+import com.isoftstone.pmit.common.model.PostOptionParam;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +23,17 @@ public class ParamUtils {
         queryParam.put("bu", params.getBu());
         queryParam.put("system", params.getSystem());
         queryParam.put("roleName", params.getRoleName());
+        return queryParam;
+    }
+
+    public static Map<String, Object> getPostOptionParams(PostOptionParam params) {
+        Map<String, Object> queryParam = new HashMap<>();
+        queryParam.put("bu", params.getBu());
+        queryParam.put("cu", params.getCu());
+        queryParam.put("area", params.getArea());
+        queryParam.put("employeeId", params.getEmployeeId());
+        queryParam.put("authType", params.getAuthType());
+        queryParam.put("postName", params.getPostName());
         return queryParam;
     }
 }

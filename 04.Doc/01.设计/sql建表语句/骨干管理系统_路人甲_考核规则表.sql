@@ -1,35 +1,21 @@
-/*
-Navicat MySQL Data Transfer
-
-Source Server         : wxg
-Source Server Version : 50723
-Source Host           : 127.0.0.1:3306
-Source Database       : hw_it
-
-Target Server Type    : MYSQL
-Target Server Version : 50723
-File Encoding         : 65001
-
-Date: 2018-12-11 14:59:15
-*/
-
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for hrbp_examination_rule
+-- Table structure for `mms_examination_rule`
 -- ----------------------------
-DROP TABLE IF EXISTS `hrbp_examination_rule`;
-CREATE TABLE `hrbp_examination_rule` (
+DROP TABLE IF EXISTS `mms_examination_rule`;
+CREATE TABLE `mms_examination_rule` (
   `ruleId` int(8) NOT NULL AUTO_INCREMENT COMMENT '规则Id',
   `roleId` int(8) DEFAULT NULL COMMENT '角色Id',
   `roleLevel` varchar(16) DEFAULT NULL COMMENT '岗位级别',
-  `creatorId` varchar(8) DEFAULT NULL COMMENT '创建者工号',
+  `creatorId` int(8) DEFAULT NULL COMMENT '创建者工号',
   `creatorName` varchar(32) DEFAULT NULL COMMENT '创建者姓名',
   `createTime` date DEFAULT NULL COMMENT '创建时间',
-  `updateStaffId` varchar(8) DEFAULT NULL COMMENT '更新人员工号',
+  `updateStaffId` int(8) DEFAULT NULL COMMENT '更新人员工号',
   `updateStaffName` varchar(32) DEFAULT NULL COMMENT '更新人员姓名',
   `updateTime` date DEFAULT NULL COMMENT '更新时间',
+  `passScore` int(4) DEFAULT NULL COMMENT '通过分数',
   PRIMARY KEY (`ruleId`),
   KEY `ROLE_ID` (`roleId`),
-  CONSTRAINT `ROLE_ID` FOREIGN KEY (`roleId`) REFERENCES `hrbp_special_role` (`roleId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  CONSTRAINT `ROLE_ID` FOREIGN KEY (`roleId`) REFERENCES `mms_special_role` (`roleId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

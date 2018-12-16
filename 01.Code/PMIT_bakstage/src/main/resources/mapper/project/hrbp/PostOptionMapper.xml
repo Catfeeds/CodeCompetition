@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.PostOptionMapper">
+    <select id="querySpecialRolesInfo" parameterType="java.util.Map" resultType="com.isoftstone.pmit.project.hrbp.entity.PostOptionInfo">
+        select * from mms_data_auth auth
+        <where>
+            <if test="null != employeeId and '' != employeeId">
+                AND employeeId = #{employeeId}
+            </if>
+            <if test="null != authType and '' != authType">
+                AND authType = #{authType}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryPostOptionInfos" parameterType="java.util.Map" resultType="PostOptionInfo">
+        select * from mms_data_auth auth
+        <if test="null != bu and '' != bu">
+            inner join mms_base_staff_info base on auth.creatorId = base.employeeID and base.bu = #{bu}
+        </if>
+        <where>
+            <if test="null != postName and '' != postName">
+                AND auth.postName = #{postName}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addPostOption" parameterType="PostOptionInfo">
+        insert into mms_data_auth (
+        <if test="postName != null and postName != ''">postName,</if>
+        <if test="authType != null and authType != ''">authType,</if>
+        <if test="employeeId != null and employeeId != ''">employeeId,</if>
+        <if test="authContent != null and authContent != ''">authContent,</if>
+        <if test="creatorId != null and creatorId != ''">creatorId,</if>
+        <if test="creatorName != null and creatorName != ''">creatorName,</if>
+        createTime
+        )select
+        <if test="postName != null and postName != ''">#{postName},</if>
+        <if test="authType != null and authType != ''">#{authType},</if>
+        <if test="employeeId != null and employeeId != ''">#{employeeId},</if>
+        <if test="authContent != null and authContent != ''">#{authContent},</if>
+        <if test="creatorId != null and creatorId != ''">#{creatorId},</if>
+        <if test="creatorName != null and creatorName != ''">#{creatorName},</if>
+        now()
+        from dual
+        where not exists (
+		    select bu from mms_base_staff_info base where base.employeeID=#{creatorId}
+            and bu in (
+                select base.bu from mms_data_auth auth
+                inner join mms_base_staff_info base on auth.creatorId = base.employeeID
+                where auth.postName=#{postName}
+            )
+		)
+    </insert>
+
+    <update id="updatePostOption" parameterType="PostOptionInfo">
+        update mms_data_auth auth
+		inner join (
+			select 1 from dual where not exists
+				(select * from mms_data_auth where postName=#{postName} and creatorId=#{creatorId})
+		) temp on auth.postId = #{postId}
+		set
+		    auth.postName #{postName},
+		    auth.authType = #{authType},
+		    auth.updateStaffId = #{updateStaffId},
+		    auth.updateStaffName = #{updateStaffName},
+		    auth.updateTime =now()
+    </update>
+
+    <delete id="deletePostOption" parameterType="int">
+        delete from mms_data_auth where postId = #{postId}
+    </delete>
+</mapper>

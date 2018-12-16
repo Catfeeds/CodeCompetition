@@ -1,25 +1,10 @@
-/*
-Navicat MySQL Data Transfer
-
-Source Server         : wxg
-Source Server Version : 50723
-Source Host           : 127.0.0.1:3306
-Source Database       : hw_it
-
-Target Server Type    : MYSQL
-Target Server Version : 50723
-File Encoding         : 65001
-
-Date: 2018-12-11 14:57:36
-*/
-
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for hrbp_special_role
+-- Table structure for mms_special_role
 -- ----------------------------
-DROP TABLE IF EXISTS `hrbp_special_role`;
-CREATE TABLE `hrbp_special_role` (
+DROP TABLE IF EXISTS `mms_special_role`;
+CREATE TABLE `mms_special_role` (
   `roleId` int(4) NOT NULL AUTO_INCREMENT COMMENT '角色Id',
   `roleName` varchar(8) DEFAULT NULL COMMENT '角色名称',
   `system` varchar(16) DEFAULT NULL COMMENT '所属体系',
@@ -31,4 +16,4 @@ CREATE TABLE `hrbp_special_role` (
   `updateTime` date DEFAULT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`roleId`),
   KEY `roleNameSearch` (`roleName`) USING HASH
-) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

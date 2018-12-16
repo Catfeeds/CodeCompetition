@@ -9,6 +9,8 @@ public class RelationTreeNode {
     private String nodeType;
     private boolean isTeamNode;
     private int teamID;
+    private boolean isSelected;
+    private boolean isHasAuthority;
 
     private List<RelationTreeNode> childList;
     private List<RelationTreeNode> teamList;
@@ -51,6 +53,22 @@ public class RelationTreeNode {
 
     public void setIsTeamNode(boolean isTeamNode) {
         this.isTeamNode = isTeamNode;
+    }
+
+    public boolean getIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(boolean isSelected) {
+        this.isSelected = isSelected;
+    }
+
+    public boolean getIsHasAuthority() {
+        return isHasAuthority;
+    }
+
+    public void setIsHasAuthority(boolean isHasAuthority) {
+        this.isHasAuthority = isHasAuthority;
     }
 
     public int getTeamID() {
