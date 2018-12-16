@@ -154,7 +154,7 @@
           prop="types"
         ></el-table-column>
         <el-table-column
-          min-width="120"
+          min-width="90"
           header-align="center"
           label="得分时间"
           sortable="custom"
@@ -165,7 +165,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          min-width="100"
+          min-width="80"
           header-align="center"
           label="名称"
           sortable="custom"
@@ -186,7 +186,7 @@
           prop="bu"
         ></el-table-column>
         <el-table-column
-          min-width="80"
+          min-width="70"
           header-align="center"
           label="得分"
           sortable="custom"
@@ -194,7 +194,7 @@
         >
           <template slot-scope="scope">
             <el-input-number
-              v-if="scope.row.isAdd"
+              v-if="scope.row.isEdit"
               style="width:80px"
               v-model="scope.row.score"
               size="mini"
@@ -228,6 +228,7 @@
         >
           <template slot-scope="scope">
             <el-button
+              v-if="!scope.row.isEdit"
               type="text"
               size="mini"
               icon="el-icon-edit"
@@ -235,11 +236,28 @@
               @click="handleEdit(scope.row);"
             ></el-button>
             <el-button
+              v-if="!scope.row.isEdit"
               type="text"
               size="mini"
               icon="el-icon-delete"
               title="删除"
               @click="handleDel(scope.row);"
+            ></el-button>
+            <el-button
+              v-if="scope.row.isEdit"
+              type="text"
+              size="mini"
+              icon="el-icon-circle-plus-outline"
+              title="保存"
+              @click="handleSave(scope.row);"
+            ></el-button>
+            <el-button
+              v-if="scope.row.isEdit"
+              type="text"
+              size="mini"
+              icon="el-icon-remove-outline"
+              title="取消"
+              @click="handleFilter(null, page);"
             ></el-button>
           </template>
         </el-table-column>
@@ -271,8 +289,14 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
-
+import { formatDate } from "@/utils/date";
 export default {
+  filters: {
+    formatDate(time) {
+      let date = new Date(time);
+      return formatDate(date, "yyyy-MM-dd hh:mm");
+    }
+  },
   mounted() {
     this.getScoreProduct();
     this.getScoreSeries();
@@ -321,11 +345,26 @@ export default {
         });
     },
     handleCurrentChange(val) {
+      if(this.dataTable.find(item=>item.isEdit)) {
+        this.$message.warning("存在正在编辑的行，请先保存");
+        return;
+      }
       this.page.currentPage = val;
       this.handleFilter(null, this.page);
     },
-    handleEdit(row) {},
+    handleEdit(row) {
+      if(this.dataTable.find(item=>item.isEdit)) {
+        this.$message.warning("存在正在编辑的行，请先保存");
+        return;
+      }
+      row.isEdit = true;
+    },
+    handleSave(row) {},
     handleDel(row) {
+      if(this.dataTable.find(item=>item.isEdit)) {
+        this.$message.warning("存在正在编辑的行，请先保存");
+        return;
+      }
       let vm = this;
       vm.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -334,15 +373,19 @@ export default {
       }).then(() => {
         vm.$store.dispatch("delScoreInfo", row).then(res => {
           if (res.success) {
-            vm.$message.success(res.message);
+            vm.$message.success("删除成功");
             vm.handleFilter(null, vm.page);
           } else {
-            vm.$message.error(res.message);
+            vm.$message.error("删除失败");
           }
         });
       });
     },
     handleSort(column) {
+      if(this.dataTable.find(item=>item.isEdit)) {
+        this.$message.warning("存在正在编辑的行，请先保存");
+        return;
+      }
       if (column.prop) {
         this.page.sortColumn = column.prop;
         this.page.sortType = column.order === "descending" ? "desc" : "asc";
@@ -353,6 +396,10 @@ export default {
       this.$message.info("功能正在完善中。。。");
     },
     handleUpload(file) {
+      if(this.dataTable.find(item=>item.isEdit)) {
+        this.$message.warning("存在正在编辑的行，请先保存");
+        return;
+      }
       var ext = file.name.substring(file.name.lastIndexOf(".") + 1);
       const extension = ext === "xls" || ext === "xlsx";
       const isLt2M = file.size / 1024 / 1024 < 10;

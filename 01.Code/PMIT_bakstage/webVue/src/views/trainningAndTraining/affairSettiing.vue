@@ -53,8 +53,7 @@
         size="mini"
         icon="el-icon-search"
         @click="handleFilter"
-        >{{ $t("table.search") }}</el-button
-      >
+      >{{ $t("table.search") }}</el-button>
       <el-button
         class="filter-item"
         style="margin-left: 10px;"
@@ -62,215 +61,235 @@
         size="mini"
         icon="el-icon-plus"
         @click="handleCreate"
-        >{{ $t("table.add") }}</el-button
-      >
+      >{{ $t("table.add") }}</el-button>
     </div>
-    <el-table
-      v-loading="listLoading"
-      :data="list"
-      border
-      fit
-      size="mini"
-      stripe
-      max-height="420"
-      highlight-current-row
-      style="width: 100%;"
-    >
-      <el-table-column
-        header-align="center"
-        align="center"
-        :label="$t('table.id')"
-        width="60"
-        type="index"
-      ></el-table-column>
-      <el-table-column
-        width="100px"
-        header-align="center"
-        label="事务编号"
-        sortable
-        prop="affairID"
-      ></el-table-column>
-      <el-table-column
-        min-width="120px"
-        header-align="center"
-        label="事务名称"
-        sortable
-        prop="affairName"
-      ></el-table-column>
-      <el-table-column
-        min-width="110px"
-        header-align="center"
-        label="所属体系"
-        sortable
-        prop="system"
-      ></el-table-column>
-      <el-table-column
-        min-width="110px"
-        header-align="center"
-        label="所属系列"
-        sortable
-        prop="series"
-      ></el-table-column>
-      <el-table-column
-        width="110px"
-        header-align="center"
-        label="所属产品线"
-        sortable
-        prop="bu"
-      ></el-table-column>
-      <el-table-column
-        width="110"
-        header-align="center"
-        label="创建人"
-        sortable
-        prop="createBy"
-      ></el-table-column>
-      <el-table-column
-        min-width="110"
-        header-align="center"
-        label="最后更新人"
-        sortable
-        prop="updateBy"
-      ></el-table-column>
-      <el-table-column
-        min-width="140"
-        header-align="center"
-        label="最后更新时间"
-        sortable
-        prop="updateTime"
+    <el-form :model="affairsForm" size="mini" ref="affairsForm" :rules="rules">
+      <el-table
+        v-loading="listLoading"
+        :data="list"
+        border
+        fit
+        size="mini"
+        stripe
+        max-height="420"
+        highlight-current-row
+        style="width: 100%;"
       >
-        <template slot-scope="scope">
-          <span>{{ scope.row.updateTime | formatDate }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column
-        align="center"
-        :label="$t('table.option')"
-        width="140"
-        header-align="center"
-      >
-        <template slot-scope="scope">
-          <el-button
-            type="text"
-            size="mini"
-            icon="el-icon-edit"
-            title="编辑"
-            @click="handleEdit(scope.row);"
-          ></el-button>
-          <el-button
-            type="text"
-            size="mini"
-            icon="el-icon-delete"
-            title="删除"
-            @click="handleDel(scope.row.affairID);"
-          ></el-button>
-          <el-button
-            type="text"
-            size="mini"
-            icon="el-icon-setting"
-            title="考核事务维度设置"
-            @click="handleSet(scope.row.affairID);"
-          ></el-button>
-          <el-button
-            type="text"
-            size="mini"
-            icon="el-icon-view"
-            title="考核事务维度查看"
-            @click="handleView(scope.row.affairID);"
-          ></el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+        <el-table-column
+          header-align="center"
+          align="center"
+          :label="$t('table.id')"
+          width="60"
+          type="index"
+        ></el-table-column>
+        <el-table-column
+          v-if="!isAdd"
+          key="1"
+          width="100px"
+          header-align="center"
+          label="事务编号"
+          :sortable="!isAdd"
+          prop="affairID"
+        ></el-table-column>
+        <el-table-column
+          min-width="120px"
+          header-align="center"
+          label="事务名称"
+          :sortable="!isAdd"
+          prop="affairName"
+        >
+          <template slot-scope="scope">
+            <el-form-item label prop="affairsName" v-if="scope.row.isAdd">
+              <el-input
+                v-model="affairsForm.affairsName"
+                autocomplete="off"
+                required
+                maxlength="64"
+                style="width:130px"
+              ></el-input>
+            </el-form-item>
+            <span v-else>{{scope.row.affairName}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          min-width="110px"
+          header-align="center"
+          label="所属体系"
+          :sortable="!isAdd"
+          prop="system"
+        >
+          <template slot-scope="scope">
+            <el-form-item label prop="system" v-if="scope.row.isAdd">
+              <el-select
+                v-model="affairsForm.system"
+                filterable
+                allow-create
+                default-first-option
+                placeholder="请选择"
+                style="width:150px"
+              >
+                <el-option
+                  v-for="item in systemOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <span v-else>{{scope.row.system}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          min-width="110px"
+          header-align="center"
+          label="所属系列"
+          :sortable="!isAdd"
+          prop="series"
+        >
+          <template slot-scope="scope">
+            <el-form-item label prop="series" v-if="scope.row.isAdd">
+              <el-select
+                v-model="affairsForm.series"
+                filterable
+                allow-create
+                default-first-option
+                placeholder="请选择"
+                style="width:150px"
+              >
+                <el-option
+                  v-for="item in seriesOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <span v-else>{{scope.row.series}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          min-width="110px"
+          header-align="center"
+          label="所属产品线"
+          :sortable="!isAdd"
+          prop="bu"
+        >
+          <template slot-scope="scope">
+            <el-form-item label prop="product" v-if="scope.row.isAdd">
+              <el-select v-model="affairsForm.product" placeholder="请选择" style="width:150px">
+                <el-option
+                  v-for="item in productOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <span v-else>{{scope.row.bu}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          v-if="!isAdd"
+          key="6"
+          width="110"
+          header-align="center"
+          label="创建人"
+          :sortable="!isAdd"
+          prop="createBy"
+        ></el-table-column>
+        <el-table-column
+          v-if="!isAdd"
+          key="7"
+          min-width="110"
+          header-align="center"
+          label="最后更新人"
+          :sortable="!isAdd"
+          prop="updateBy"
+        ></el-table-column>
+        <el-table-column
+          v-if="!isAdd"
+          key="8"
+          min-width="140"
+          header-align="center"
+          label="最后更新时间"
+          :sortable="!isAdd"
+          prop="updateTime"
+        >
+          <template slot-scope="scope">
+            <span v-if="!scope.row.isAdd">{{ scope.row.updateTime | formatDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          align="center"
+          :label="$t('table.option')"
+          width="140"
+          header-align="center"
+        >
+          <template slot-scope="scope">
+            <el-button
+              v-if="!scope.row.isAdd"
+              type="text"
+              size="mini"
+              icon="el-icon-edit"
+              title="编辑"
+              @click="handleEdit(scope.row);"
+            ></el-button>
+            <el-button
+              v-if="!scope.row.isAdd"
+              type="text"
+              size="mini"
+              icon="el-icon-delete"
+              title="删除"
+              @click="handleDel(scope.row.affairID);"
+            ></el-button>
+            <el-button
+              v-if="!scope.row.isAdd"
+              type="text"
+              size="mini"
+              icon="el-icon-setting"
+              title="考核事务维度设置"
+              @click="handleSet(scope.row.affairID);"
+            ></el-button>
+            <el-button
+              v-if="!scope.row.isAdd"
+              type="text"
+              size="mini"
+              icon="el-icon-view"
+              title="考核事务维度查看"
+              @click="handleView(scope.row.affairID);"
+            ></el-button>
+            <el-button
+              v-if="scope.row.isAdd"
+              type="text"
+              size="mini"
+              icon="el-icon-circle-plus-outline"
+              title="保存"
+              @click="submtForm(scope.row);"
+            ></el-button>
+            <el-button
+              v-if="scope.row.isAdd"
+              type="text"
+              size="mini"
+              icon="el-icon-remove-outline"
+              title="取消"
+              @click="handleFilter(arg, page, true);"
+            ></el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-form>
     <el-row type="flex" justify="end">
       <el-pagination
         @current-change="handleCurrentChange"
         :current-page="page.currentPage"
         :page-size="page.pageSize"
+        :disabled="isAdd"
         layout="total, slot, prev, pager, next"
         :total="page.totalRecord"
         prev-text="上一页"
         next-text="下一页"
       ></el-pagination>
     </el-row>
-    <el-dialog
-      :title="dialogBaseTitle"
-      :visible.sync="dialogBaseVisible"
-      width="30%"
-    >
-      <el-form
-        :model="affairsForm"
-        size="mini"
-        label-width="120px"
-        ref="affairsForm"
-        :rules="rules"
-      >
-        <el-form-item label="事务编号" prop="affairsId" v-if="isEdit">
-          <el-input
-            v-model="affairsForm.affairsId"
-            autocomplete="off"
-            disabled
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="事务名称" prop="affairsName">
-          <el-input
-            v-model="affairsForm.affairsName"
-            autocomplete="off"
-            required
-            maxlength="64"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="所属系列" prop="series">
-          <el-select
-            v-model="affairsForm.series"
-            filterable
-            allow-create
-            default-first-option
-            placeholder="请选择"
-          >
-            <el-option
-              v-for="item in seriesOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="所属体系" prop="system">
-          <el-select
-            v-model="affairsForm.system"
-            filterable
-            allow-create
-            default-first-option
-            placeholder="请选择"
-          >
-            <el-option
-              v-for="item in systemOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="所属产品线" prop="product">
-          <el-select v-model="affairsForm.product" placeholder="请选择">
-            <el-option
-              v-for="item in productOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogBaseVisible = false;" size="mini"
-          >取 消</el-button
-        >
-        <el-button type="primary" @click="submtForm();" size="mini"
-          >确 定</el-button
-        >
-      </div>
-    </el-dialog>
     <el-dialog
       :title="dialogSetTitle"
       :visible="dialogSetVisible"
@@ -279,118 +298,92 @@
     >
       <el-row>
         <el-button
-          v-if="!isView"
+          v-if="!isView&&!isDimensionAdd"
           type="primary"
           size="mini"
           icon="el-icon-delete"
           @click="handleDelDimension"
-          >{{ $t("table.delete") }}</el-button
-        >
+        >{{ $t("table.delete") }}</el-button>
         <el-button
-          v-if="!isView"
+          v-if="!isView&&!isDimensionAdd"
           style="margin-left: 10px;"
           type="primary"
           size="mini"
           icon="el-icon-plus"
           @click="handleAddDimension"
-          >{{ $t("table.add") }}</el-button
-        >
+        >{{ $t("table.add") }}</el-button>
+        <el-button
+          v-if="!isView&&isDimensionAdd"
+          type="primary"
+          size="mini"
+          icon="el-icon-circle-plus-outline"
+          @click="handleSaveDimension"
+        >{{ $t("table.save") }}</el-button>
+        <el-button
+          v-if="!isView&&isDimensionAdd"
+          style="margin-left: 10px;"
+          type="primary"
+          size="mini"
+          icon="el-icon-remove-outline"
+          @click="getDimensionInfo(dimensionForm.affairsId)"
+        >{{ $t("table.cancel") }}</el-button>
       </el-row>
-      <el-table
-        ref="multipleTable"
-        :data="dimensionList"
-        border
-        fit
-        size="mini"
-        stripe
-        max-height="185"
-        tooltip-effect="dark"
-        highlight-current-row
-        @selection-change="handleSelectionChange"
-        style="width: 100%; margin:10px 0px"
-      >
-        <el-table-column
-          type="selection"
-          width="55"
-          v-if="!isView"
-        ></el-table-column>
-        <el-table-column
-          header-align="center"
-          align="center"
-          :label="$t('table.id')"
-          width="80"
-          type="index"
-        ></el-table-column>
-        <el-table-column
-          prop="dimension"
-          header-align="center"
-          label="考核维度"
-          width="150"
-        ></el-table-column>
-        <el-table-column
-          prop="score"
-          header-align="center"
-          label="分数"
-          width="100"
-        ></el-table-column>
-        <el-table-column
-          prop="description"
-          header-align="center"
-          label="考核点说明"
-          show-overflow-tooltip
-        ></el-table-column>
-      </el-table>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogSetVisible = false;" size="mini" v-if="isView"
-          >关 闭</el-button
+      <el-form :model="dimensionForm" size="mini" ref="dimensionForm" :rules="rules">
+        <el-table
+          ref="multipleTable"
+          :data="dimensionList"
+          border
+          fit
+          size="mini"
+          stripe
+          max-height="185"
+          tooltip-effect="dark"
+          highlight-current-row
+          @selection-change="handleSelectionChange"
+          style="width: 100%; margin:10px 0px"
         >
-        <el-button type="primary" @click="handleSave();" size="mini" v-else
-          >保 存</el-button
-        >
-      </div>
-    </el-dialog>
-    <el-dialog
-      :title="dialogDimensionTitle"
-      :visible.sync="dialogDimensionVisible"
-      width="30%"
-    >
-      <el-form
-        :model="dimensionForm"
-        size="mini"
-        label-width="120px"
-        ref="dimensionForm"
-        :rules="rules"
-      >
-        <el-form-item label="考核维度" prop="dimension">
-          <el-input
-            v-model="dimensionForm.dimension"
-            autocomplete="off"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="分数" prop="score">
-          <el-input
-            v-model="dimensionForm.score"
-            autocomplete="off"
-            required
-            maxlength="3"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="考核点说明" prop="description">
-          <el-input
-            type="textarea"
-            v-model="dimensionForm.description"
-            :autosize="{ minRows: 2, maxRows: 4 }"
-            resize="none"
-          ></el-input>
-        </el-form-item>
+          <el-table-column type="selection" width="55" v-if="!isView"></el-table-column>
+          <el-table-column
+            header-align="center"
+            align="center"
+            :label="$t('table.id')"
+            width="80"
+            type="index"
+          ></el-table-column>
+          <el-table-column prop="dimension" header-align="center" label="考核维度" width="150">
+            <template slot-scope="scope">
+              <el-form-item label prop="dimension" v-if="scope.row.isAdd">
+                <el-input v-model="dimensionForm.dimension" autocomplete="off"></el-input>
+              </el-form-item>
+              <span v-else>{{scope.row.dimension}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="score" header-align="center" label="分数" width="100">
+            <template slot-scope="scope">
+              <el-form-item label prop="score" v-if="scope.row.isAdd">
+                <el-input v-model="dimensionForm.score" autocomplete="off" maxlength="3"></el-input>
+              </el-form-item>
+              <span v-else>{{scope.row.score}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="description"
+            header-align="center"
+            label="考核点说明"
+            show-overflow-tooltip
+          >
+            <template slot-scope="scope">
+              <el-form-item label prop="description" v-if="scope.row.isAdd">
+                <el-input v-model="dimensionForm.description" autocomplete="off"></el-input>
+              </el-form-item>
+              <span v-else>{{scope.row.description}}</span>
+            </template>
+          </el-table-column>
+        </el-table>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogDimensionVisible = false;" size="mini"
-          >取 消</el-button
-        >
-        <el-button type="primary" @click="handleSaveDimension();" size="mini"
-          >确 定</el-button
-        >
+        <el-button @click="dialogSetVisible = false;" size="mini" v-if="isView">关 闭</el-button>
+        <el-button type="primary" @click="handleSave();" size="mini" v-else>确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -462,12 +455,10 @@ export default {
         pageSize: 10,
         totalRecord: 0
       },
-      dialogBaseTitle: "添加考核事务信息",
-      dialogBaseVisible: false,
       dialogSetTitle: "考核事务维度设置",
       dialogSetVisible: false,
-      dialogDimensionTitle: "添加考试事务维度",
-      dialogDimensionVisible: false,
+      isDimensionAdd: false,
+      isAdd: false,
       isEdit: false,
       isView: false,
       multipleTable: [],
@@ -566,6 +557,7 @@ export default {
     },
     getDimensionInfo(affairId) {
       let vm = this;
+      vm.isDimensionAdd = false;
       vm.$store
         .dispatch("getDimensionInfo", affairId)
         .then(res => {
@@ -587,7 +579,7 @@ export default {
           vm.dimensionList = [];
         });
     },
-    submtForm() {
+    submtForm(row) {
       let vm = this;
       vm.$refs.affairsForm.validate(valid => {
         if (valid) {
@@ -603,16 +595,18 @@ export default {
             formData.affairID = vm.affairsForm.affairsId;
             methodName = "editAffairsInfo";
           }
+          vm.isAdd = false;
+          vm.listLoading = true;
           vm.$store.dispatch(methodName, formData).then(res => {
             if (res.success) {
               vm.$message.success(res.message);
-              vm.dialogBaseVisible = false;
               vm.getAffairsList();
               vm.getSeries();
               vm.getSystem();
             } else {
               vm.$message.error(res.message);
             }
+            vm.listLoading = false;
           });
         } else {
           return false;
@@ -632,26 +626,37 @@ export default {
         val * vm.page.pageSize
       );
     },
-    handleFilter() {
-      this.page.currentPage = 1;
+    handleFilter(arg, page, isCancel) {
+      if (!isCancel && this.validTableStatus()) {
+        return;
+      }
+      this.isAdd = isCancel ? false : !!isCancel;
+      if (!page) {
+        this.page.currentPage = 1;
+      }
       this.getAffairsList();
     },
     handleCreate() {
+      if (this.validTableStatus()) {
+        return;
+      }
+      this.isAdd = true;
       this.isEdit = false;
       this.affairsForm.affairsId = "";
       this.affairsForm.affairsName = "";
       this.affairsForm.series = "";
       this.affairsForm.system = "";
       this.affairsForm.product = "";
-      this.dialogBaseTitle = "添加考核事务信息";
-      this.dialogBaseVisible = true;
-      this.clearValidate("affairsForm");
       this.getProductInfo();
       this.getSeries();
       this.getSystem();
+      this.list.unshift({ isAdd: true });
     },
     handleDel(id) {
       let vm = this;
+      if (vm.validTableStatus()) {
+        return;
+      }
       vm.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -668,7 +673,9 @@ export default {
       });
     },
     handleEdit(rowData) {
-      this.isEdit = true;
+      if (this.validTableStatus()) {
+        return;
+      }
       this.getProductInfo();
       this.getSeries();
       this.getSystem();
@@ -677,9 +684,9 @@ export default {
       this.affairsForm.series = rowData.series;
       this.affairsForm.system = rowData.system;
       this.affairsForm.product = rowData.bu;
-      this.dialogBaseTitle = "修改考核事务信息";
-      this.dialogBaseVisible = true;
-      this.clearValidate("affairsForm");
+      this.isAdd = true;
+      this.isEdit = true;
+      rowData.isAdd = true;
     },
     handleView(affairId) {
       let vm = this;
@@ -699,6 +706,10 @@ export default {
     },
     handleSave() {
       let vm = this;
+      if (vm.dimensionList.find(item => item.isAdd)) {
+        vm.$message.warning("表格存在正在编辑的数据，请先保存");
+        return;
+      }
       if (vm.dimensionList.length <= 0) {
         vm.$message.warning("请添加考核维度");
         return;
@@ -739,24 +750,25 @@ export default {
     },
     handleAddDimension() {
       let vm = this;
-      vm.dialogDimensionVisible = true;
       vm.dimensionForm.dimension = "";
       vm.dimensionForm.score = "";
       vm.dimensionForm.coefficient = "";
       vm.dimensionForm.description = "";
-      vm.clearValidate("dimensionForm");
+      vm.isDimensionAdd = true;
+      vm.dimensionList.unshift({ isAdd: true });
     },
     handleSaveDimension() {
       let vm = this;
       vm.$refs.dimensionForm.validate(valid => {
         if (valid) {
+          vm.isDimensionAdd = false;
           vm.dimensionList.push({
             id: vm.dimensionList.length + 1,
             dimension: vm.dimensionForm.dimension,
             score: vm.dimensionForm.score,
             description: vm.dimensionForm.description
           });
-          vm.dialogDimensionVisible = false;
+          vm.dimensionList = vm.dimensionList.filter(item => !item.isAdd);
         } else {
           return false;
         }
@@ -764,6 +776,13 @@ export default {
     },
     handleSelectionChange(selection) {
       this.selectedIds = selection.map(item => item.id);
+    },
+    validTableStatus() {
+      if (this.list.find(item => item.isAdd)) {
+        this.$message.warning("表格存在正在编辑的数据，请先保存");
+        return true;
+      }
+      return false;
     }
   }
 };

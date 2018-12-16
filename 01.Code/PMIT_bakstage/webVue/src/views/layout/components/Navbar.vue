@@ -22,10 +22,11 @@
           <i class="el-icon-caret-bottom"></i>
         </div>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item style="cursor:default">
-            <router-link to="/personal">
+          <el-dropdown-item class="clearfix">
+            <router-link to="/personal" style="display:inline-block;">
             {{employeeName}}
             </router-link>
+            <el-badge class="mark" :value="12" />
           </el-dropdown-item>
           <el-dropdown-item divided>
           <router-link to="/">

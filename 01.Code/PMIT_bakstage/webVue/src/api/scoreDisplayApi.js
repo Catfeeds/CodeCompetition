@@ -9,7 +9,7 @@ function getScoreList(param) {
 }
 function delScoreInfo(param) {
   return request({
-    url: "hrbp/gradeSheet/getTotalPersonalsScore",
+    url: "hrbp/gradeSheet/deletePersonalsScore",
     method: "post",
     data: param
   });

@@ -8,13 +8,13 @@
         SELECT
           *
         FROM
-          mms_level_team
+          mms_relation_team
         ORDER BY nodePath
     </select>
 
     <insert id="addTeamNode" parameterType="java.util.Map">
         INSERT INTO
-        mms_level_team
+        mms_relation_team
           (
           <if test="null != addNodeName and '' != addNodeName">
               nodeName,
@@ -49,25 +49,25 @@
 
     <update id="deleteNode" parameterType="java.util.Map">
         UPDATE
-          mms_level_team
+          mms_relation_team
         SET
           nodePath = REPLACE(nodePath,#{nodePath},':');
 
         DELETE FROM
-          mms_level_team
+          mms_relation_team
         WHERE nodeID = #{nodeID}
     </update>
 
     <delete id="deleteNodeAndChildren" parameterType="java.util.Map">
         DELETE FROM
-          mms_level_team
+          mms_relation_team
         WHERE
           nodeID = #{nodeID} OR nodePath LIKE '${nodePath}%'
     </delete>
 
     <update id="updateTreeNode" parameterType="java.util.Map">
         UPDATE
-        mms_level_team
+        mms_relation_team
         <set>
             <if test="null != nodeName and '' != nodeName">
                 nodeName = #{nodeName},
@@ -79,13 +79,13 @@
 
     <select id="moveTreeNode" parameterType="java.util.Map">
         UPDATE
-          mms_level_team
+          mms_relation_team
         SET
           nodePath = REPLACE(nodePath,#{replaceSourcePath},#{replaceTargetPath})
         WHERE
           nodePath LIKE '${replaceSourcePath}%';
         UPDATE
-          mms_level_team
+          mms_relation_team
         SET
           nodePath = #{replaceParentPath}
         WHERE

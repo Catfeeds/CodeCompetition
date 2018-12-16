@@ -1,6 +1,7 @@
 import api from "@/api/scoreDisplayApi";
 import constant from "@/utils/constant";
 import { formatDate } from "@/utils/date";
+console.log(api);
 let state = {
   searchForm: {
     series: "",
@@ -80,7 +81,7 @@ let actions = {
         }
       });
   },
-  delScoreInfo(param) {
+  delScoreInfo(arg, param) {
     return new Promise((resolve, reject) => {
       api
         .delScoreInfo(param)
@@ -92,10 +93,22 @@ let actions = {
         });
     });
   },
-  editScoreInfo(param) {
+  editScoreInfo(arg, param) {
     return new Promise((resolve, reject) => {
       api
         .editScoreInfo(param)
+        .then(res => {
+          resolve(res.data);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
+  getScoreInfoById(arg, param) {
+    return new Promise((resolve, reject) => {
+      api
+        .getScoreList(param)
         .then(res => {
           resolve(res.data);
         })

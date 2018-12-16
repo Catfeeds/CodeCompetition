@@ -50,7 +50,7 @@
         </set>
         where affair_id = #{affairID}
     </update>
-    
+
     <select id="findExamAffairByAffairId" parameterType="java.lang.Integer" resultType="ExaminationAffair">
         select
         affair_id as affairID,
@@ -70,7 +70,7 @@
         select #{affairName},#{system},#{series},#{bu},(SELECT
 	    employeeName
         FROM
-	    base_staff_info
+	    mms_base_staff_info
         WHERE
 	    employeeID = #{employeeID}) employeeName,#{updateBy},NOW() from dual
         where not exists(

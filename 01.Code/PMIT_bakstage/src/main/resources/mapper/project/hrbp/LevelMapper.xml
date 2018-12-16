@@ -16,7 +16,7 @@
         SELECT DISTINCT
         ${col} AS nodename
         FROM
-        mms_level_team
+        mms_relation_team
         <where>
             <if test="null != bu and '' != bu">
                 AND BU = #{bu}
@@ -46,15 +46,15 @@
           projectName as teamName
         <if test="null != levels">
             <foreach collection="levels" item="item" open="," separator=",">
-                mms_level_team.${item}
+                mms_relation_team.${item}
             </foreach>
         </if>
         FROM
-        mms_level_team
+        mms_relation_team
         LEFT JOIN
         mms_project_manage
         ON
-        mms_level_team.teamID = project_manage.projectID
+        mms_relation_team.teamID = project_manage.projectID
         <where>
             <if test="null != authorityIDs">
                 <foreach collection="authorityIDs" item="item" open="teamID IN(" separator="," close=")">

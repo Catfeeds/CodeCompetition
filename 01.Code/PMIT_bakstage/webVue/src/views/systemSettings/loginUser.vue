@@ -4,202 +4,189 @@
       <el-button type="primary" size="mini" @click="handleAdd">新增</el-button>
     </el-row>
     <el-row>
-      <el-table
-        v-loading="loading"
-        :data="tableData"
-        border
-        fit
-        size="mini"
-        stripe
-        max-height="375"
-        highlight-current-row
-        style="width: 100%;margin:15px 0px;"
-        @sort-change="handleSort"
-      >
-        <el-table-column
-          header-align="center"
-          align="center"
-          :label="$t('table.id')"
-          width="80"
-          type="index"
-        ></el-table-column>
-
-        <el-table-column
-          min-width="150px"
-          header-align="center"
-          label="姓名"
-          sortable="custom"
-          prop="employeeName"
-        ></el-table-column>
-
-        <el-table-column
-          min-width="150px"
-          header-align="center"
-          label="工号"
-          sortable="custom"
-          prop="employeeID"
-        ></el-table-column>
-        <el-table-column
-          min-width="200px"
-          header-align="center"
-          label="部门"
-          sortable="custom"
-          prop="pdu"
-        ></el-table-column>
-        <el-table-column
-          min-width="100px"
-          header-align="center"
-          label="岗位"
-          sortable="custom"
-          prop="positionRole"
-        ></el-table-column>
-        <el-table-column
-          min-width="150px"
-          header-align="center"
-          label="系统角色"
-          sortable="custom"
-          prop="roleName"
-        ></el-table-column>
-        <el-table-column
-          align="center"
-          width="80"
-          header-align="center"
-          :label="$t('table.option')"
+      <el-form :model="loginForm" size="mini" ref="loginForm" :rules="rules">
+        <el-table
+          v-loading="loading"
+          :data="tableData"
+          border
+          fit
+          size="mini"
+          stripe
+          max-height="375"
+          highlight-current-row
+          style="width: 100%;margin:15px 0px;"
+          @sort-change="handleSort"
         >
-          <template slot-scope="scope">
-            <el-button
-              type="text"
-              size="mini"
-              icon="el-icon-edit"
-              title="编辑"
-              @click="handleEdit(scope.row);"
-            ></el-button>
-            <el-button
-              type="text"
-              size="mini"
-              icon="el-icon-delete"
-              title="删除"
-              @click="handleDel(scope.row.employeeID);"
-            ></el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+          <el-table-column
+            header-align="center"
+            align="center"
+            :label="$t('table.id')"
+            width="80"
+            type="index"
+          ></el-table-column>
+
+          <el-table-column
+            min-width="150px"
+            header-align="center"
+            label="姓名"
+            :sortable="sortable"
+            prop="employeeName"
+          >
+            <template slot-scope="scope">
+              <el-form-item label prop="employeeName" v-if="scope.row.isAdd">
+                <el-autocomplete
+                  v-model="loginForm.employeeName"
+                  :trigger-on-focus="false"
+                  :fetch-suggestions="searchEmployee"
+                  placeholder="请输入员工姓名进行查询"
+                  @select="handleSelectName"
+                  style="width:180px"
+                >
+                  <i class="el-icon-delete el-input__icon" slot="suffix" @click="handleClear"></i>
+                  <template slot-scope="{ item }">
+                    <div style="float:left;margin-right:15px;">{{ item.employeeName }}</div>
+                    <span style="margin-right:15px">{{ item.employeeID }}</span>
+                    <span>{{ item.pdu }}</span>
+                  </template>
+                </el-autocomplete>
+              </el-form-item>
+              <span v-else>{{scope.row.employeeName}}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column
+            min-width="150px"
+            header-align="center"
+            label="工号"
+            :sortable="sortable"
+            prop="employeeID"
+          >
+            <template slot-scope="scope">
+              <el-form-item label prop="employeeId" v-if="scope.row.isAdd">
+                <el-autocomplete
+                  v-model="loginForm.employeeId"
+                  :trigger-on-focus="false"
+                  :fetch-suggestions="searchEmployee"
+                  placeholder="请输入员工工号进行查询"
+                  @select="handleSelectId"
+                  style="width:180px"
+                >
+                  <i class="el-icon-delete el-input__icon" slot="suffix" @click="handleClear"></i>
+                  <template slot-scope="{ item }">
+                    <div style="float:left;margin-right:15px;">{{ item.employeeName }}</div>
+                    <span style="margin-right:15px">{{ item.employeeID }}</span>
+                    <span>{{ item.pdu }}</span>
+                  </template>
+                </el-autocomplete>
+              </el-form-item>
+              <span v-else>{{scope.row.employeeID}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            min-width="200px"
+            header-align="center"
+            label="部门"
+            :sortable="sortable"
+            prop="pdu"
+          >
+            <template slot-scope="scope">
+              <el-form-item label prop="department" v-if="scope.row.isAdd">
+                <el-input v-model="loginForm.department" readonly></el-input>
+              </el-form-item>
+              <span v-else>{{scope.row.pdu}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            min-width="100px"
+            header-align="center"
+            label="岗位"
+            :sortable="sortable"
+            prop="positionRole"
+          >
+            <template slot-scope="scope">
+              <el-form-item label prop="post" v-if="scope.row.isAdd">
+                <el-input v-model="loginForm.post" readonly></el-input>
+              </el-form-item>
+              <span v-else>{{scope.row.positionRole}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            min-width="150px"
+            header-align="center"
+            label="系统角色"
+            :sortable="sortable"
+            prop="roleName"
+          >
+            <template slot-scope="scope">
+              <el-form-item label prop="systemRole" v-if="scope.row.isAdd||scope.row.isEdit">
+                <el-select v-model="loginForm.systemRole" size="mini" placeholder="请选择系统角色" style="width:150px;">
+                  <el-option
+                    v-for="item in roleOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+              <span v-else>{{scope.row.roleName}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            align="center"
+            width="80"
+            header-align="center"
+            :label="$t('table.option')"
+          >
+            <template slot-scope="scope">
+              <el-button
+                v-if="!scope.row.isAdd&&!scope.row.isEdit"
+                type="text"
+                size="mini"
+                icon="el-icon-edit"
+                title="编辑"
+                @click="handleEdit(scope.row);"
+              ></el-button>
+              <el-button
+                v-if="!scope.row.isAdd&&!scope.row.isEdit"
+                type="text"
+                size="mini"
+                icon="el-icon-delete"
+                title="删除"
+                @click="handleDel(scope.row.employeeID);"
+              ></el-button>
+              <el-button
+                v-if="scope.row.isAdd||scope.row.isEdit"
+                type="text"
+                size="mini"
+                icon="el-icon-circle-plus-outline"
+                title="保存"
+                @click="onSave(scope.row);"
+              ></el-button>
+              <el-button
+                v-if="scope.row.isAdd||scope.row.isEdit"
+                type="text"
+                size="mini"
+                icon="el-icon-remove-outline"
+                title="取消"
+                @click="getLogiUserList();"
+              ></el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-form>
     </el-row>
     <el-row type="flex" justify="end">
       <el-pagination
         @current-change="handleCurrentChange"
         :current-page="page.currentPage"
         :page-size="page.pageSize"
+        :disabled="isAdd"
         layout="total, slot, prev, pager, next"
         :total="page.totalRecord"
         prev-text="上一页"
         next-text="下一页"
       ></el-pagination>
     </el-row>
-    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="30%">
-      <el-form
-        :model="loginForm"
-        size="mini"
-        label-width="80px"
-        ref="loginForm"
-        :rules="rules"
-      >
-        <el-form-item label="姓名" prop="employeeName">
-          <el-input
-            v-if="isEdit"
-            v-model="loginForm.employeeName"
-            autocomplete="off"
-            disabled
-          ></el-input>
-          <el-autocomplete
-            v-else
-            v-model="loginForm.employeeName"
-            :trigger-on-focus="false"
-            :fetch-suggestions="searchEmployee"
-            placeholder="请输入员工姓名进行查询"
-            @select="handleSelectName"
-          >
-            <i
-              class="el-icon-delete el-input__icon"
-              slot="suffix"
-              @click="handleClear"
-            ></i>
-            <template slot-scope="{ item }">
-              <div style="float:left;margin-right:15px;">
-                {{ item.employeeName }}
-              </div>
-              <span style="margin-right:15px">{{ item.employeeID }}</span>
-              <span>{{ item.pdu }}</span>
-            </template>
-          </el-autocomplete>
-        </el-form-item>
-        <el-form-item label="工号" prop="employeeId">
-          <el-input
-            v-if="isEdit"
-            v-model="loginForm.employeeId"
-            autocomplete="off"
-            disabled
-          ></el-input>
-          <el-autocomplete
-            v-else
-            v-model="loginForm.employeeId"
-            :trigger-on-focus="false"
-            :fetch-suggestions="searchEmployee"
-            placeholder="请输入员工工号进行查询"
-            @select="handleSelectId"
-          >
-            <i
-              class="el-icon-delete el-input__icon"
-              slot="suffix"
-              @click="handleClear"
-            ></i>
-            <template slot-scope="{ item }">
-              <div style="float:left;margin-right:15px;">
-                {{ item.employeeName }}
-              </div>
-              <span style="margin-right:15px">{{ item.employeeID }}</span>
-              <span>{{ item.pdu }}</span>
-            </template>
-          </el-autocomplete>
-        </el-form-item>
-        <el-form-item label="部门" prop="department">
-          <el-input
-            v-model="loginForm.department"
-            autocomplete="off"
-            maxlength="128"
-            disabled
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="岗位" prop="post">
-          <el-input
-            v-model="loginForm.post"
-            autocomplete="off"
-            maxlength="128"
-            disabled
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="系统角色" prop="systemRole">
-          <el-select
-            v-model="loginForm.systemRole"
-            size="mini"
-            placeholder="请选择"
-          >
-            <el-option
-              v-for="item in roleOptions"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false;" size="mini">取 消</el-button>
-        <el-button type="primary" @click="submtForm('loginForm');" size="mini"
-          >确 定</el-button
-        >
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -208,10 +195,9 @@ export default {
   data() {
     let vm = this;
     return {
-      isEdit: false,
-      dialogTitle: "",
+      isAdd: false,
       loading: false,
-      dialogVisible: false,
+      sortable: "custom",
       tableData: [],
       roleOptions: [],
       searchForm: {
@@ -263,6 +249,7 @@ export default {
   methods: {
     getLogiUserList() {
       let vm = this;
+      vm.isAdd = false;
       vm.loading = true;
       let pageInfo = {
         currPage: vm.page.currentPage,
@@ -296,6 +283,9 @@ export default {
       }
     },
     handleDel(id) {
+      if (this.validTableStatus()) {
+        return;
+      }
       let vm = this;
       vm.$confirm("此操作将永久删除该数据, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -313,7 +303,11 @@ export default {
       });
     },
     handleEdit(rowData) {
+      if (this.validTableStatus()) {
+        return;
+      }
       let vm = this;
+      rowData.isEdit = true;
       vm.$store.dispatch("getLoginUserById", rowData.employeeID).then(res => {
         if (res.success) {
           vm.loginForm.employeeName = res.data.employeeName;
@@ -321,21 +315,21 @@ export default {
           vm.loginForm.department = res.data.pdu;
           vm.loginForm.post = res.data.positionRole;
           vm.loginForm.systemRole = res.data.roleName;
-          vm.dialogTitle = "编辑登录用户";
-          vm.dialogVisible = true;
-          vm.isEdit = true;
         }
       });
     },
     handleAdd() {
-      this.dialogVisible = true;
-      this.dialogTitle = "添加登录用户";
+      if (this.validTableStatus()) {
+        return;
+      }
+      this.sortable = false;
+      this.isAdd = true;
       this.loginForm.employeeName = "";
       this.loginForm.employeeId = "";
       this.loginForm.department = "";
       this.loginForm.post = "";
       this.loginForm.systemRole = "";
-      this.isEdit = false;
+      this.tableData.unshift({ isAdd: true });
     },
     handleClear() {
       this.loginForm.employeeId = "";
@@ -343,9 +337,9 @@ export default {
       this.loginForm.post = "";
       this.loginForm.department = "";
     },
-    submtForm(formName) {
+    onSave(row) {
       let vm = this;
-      vm.$refs[formName].validate(valid => {
+      vm.$refs.loginForm.validate(valid => {
         if (valid) {
           let requestName = "addLoginUser";
           let formData = {
@@ -353,17 +347,19 @@ export default {
             employeeName: vm.loginForm.employeeName,
             roleID: vm.loginForm.systemRole
           };
-          if (vm.isEdit) {
+          if (!vm.isAdd) {
             requestName = "editLoginUser";
             formData = {
               employeeID: vm.loginForm.employeeId,
               roleID: vm.loginForm.systemRole
             };
           }
+          vm.isAdd = false;
+          row.isAdd = false;
+          row.isEdit = false;
           vm.$store.dispatch(requestName, formData).then(res => {
             if (res.success) {
               vm.$message.success(res.message);
-              vm.dialogVisible = false;
               vm.getLogiUserList();
             } else {
               vm.$message.error(res.message);
@@ -402,6 +398,13 @@ export default {
     },
     handleSelectId(item) {
       this.handleSelectName(item);
+    },
+    validTableStatus() {
+      if (this.tableData.find(item => item.isAdd || item.isEdit)) {
+        this.$message.warning("表格存在正在编辑的数据，请先保存");
+        return true;
+      }
+      return false;
     }
   }
 };

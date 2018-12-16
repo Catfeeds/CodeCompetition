@@ -15,11 +15,11 @@
             staff_id,
             po_role_id
           FROM
-            mms_po_staff_info,mms_po_temp
+            mms_po_staff_info,po_temp
           WHERE
-            mms_po_staff_info.project_id =mms_po_temp.poID
+            mms_po_staff_info.project_id =po_temp.poID
             AND
-            mms_po_temp.endDate >= CURRENT_DATE
+            po_temp.endDate >= CURRENT_DATE
           ) po_role
         ON mms_base_staff_info.employeeID = po_role.staff_id
         <where>
@@ -47,11 +47,11 @@
             staff_id,
             po_role_id
           FROM
-        mms_po_staff_info,mms_po_temp
+        mms_po_staff_info,po_temp
           WHERE
-        mms_po_staff_info.project_id =mms_po_temp.poID
+        mms_po_staff_info.project_id =po_temp.poID
             AND
-        mms_po_temp.endDate >= CURRENT_DATE
+        po_temp.endDate >= CURRENT_DATE
           ) po_role
         ON mms_base_staff_info.employeeID = po_role.staff_id
         <where>
@@ -81,18 +81,18 @@
           po_role.po_role_id AS name,
           COUNT(*) AS number
         FROM
-          base_staff_info
+          mms_base_staff_info
         LEFT JOIN
           (
           SELECT
             staff_id,
             po_role_id
           FROM
-        mms_po_staff_info,mms_po_temp
+        mms_po_staff_info,po_temp
           WHERE
-        mms_po_staff_info.project_id =mms_po_temp.poID
+        mms_po_staff_info.project_id =po_temp.poID
             AND
-        mms_po_temp.endDate >= CURRENT_DATE
+        po_temp.endDate >= CURRENT_DATE
           ) po_role
         ON mms_base_staff_info.employeeID = po_role.staff_id
         <where>
@@ -128,11 +128,11 @@
         staff_id,
         po_role_id
         FROM
-        mms_po_staff_info,mms_po_temp
+        mms_po_staff_info,po_temp
         WHERE
-        mms_po_staff_info.project_id =mms_po_temp.poID
+        mms_po_staff_info.project_id =po_temp.poID
         AND
-        mms_po_temp.endDate >= CURRENT_DATE
+        po_temp.endDate >= CURRENT_DATE
         ) po_role
         ON mms_base_staff_info.employeeID = po_role.staff_id
         <where>
@@ -173,7 +173,7 @@
             </choose>
             staffID
           FROM
-        mms_train_temp
+        train_temp
           <where>
               <if test="null != staffIDs">
                   staffID IN
@@ -281,11 +281,11 @@
               staff_id,
               po_role_id
             FROM
-        mms_po_staff_info,mms_po_temp
+        mms_po_staff_info,po_temp
             WHERE
-        mms_po_staff_info.project_id = mms_po_temp.poID
+        mms_po_staff_info.project_id = po_temp.poID
               AND
-        mms_po_temp.endDate >= CURRENT_DATE
+        po_temp.endDate >= CURRENT_DATE
             ) po_role
           ON mms_base_staff_info.employeeID = po_role.staff_id
           <where>
@@ -325,11 +325,11 @@
         staff_id,
         po_role_id
         FROM
-        mms_po_staff_info,mms_po_temp
+        mms_po_staff_info,po_temp
         WHERE
-        mms_po_staff_info.project_id =mms_po_temp.poID
+        mms_po_staff_info.project_id =po_temp.poID
         AND
-        mms_po_temp.endDate >= CURRENT_DATE
+        po_temp.endDate >= CURRENT_DATE
         ) po_role
         ON mms_base_staff_info.employeeID = po_role.staff_id
         <where>
@@ -389,11 +389,11 @@
         staff_id,
         po_role_id
         FROM
-        mms_po_staff_info,mms_po_temp
+        mms_po_staff_info,po_temp
         WHERE
-        mms_po_staff_info.project_id =mms_po_temp.poID
+        mms_po_staff_info.project_id =po_temp.poID
         AND
-        mms_po_temp.endDate >= CURRENT_DATE
+        po_temp.endDate >= CURRENT_DATE
         ) po_role
         ON mms_base_staff_info.employeeID = po_role.staff_id
         <where>
@@ -437,7 +437,7 @@
           passScore,
           sourseScore
         FROM
-        mms_train_temp
+        train_temp
         <where>
             <if test="null != staffIDs">
                 staffID IN

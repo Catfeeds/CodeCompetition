@@ -49,7 +49,7 @@
         ></el-option>
       </el-select>
       <el-input
-        v-model="searchForm.empolyeeId"
+        v-model="searchForm.employeeId"
         size="mini"
         clearable
         class="filter-item"
@@ -189,49 +189,7 @@
         label="PDU"
         sortable="custom"
         prop="pdu"
-      ></el-table-column>
-      <el-table-column
-        min-width="80"
-        header-align="center"
-        label="地域"
-        sortable="custom"
-        prop="workPlaceArea"
-      ></el-table-column>
-      <el-table-column
-        min-width="100"
-        header-align="center"
-        label="岗位"
-        sortable="custom"
-        prop="position"
-      ></el-table-column>
-      <el-table-column
-        min-width="100"
-        header-align="center"
-        label="毕业院校"
-        sortable="custom"
-        prop="graduationSchool"
-      ></el-table-column>
-      <el-table-column
-        min-width="110"
-        header-align="center"
-        label="学历"
-        sortable="custom"
-        prop="education"
-      ></el-table-column>
-      <el-table-column
-        min-width="110"
-        header-align="center"
-        label="是否统招"
-        sortable="custom"
-        prop="ifUnderGraduates"
-      ></el-table-column>
-      <el-table-column
-        min-width="110"
-        header-align="center"
-        label="联系电话"
-        sortable="custom"
-        prop="telephone"
-      ></el-table-column>
+      ></el-table-column>      
       <el-table-column align="center" :label="$t('table.option')" width="80" header-align="center">
         <template slot-scope="scope">
           <el-button v-if="false"
@@ -317,7 +275,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["empolyeeId", "empolyeeName"])
+    ...mapGetters(["employeeId", "employeeName"])
   },
   mounted() {
     this.getProductInfo();
