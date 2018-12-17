@@ -180,33 +180,6 @@ public class RelationTreeService implements IRelationTreeService {
         return tempNood;
     }
 
-    private Map<String, Object> buildQueryParamMap(List<Map<String, Object>> nodeList) {
-        StringBuilder nodes = new StringBuilder();
-        Map<String, Object> result = new HashMap<String, Object>();
-
-        if (nodeList != null) {
-            nodes.append("(");
-            List<String> paths = new ArrayList<String>();
-
-            for (Map<String, Object> temp : nodeList) {
-                Integer nodeID = (Integer) temp.get("nodeID");
-                nodes.append(nodeID).append(",");
-
-                String nodePath = (String) temp.get("nodePath");
-                paths.add(TreeUtil.getParentPath(nodePath, nodeID));
-            }
-
-            if (nodes.toString().endsWith(",")) {
-                nodes.deleteCharAt(nodes.length() - 1);
-            }
-            nodes.append(")");
-
-            result.put("paths", paths);
-            result.put("nodes", nodes.toString());
-        }
-        return result;
-    }
-
     private void checkAddNodeInfo(Map<String, Object> queryMap) {
         Map<String, Map<String, Object>> levelInfo = new HashMap<String, Map<String, Object>>();
         List<String> fixedLevel = new ArrayList<String>();
