@@ -13,6 +13,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface ExaminationAffairMapper {
+
     /**
      * 获取所有事务
      * @return

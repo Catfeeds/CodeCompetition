@@ -3,19 +3,31 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.ExaminationAffairMapper">
-    <select id="findAllAffair" parameterType="ExaminationAffair" resultType="com.isoftstone.pmit.project.hrbp.entity.ExaminationAffair">
-        select
-        affair_id as affairID,
-        affair_name as affairName,
-        system as system,
-        series as series,
-        bu as bu,
-        create_by as createBy,
-        update_by as updateBy,
-        update_time as updateTime
-        from
-        mms_examination_affair
-        where 1=1
+    <resultMap id="ExaminationAffairMap" type="com.isoftstone.pmit.project.hrbp.entity.ExaminationAffair">
+        <id column="affair_id" property="affairID"></id>
+        <result column="affair_name" property="affairName"></result>
+        <result column="system" property="system"></result>
+        <result column="series" property="series"></result>
+        <result column="bu" property="bu"></result>
+        <result column="create_by" property="createBy"></result>
+        <result column="update_by" property="updateBy"></result>
+        <result column="update_time" property="updateTime"></result>
+        <collection property="examinationDimensionList" ofType="com.isoftstone.pmit.project.hrbp.entity.ExaminationDimension">
+            <result column="dimension_id" property="dimensionID"></result>
+            <result column="dimension_name" property="dimensionName"></result>
+            <result column="mark" property="mark"></result>
+            <result column="explanation" property="explanation"></result>
+        </collection>
+    </resultMap>
+    <select id="findAllAffair" parameterType="ExaminationAffair" resultMap="ExaminationAffairMap">
+        SELECT
+        mea.*,
+        med.*
+        FROM
+        mms_examination_affair mea
+        LEFT JOIN mms_affair_dimension mad ON mad.affair_id = mea.affair_id
+        LEFT JOIN mms_examination_dimension med ON mad.dimension_id = med.dimension_id
+        <where>
         <if test="null != affairName and affairName != ''">
             and affair_name like CONCAT('%',#{affairName},'%')
         </if>
@@ -28,6 +40,7 @@
         <if test="null != bu and bu != ''">
             and bu  = #{bu}
         </if>
+        </where>
     </select>
     <delete id="deleteAffair" parameterType="java.lang.Integer">
        DELETE ea,ad,ed

@@ -2,6 +2,7 @@ package com.isoftstone.pmit.project.hrbp.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class SysRole implements Serializable {
     //角色id
@@ -16,6 +17,16 @@ public class SysRole implements Serializable {
     private Date createTime;
     //系统角色描述
     private String description;
+    /** 菜单列表 */
+    private List<MenuInfo> menuInfos;
+
+    public List<MenuInfo> getMenuInfos() {
+        return menuInfos;
+    }
+
+    public void setMenuInfos(List<MenuInfo> menuInfos) {
+        this.menuInfos = menuInfos;
+    }
 
     public Integer getRoleId() {
         return roleId;

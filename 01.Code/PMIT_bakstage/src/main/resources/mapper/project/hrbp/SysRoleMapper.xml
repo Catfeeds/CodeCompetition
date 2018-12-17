@@ -3,6 +3,20 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.SysRoleMapper">
+    <resultMap id="SysRoleMap" type="com.isoftstone.pmit.project.hrbp.entity.SysRole">
+        <id column="role_id" property="roleId"></id>
+        <result column="role_name" property="roleName"></result>
+        <result column="role_key" property="roleKey"></result>
+        <result column="role_sort" property="roleSort"></result>
+        <result column="create_time" property="createTime"></result>
+        <result column="description" property="description"></result>
+        <collection property="menuInfos" ofType="com.isoftstone.pmit.project.hrbp.entity.MenuInfo">
+            <result column="menu_id" property="menuId"></result>
+            <result column="menu_name" property="menuName"></result>
+            <result column="parent_id" property="parentId"></result>
+            <result column="note" property="note"></result>
+        </collection>
+    </resultMap>
     <sql id="roleColumn">
         role_id as roleId,
         role_name as roleName,
@@ -44,11 +58,12 @@
         </set>
         where role_id = #{roleId}
     </update>
-
-    <select id="queryAllRoles" resultType="com.isoftstone.pmit.project.hrbp.entity.SysRole">
-        select
-        <include refid="roleColumn"/>
-        from
-        mms_role
+    <select id="queryAllRoles" resultMap="SysRoleMap">
+    SELECT
+	mr.*, mm.*
+    FROM
+	mms_role mr
+    LEFT JOIN mms_role_menu mrm ON mrm.role_id = mr.role_id
+    LEFT JOIN mms_menu mm ON mrm.menu_id = mm.menu_id
     </select>
 </mapper>

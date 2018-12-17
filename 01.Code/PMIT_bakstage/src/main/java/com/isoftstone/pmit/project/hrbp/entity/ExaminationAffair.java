@@ -1,6 +1,7 @@
 package com.isoftstone.pmit.project.hrbp.entity;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  *  考核事务设置类
@@ -15,15 +16,6 @@ public class ExaminationAffair {
     private String system;
     /** 所属系列 */
     private String series;
-
-    public String getBu() {
-        return bu;
-    }
-
-    public void setBu(String bu) {
-        this.bu = bu;
-    }
-
     /** 所属产业线 */
     private String bu;
     /** 操作人ID */
@@ -34,6 +26,24 @@ public class ExaminationAffair {
     private String updateBy;
     /** 更新时间 */
     private Date updateTime;
+    /** 考核维度集合 */
+    private List<ExaminationDimension>  examinationDimensionList;
+
+    public List<ExaminationDimension> getExaminationDimensionList() {
+        return examinationDimensionList;
+    }
+
+    public void setExaminationDimensionList(List<ExaminationDimension> examinationDimensionList) {
+        this.examinationDimensionList = examinationDimensionList;
+    }
+
+    public String getBu() {
+        return bu;
+    }
+
+    public void setBu(String bu) {
+        this.bu = bu;
+    }
 
     public String getEmployeeID() {
         return employeeID;

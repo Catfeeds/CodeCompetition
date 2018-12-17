@@ -44,6 +44,7 @@ public class ClassOpeningServiceImpl implements IClassOpeningService {
      */
     @Override
     public void deleteClass(CourseInfo courseInfo) {
+
         classOpeningMapper.deleteClass(courseInfo);
     }
 
