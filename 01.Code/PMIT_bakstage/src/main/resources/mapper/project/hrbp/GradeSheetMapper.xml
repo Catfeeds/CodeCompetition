@@ -309,6 +309,8 @@
                 and  affair_id = #{nameID}
             </if>
         </where>
-
     </select>
+    <delete id="deleteScoreByOpenID" parameterType="com.isoftstone.pmit.project.hrbp.entity.CourseInfo">
+        delete from mms_course_test_score where opening_id = #{openingID}
+    </delete>
 </mapper>

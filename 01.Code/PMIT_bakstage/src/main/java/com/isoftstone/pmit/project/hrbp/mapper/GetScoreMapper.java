@@ -2,10 +2,7 @@ package com.isoftstone.pmit.project.hrbp.mapper;
 
 
 
-import com.isoftstone.pmit.project.hrbp.entity.PersonalScore;
-import com.isoftstone.pmit.project.hrbp.entity.PersonalScoreParam;
-import com.isoftstone.pmit.project.hrbp.entity.PersonalScoreParameter;
-import com.isoftstone.pmit.project.hrbp.entity.PersonalTranAndDimeScore;
+import com.isoftstone.pmit.project.hrbp.entity.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +21,5 @@ public interface GetScoreMapper {
     boolean deletePersonalScores(PersonalScore personalScore);
     boolean updatePersonalScores(Map<String,Object> parameter);
     List<PersonalTranAndDimeScore> getPersonalTransactionInfo(PersonalScore personalScore);
-
-
+    void deleteScoreByOpenID(CourseInfo courseInfo);
 }

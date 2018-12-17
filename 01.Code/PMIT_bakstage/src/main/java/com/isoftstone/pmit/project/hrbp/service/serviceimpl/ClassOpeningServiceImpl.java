@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.isoftstone.pmit.project.hrbp.entity.CourseInfo;
 import com.isoftstone.pmit.project.hrbp.entity.CourseParam;
 import com.isoftstone.pmit.project.hrbp.mapper.ClassOpeningMapper;
+import com.isoftstone.pmit.project.hrbp.mapper.GetScoreMapper;
 import com.isoftstone.pmit.project.hrbp.service.IClassOpeningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ public class ClassOpeningServiceImpl implements IClassOpeningService {
 
     @Autowired
     private ClassOpeningMapper classOpeningMapper;
+
+    @Autowired
+    private GetScoreMapper getScoreMapper;
 
     /**
      *  查询所有课程
@@ -44,7 +48,7 @@ public class ClassOpeningServiceImpl implements IClassOpeningService {
      */
     @Override
     public void deleteClass(CourseInfo courseInfo) {
-
+        getScoreMapper.deleteScoreByOpenID(courseInfo);
         classOpeningMapper.deleteClass(courseInfo);
     }
 
