@@ -225,7 +225,7 @@ FROM
             staff_id,
             team_name,
             team_id
-        from mms_hrbp_projectteamrecord
+        from mms_project_team_record
         where
           staff_id = #{employeeId}
 
