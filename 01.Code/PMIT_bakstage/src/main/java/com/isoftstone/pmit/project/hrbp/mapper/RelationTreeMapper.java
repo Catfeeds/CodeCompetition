@@ -10,6 +10,7 @@ import java.util.Map;
 @Repository
 @Mapper
 public interface RelationTreeMapper {
+    public List<Map<String,Object>> queryAllLevel(Map<String, Object> queryMap);
 
     public List<RelationTreeNode> queryTree();
 
@@ -23,5 +24,5 @@ public interface RelationTreeMapper {
 
     public void moveTreeNode(Map<String, Object> queryMap);
 
-    public List<RelationTreeNode> queryRelationNode(Map<String, Object> queryMap);
+    public List<RelationTreeNode> queryNodes(Map<String, Object> queryMap);
 }

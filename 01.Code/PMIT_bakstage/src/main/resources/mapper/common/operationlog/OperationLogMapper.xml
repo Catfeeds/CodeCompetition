@@ -5,7 +5,7 @@
 <mapper namespace="com.isoftstone.pmit.common.operationlog.mapper.OperationLogMapper">
 
     <insert id="insertLog" parameterType="OperationLogVO">
-        INSERT INTO `hw_it`.`sys_log` (
+        INSERT INTO `hw_it`.`mms_sys_log` (
         <if test="method != null and method != ''">method,</if>
         <if test="param != null and param != ''">param,</if>
         <if test="message != null and message != ''">message,</if>

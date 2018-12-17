@@ -73,7 +73,7 @@
     </insert>
 
     <delete id="deleteProject" parameterType="java.util.Map">
-        DELETE FROM project_manage WHERE projectID = #{projectID}
+        DELETE FROM mms_project_manage WHERE projectID = #{projectID}
     </delete>
 
     <select id="queryPMs" parameterType="java.util.Map" resultType="java.util.Map">

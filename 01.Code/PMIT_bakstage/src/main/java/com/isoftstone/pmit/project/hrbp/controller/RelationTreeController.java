@@ -21,9 +21,23 @@ public class RelationTreeController {
     @Autowired
     private IRelationTreeService service;
 
+
+    @ApiOperation(value = "查询全部层级", notes = "查询全部层级")
+    @PostMapping(value = "/queryAllLevel")
+    public String queryAllLevel(@RequestBody Map<String, Object> params) {
+        List<Map<String, Object>> result;
+        try {
+            result = service.queryAllLevel(params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.returnToMessage(false, e.getMessage());
+        }
+        return AjaxResult.returnToResult(true, result);
+    }
+
     @ApiOperation(value = "查询层级树", notes = "查询层级树")
-    @PostMapping(value = "/queryTree")
-    public String queryTree() {
+    @PostMapping(value = "/queryAllTree")
+    public String queryAllTree() {
         List<RelationTreeNode> result;
         try {
             result = service.queryTeamTree();
@@ -84,5 +98,31 @@ public class RelationTreeController {
             return AjaxResult.returnToMessage(false, e.getMessage());
         }
         return AjaxResult.returnToMessage(true, "Move Tree Node Success");
+    }
+
+    @ApiOperation(value = "通过节点向上查询树", notes = "通过节点向上查询树")
+    @PostMapping(value = "/queryParentTreesByNode")
+    public String queryParentTreesByNode(@RequestBody Map<String, Object> params) {
+        List<RelationTreeNode> result;
+        try {
+            result = service.queryParentTreesByNode(params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.returnToMessage(false, e.getMessage());
+        }
+        return AjaxResult.returnToResult(true, result);
+    }
+
+    @ApiOperation(value = "通过节点向下查询树", notes = "通过节点向下查询树")
+    @PostMapping(value = "/queryChildTreesByNode")
+    public String queryChildTreesByNode(@RequestBody Map<String, Object> params) {
+        List<RelationTreeNode> result;
+        try {
+            result = service.queryChildTreesByNode(params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.returnToMessage(false, e.getMessage());
+        }
+        return AjaxResult.returnToResult(true, result);
     }
 }

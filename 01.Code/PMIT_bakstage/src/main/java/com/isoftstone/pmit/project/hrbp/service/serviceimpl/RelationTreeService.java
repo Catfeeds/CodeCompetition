@@ -1,18 +1,15 @@
 package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 
 import com.isoftstone.pmit.common.exception.RelationTreeNodeException;
+import com.isoftstone.pmit.common.util.StringUtilsMethod;
 import com.isoftstone.pmit.project.hrbp.common.TreeUtil;
 import com.isoftstone.pmit.project.hrbp.entity.RelationTreeNode;
 import com.isoftstone.pmit.project.hrbp.mapper.RelationTreeMapper;
 import com.isoftstone.pmit.project.hrbp.service.IRelationTreeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class RelationTreeService implements IRelationTreeService {
@@ -20,19 +17,9 @@ public class RelationTreeService implements IRelationTreeService {
     @Autowired
     private RelationTreeMapper mapper;
 
-    private Map<String, Integer> map = new HashMap<String, Integer>();
-    private List<String> list = new ArrayList<String>();
-
-    {
-        list.add("BG");
-        list.add("BD");
-
-        map.put("BG", 1);
-        map.put("BD", 2);
-        map.put("BU", 3);
-        map.put("CU", 4);
-        map.put("SPM", 5);
-        map.put("Team", 6);
+    @Override
+    public List<Map<String, Object>> queryAllLevel(Map<String, Object> params) {
+        return mapper.queryAllLevel(params);
     }
 
     @Override
@@ -43,7 +30,6 @@ public class RelationTreeService implements IRelationTreeService {
     }
 
     @Override
-    @Transactional
     public void addTeamNode(Map<String, Object> params) {
         checkAddNodeInfo(params);
         String addNodeType = (String) params.get("addNodeType");
@@ -83,7 +69,6 @@ public class RelationTreeService implements IRelationTreeService {
     }
 
     @Override
-    @Transactional
     public void moveTreeNode(Map<String, Object> paramMap) {
         checkMoveNodeInfo(paramMap);
 
@@ -107,9 +92,31 @@ public class RelationTreeService implements IRelationTreeService {
     }
 
     @Override
-    public List<RelationTreeNode> queryLevelRlaLeafNode(List<Map<String, Object>> nodeList) {
-        Map<String, Object> queryMap = buildQueryParamMap(nodeList);
-        return mapper.queryRelationNode(queryMap);
+    public List<RelationTreeNode> queryParentTreesByNode(Map<String, Object> params) {
+        List<RelationTreeNode> nodes = new ArrayList<RelationTreeNode>();
+        nodes = mapper.queryNodes(params);
+
+        Set<Integer> nodeIDs = new HashSet<Integer>();
+        buildNodeIDs(nodes, nodeIDs);
+
+        params.put("nodeIDs", nodeIDs);
+        List<RelationTreeNode> treeNodes = mapper.queryNodes(params);
+
+        return buildTree(treeNodes);
+    }
+
+    @Override
+    public List<RelationTreeNode> queryChildTreesByNode(Map<String, Object> params) {
+        List<RelationTreeNode> nodes = new ArrayList<RelationTreeNode>();
+        nodes = mapper.queryNodes(params);
+
+        Set<String> nodePaths = new HashSet<String>();
+        buildNodePaths(nodes, nodePaths);
+
+        params.put("nodePaths", nodePaths);
+        List<RelationTreeNode> treeNodes = mapper.queryNodes(params);
+
+        return buildTree(treeNodes);
     }
 
     private List<RelationTreeNode> buildTree(List<RelationTreeNode> treeNodeList) {
@@ -123,7 +130,7 @@ public class RelationTreeService implements IRelationTreeService {
                                Map<Integer, RelationTreeNode> tempMap) {
         //获取一个根节点
         RelationTreeNode rootNode = new RelationTreeNode();
-        if (!treeNodeList.isEmpty()) {
+        while (!treeNodeList.isEmpty()) {
             rootNode = treeNodeList.get(0);
             tempMap.put(rootNode.getNodeID(), rootNode);
             treeNodeList.remove(0);
@@ -201,7 +208,9 @@ public class RelationTreeService implements IRelationTreeService {
     }
 
     private void checkAddNodeInfo(Map<String, Object> queryMap) {
-        // TODO: 2018/12/12 查询层级关系，判断插入级别是否合理
+        Map<String, Map<String, Object>> levelInfo = new HashMap<String, Map<String, Object>>();
+        List<String> fixedLevel = new ArrayList<String>();
+        buildLevelInfo(levelInfo, fixedLevel);
 
         String parentNodeType = (String) queryMap.get("parentNodeType");
         if (parentNodeType.equalsIgnoreCase("Team")) {
@@ -213,12 +222,12 @@ public class RelationTreeService implements IRelationTreeService {
 
         String addNodeType = (String) queryMap.get("addNodeType");
 
-        if (addNodeType.equalsIgnoreCase("Team") && list.contains(parentNodeType)) {
-            throw new RelationTreeNodeException(String.valueOf(list) + "不支持插入项目组子节点");
+        if (addNodeType.equalsIgnoreCase("Team") && fixedLevel.contains(parentNodeType)) {
+            throw new RelationTreeNodeException(String.valueOf(fixedLevel) + "不支持插入项目组子节点");
         }
 
-        Integer parentTypeIndex = map.get(parentNodeType);
-        Integer addNodeTypeIndex = map.get(addNodeType);
+        Integer parentTypeIndex = (Integer) (levelInfo.get(parentNodeType).get("levelIndex"));
+        Integer addNodeTypeIndex = (Integer) (levelInfo.get(addNodeType).get("levelIndex"));
 
         if (parentTypeIndex >= addNodeTypeIndex) {
             throw new RelationTreeNodeException(addNodeType + "级别" +
@@ -228,7 +237,9 @@ public class RelationTreeService implements IRelationTreeService {
     }
 
     private void checkMoveNodeInfo(Map<String, Object> queryMap) {
-        // TODO: 2018/12/12 查询层级关系，判断插入级别是否合理
+        Map<String, Map<String, Object>> levelInfo = new HashMap<String, Map<String, Object>>();
+        List<String> fixedLevel = new ArrayList<String>();
+        buildLevelInfo(levelInfo, fixedLevel);
 
         String targetNodeType = (String) queryMap.get("targetNodeType");
         if (targetNodeType.equalsIgnoreCase("BG")) {
@@ -236,12 +247,12 @@ public class RelationTreeService implements IRelationTreeService {
         }
 
         String moveNodeType = (String) queryMap.get("moveNodeType");
-        if (list.contains(moveNodeType)) {
-            throw new RelationTreeNodeException(String.valueOf(list) + "不支持移动");
+        if (fixedLevel.contains(moveNodeType)) {
+            throw new RelationTreeNodeException(String.valueOf(fixedLevel) + "不支持移动");
         }
 
-        Integer targetNodeTypeIndex = map.get(targetNodeType);
-        Integer moveNodeTypeIndex = map.get(moveNodeType);
+        Integer targetNodeTypeIndex = (Integer) (levelInfo.get(targetNodeType).get("levelIndex"));
+        Integer moveNodeTypeIndex = (Integer) (levelInfo.get(moveNodeType).get("levelIndex"));
 
         if (targetNodeTypeIndex >= moveNodeTypeIndex) {
             throw new RelationTreeNodeException(moveNodeType + "级别" +
@@ -251,16 +262,67 @@ public class RelationTreeService implements IRelationTreeService {
     }
 
     private void checkDeleteNodeInfo(Map<String, Object> queryMap) {
+        List<String> fixedLevel = new ArrayList<String>();
+        buildLevelInfo(null, fixedLevel);
+
         String nodeType = (String) queryMap.get("nodeType");
-        if (list.contains(nodeType)) {
-            throw new RelationTreeNodeException(String.valueOf(list) + "不支持删除");
+        if (fixedLevel.contains(nodeType)) {
+            throw new RelationTreeNodeException(String.valueOf(fixedLevel) + "不支持删除");
         }
     }
 
     private void checkUpdateNodeInfo(Map<String, Object> queryMap) {
+        List<String> fixedLevel = new ArrayList<String>();
+        buildLevelInfo(null, fixedLevel);
+
         String nodeType = (String) queryMap.get("nodeType");
-        if (list.contains(nodeType)) {
-            throw new RelationTreeNodeException(String.valueOf(list) + "不支持修改");
+        if (fixedLevel.contains(nodeType)) {
+            throw new RelationTreeNodeException(String.valueOf(fixedLevel) + "不支持修改");
+        }
+    }
+
+    private void buildLevelInfo(Map<String, Map<String, Object>> levelInfo, List<String> fixedLevel) {
+        Map<String, Object> levelQueryMap = new HashMap<String, Object>();
+        levelQueryMap.put("relationID", 1);
+        List<Map<String, Object>> levelInfoList = queryAllLevel(levelQueryMap);
+        if (null != levelInfoList) {
+            for (Map<String, Object> temp : levelInfoList) {
+                if (levelInfo != null) {
+                    levelInfo.put(String.valueOf(temp.get("levelIndexID")), temp);
+                }
+                if (fixedLevel != null && !Boolean.valueOf(String.valueOf(temp.get("operationAllow")))) {
+                    fixedLevel.add(String.valueOf(temp.get("levelIndexID")));
+                }
+            }
+        }
+    }
+
+    private void buildNodeIDs(List<RelationTreeNode> nodes, Set<Integer> nodeIDs) {
+        if (nodes != null) {
+            for (RelationTreeNode temp : nodes) {
+                nodeIDs.add(temp.getNodeID());
+                String path = temp.getNodePath();
+                if (!StringUtilsMethod.isEmpty(path)) {
+                    String[] pathNodes = path.split(":");
+                    if (pathNodes.length > 1) {
+                        for (int index = 1; index < pathNodes.length; index++) {
+                            nodeIDs.add(Integer.valueOf(pathNodes[index]));
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
+    private void buildNodePaths(List<RelationTreeNode> nodes, Set<String> nodePaths) {
+        if (nodes != null) {
+            for (RelationTreeNode temp : nodes) {
+                Integer nodeID = temp.getNodeID();
+                String nodePath = temp.getNodePath();
+                String path = TreeUtil.getParentPath(nodePath, nodeID);
+                nodePaths.add(path);
+            }
         }
     }
 }

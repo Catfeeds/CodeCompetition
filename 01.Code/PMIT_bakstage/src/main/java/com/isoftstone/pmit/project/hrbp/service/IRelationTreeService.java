@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface IRelationTreeService {
+    public List<Map<String,Object>> queryAllLevel(Map<String, Object> params);
+
     public List<RelationTreeNode> queryTeamTree();
 
     public void addTeamNode(Map<String, Object> params);
@@ -18,5 +20,7 @@ public interface IRelationTreeService {
 
     public void moveTreeNode(Map<String, Object> params);
 
-    public List<RelationTreeNode> queryLevelRlaLeafNode(List<Map<String, Object>> nodeList);
+    public List<RelationTreeNode> queryParentTreesByNode(Map<String, Object> params);
+
+    public List<RelationTreeNode> queryChildTreesByNode(Map<String, Object> params);
 }

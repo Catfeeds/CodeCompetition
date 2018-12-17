@@ -175,7 +175,7 @@
           FROM
         train_temp
           <where>
-              <if test="null != staffIDs">
+              <if test="null != staffIDs and !staffIDs.isEmpty()">
                   staffID IN
                   <foreach collection="staffIDs" item="item" open="(" separator="," close=")">
                       #{item}

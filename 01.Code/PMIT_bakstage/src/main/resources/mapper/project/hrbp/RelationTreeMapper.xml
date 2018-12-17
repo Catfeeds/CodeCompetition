@@ -3,6 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.RelationTreeMapper">
+    <select id="queryAllLevel" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+        *
+        FROM
+        mms_relation_info
+        WHERE
+        relationID = #{relationID}
+        ORDER BY levelIndex ASC
+    </select>
 
     <select id="queryTree" resultType="RelationTreeNode">
         SELECT
@@ -92,22 +101,23 @@
           nodeID = #{moveNodeID};
     </select>
 
-    <select id="queryLevelRlaLeafNode" parameterType="java.util.Map" resultType="LevelTreeNode">
-        SELECT
+    <select id="queryNodes" parameterType="java.util.Map" resultType="RelationTreeNode">
+      SELECT
         *
-        FROM
-        ${tableName}
-        WHERE
-        1 = 2
-        <if test="'' != nodes">
-            OR nodeID in ${nodes}
-        </if>
-        <if test="paths != null">
-            <foreach collection="paths" item="item" open="OR" separator="OR">
-                nodePath LIKE '${item}%'
-            </foreach>
-        </if>
-        ORDER BY nodePath
-    </select>
+      FROM
+        mms_relation_team
+      <where>
+          <if test="nodeIDs != null and !nodeIDs.isEmpty()">
+              <foreach collection="nodeIDs" item="item" open="nodeID IN (" separator="," close=")">
+                  #{item}
+              </foreach>
+          </if>
 
+          <if test="nodePaths != null and !nodePaths.isEmpty()">
+              <foreach collection="nodePaths" item="item">
+                  OR nodePath LIKE '${item}%'
+              </foreach>
+          </if>
+      </where>
+    </select>
 </mapper>
