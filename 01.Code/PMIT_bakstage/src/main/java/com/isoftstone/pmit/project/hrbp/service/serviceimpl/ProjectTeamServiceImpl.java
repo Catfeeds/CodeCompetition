@@ -68,9 +68,7 @@ public class ProjectTeamServiceImpl implements IProjectTeamService {
 	public void saveProjectRole(List<Map<String, Object>> paramMap) {
 		projectTeamMapper.deleteProjectRole(paramMap.get(0));
 		try {
-		for(Map<String, Object> map : paramMap) {
-			projectTeamMapper.saveProjectRole(map);
-		}
+			projectTeamMapper.saveProjectRole(paramMap);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

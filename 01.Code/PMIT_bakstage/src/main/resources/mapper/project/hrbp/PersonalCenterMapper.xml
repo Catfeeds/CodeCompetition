@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.PersonalCenterMapper">
+	
+	<select id="getPendingSolved" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			msa.staff_id as staffId,
+			mbsi.employeeName as staffName,
+			mea.affair_id as affairId,
+			mea.affair_name as afairName,
+			mea.series as series,
+			mea.system as system,
+			mea.bu as bu
+		FROM 
+			mms_staff_affair msa,
+			mms_examination_affair mea,
+			mms_base_staff_info mbsi
+		WHERE 
+			msa.staff_id = mbsi.employeeId AND
+			mea.affair_id = msa.affair_id AND
+			msa.evaluator_id = #{evaluatorId} 
+	</select>
+	
+	
+	<select id="getDimensionByAffair" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			med.dimension_id as dimensionId,
+			med.dimension_name as dimensionName,
+			med.mark as mark
+		FROM 
+			mms_examination_dimension med,
+			mms_affair_dimension mad
+		WHERE
+			med.dimension_id = mad.dimension_id AND
+			mad.affair_id = #{affairId}
+	</select>
+	
+	<select id="saveScoresByName" parameterType="java.util.Map" resultType="java.util.Map">
+		insert into mms_transaction_dimension_score 
+		(employee_id, affair_id, dimension_id, score, evaluation, evaluator, change_time) values 
+		(#{staffId}, #{affairId}, #{dimensionId}, #{score}, #{evaluation}, #{evaluatorId}, now());
+	</select>
+	
+	<select id="updateStaffAffairStatus" parameterType="java.util.Map" resultType="java.util.Map">
+		update mms_staff_affair set is_solved = 1 where staff_id = #{staffId} and affair_id = #{affairId}
+	</select>
+	
+	<select id="queryHistorySolved" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			msa.staff_id as staffId,
+			mbsi.employeeName as staffName,
+			mea.affair_id as affairId,
+			mea.affair_name as afairName,
+			mea.series as series,
+			mea.system as system,
+			mea.bu as bu
+		FROM 
+			mms_staff_affair msa,
+			mms_examination_affair mea,
+			mms_base_staff_info mbsi
+		WHERE 
+			msa.staff_id = mbsi.employeeId AND
+			mea.affair_id = msa.affair_id AND
+			msa.is_solved = 1 AND
+			msa.evaluator_id = #{evaluatorId} 
+	</select>
+</mapper>

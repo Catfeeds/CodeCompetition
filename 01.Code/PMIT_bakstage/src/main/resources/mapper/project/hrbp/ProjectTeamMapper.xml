@@ -122,8 +122,10 @@
 			</if>
 	</select>
 
-	<select id="saveProjectRole" parameterType="java.util.Map">
-		insert into mms_po_staff_info (project_id, po_role_id, team_id, staff_id, backup_staff_id, enter_time) values (#{projectId}, #{poRoleId}, #{teamId}, #{staffId}, #{backupStaffId}, now())
+	<select id="saveProjectRole" parameterType="java.util.List" >
+		<foreach collection="list" index="index" item="map">
+			insert into mms_po_staff_info (project_id, po_role_id, team_id, staff_id, backup_staff_id, enter_time) values (#{map.projectId}, #{map.poRoleId}, #{map.teamId}, #{map.staffId}, #{map.backupStaffId}, now());
+		</foreach>
 	</select>
 
 	<select id="deleteProjectRole" parameterType="java.util.Map">

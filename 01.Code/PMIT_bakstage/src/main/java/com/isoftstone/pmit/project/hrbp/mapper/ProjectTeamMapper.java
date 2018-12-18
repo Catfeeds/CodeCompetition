@@ -22,7 +22,7 @@ public interface ProjectTeamMapper {
 
 	void deleteTeamInfo(List<TeamInfo> deleteTeamInfos);
 
-	void saveProjectRole(Map<String, Object> map);
+	void saveProjectRole(List<Map<String, Object>> paramMap);
 
 	void teamRelatedPo(Map<String, Object> map);
 
