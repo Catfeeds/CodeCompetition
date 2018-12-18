@@ -1,6 +1,7 @@
 package com.isoftstone.pmit.project.hrbp.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class PersonalScore {
     /**员工ID*/
@@ -27,6 +28,16 @@ public class PersonalScore {
     private int scoresID;
     /**所属类型的名称的ID*/
     private int nameID;
+
+    private List<PersonalTranAndDimeScore> personalTranAndDimeScores;
+
+    public List<PersonalTranAndDimeScore> getPersonalTranAndDimeScores() {
+        return personalTranAndDimeScores;
+    }
+
+    public void setPersonalTranAndDimeScores(List<PersonalTranAndDimeScore> personalTranAndDimeScores) {
+        this.personalTranAndDimeScores = personalTranAndDimeScores;
+    }
 
     public int getNameID() {
         return nameID;

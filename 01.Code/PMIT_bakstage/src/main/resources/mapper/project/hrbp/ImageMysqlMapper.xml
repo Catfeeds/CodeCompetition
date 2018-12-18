@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.ImageMapper">
 
-    <update id="insertPersonalImagePath" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalStyle">
+    <update id="insertLifeImagePath" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalStyle">
         update mms_personal_style set
         photosOfLife = #{photosOfLife}
         where employeeID = #{employeeID}

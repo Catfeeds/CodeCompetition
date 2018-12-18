@@ -22,4 +22,6 @@ public interface GetScoreMapper {
     boolean updatePersonalScores(PersonalScore parameter);
     List<PersonalTranAndDimeScore> getPersonalTransactionInfo(PersonalScore personalScore);
     void deleteScoreByOpenID(CourseInfo courseInfo);
+
+    List<PersonalTranAndDimeScore> getAllPersonalTransactionInfo();
 }

@@ -5,14 +5,22 @@ import java.util.Date;
 public class PersonalTranAndDimeScore {
     private int tranAndDieId;
     private String employeeID;
+    private String dimensionName;
     private int affairId;
-    private int dimensionId;
     private float score;
     private String evaluation;
     private String evaluator;
     private String modifier;
     private Date changeTime;
     private String types;
+
+    public int getAffairId() {
+        return affairId;
+    }
+
+    public void setAffairId(int affairId) {
+        this.affairId = affairId;
+    }
 
     public String getEvaluator() {
         return evaluator;
@@ -38,20 +46,12 @@ public class PersonalTranAndDimeScore {
         this.employeeID = employeeID;
     }
 
-    public int getAffairId() {
-        return affairId;
+    public String getDimensionName() {
+        return dimensionName;
     }
 
-    public void setAffairId(int affairId) {
-        this.affairId = affairId;
-    }
-
-    public int getDimensionId() {
-        return dimensionId;
-    }
-
-    public void setDimensionId(int dimensionId) {
-        this.dimensionId = dimensionId;
+    public void setDimensionName(String dimensionName) {
+        this.dimensionName = dimensionName;
     }
 
     public float getScore() {

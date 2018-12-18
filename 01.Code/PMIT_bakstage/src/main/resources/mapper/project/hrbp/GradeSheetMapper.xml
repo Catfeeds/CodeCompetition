@@ -286,18 +286,19 @@
     </update>
     <select id="getPersonalTransactionInfo" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalScore" resultType="com.isoftstone.pmit.project.hrbp.entity.PersonalTranAndDimeScore">
         SELECT
-        transaction_dimension_id AS tranAndDieId,
-        employee_id AS employeeID,
-        affair_id AS affairId,
-        dimension_id AS dimensionId,
-        score AS score,
-        evaluation AS evaluation,
-        evaluator AS evaluator,
-        modifier AS evaluator,
-        change_time AS changeTime,
-        type AS types
+        score.transaction_dimension_id AS tranAndDieId,
+        score.employee_id AS employeeID,
+        score.score AS score,
+        score.affair_id AS affairId,
+        dimension.dimension_name as dimensionName,
+        score.evaluation AS evaluation,
+        score.evaluator AS evaluator,
+        score.modifier AS evaluator,
+        score.change_time AS changeTime,
+        score.type AS types
         FROM
-        mms_transaction_dimension_score
+        mms_transaction_dimension_score score
+        LEFT JOIN mms_examination_dimension dimension ON score.dimension_id = dimension.dimension_id
         <where>
             <if test="employeeID != null and employeeID != ''" >
                 employee_id = #{employeeID}
@@ -310,4 +311,22 @@
     <delete id="deleteScoreByOpenID" parameterType="com.isoftstone.pmit.project.hrbp.entity.CourseInfo">
         delete from mms_course_test_score where opening_id = #{openingID}
     </delete>
+
+    <select id="getAllPersonalTransactionInfo" resultType="com.isoftstone.pmit.project.hrbp.entity.PersonalTranAndDimeScore">
+        SELECT
+            score.transaction_dimension_id AS tranAndDieId,
+            score.employee_id AS employeeID,
+            score.score AS score,
+            score.affair_id AS affairId,
+            dimension.dimension_name as dimensionName,
+            score.evaluation AS evaluation,
+            score.evaluator AS evaluator,
+            score.modifier AS evaluator,
+            score.change_time AS changeTime,
+            score.type AS types
+        FROM
+	        mms_transaction_dimension_score score
+        LEFT JOIN mms_examination_dimension dimension
+        ON score.dimension_id = dimension.dimension_id
+    </select>
 </mapper>

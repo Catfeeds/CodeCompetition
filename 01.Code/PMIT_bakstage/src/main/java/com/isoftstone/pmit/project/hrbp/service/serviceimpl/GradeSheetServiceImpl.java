@@ -174,6 +174,9 @@ public class GradeSheetServiceImpl implements IGradeSheetService {
         return resultList;
     }
 
+    /**
+     * 获取所有人的分数列表
+     * */
     @Override
     public PageInfo<PersonalScore> getAllPersonalScores(PersonalScoreParam param) {
         if (param == null){
@@ -186,6 +189,22 @@ public class GradeSheetServiceImpl implements IGradeSheetService {
             PageHelper.orderBy(sortColumn + " " + sortType);
         }
         List<PersonalScore> allPersonalScores = getScoreMapper.getAllPersonalScores(param);
+        List<PersonalTranAndDimeScore> allPerTranInfo = getScoreMapper.getAllPersonalTransactionInfo();
+        for (PersonalScore score : allPersonalScores){
+            int nameID = score.getNameID();
+            String employeeID = score.getEmployeeID();
+            String types = score.getTypes();
+            List<PersonalTranAndDimeScore> list = new ArrayList<>();
+            for (PersonalTranAndDimeScore tranAndDimeScore : allPerTranInfo){
+                String id = tranAndDimeScore.getEmployeeID();
+                int affairId = tranAndDimeScore.getAffairId();
+                String scoreTypes = tranAndDimeScore.getTypes();
+                if (id.equals(employeeID) && affairId == nameID && types.equals(scoreTypes)){
+                    list.add(tranAndDimeScore);
+                }
+            }
+            score.setPersonalTranAndDimeScores(list);
+        }
         PageInfo<PersonalScore> resultScores = new PageInfo<>(allPersonalScores);
 
         return resultScores;
