@@ -2,8 +2,8 @@ package com.isoftstone.pmit.project.hrbp.controller;
 
 
 import com.isoftstone.pmit.common.util.AjaxResult;
-import com.isoftstone.pmit.project.hrbp.service.ITeamLevelService;
 import com.isoftstone.pmit.project.hrbp.service.IProjectManageService;
+import com.isoftstone.pmit.project.hrbp.service.ITeamLevelService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,52 +27,18 @@ public class ProjectManageController {
     @Autowired
     private ITeamLevelService teamLevelService;
 
-    @ApiOperation(value = "项目组层级关系查询接口", notes = "项目组层级关系查询接口")
-    @PostMapping(value = "/queryProjectLevel")
-    public String queryLevel(@RequestBody Map<String, Object> params) {
-        List<String> result;
-        try {
-            result = teamLevelService.queryLevel(params);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return AjaxResult.returnToMessage(false, e.getMessage());
-        }
-        return AjaxResult.returnToResult(true, result);
-    }
-
     @ApiOperation(value = "项目组查询接口", notes = "项目组级查询接口")
     @PostMapping(value = "/queryProjects")
     public String queryProjects(@RequestBody Map<String, Object> parameter) {
         Map<String, Object> result = new HashMap<String, Object>();
 
         try {
-            if (parameter.get("teamID") == null) {
-                List<Long> teamIDs = teamLevelService.queryProjects(parameter);
-                parameter.put("teamIDs", teamIDs);
-                result = projectManageService.queryProjects(parameter);
-            } else {
-                result = projectManageService.queryProject(parameter);
-            }
+            result = projectManageService.queryProjects(parameter);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
         }
         return AjaxResult.returnToResult(true, result);
-    }
-
-    @ApiOperation(value = "项目组添加接口", notes = "项目组添加接口")
-    @PostMapping(value = "/addProjectNode")
-    public String addProjectNode(@RequestBody Map<String, Object> params) {
-        try {
-            Long teamID = projectManageService.addProjectNode(params);
-            params.put("teamID",teamID);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return AjaxResult.returnToMessage(false, e.getMessage());
-        }
-        return AjaxResult.returnToResult(true, "Add Project Success");
     }
 
     @ApiOperation(value = "项目组删除接口", notes = "项目组删除接口")

@@ -3,20 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.ProjectManageMapper">
-    <select id="queryProjectSize" parameterType="java.util.Map" resultType="java.lang.Integer">
-        SELECT
-        COUNT(*) AS totleSize
-        FROM
-        mms_project_manage
-        <where>
-            <if test="null != teamIDs and !teamIDs.isEmpty()">
-               <foreach collection="teamIDs" item="item" open="projectID IN (" separator="," close=")">
-                   #{item}
-               </foreach>
-            </if>
-        </where>
-    </select>
-
     <select id="queryProjects" parameterType="java.util.Map" resultType="java.util.Map">
         SET @r:=-1;
 
@@ -41,39 +27,14 @@
             <if test="null != pmName and '' != pmName">
                 AND pmName like '%${pmName}%'
             </if>
-            <if test="null != teamID and '' != teamID">
-                AND projectID = #{teamID}
-            </if>
         </where>
         ) TMP
         WHERE row_num BETWEEN #{rowStart} AND #{rowEnd}
         ORDER BY projectID DESC
     </select>
 
-    <insert id="insertProjectNode" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="projectID">
-        INSERT INTO
-        mms_project_manage(
-        <if test="null != pmID">
-            pmID,
-        </if>
-        <if test="null != pmName">
-            pmName,
-        </if>
-        projectName
-        )
-        VALUES (
-        <if test="null != pmID">
-            #{pmID},
-        </if>
-        <if test="null != pmName">
-            #{pmName},
-        </if>
-        #{projectName}
-        )
-    </insert>
-
     <delete id="deleteProject" parameterType="java.util.Map">
-        DELETE FROM mms_project_manage WHERE projectID = #{projectID}
+        DELETE FROM mms_project_manage WHERE projectID = #{teamID}
     </delete>
 
     <select id="queryPMs" parameterType="java.util.Map" resultType="java.util.Map">
@@ -93,8 +54,8 @@
         <if test="null != bu and '' != bu">
             AND bu = #{bu}
         </if>
-        <if test="null != cu and '' != cu">
-            AND pdu = #{cu}
+        <if test="null != pdu and '' != pdu">
+            AND pdu = #{pdu}
         </if>
     </select>
 </mapper>

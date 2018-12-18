@@ -120,4 +120,31 @@
           </if>
       </where>
     </select>
+
+    <!--<select id="queryTeams" parameterType="java.util.Map" resultType="java.lang.Integer">-->
+        <!--SELECT-->
+          <!--teamID-->
+        <!--FROM-->
+          <!--(-->
+          <!--SELECT-->
+            <!--*-->
+          <!--FROM-->
+            <!--mms_relation_team-->
+          <!--<where>-->
+              <!--<if test="nodeIDs != null and !nodeIDs.isEmpty()">-->
+                  <!--<foreach collection="nodeIDs" item="item" open="nodeID IN (" separator="," close=")">-->
+                      <!--#{item}-->
+                  <!--</foreach>-->
+              <!--</if>-->
+
+              <!--<if test="nodePaths != null and !nodePaths.isEmpty()">-->
+                  <!--<foreach collection="nodePaths" item="item">-->
+                      <!--OR nodePath LIKE '${item}%'-->
+                  <!--</foreach>-->
+              <!--</if>-->
+          <!--</where>-->
+          <!--) temp-->
+        <!--WHERE-->
+          <!--isTeamNode = TRUE-->
+    <!--</select>-->
 </mapper>

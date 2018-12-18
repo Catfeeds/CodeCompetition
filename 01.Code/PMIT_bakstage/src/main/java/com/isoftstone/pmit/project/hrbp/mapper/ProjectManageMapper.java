@@ -9,11 +9,7 @@ import java.util.Map;
 @Repository
 @Mapper
 public interface ProjectManageMapper {
-    public Integer queryProjectSize(Map<String, Object> queryMap);
-
     public List<Map<String, String>> queryProjects(Map<String, Object> queryMap);
-
-    public Long insertProjectNode(Map<String, Object> queryMap);
 
     public void deleteProject(Map<String, Object> queryMap);
 

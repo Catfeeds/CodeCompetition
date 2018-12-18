@@ -25,4 +25,6 @@ public interface RelationTreeMapper {
     public void moveTreeNode(Map<String, Object> queryMap);
 
     public List<RelationTreeNode> queryNodes(Map<String, Object> queryMap);
+
+    //public List<Integer> queryTeams(Map<String, Object> queryMap);
 }
