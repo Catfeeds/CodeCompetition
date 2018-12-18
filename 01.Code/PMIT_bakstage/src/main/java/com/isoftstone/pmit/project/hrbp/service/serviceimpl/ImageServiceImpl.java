@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 @Service
 public class ImageServiceImpl implements IImageService {
@@ -29,6 +30,10 @@ public class ImageServiceImpl implements IImageService {
                 PersonalStyle personalStyle = new PersonalStyle();
                 personalStyle.setEmployeeID(employeeID);
                 personalStyle.setPhotosOfLife(lifefilePath);
+                List<String> strings = imageMapper.checkPersonalIsNo();
+                if (!strings.contains(employeeID)){
+                    imageMapper.insertNoEmployLifeImage(personalStyle);
+                }
                 imageMapper.insertLifeImagePath(personalStyle);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -48,6 +53,10 @@ public class ImageServiceImpl implements IImageService {
                 PersonalStyle personalStyle = new PersonalStyle();
                 personalStyle.setEmployeeID(employeeID);
                 personalStyle.setDocumentPhoto(docFilePath);
+                List<String> strings = imageMapper.checkPersonalIsNo();
+                if (!strings.contains(employeeID)){
+                    imageMapper.insetNoEmployDocmentImage(personalStyle);
+                }
                  imageMapper.insertDocumentImagePath(personalStyle);
             } catch (IOException e) {
                 e.printStackTrace();

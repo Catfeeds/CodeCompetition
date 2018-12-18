@@ -14,5 +14,13 @@
         documentPhoto = #{documentPhoto}
         where employeeID = #{employeeID}
     </update>
-
+    <select id="checkPersonalIsNo" resultType="java.lang.String">
+        SELECT employeeID FROM mms_personal_style
+    </select>
+    <insert id="insertNoEmployLifeImage" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalStyle">
+        INSERT INTO mms_personal_style (employeeID,photosOfLife) VALUES(#{employeeID},#{photosOfLife})
+    </insert>
+    <insert id="insetNoEmployDocmentImage" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalStyle">
+        INSERT INTO mms_personal_style (employeeID,documentPhoto) VALUES(#{employeeID},#{documentPhoto})
+    </insert>
 </mapper>

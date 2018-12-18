@@ -8,4 +8,6 @@ public interface IImageService {
     String saveLifeImage(MultipartFile file, String employeeID);
 
     String saveDocumentImage(MultipartFile file, String employeeID);
+
+
 }

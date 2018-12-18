@@ -505,7 +505,8 @@ FROM
           ifBackBone,
           cooperationMode,
           bu,
-          pdu
+          pdu,
+          du
         from
         mms_base_staff_info
         where
