@@ -119,7 +119,12 @@
           >
             <template slot-scope="scope">
               <el-form-item label prop="systemRole" v-if="scope.row.isAdd||scope.row.isEdit">
-                <el-select v-model="loginForm.systemRole" size="mini" placeholder="请选择系统角色" style="width:150px;">
+                <el-select
+                  v-model="loginForm.systemRole"
+                  size="mini"
+                  placeholder="请选择系统角色"
+                  style="width:150px;"
+                >
                   <el-option
                     v-for="item in roleOptions"
                     :key="item.value"
@@ -194,6 +199,15 @@
 export default {
   data() {
     let vm = this;
+    let validaEmployee = (rule, value, callback)=>{
+      if(!value) {
+        callback(new Error(rule.emptyMsg));
+      }
+      if(!vm.loginForm.department) {
+        callback(new Error(rule.existMsg));
+      }
+      callback();
+    }
     return {
       isAdd: false,
       loading: false,
@@ -212,10 +226,10 @@ export default {
       },
       rules: {
         employeeName: [
-          { required: true, message: "请输入名称", trigger: "blur" }
+          { required: true, validator: validaEmployee, emptyMsg:"请输入姓名", existMsg:"输入的姓名不存在", trigger: "blur" }
         ],
         employeeId: [
-          { required: true, message: "请输入工号", trigger: "blur" }
+          { required: true, validator: validaEmployee, emptyMsg:"请输入工号", existMsg:"输入的工号不存在", trigger: "blur" }
         ],
         systemRole: [
           { required: true, message: "请选择系统角色", trigger: "change" }

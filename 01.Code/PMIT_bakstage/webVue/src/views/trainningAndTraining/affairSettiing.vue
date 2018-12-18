@@ -108,7 +108,35 @@
                 style="width:130px"
               ></el-input>
             </el-form-item>
-            <span v-else>{{scope.row.affairName}}</span>
+            <el-popover v-else placement="right-end" title="考核维度" width="600" trigger="hover">
+              <el-table
+                :data="scope.row.examinationDimensionList"
+                border
+                fit
+                size="mini"
+                stripe
+                max-height="400"
+                tooltip-effect="dark"
+                style="width: 100%;"
+              >
+                <el-table-column
+                  header-align="center"
+                  align="center"
+                  :label="$t('table.id')"
+                  width="50"
+                  type="index"
+                ></el-table-column>
+                <el-table-column prop="dimensionName" header-align="center" label="考核维度" width="150"></el-table-column>
+                <el-table-column prop="mark" header-align="center" label="分数" width="100"></el-table-column>
+                <el-table-column
+                  prop="explanation"
+                  header-align="center"
+                  label="考核点说明"
+                  show-overflow-tooltip
+                ></el-table-column>
+              </el-table>
+              <el-button type="text" slot="reference">{{scope.row.affairName}}</el-button>
+            </el-popover>
           </template>
         </el-table-column>
         <el-table-column
@@ -222,7 +250,7 @@
         <el-table-column
           align="center"
           :label="$t('table.option')"
-          width="140"
+          width="110"
           header-align="center"
         >
           <template slot-scope="scope">
@@ -249,14 +277,6 @@
               icon="el-icon-setting"
               title="考核事务维度设置"
               @click="handleSet(scope.row.affairID);"
-            ></el-button>
-            <el-button
-              v-if="!scope.row.isAdd"
-              type="text"
-              size="mini"
-              icon="el-icon-view"
-              title="考核事务维度查看"
-              @click="handleView(scope.row.affairID);"
             ></el-button>
             <el-button
               v-if="scope.row.isAdd"
@@ -687,13 +707,6 @@ export default {
       this.isAdd = true;
       this.isEdit = true;
       rowData.isAdd = true;
-    },
-    handleView(affairId) {
-      let vm = this;
-      vm.dialogSetTitle = "查看考核事务维度";
-      vm.dialogSetVisible = true;
-      vm.isView = true;
-      vm.getDimensionInfo(affairId);
     },
     handleSet(affairId) {
       let vm = this;

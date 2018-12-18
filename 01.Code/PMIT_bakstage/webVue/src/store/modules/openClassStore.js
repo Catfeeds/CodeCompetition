@@ -136,10 +136,10 @@ const openClass = {
           trainingType: state.searchForm.courseType,
           lecturer: state.searchForm.lecturer,
           startTime: state.searchForm.trainTime
-            ? formatDate(state.searchForm.trainTime[0], "yyyy-MM-dd HH:mm:ss")
+            ? state.searchForm.trainTime[0] + ":00"
             : "",
           endTime: state.searchForm.trainTime
-            ? formatDate(state.searchForm.trainTime[1], "yyyy-MM-dd HH:mm:ss")
+            ? state.searchForm.trainTime[1] + ":00"
             : "",
           pageInfo: {
             currPage: pageInfo ? pageInfo.currentPage : 1,

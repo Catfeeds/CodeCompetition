@@ -242,7 +242,7 @@ export const asyncRouterMap = [
     children: [
       {
         path: "role",
-        component: () => import("@/views/systemSettings/role.vue"),
+        component: () => import("@/views/systemSettings/roleSetting.vue"),
         name: "RoleSetUp",
         meta: {
           title: "role",

@@ -233,7 +233,7 @@
                   </el-col>
                 </el-row>
               </el-form>
-              <el-button type="text" slot="reference">{{scope.row.trainingName}}</el-button>
+              <el-button type="text" slot="reference">{{scope.row.openingName}}</el-button>
             </el-popover>
           </template>
         </el-table-column>
@@ -481,7 +481,24 @@
         <el-row>
           <el-col :span="8">
             <el-form-item label="接口人" prop="publisher">
-              <el-input v-model="startForm.publisher" autocomplete="off" maxlength="20"></el-input>
+              <el-autocomplete
+                v-model="startForm.publisher"
+                :trigger-on-focus="false"
+                :fetch-suggestions="searchEmployee"
+                placeholder="请输入工号/姓名"
+                @select="handleSelectEmployee"
+                style="width:140px"
+              >
+                <!-- <i
+                  class="el-icon-delete el-input__icon"
+                  slot="suffix"
+                  @click="startForm.publisher=''"
+                ></i> -->
+                <template slot-scope="{ item }">
+                  <div style="float:left;margin-right:15px;">{{ item.employeeName }}</div>
+                  <span style="margin-right:15px">{{ item.employeeID }}</span>
+                </template>
+              </el-autocomplete>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -740,6 +757,30 @@ export default {
       vm.isEdit = true;
       vm.setStartInfo(rowData);
       vm.clearValidate();
+    },
+    searchEmployee(queryString, callbackFun) {
+      if (!queryString) {
+        callbackFun([]);
+        return;
+      }
+      let vm = this;
+      vm.$store
+        .dispatch("searchEmployeeInfo", queryString)
+        .then(res => {
+          if (res.success) {
+            callbackFun(res.data);
+          } else {
+            callbackFun([]);
+          }
+        })
+        .catch(error => {
+          vm.$message.error(error);
+          callbackFun([]);
+        });
+    },
+    handleSelectEmployee(item) {
+      this.startForm.publisher =
+        item.employeeName + "(" + item.employeeID + ")";
     }
   }
 };

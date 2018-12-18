@@ -175,32 +175,24 @@ export default {
         .dispatch("getSysRoleList")
         .then(res => {
           if (res.success) {
-            res.data.forEach(item => {
-              vm.$store
-                .dispatch("getMenuInfoByRoleId", item.roleId)
-                .then(res => {
-                  if (res.success) {
-                    item.menuInfo = res.data
-                      .filter(item => !item.parentId && item.menuId > 1)
-                      .map(item => {
+            vm.tableData = res.data.map(data => {
+              data.menuInfo = data.menuInfos
+                .filter(item => !item.parentId && item.menuId > 1)
+                .map(item => {
+                  return {
+                    id: item.menuId,
+                    name: item.note,
+                    children: data.menuInfos
+                      .filter(menu => menu.parentId === item.menuId)
+                      .map(menu => {
                         return {
-                          id: item.menuId,
-                          name: item.note,
-                          children: res.data
-                            .filter(menu => menu.parentId === item.menuId)
-                            .map(menu => {
-                              return {
-                                id: menu.menuId,
-                                name: menu.note
-                              };
-                            })
+                          id: menu.menuId,
+                          name: menu.note
                         };
-                      });
-                  } else {
-                    item.menuInfo = [];
-                  }
-                  vm.tableData.push(item);
+                      })
+                  };
                 });
+              return data;
             });
           } else {
             vm.tableData = [];
