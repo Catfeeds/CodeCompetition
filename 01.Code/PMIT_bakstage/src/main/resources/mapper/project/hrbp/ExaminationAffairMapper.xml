@@ -58,7 +58,13 @@
             <if test="system != null and system != ''">system = #{system},</if>
             <if test="series != null and series != ''">series = #{series},</if>
             <if test="bu != null and bu != ''">bu = #{bu},</if>
-            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="employeeID != null and employeeID != ''">
+                update_by = (SELECT
+                employee_name
+                FROM
+                mms_login_information
+                WHERE
+                employee_ID = #{employeeID}),</if>
             update_time = now()
         </set>
         where affair_id = #{affairID}

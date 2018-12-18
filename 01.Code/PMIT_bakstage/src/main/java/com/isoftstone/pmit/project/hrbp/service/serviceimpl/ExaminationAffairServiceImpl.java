@@ -1,9 +1,7 @@
 package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 
-import com.isoftstone.pmit.project.hrbp.entity.EmpInformationResult;
 import com.isoftstone.pmit.project.hrbp.entity.ExaminationAffair;
 import com.isoftstone.pmit.project.hrbp.mapper.ExaminationAffairMapper;
-import com.isoftstone.pmit.project.hrbp.mapper.UserManageMapper;
 import com.isoftstone.pmit.project.hrbp.service.IExaminationAffairService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +16,6 @@ public class ExaminationAffairServiceImpl implements IExaminationAffairService {
 
     @Autowired
     private ExaminationAffairMapper examinationAffairMapper;
-    @Autowired
-    private UserManageMapper userManageMapper;
 
     @Override
     public List<ExaminationAffair> findAllAffair(ExaminationAffair examinationAffair) {
@@ -33,8 +29,6 @@ public class ExaminationAffairServiceImpl implements IExaminationAffairService {
 
     @Override
     public void updateAffair(ExaminationAffair examinationAffair) {
-        EmpInformationResult empInformationByEmpId = userManageMapper.findEmpInformationByEmpId(examinationAffair.getEmployeeID());
-        examinationAffair.setUpdateBy(empInformationByEmpId.getEmployeeName());
         examinationAffairMapper.updateAffair(examinationAffair);
     }
 
