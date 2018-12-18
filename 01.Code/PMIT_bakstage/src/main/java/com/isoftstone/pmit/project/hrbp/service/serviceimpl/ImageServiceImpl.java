@@ -1,6 +1,5 @@
 package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 
-import com.isoftstone.pmit.project.hrbp.entity.PersonalPhoto;
 import com.isoftstone.pmit.project.hrbp.entity.PersonalStyle;
 import com.isoftstone.pmit.project.hrbp.mapper.ImageMapper;
 import com.isoftstone.pmit.project.hrbp.service.IImageService;
@@ -8,7 +7,6 @@ import com.isoftstone.pmit.project.hrbp.util.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import sun.misc.BASE64Encoder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,29 +16,6 @@ public class ImageServiceImpl implements IImageService {
 
     @Autowired
     private ImageMapper imageMapper;
-    public  void readImage2DB( MultipartFile file){
-        if (!file.isEmpty()){
-            BASE64Encoder encoder = new BASE64Encoder();
-            try {
-                //通过base64来转换图片
-                String image = encoder.encode(file.getBytes());
-//               Blob blob = new SerialBlob(image.getBytes("UTF-8"));
-//                PersonalPhoto personalPhoto = new PersonalPhoto();
-//                personalPhoto.setPhotoDocument(image);
-//                personalPhoto.setEmployeeID("10008611");
-//                imageMapper.insertImage(personalPhoto);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }
-
-    @Override
-    public PersonalStyle getPersonalImage(String employeeID) {
-        PersonalStyle personalImage = imageMapper.getPersonalImage(employeeID);
-        return personalImage;
-    }
 
     @Override
     public boolean saveLifeImage(MultipartFile file, String employeeID) {
