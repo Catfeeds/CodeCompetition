@@ -539,11 +539,11 @@ FROM
           </if>
 
           <if test="employeeID != null and employeeID != ''">
-              and  employeeID like '%${employeeID}%'
+              and  employeeID like CONCAT('%',#{employeeID},'%')
           </if>
 
           <if test=" employeeName != null and employeeName != ''">
-              or   employeeName like  '%${employeeName}%'
+              or   employeeName like  CONCAT('%',#{employeeName},'%')
           </if>
           limit #{currIndex} ,#{pageSize}
 

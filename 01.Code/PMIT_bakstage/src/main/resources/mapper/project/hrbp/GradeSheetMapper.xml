@@ -228,10 +228,10 @@
                 and scores.bu = #{bu}
             </if>
             <if test="affairName != null and affairName != ''">
-                and  scores.affairName = #{affairName}
+                and  scores.affairName like CONCAT('%',#{affairName},'%')
             </if>
             <if test="employeeName != null and employeeName != ''">
-                and scores.employeeName = #{employeeName}
+                and scores.employeeName like  CONCAT('%',#{employeeName},'%')
             </if>
             <if test="employeeID != null and employeeID != ''">
                 and scores.employeeID = #{employeeID}
