@@ -1,5 +1,7 @@
 package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.isoftstone.pmit.project.hrbp.entity.*;
 import com.isoftstone.pmit.project.hrbp.mapper.BaseStaffInfoMapper;
 import com.isoftstone.pmit.project.hrbp.service.BaseStaffInfoService;
@@ -121,7 +123,7 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
     }
 
     @Override
-    public AllPersonalResult getPersonalInfoByFuzzyQuery(PersonInfoAndPageInfo paramter) {
+    public PageInfo<BaseStaffInfo> getPersonalInfoByFuzzyQuery(PersonInfoAndPageInfo paramter) {
 
         Map<String,Object> paramterMap = new HashMap<String, Object>();
         if (null == paramter){
@@ -130,24 +132,23 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
         if (null == paramter.getPageInfo() ){
             new PageParam();
         }
-        paramterMap.put("currIndex",(paramter.getPageInfo().getCurrPage()-1)*paramter.getPageInfo().getPageSize());
-        paramterMap.put("pageSize",paramter.getPageInfo().getPageSize());
-        paramterMap.put("bu",paramter.getBaseStaffInfo().getBu());
-        paramterMap.put("pdu",paramter.getBaseStaffInfo().getPdu());
-        paramterMap.put("du",paramter.getBaseStaffInfo().getDu());
-        paramterMap.put("employeeId",paramter.getBaseStaffInfo().getEmployeeID());
-        paramterMap.put("employeeName",paramter.getBaseStaffInfo().getEmployeeName());
+        PageHelper.startPage(paramter.getPageInfo().getCurrPage(), paramter.getPageInfo().getPageSize());
+        String sortColumn = paramter.getPageInfo().getSortColumn();
+        String sortType = paramter.getPageInfo().getSortType();
+        if (null != sortColumn && sortColumn != "" && sortType != "" && null != sortType) {
+            PageHelper.orderBy(sortColumn + " " + sortType);
+        }
+        paramterMap.put("bu",paramter.getBu());
+        paramterMap.put("pdu",paramter.getPdu());
+        paramterMap.put("du",paramter.getDu());
+        paramterMap.put("employeeId",paramter.getEmployeeID());
+        paramterMap.put("employeeName",paramter.getEmployeeName());
         if (null == paramterMap){
             new HashMap<String,Object>();
         }
-        AllPersonalResult allPersonalResult = new AllPersonalResult();
         List<BaseStaffInfo> staffInfos = baseStaffInfoMapper.getPersonalInfoByFuzzyQuery(paramterMap);
-        int listSize = baseStaffInfoMapper.getPersonalListSize();
-        if (staffInfos != null ) {
-            allPersonalResult.setListSize(listSize);
-            allPersonalResult.setBaseStaffInfos(staffInfos);
-        }
-        return allPersonalResult;
+        PageInfo<BaseStaffInfo> pageInfoBaseStaff = new PageInfo<>(staffInfos);
+        return pageInfoBaseStaff;
     }
 
 

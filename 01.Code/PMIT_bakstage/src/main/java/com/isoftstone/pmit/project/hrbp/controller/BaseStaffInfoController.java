@@ -1,5 +1,6 @@
 package com.isoftstone.pmit.project.hrbp.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.isoftstone.pmit.common.util.AjaxResult;
 import com.isoftstone.pmit.project.hrbp.entity.AllPersonalResult;
 import com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo;
@@ -85,14 +86,15 @@ public class BaseStaffInfoController {
     }
     @RequestMapping(value = "/getAllPersonalInfo", method = { RequestMethod.POST })
     @ApiOperation(value="全员信息", notes="查看全员信息")
-    public String getAllPersonalInformation(@RequestBody PersonInfoAndPageInfo paramter) {
+    public String getAllPersonalInformation(@RequestBody(required=false) PersonInfoAndPageInfo paramter) {
         LOG.info(" BaseStaffInfoController getAllPersonalInformation"+paramter);
-        AllPersonalResult allPersonalResult;
+        PageInfo<BaseStaffInfo> fuzzyQuery = null;
         try {
-            allPersonalResult = baseStaffInfoService.getPersonalInfoByFuzzyQuery(paramter);
+             fuzzyQuery = baseStaffInfoService.getPersonalInfoByFuzzyQuery(paramter);
+
         }catch (Exception e){
             return AjaxResult.returnToMessage(false,e.getMessage());
         }
-        return AjaxResult.returnToResult(true, allPersonalResult);
+        return AjaxResult.returnToResult(true, fuzzyQuery);
     }
 }

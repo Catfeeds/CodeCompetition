@@ -5,7 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 public interface IImageService {
 
 
-    boolean saveLifeImage(MultipartFile file, String employeeID);
+    String saveLifeImage(MultipartFile file, String employeeID);
 
-    boolean saveDocumentImage(MultipartFile file, String employeeID);
+    String saveDocumentImage(MultipartFile file, String employeeID);
 }

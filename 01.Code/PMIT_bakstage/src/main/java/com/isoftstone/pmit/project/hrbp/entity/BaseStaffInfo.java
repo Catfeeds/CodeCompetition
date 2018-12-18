@@ -99,6 +99,8 @@ public class BaseStaffInfo {
     private String divisionAge;
 
 
+    public BaseStaffInfo() {
+    }
 
     public String getPersonCategory() {
         return personCategory;

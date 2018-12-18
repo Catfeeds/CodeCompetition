@@ -20,25 +20,25 @@ public class ImageController {
     @RequestMapping(value = "/insertLifeImagePath", method = { RequestMethod.POST })
     @ApiOperation(value="将个人生活照骗路径保存到数据库", notes="将图片路径保存到数据库")
     public String saveLifeImage(@RequestBody MultipartFile file, String employeeID) {
-        boolean result = false;
+        String result = null;
         try{
              result = imageService.saveLifeImage(file,employeeID);
         }catch (Exception e){
             AjaxResult.returnToMessage(false,e.getMessage());
         }
-        return AjaxResult.returnToMessage(result,"insert Image Success");
+        return AjaxResult.returnToMessage(true,result);
     }
 
     @RequestMapping(value = "/insertDocumentImagePath", method = { RequestMethod.POST })
     @ApiOperation(value="将个人证件照路径保存到数据库", notes="将个人证件照路径保存到数据库")
     public String saveDocumentImage(@RequestBody MultipartFile file, String employeeID) {
-        boolean result = false;
+        String result = null;
         try{
             result = imageService.saveDocumentImage(file,employeeID);
         }catch (Exception e){
             AjaxResult.returnToMessage(false,e.getMessage());
         }
-        return AjaxResult.returnToMessage(result,"insert Image Success");
+        return AjaxResult.returnToMessage(true,result);
     }
 
 

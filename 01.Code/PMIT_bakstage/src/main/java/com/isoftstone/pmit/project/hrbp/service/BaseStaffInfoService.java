@@ -1,5 +1,6 @@
 package com.isoftstone.pmit.project.hrbp.service;
 
+import com.github.pagehelper.PageInfo;
 import com.isoftstone.pmit.project.hrbp.entity.AllPersonalResult;
 import com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo;
 import com.isoftstone.pmit.project.hrbp.entity.PersonInfoAndPageInfo;
@@ -38,6 +39,6 @@ public interface BaseStaffInfoService {
     /*
     * 模糊查询全员查询
     * */
-    AllPersonalResult getPersonalInfoByFuzzyQuery(PersonInfoAndPageInfo paramter);
+    PageInfo<BaseStaffInfo> getPersonalInfoByFuzzyQuery(PersonInfoAndPageInfo paramter);
 
 }

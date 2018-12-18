@@ -8,6 +8,9 @@ public class PageParam {
     /** 排序方式 */
     private String sortType;
 
+    public PageParam() {
+    }
+
     public String getSortColumn() {
         return sortColumn;
     }

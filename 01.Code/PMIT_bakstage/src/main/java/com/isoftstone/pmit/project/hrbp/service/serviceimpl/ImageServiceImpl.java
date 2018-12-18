@@ -18,43 +18,42 @@ public class ImageServiceImpl implements IImageService {
     private ImageMapper imageMapper;
 
     @Override
-    public boolean saveLifeImage(MultipartFile file, String employeeID) {
-        boolean path = false;
+    public String saveLifeImage(MultipartFile file, String employeeID) {
+        String lifefilePath = null;
         if (!file.isEmpty()) {
             try {
                 InputStream inputStream = file.getInputStream();
                 // 文件保存路径
-                String lifefilePath = "src/main/resources/image/life/"+ file.getOriginalFilename();
+                lifefilePath = "src/main/resources/image/life/"+ file.getOriginalFilename();
                 ImageUtil.readBin2Image(inputStream,lifefilePath);
                 PersonalStyle personalStyle = new PersonalStyle();
                 personalStyle.setEmployeeID(employeeID);
                 personalStyle.setPhotosOfLife(lifefilePath);
-                path = imageMapper.insertLifeImagePath(personalStyle);
+                imageMapper.insertLifeImagePath(personalStyle);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        return path;
+        return lifefilePath;
     }
 
     @Override
-    public boolean saveDocumentImage(MultipartFile file, String employeeID) {
-
-        boolean document = false;
+    public String saveDocumentImage(MultipartFile file, String employeeID) {
+        String docFilePath = null;
         if (!file.isEmpty()) {
             try {
                 InputStream inputStream = file.getInputStream();
-                String docFilePath = "src/main/resources/image/document/"+file.getOriginalFilename();
+                docFilePath = "src/main/resources/image/document/"+file.getOriginalFilename();
                 ImageUtil.readBin2Image(inputStream,docFilePath);
                 PersonalStyle personalStyle = new PersonalStyle();
                 personalStyle.setEmployeeID(employeeID);
                 personalStyle.setDocumentPhoto(docFilePath);
-                document = imageMapper.insertDocumentImagePath(personalStyle);
+                 imageMapper.insertDocumentImagePath(personalStyle);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return document;
+        return docFilePath;
     }
 
 }

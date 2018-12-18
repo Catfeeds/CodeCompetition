@@ -500,28 +500,12 @@ FROM
         select
           employeeID,
           employeeName,
-          idNumber,
-          ifBackBone,
-          ifOffShore,
-          workPlace,
-          cooperationMode,
-          directLeaderId,
-          directLeaderName,
-          employmentDate,
-          departureDate,
-          generalPosition,
-          nation,
-          political,
-          bu,
-          du,
-          pdu,
           sex,
-          telephone,
-          isoftEmai,
-          costCenter,
-          generalPosition,
-          directLeaderId,
-          directLeaderId
+          employmentDate,
+          ifBackBone,
+          cooperationMode,
+          bu,
+          pdu
         from
         mms_base_staff_info
         where
@@ -545,10 +529,8 @@ FROM
           <if test=" employeeName != null and employeeName != ''">
               or   employeeName like  CONCAT('%',#{employeeName},'%')
           </if>
-          limit #{currIndex} ,#{pageSize}
+
 
     </select>
-    <select id="getPersonalListSize" resultType="java.lang.Integer">
-        select count(*) from mms_base_staff_info
-    </select>
+
 </mapper>
