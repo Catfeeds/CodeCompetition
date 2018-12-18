@@ -219,9 +219,9 @@ public class GradeSheetServiceImpl implements IGradeSheetService {
     }
 
     @Override
-    public boolean updatePersonalTraningScores(Map<String,Object> parameter) {
+    public boolean updatePersonalTraningScores(PersonalScore parameter) {
         if (parameter == null){
-           parameter = new HashMap<>();
+           parameter = new PersonalScore();
         }
         boolean scores = getScoreMapper.updatePersonalScores(parameter);
         return scores;

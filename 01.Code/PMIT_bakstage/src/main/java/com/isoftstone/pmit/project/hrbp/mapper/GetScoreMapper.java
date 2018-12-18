@@ -19,7 +19,7 @@ public interface GetScoreMapper {
     List<PersonalScore> getAllPersonalScores(PersonalScoreParam personalScore);
 
     boolean deletePersonalScores(PersonalScore personalScore);
-    boolean updatePersonalScores(Map<String,Object> parameter);
+    boolean updatePersonalScores(PersonalScore parameter);
     List<PersonalTranAndDimeScore> getPersonalTransactionInfo(PersonalScore personalScore);
     void deleteScoreByOpenID(CourseInfo courseInfo);
 }

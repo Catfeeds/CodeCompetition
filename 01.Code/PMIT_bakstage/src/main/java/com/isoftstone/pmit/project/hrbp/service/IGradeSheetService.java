@@ -16,6 +16,6 @@ public interface IGradeSheetService {
 
     List<PersonalTranAndDimeScore> getPersonalTransactionInfo(PersonalScore personalScore);
 
-    boolean updatePersonalTraningScores(Map<String,Object> parameter);
+    boolean updatePersonalTraningScores(PersonalScore parameter);
 
 }

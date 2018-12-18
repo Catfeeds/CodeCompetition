@@ -215,7 +215,7 @@
         mms_course_test_score testScore
         INNER JOIN mms_base_staff_info base ON base.employeeId = testScore.employee_id
         INNER JOIN mms_base_staff_info bases ON bases.employeeID = testScore.modifier
-        LEFT JOIN mms_opening_setup_info opening ON opening.opening_id = testScore.opening_id
+        LEFT JOIN mms_course_setting opening ON opening.opening_id = testScore.opening_id
         ) scores
         <where>
             <if test="series != null and series != ''">
@@ -259,14 +259,11 @@
             delete from mms_course_test_score where  cour_score_id = #{scoresID}
         </if>
     </delete>
-    <update id="updatePersonalScores" parameterType="java.util.Map">
+    <update id="updatePersonalScores" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalScore">
         <if test="types == '评价' and types != null">
             update mms_transaction_dimension_score set
             <if test="evaluator != null and evaluator != ''">
                 evaluator = #{evaluator},
-            </if>
-            <if test="changeTime != null">
-                changeTime = NOW(),
             </if>
             <if test="evaluation != null and evaluation != ''">
                 evaluation = #{evaluation},

@@ -24,15 +24,6 @@ public class PersonalStyle {
     /**证件照照片路径*/
     private String documentPhoto;
 
-    public String getDocumentPhoto() {
-        documentPhoto = "hrbp/jpg/document/";
-        return documentPhoto+employeeID+".jpg";
-    }
-
-    public void setDocumentPhoto(String documentPhoto) {
-        this.documentPhoto = documentPhoto;
-    }
-
     public String getEmployeeID() {
         return employeeID;
     }
@@ -106,11 +97,18 @@ public class PersonalStyle {
     }
 
     public String getPhotosOfLife() {
-         photosOfLife = "hrbp/jpg/life/";
-        return photosOfLife+employeeID + ".jpg";
+        return photosOfLife;
     }
 
     public void setPhotosOfLife(String photosOfLife) {
         this.photosOfLife = photosOfLife;
+    }
+
+    public String getDocumentPhoto() {
+        return documentPhoto;
+    }
+
+    public void setDocumentPhoto(String documentPhoto) {
+        this.documentPhoto = documentPhoto;
     }
 }

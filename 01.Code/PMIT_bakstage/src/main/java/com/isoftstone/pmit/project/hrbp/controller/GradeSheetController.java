@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -76,7 +75,7 @@ public class GradeSheetController {
 
     @RequestMapping(value = "/updatePersonalScore", method = { RequestMethod.POST })
     @ApiOperation(value="修改某一个人的得分", notes="修改某一个人的得分")
-    public String getPersonalTranscationScore(@RequestBody Map<String,Object> parameter) {
+    public String updatePersonalTranscationScore(@RequestBody PersonalScore parameter) {
         boolean result = false;
         try {
             result = gradeSheetService.updatePersonalTraningScores(parameter);
