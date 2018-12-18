@@ -8,10 +8,6 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface ImageMapper {
 
-    void insertImage(PersonalPhoto personalStyle);
-
-    PersonalStyle getPersonalImage(String employeeID);
-
     boolean insertLifeImagePath(PersonalStyle personalStyle);
 
     boolean insertDocumentImagePath(PersonalStyle personalStyle);
