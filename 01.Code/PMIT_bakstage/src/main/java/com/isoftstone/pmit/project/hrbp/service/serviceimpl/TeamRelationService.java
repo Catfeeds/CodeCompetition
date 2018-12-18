@@ -4,18 +4,18 @@ import com.isoftstone.pmit.common.exception.RelationTreeNodeException;
 import com.isoftstone.pmit.common.util.StringUtilsMethod;
 import com.isoftstone.pmit.project.hrbp.common.TreeUtil;
 import com.isoftstone.pmit.project.hrbp.entity.RelationTreeNode;
-import com.isoftstone.pmit.project.hrbp.mapper.RelationTreeMapper;
-import com.isoftstone.pmit.project.hrbp.service.IRelationTreeService;
+import com.isoftstone.pmit.project.hrbp.mapper.TeamRelationMapper;
+import com.isoftstone.pmit.project.hrbp.service.ITeamRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
-public class RelationTreeService implements IRelationTreeService {
+public class TeamRelationService implements ITeamRelationService {
 
     @Autowired
-    private RelationTreeMapper mapper;
+    private TeamRelationMapper mapper;
 
     @Override
     public List<Map<String, Object>> queryAllLevel(Map<String, Object> params) {

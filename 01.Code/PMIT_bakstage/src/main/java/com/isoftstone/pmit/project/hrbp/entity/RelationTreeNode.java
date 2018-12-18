@@ -9,11 +9,32 @@ public class RelationTreeNode {
     private String nodeType;
     private boolean isTeamNode;
     private int teamID;
+
+    private boolean isPoNode;
+    private int poID;
+
     private boolean isSelected;
     private boolean isHasAuthority;
 
     private List<RelationTreeNode> childList;
     private List<RelationTreeNode> teamList;
+
+
+    public boolean getIsPoNode() {
+        return isPoNode;
+    }
+
+    public void setIsPoNode(boolean isPoNode) {
+        this.isPoNode = isPoNode;
+    }
+
+    public int getPoID() {
+        return poID;
+    }
+
+    public void setPoID(int poID) {
+        this.poID = poID;
+    }
 
     public int getNodeID() {
         return nodeID;

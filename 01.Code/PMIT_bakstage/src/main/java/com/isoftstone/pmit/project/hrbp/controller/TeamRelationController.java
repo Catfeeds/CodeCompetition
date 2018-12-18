@@ -2,7 +2,7 @@ package com.isoftstone.pmit.project.hrbp.controller;
 
 import com.isoftstone.pmit.common.util.AjaxResult;
 import com.isoftstone.pmit.project.hrbp.entity.RelationTreeNode;
-import com.isoftstone.pmit.project.hrbp.service.IRelationTreeService;
+import com.isoftstone.pmit.project.hrbp.service.ITeamRelationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +17,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/hrbp/LevelTree")
 @Api(value = "层级树", tags = {"层级树"})
-public class RelationTreeController {
+public class TeamRelationController {
     @Autowired
-    private IRelationTreeService service;
+    private ITeamRelationService service;
 
 
     @ApiOperation(value = "查询全部层级", notes = "查询全部层级")

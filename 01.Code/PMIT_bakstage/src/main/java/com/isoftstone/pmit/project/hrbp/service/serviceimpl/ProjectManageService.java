@@ -1,7 +1,7 @@
 package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 
 import com.isoftstone.pmit.project.hrbp.mapper.ProjectManageMapper;
-import com.isoftstone.pmit.project.hrbp.mapper.RelationTreeMapper;
+import com.isoftstone.pmit.project.hrbp.mapper.TeamRelationMapper;
 import com.isoftstone.pmit.project.hrbp.service.IProjectManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class ProjectManageService implements IProjectManageService {
     private ProjectManageMapper projectManageMapper;
 
     @Autowired
-    private RelationTreeMapper relationTreeMapper;
+    private TeamRelationMapper teamRelationMapper;
 
     @Override
     public Map<String, Object> queryProjects(Map<String, Object> params) {

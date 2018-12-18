@@ -25,21 +25,6 @@ public class MainstayReportController {
     private IMainstayReportService mainstayReportService;
 
     @Autowired
-    private ITeamLevelService levelService;
-
-    @ApiOperation(value = "查询骨干信息层级", notes = "查询骨干信息层级")
-    @PostMapping(value = "/queryMainstayLevel")
-    public String queryMainstayLevel(@RequestBody Map<String, Object> params) {
-        List<String> result;
-        try {
-            params.put("region", params.get("workPlaceArea"));
-            result = levelService.queryLevel(params);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return AjaxResult.returnToMessage(false, e.getMessage());
-        }
-        return AjaxResult.returnToResult(true, result);
-    }
 
     @ApiOperation(value = "查询骨干占比饼图", notes = "查询骨干占比饼图")
     @PostMapping(value = "/queryMainstayProportionChart")
