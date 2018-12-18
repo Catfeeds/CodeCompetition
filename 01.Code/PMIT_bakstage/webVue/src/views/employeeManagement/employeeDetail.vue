@@ -130,62 +130,18 @@
         </div>
       </el-tab-pane>
       <el-tab-pane label="资质认证" name="tab2">
-        <el-table
-          :data="certificationData"
-          style="width: 100%"
-          stripe
-          border
-          size="mini"
-        >
-          <el-table-column
-            prop="qualificationName"
-            header-align="center"
-            label="资质名称"
-            width="180"
-          ></el-table-column>
-          <el-table-column
-            prop="qualificationType"
-            header-align="center"
-            label="资质名称"
-            width="180"
-          ></el-table-column>
-          <el-table-column
-            prop="certificationLevel"
-            header-align="center"
-            label="认证等级"
-          ></el-table-column>
-          <el-table-column
-            prop="passDate"
-            header-align="center"
-            label="通过日期"
-          ></el-table-column>
+        <el-table :data="certificationData" style="width: 100%" stripe border size="mini">
+          <el-table-column prop="qualificationName" header-align="center" label="资质名称" width="180"></el-table-column>
+          <el-table-column prop="qualificationType" header-align="center" label="资质名称" width="180"></el-table-column>
+          <el-table-column prop="certificationLevel" header-align="center" label="认证等级"></el-table-column>
+          <el-table-column prop="passDate" header-align="center" label="通过日期"></el-table-column>
         </el-table>
       </el-tab-pane>
       <el-tab-pane label="技能信息" name="tab3">
-        <el-table
-          :data="skillData"
-          style="width: 100%"
-          stripe
-          border
-          size="mini"
-        >
-          <el-table-column
-            prop="technologyPlatform"
-            header-align="center"
-            label="技术平台"
-            width="180"
-          ></el-table-column>
-          <el-table-column
-            prop="technologyGrade"
-            header-align="center"
-            label="技术等级"
-            width="180"
-          ></el-table-column>
-          <el-table-column
-            prop="areasOfExpertise"
-            header-align="center"
-            label="擅长领域"
-          ></el-table-column>
+        <el-table :data="skillData" style="width: 100%" stripe border size="mini">
+          <el-table-column prop="technologyPlatform" header-align="center" label="技术平台" width="180"></el-table-column>
+          <el-table-column prop="technologyGrade" header-align="center" label="技术等级" width="180"></el-table-column>
+          <el-table-column prop="areasOfExpertise" header-align="center" label="擅长领域"></el-table-column>
         </el-table>
       </el-tab-pane>
       <el-tab-pane label="家庭信息" name="tab4">
@@ -233,12 +189,58 @@
         </table>
       </el-tab-pane>
       <el-tab-pane label="个人风采" name="tab5">
-        <table class="base-information">
+        <table class="base-information personal-style">
           <tr>
             <th>喜欢的食物</th>
             <td>{{ postForm.personalStyle.food }}</td>
-            <td rowspan="8" style="width:35%;border:0">
-              <img :src="postForm.personalStyle.photosOfLife" />
+            <td rowspan="8" style="width:35%;border:0;vertical-align: top;">
+              <el-card shadow="never">
+                <div slot="header" class="clearfix">
+                  <span>个人生活照</span>
+                </div>
+                <el-upload
+                  class="avatar-uploader"
+                  action="hrbp/image/insertLifeImagePath"
+                  :show-file-list="false"
+                  :on-success="handleLifeSuccess"
+                  :before-upload="beforeLifeUpload"
+                  :on-preview="handlePictureCardPreview"
+                  :data="fileParam"
+                  accept="image/jpeg, image/jpg, image/png"
+                >
+                  <img v-if="lifePhotoUrl" :src="lifePhotoUrl" class="avatar">
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                  <div
+                    class="el-upload__tip"
+                    slot="tip"
+                    style="text-align:left;"
+                  >只能上传jpg/jpg/png文件，且不超过2M</div>
+                </el-upload>
+              </el-card>
+            </td>
+            <td rowspan="8" style="width:15%;border:0;vertical-align: top;">
+              <el-card shadow="never">
+                <div slot="header" class="clearfix">
+                  <span>个人证件照</span>
+                </div>
+                <el-upload
+                  class="avatar-uploader"
+                  action="hrbp/image/insertDocumentImagePath"
+                  :show-file-list="false"
+                  :on-success="handleDocumentSuccess"
+                  :before-upload="beforeDocumentUpload"
+                  :data="fileParam"
+                  accept="image/jpeg, image/jpg, image/png"
+                >
+                  <img v-if="documentPhotoUrl" :src="documentPhotoUrl" class="avatar">
+                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                  <div
+                    class="el-upload__tip"
+                    slot="tip"
+                    style="text-align:left;"
+                  >只能上传jpg/jpg/png文件，且不超过2M</div>
+                </el-upload>
+              </el-card>
             </td>
           </tr>
           <tr>
@@ -280,10 +282,17 @@ export default {
   data() {
     return {
       activeTab: "tab1",
-      postForm: {},
+      postForm: {
+        baseStaffInfo: {},
+        familyInformations: {},
+        personalStyle: {}
+      },
       tempRoute: {},
       certificationData: [],
-      skillData: []
+      skillData: [],
+      documentPhotoUrl: "",
+      fileParam: { employeeID: "" },
+      lifePhotoUrl: ""
     };
   },
   created() {
@@ -294,6 +303,7 @@ export default {
   methods: {
     fetchData(id) {
       let vm = this;
+      vm.fileParam.employeeID = id;
       vm.$store
         .dispatch("getEmployeeInfoById", id)
         .then(res => {
@@ -302,6 +312,7 @@ export default {
             this.certificationData = this.postForm.companyQualifications;
             this.skillData = this.postForm.technicalInformation;
             this.setTagsViewTitle();
+            this.documentPhoto = this.postForm.personalStyle.documentPhoto;
           }
         })
         .catch(err => {
@@ -314,11 +325,43 @@ export default {
         title: `${title}-${this.postForm.baseStaffInfo.employeeName}`
       });
       this.$store.dispatch("updateVisitedView", route);
+    },
+    handleDocumentSuccess(res, file) {
+      this.documentPhotoUrl = URL.createObjectURL(file.raw);
+    },
+    beforeDocumentUpload(file) {
+      const isImg =
+        ["image/jpeg", "image/jpg", "image/png"].indexOf(file.type) >= 0;
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isImg) {
+        this.$message.error("上传头像图片只能是 JPG,PNG,JPG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isImg && isLt2M;
+    },
+    handleLifeSuccess(res, file) {
+      this.lifePhotoUrl = URL.createObjectURL(file.raw);
+    },
+    beforeLifeUpload(file) {
+      const isImg =
+        ["image/jpeg", "image/jpg", "image/png"].indexOf(file.type) >= 0;
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isImg) {
+        this.$message.error("上传头像图片只能是 JPG,PNG,JPG 格式!");
+      }
+      if (!isLt2M) {
+        this.$message.error("上传头像图片大小不能超过 2MB!");
+      }
+      return isImg && isLt2M;
     }
   }
 };
 </script>
-<style rel="stylesheet/scss" lang="scss">
+<style rel="stylesheet/scss" lang="scss" scope>
 .base-information {
   width: 100%;
   color: #606266;
@@ -337,6 +380,23 @@ export default {
     line-height: 35px;
   }
 }
+.personal-style {
+  th {
+    width: 6%;
+  }
+  td {
+    width: 15%;
+  }
+  .el-card {
+    .el-card__header {
+      line-height: normal;
+    }
+    .el-card__body {
+      height: 390px;
+      text-align: center;
+    }
+  }
+}
 .detail-container {
   .el-scrollbar {
     height: 100%;
@@ -344,5 +404,28 @@ export default {
       overflow-x: hidden;
     }
   }
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  min-width: 180px;
+  height: 335px;
+  line-height: 335px;
+  text-align: center;
+}
+.avatar {
+  max-width: 100%;
+  max-height: 335px;
+  display: block;
 }
 </style>

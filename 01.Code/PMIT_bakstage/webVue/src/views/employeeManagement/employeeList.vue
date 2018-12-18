@@ -72,7 +72,8 @@
         icon="el-icon-search"
         @click="handleFilter"
       >{{ $t("table.search") }}</el-button>
-      <el-button v-if="false"
+      <el-button
+        v-if="false"
         class="filter-item"
         style="margin-left: 8px;"
         type="primary"
@@ -189,10 +190,11 @@
         label="PDU"
         sortable="custom"
         prop="pdu"
-      ></el-table-column>      
+      ></el-table-column>
       <el-table-column align="center" :label="$t('table.option')" width="80" header-align="center">
         <template slot-scope="scope">
-          <el-button v-if="false"
+          <el-button
+            v-if="false"
             type="text"
             size="mini"
             icon="el-icon-edit"
@@ -339,8 +341,8 @@ export default {
         .dispatch("getEmployeeList", condition)
         .then(res => {
           if (res.success) {
-            vm.list = res.data.baseStaffInfos;
-            vm.page.totalRecord = res.data.listSize;
+            vm.list = res.data.list;
+            vm.page.totalRecord = res.data.total;
           } else {
             vm.list = [];
           }
@@ -426,6 +428,10 @@ export default {
           if (res.success) {
             vm.$message.success(res.message);
             vm.getEmployeeList();
+            let view = vm.$store.getters.visitedViews.find(
+              item => item.path.indexOf("/employeeDetail/" + id) >= 0
+            );
+            vm.$store.dispatch("delView", view);
           } else {
             vm.$message.error(res.message);
           }

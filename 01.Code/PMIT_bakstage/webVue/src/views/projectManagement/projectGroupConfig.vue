@@ -131,7 +131,13 @@
             </template>
           </el-table-column>
 
-          <el-table-column min-width="120px" header-align="center" prop="du" label="DU" :sortable="!isAdd">
+          <el-table-column
+            min-width="120px"
+            header-align="center"
+            prop="du"
+            label="DU"
+            :sortable="!isAdd"
+          >
             <template slot-scope="scope">
               <el-form-item prop="du" v-if="scope.row.isAdd">
                 <el-select
@@ -153,7 +159,13 @@
             </template>
           </el-table-column>
 
-          <el-table-column min-width="150px" header-align="center" prop="pdu" label="PDU" :sortable="!isAdd">
+          <el-table-column
+            min-width="150px"
+            header-align="center"
+            prop="pdu"
+            label="PDU"
+            :sortable="!isAdd"
+          >
             <template slot-scope="scope">
               <el-form-item prop="pdu" v-if="scope.row.isAdd">
                 <el-select
@@ -195,7 +207,13 @@
             </template>
           </el-table-column>
 
-          <el-table-column label="PM" header-align="center" min-width="110" :sortable="!isAdd" prop="pmName">
+          <el-table-column
+            label="PM"
+            header-align="center"
+            min-width="110"
+            :sortable="!isAdd"
+            prop="pmName"
+          >
             <template slot-scope="scope">
               <el-form-item v-if="scope.row.isAdd" prop="employeeId">
                 <el-select
@@ -336,7 +354,7 @@ export default {
   },
   watch: {
     dataSource(data) {
-      this.dataTable = data.datas;
+      this.dataTable = data.datas || [];
       this.totalRecord = data.totleSize;
     }
   },
@@ -356,7 +374,7 @@ export default {
         return;
       }
       let vm = this;
-      vm.isAdd = isCancel ? false : !!isCancel
+      vm.isAdd = isCancel ? false : !!isCancel;
       vm.listLoading = true;
       vm.currentPage = curPage || 1;
       this.getProjectGroupInfo({
@@ -427,8 +445,7 @@ export default {
             vm.$message.success("项目删除成功");
             vm.onSearchForm(null, vm.currentPage);
             let view = vm.$store.getters.visitedViews.find(
-              item =>
-                item.path.indexOf("projectManagement/teamSettings/" + id) >= 0
+              item => item.path.indexOf("/teamSettings/" + id) >= 0
             );
             vm.$store.dispatch("delView", view);
           } else {
