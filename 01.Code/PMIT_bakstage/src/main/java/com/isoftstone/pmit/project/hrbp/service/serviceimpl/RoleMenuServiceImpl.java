@@ -1,5 +1,6 @@
 package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 
+
 import com.isoftstone.pmit.project.hrbp.entity.MenuInfo;
 import com.isoftstone.pmit.project.hrbp.entity.SysRole;
 import com.isoftstone.pmit.project.hrbp.mapper.RoleMenuMapper;
@@ -15,8 +16,8 @@ import java.util.List;
  * @author lf
  */
 @Service
+@Transactional
 public class RoleMenuServiceImpl implements IRoleMenuService {
-
 
     @Autowired
     private RoleMenuMapper roleMenuMapper;
@@ -25,7 +26,6 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
     private SysRoleMapper sysRoleMapper;
 
     @Override
-    @Transactional
     public void updateSystemRole(SysRole sysRole, List<MenuInfo> menuInfoList) {
         Integer roleId = sysRole.getRoleId();
         roleMenuMapper.deleteMenuByRid(roleId);
@@ -37,14 +37,12 @@ public class RoleMenuServiceImpl implements IRoleMenuService {
     }
 
     @Override
-    @Transactional
     public void deleteSystemRole(Integer roleId) {
         roleMenuMapper.deleteMenuByRid(roleId);
         roleMenuMapper.deleteRole(roleId);
     }
 
     @Override
-    @Transactional
     public void addRole(SysRole role, List<MenuInfo> menuInfoList) {
         sysRoleMapper.insertSystemRole(role);
         for (MenuInfo menuInfo : menuInfoList) {
