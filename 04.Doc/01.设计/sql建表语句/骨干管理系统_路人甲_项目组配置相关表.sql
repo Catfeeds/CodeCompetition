@@ -1,6 +1,5 @@
 DROP TABLE IF EXISTS `mms_project_team`;
 DROP TABLE IF EXISTS `mms_project_team_record`;
-DROP TABLE IF EXISTS `mms_po_role_info`;
 DROP TABLE IF EXISTS `mms_po_staff_info`;
 DROP TABLE IF EXISTS `mms_project_information`;
 DROP TABLE IF EXISTS `mms_team_related_po`;
@@ -34,15 +33,6 @@ CREATE TABLE `mms_project_team_record` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 ;
 
--- 项目角色表
-CREATE TABLE `mms_po_role_info` (
-  `po_role_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '项目角色ID',
-  `po_role_name` varchar(20) NOT NULL COMMENT '项目角色名称',
-  PRIMARY KEY (`po_role_id`,`po_role_name`),
-  UNIQUE KEY `po_role_id` (`po_role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8
-;
-
 -- 项目角色配置表
 CREATE TABLE `mms_po_staff_info` (
   `project_id` varchar(30) NOT NULL COMMENT 'po号(合同ID)',
@@ -74,5 +64,6 @@ CREATE TABLE `mms_team_related_po` (
   `project_id` VARCHAR(30) NOT NULL COMMENT 'PO号(合同ID)'
 ) ENGINE=INNODB DEFAULT CHARSET=utf8
 ;
+
 
 

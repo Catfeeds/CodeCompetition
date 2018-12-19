@@ -9,7 +9,7 @@ import java.util.Date;
 public class TrainingInfo {
 	
 	/** 培训ID  数据库自增主键  新增培训的时候无此参数 */
-	private Integer trainingId;
+	private String trainingId;
 	
 	/** 培训名称  */
 	private String trainingName;
@@ -57,10 +57,10 @@ public class TrainingInfo {
 		this.trainingDuration = trainingDuration;
 	}
 	
-	public Integer getTrainingId() {
+	public String getTrainingId() {
 		return trainingId;
 	}
-	public void setTrainingId(Integer trainingId) {
+	public void setTrainingId(String trainingId) {
 		this.trainingId = trainingId;
 	}
 	public String getTrainingName() {

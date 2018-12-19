@@ -73,7 +73,8 @@
 
 	<select id="addTrainingInfo" parameterType="java.util.Map">
 		insert into mms_training_info
-			(training_name,
+			(training_id,
+			training_name,
 			series,
 			sort,
 			type,
@@ -85,7 +86,8 @@
 			training_des,
 			training_duration)
 		values
-			(#{trainingName},
+			(#{trainingId},
+			#{trainingName},
 			#{series},
 			#{sort},
 			#{type},
@@ -117,7 +119,7 @@
 			training_id = #{trainingId}
 	</select>
 
-	<select id="deleteTrainingInfo" parameterType="java.lang.Integer">
+	<select id="deleteTrainingInfo" parameterType="java.lang.String">
 		update mms_training_info set status = 1 where training_id = #{trainingId}
 	</select>
 

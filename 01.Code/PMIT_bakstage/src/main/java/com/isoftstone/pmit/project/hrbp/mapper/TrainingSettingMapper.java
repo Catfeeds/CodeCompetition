@@ -21,7 +21,7 @@ public interface TrainingSettingMapper {
 
 	void updateTrainingInfo(Map<String, Object> map);
 
-	void deleteTrainingInfo(Integer trainingId);
+	void deleteTrainingInfo(String trainingId);
 
 	List<String> querySort();
 

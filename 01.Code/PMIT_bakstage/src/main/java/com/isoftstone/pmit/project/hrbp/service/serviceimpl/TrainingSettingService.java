@@ -1,5 +1,7 @@
 package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +55,7 @@ public class TrainingSettingService implements ITrainingSettingService {
 
 		Map<String, Object> map = new HashMap<>();
 		map.put("trainingName", param.getTrainingName());
-
+		
 		map.put("trainingId", param.getTrainingId());
 		map.put("series", param.getSeries());
 		map.put("sort", param.getSort());
@@ -77,6 +79,8 @@ public class TrainingSettingService implements ITrainingSettingService {
 		map.put("trainingDuration", param.getTrainingDuration());
 
 		if (null == param.getTrainingId()) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmssSSS");
+			map.put("trainingId", "Tra"+ sdf.format(new Date()));
 			Integer count = trainingSettingMapper.queryTrainingByName(map);
 			if (count > 0) {
 				return "DuplicateName";
@@ -90,7 +94,7 @@ public class TrainingSettingService implements ITrainingSettingService {
 
 	@Transactional(rollbackFor=Exception.class)
 	@Override
-	public void deleteTrainingInfo(Integer trainingId) {
+	public void deleteTrainingInfo(String trainingId) {
 		trainingSettingMapper.deleteTrainingInfo(trainingId);
 	}
 
@@ -105,7 +109,7 @@ public class TrainingSettingService implements ITrainingSettingService {
 	}
 
 	@Override
-	public TrainingInfo queryTrainingInfoByTrainingId(Integer trainingId) {
+	public TrainingInfo queryTrainingInfoByTrainingId(String trainingId) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("trainingId", trainingId);
 		List<TrainingInfo> trainingInfos = trainingSettingMapper.queryTrainingList(map);
@@ -114,5 +118,5 @@ public class TrainingSettingService implements ITrainingSettingService {
 		}
 		return trainingInfos.get(0);
 	}
-
+	
 }

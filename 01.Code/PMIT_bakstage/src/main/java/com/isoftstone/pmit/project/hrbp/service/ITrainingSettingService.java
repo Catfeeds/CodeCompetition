@@ -14,11 +14,11 @@ public interface ITrainingSettingService {
 
 	String saveTrainingInfo(TrainingInfo trainingInfo);
 
-	void deleteTrainingInfo(Integer trainingId);
+	void deleteTrainingInfo(String string);
 
 	List<String> querySort();
 
 	List<String> querySeries();
 
-	TrainingInfo queryTrainingInfoByTrainingId(Integer trainingId);
+	TrainingInfo queryTrainingInfoByTrainingId(String string);
 }
