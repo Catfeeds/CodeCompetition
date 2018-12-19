@@ -4,6 +4,7 @@ import com.isoftstone.pmit.project.hrbp.entity.*;
 import com.isoftstone.pmit.system.exceloperation.mapper.*;
 import com.isoftstone.pmit.system.exceloperation.service.IScoreService;
 import com.isoftstone.pmit.system.exceloperation.util.ExcelOperationUtils;
+import com.sun.org.apache.xerces.internal.xs.datatypes.ObjectList;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,43 +40,53 @@ public class ScoreServiceImpl implements IScoreService {
         }
 
         // 得到正确的excel文件的数据
-        List<Map<String, String>> scoreList = (List<Map<String, String>>)result.get(1);
+        List<Map<String, Object>> scoreList = (List<Map<String, Object>>)result.get(1);
 
         List<ScoreTransaction> transList = new ArrayList<ScoreTransaction>();
         List<ScoreCourse> courseList = new ArrayList<ScoreCourse>();
 
-        for (Map<String, String> score : scoreList){
+        for (Map<String, Object> score : scoreList){
 
             // 组装事务表数据
-            if (!StringUtils.isEmpty(score.get("事务名"))
-                    && !StringUtils.isEmpty(score.get("事务维度"))
-                    && !StringUtils.isEmpty(score.get("维度分数"))){
+            if (!StringUtils.isEmpty((String)score.get("事务ID"))
+                    && !StringUtils.isEmpty((String)score.get("维度ID"))){
                 ScoreTransaction trans = new ScoreTransaction();
-                trans.setEmployeeID(score.get("软通工号"));
-                trans.setTransactionName(score.get("事务名"));
-                trans.setDimensionName(score.get("事务维度"));
-                trans.setDimensionScore(score.get("维度分数"));
+                trans.setEmployeeID((String) score.get("软通工号"));
+                trans.setTransactionID((String) score.get("事务ID"));
+                trans.setDimensionID((String) score.get("维度ID"));
+                trans.setScore(Float.valueOf((String) score.get("分数")));
+                trans.setHeaderID((String) score.get("导师ID"));
+                trans.setTutorID((String) score.get("HeaderID"));
+
                 transList.add(trans);
             }
 
 
             // 组装成绩表数据
-            if (!StringUtils.isEmpty(score.get("课程名"))
-                    && !StringUtils.isEmpty(score.get("课程成绩"))){
+            if (!StringUtils.isEmpty((String)score.get("开班ID"))){
                 ScoreCourse course = new ScoreCourse();
-                course.setEmployeeID(score.get("软通工号"));
-                course.setCourseDimension(score.get("课程维度"));
-                course.setCourseName(score.get("课程名"));
-                course.setCourseScore(score.get("课程成绩"));
+                course.setEmployeeID((String) score.get("软通工号"));
+                course.setOpeningID((String) score.get("开班ID"));
+                course.setCourseScore(Float.valueOf(String.valueOf(score.get("分数"))));
+                course.setType((String) score.get("类型"));
                 courseList.add(course);
             }
         }
 
 
+        int transAddResult = 0;
+        int scoreAddResult = 0;
         // 分别插入2张成绩表中
-        int transAddResult = transactionMapper.insertTransaction(transList);
-        int scoreAddResult = CourseMapper.insertCourse(courseList);
-        if (transAddResult + scoreAddResult >= 2){
+        if (!transList.isEmpty()){
+             transAddResult = transactionMapper.insertTransaction(transList);
+
+        }
+        if (!courseList.isEmpty()){
+            scoreAddResult = CourseMapper.insertCourse(courseList);
+        }
+
+
+        if (transAddResult + scoreAddResult >= 1){
             return "SUCCESS";
         }
         return "有数据插入数据库失败";

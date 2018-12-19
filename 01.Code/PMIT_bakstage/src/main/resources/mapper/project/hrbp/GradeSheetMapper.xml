@@ -261,24 +261,19 @@
     </delete>
     <update id="updatePersonalScores" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalScore">
         <if test="types == '评价' and types != null">
-            update mms_transaction_dimension_score set
-            <if test="evaluator != null and evaluator != ''">
-                evaluator = #{evaluator},
-            </if>
-            <if test="evaluation != null and evaluation != ''">
-                evaluation = #{evaluation},
-            </if>
-            <if test="score != 0">
-                score = #{score},
-            </if>
-            <if test="evaluator != null and evaluator != ''">
-                evaluator = #{evaluator}
-            </if>
-            <where>
-                <if test="scoresID != null and scoresID != ''">
-                    transaction_dimension_id = #{scoresID}
-                </if>
-            </where>
+            <foreach collection="personalTranAndDimeScores" item="item" separator=";">
+                update mms_transaction_dimension_score set
+                    evaluator = #{item.evaluator},
+                    evaluation = #{item.evaluation},
+                    score = #{item.score},
+                    evaluator = #{item.evaluator}
+                <where>
+                    <if test="item.tranAndDieId != null and item.tranAndDieId != ''">
+                        transaction_dimension_id = #{item.tranAndDieId}
+                    </if>
+                </where>
+            </foreach>
+
         </if>
         <if test="types == '培训' and types != null">
             update mms_course_test_score set test_score = #{score} ,modifier = #{modifier}  where  cour_score_id = #{scoresID}
