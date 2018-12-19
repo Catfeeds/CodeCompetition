@@ -509,8 +509,7 @@ FROM
           du
         from
         mms_base_staff_info
-        where
-          1=1
+        <where>
           <if test="bu != null and bu != ''">
               and bu = #{bu}
           </if>
@@ -523,13 +522,14 @@ FROM
               and   pdu = #{pdu}
           </if>
 
-          <if test="employeeID != null and employeeID != ''">
-              and  employeeID like CONCAT('%',#{employeeID},'%')
+          <if test="employeeId != null and employeeId != ''">
+              and  employeeID like CONCAT('%',#{employeeId},'%')
           </if>
 
           <if test=" employeeName != null and employeeName != ''">
               or   employeeName like  CONCAT('%',#{employeeName},'%')
           </if>
+        </where>
 
 
     </select>

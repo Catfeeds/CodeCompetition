@@ -143,9 +143,7 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
         paramterMap.put("du",paramter.getDu());
         paramterMap.put("employeeId",paramter.getEmployeeID());
         paramterMap.put("employeeName",paramter.getEmployeeName());
-        if (null == paramterMap){
-            new HashMap<String,Object>();
-        }
+
         List<BaseStaffInfo> staffInfos = baseStaffInfoMapper.getPersonalInfoByFuzzyQuery(paramterMap);
         PageInfo<BaseStaffInfo> pageInfoBaseStaff = new PageInfo<>(staffInfos);
         return pageInfoBaseStaff;
