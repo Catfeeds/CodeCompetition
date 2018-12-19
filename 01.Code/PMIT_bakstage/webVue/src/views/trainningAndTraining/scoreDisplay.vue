@@ -329,6 +329,57 @@
       ></form>
       <iframe id="downloadFrame" name="downloadFrame"></iframe>
     </div>
+    <el-dialog
+      title="修改考核维度得分"
+      :visible="dialogSetVisible"
+      width="50%"
+    >
+      <el-form :model="tableForm" size="mini" ref="tableForm">
+        <el-table
+          :data="tableForm.dimensionList"
+          border
+          fit
+          size="mini"
+          stripe
+          max-height="185"
+          tooltip-effect="dark"
+          highlight-current-row
+          style="width: 100%;"
+        >
+          <el-table-column
+            header-align="center"
+            align="center"
+            :label="$t('table.id')"
+            width="80"
+            type="index"
+          ></el-table-column>
+          <el-table-column prop="dimensionName" header-align="center" label="考核维度" width="150">
+          </el-table-column>
+          <el-table-column prop="score" header-align="center" label="得分" width="130">
+            <template slot-scope="scope">
+              <el-form-item label :prop="'dimensionList.'+scope.$index+'.score'"
+                :rules="rules.score">
+                <el-input v-model="scope.row.score" autocomplete="off" maxlength="3"></el-input>
+              </el-form-item>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="evaluation"
+            header-align="center"
+            label="评价"
+          >
+            <template slot-scope="scope">
+              <el-form-item label prop="evaluation">
+                <el-input v-model="scope.row.evaluation" autocomplete="off"></el-input>
+              </el-form-item>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="handleSave(tableForm.scoreInfo, true);" size="mini">保 存</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -365,7 +416,9 @@ export default {
       isEdit: false,
       sortable: "custom",
       tableForm: {
-        dataTable: []
+        dataTable: [],
+        dimensionList: [],
+        scoreInfo: null
       },
       page: {
         currentPage: 1,
@@ -374,6 +427,7 @@ export default {
         sortColumn: "employeeID",
         sortType: "desc"
       },
+      dialogSetVisible: false,
       rules: {
         score: [{ required: true, validator: validScore, trigger: "blur" }]
       }
@@ -432,9 +486,12 @@ export default {
         this.sortable = false;
         this.isEdit = true;
       } else {
+        this.tableForm.scoreInfo = row;
+        this.dialogSetVisible = true;
+        this.tableForm.dimensionList = row.personalTranAndDimeScores;
       }
     },
-    handleSave(row) {
+    handleSave(row, isAffair) {
       let vm = this;
       vm.$refs.tableForm.validate(valid => {
         if (valid) {
@@ -442,6 +499,10 @@ export default {
           vm.isEdit = false;
           vm.sortable = "custom";
           row.modifier = vm.employeeId;
+          row.personalTranAndDimeScores.map(item=>{
+            item.modifier = vm.employeeId;
+            return item;
+          })
           vm.$store.dispatch("editScoreInfo", row).then(res => {
             if (res.success) {
               vm.$message.success("成绩修改成功");
@@ -449,6 +510,7 @@ export default {
             } else {
               vm.$message.success("成绩修改失败");
             }
+            vm.dialogSetVisible = false;
           });
         } else {
           return false;
