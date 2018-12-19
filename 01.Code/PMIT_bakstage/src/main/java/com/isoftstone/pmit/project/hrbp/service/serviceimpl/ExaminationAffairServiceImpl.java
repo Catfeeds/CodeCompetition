@@ -6,6 +6,8 @@ import com.isoftstone.pmit.project.hrbp.service.IExaminationAffairService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,11 +21,11 @@ public class ExaminationAffairServiceImpl implements IExaminationAffairService {
 
     @Override
     public List<ExaminationAffair> findAllAffair(ExaminationAffair examinationAffair) {
-        return  examinationAffairMapper.findAllAffair(examinationAffair);
+        return examinationAffairMapper.findAllAffair(examinationAffair);
     }
 
     @Override
-    public void deleteAffair(Integer affairID) {
+    public void deleteAffair(String affairID) {
         examinationAffairMapper.deleteAffair(affairID);
     }
 
@@ -34,26 +36,24 @@ public class ExaminationAffairServiceImpl implements IExaminationAffairService {
 
     @Override
     public Integer insertAffair(ExaminationAffair examinationAffair) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmssSSS");
+        examinationAffair.setAffairID("lss" + sdf.format(new Date()));
         return examinationAffairMapper.insertAffair(examinationAffair);
     }
 
     @Override
-    public ExaminationAffair findExamAffairByAffairId(Integer affairID) {
+    public ExaminationAffair findExamAffairByAffairId(String affairID) {
         return examinationAffairMapper.findExamAffairByAffairId(affairID);
     }
 
     @Override
     public List<ExaminationAffair> findExamAffairSystem() {
-        return  examinationAffairMapper.findExamAffairSystem();
+        return examinationAffairMapper.findExamAffairSystem();
     }
 
     @Override
     public List<ExaminationAffair> findExamAffairSeries() {
-        return  examinationAffairMapper.findExamAffairSeries();
+        return examinationAffairMapper.findExamAffairSeries();
     }
 
-    @Override
-    public List<ExaminationAffair> findAllAffairName() {
-        return examinationAffairMapper.findAllAffairName();
-    }
 }

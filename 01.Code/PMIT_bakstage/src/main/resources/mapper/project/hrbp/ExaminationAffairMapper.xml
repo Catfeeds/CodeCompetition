@@ -42,7 +42,7 @@
         </if>
         </where>
     </select>
-    <delete id="deleteAffair" parameterType="java.lang.Integer">
+    <delete id="deleteAffair" parameterType="java.lang.String">
        DELETE ea,ad,ed
        FROM mms_examination_affair ea
        LEFT OUTER JOIN mms_affair_dimension ad
@@ -70,7 +70,7 @@
         where affair_id = #{affairID}
     </update>
 
-    <select id="findExamAffairByAffairId" parameterType="java.lang.Integer" resultType="ExaminationAffair">
+    <select id="findExamAffairByAffairId" parameterType="java.lang.String" resultType="ExaminationAffair">
         select
         affair_id as affairID,
         affair_name as affairName,
@@ -85,8 +85,8 @@
         where affair_id = #{affairID}
     </select>
     <insert id="insertAffair" parameterType="com.isoftstone.pmit.project.hrbp.entity.ExaminationAffair">
-        insert into mms_examination_affair(affair_name,system,series,bu,create_by,update_by,update_time)
-        select #{affairName},#{system},#{series},#{bu},(SELECT
+        insert into mms_examination_affair(affair_id,affair_name,system,series,bu,create_by,update_by,update_time)
+        select #{affairID},#{affairName},#{system},#{series},#{bu},(SELECT
 	    employeeName
         FROM
 	    mms_base_staff_info

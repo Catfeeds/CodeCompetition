@@ -19,7 +19,7 @@ public interface IExaminationAffairService {
      * 删除事务
      * @param affairID
      */
-    void deleteAffair(Integer affairID);
+    void deleteAffair(String affairID);
 
     /**
      * 编辑事务
@@ -31,7 +31,7 @@ public interface IExaminationAffairService {
      * @param affairID
      * @return
      */
-    ExaminationAffair findExamAffairByAffairId(Integer affairID);
+    ExaminationAffair findExamAffairByAffairId(String affairID);
 
     /**
      * 添加考核事务
@@ -51,9 +51,4 @@ public interface IExaminationAffairService {
      */
     List<ExaminationAffair> findExamAffairSeries();
 
-    /**
-     * 查询所有事务名称用作去重
-     * @return
-     */
-    List<ExaminationAffair> findAllAffairName();
 }

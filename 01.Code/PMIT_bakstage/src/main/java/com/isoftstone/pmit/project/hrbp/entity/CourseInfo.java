@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class CourseInfo {
     /** 开班id */
-    private int openingID;
+    private String openingID;
     /** 所属体系 */
     private String system;
     /** 所属产品线 */
@@ -54,11 +54,11 @@ public class CourseInfo {
     /** 班级状态,1为可报名,2为已报满,3已结束 */
     private Integer openingStatus;
 
-    public int getOpeningID() {
+    public String getOpeningID() {
         return openingID;
     }
 
-    public void setOpeningID(int openingID) {
+    public void setOpeningID(String openingID) {
         this.openingID = openingID;
     }
 

@@ -56,7 +56,7 @@ public class ExaminationAffairController extends AbstractController {
     @ApiOperation(value = "根据AffairId获取考核事务", notes = "根据AffairId获取考核事务")
     public String findExamAffairByAffairId(@RequestBody String parameter) {
         ExaminationAffair examinationAffair = JsonUtils.readValue(parameter, ExaminationAffair.class);
-        Integer affairID = examinationAffair.getAffairID();
+        String affairID = examinationAffair.getAffairID();
         ExaminationAffair examinationAffairResult;
         try {
             examinationAffairResult = examinationAffairService.findExamAffairByAffairId(affairID);

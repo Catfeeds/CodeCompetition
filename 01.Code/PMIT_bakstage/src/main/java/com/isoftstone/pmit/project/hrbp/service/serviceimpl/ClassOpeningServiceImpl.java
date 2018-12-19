@@ -10,6 +10,8 @@ import com.isoftstone.pmit.project.hrbp.service.IClassOpeningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,7 +27,8 @@ public class ClassOpeningServiceImpl implements IClassOpeningService {
     private GetScoreMapper getScoreMapper;
 
     /**
-     *  查询所有课程
+     * 查询所有课程
+     *
      * @param courseParam
      * @return
      */
@@ -34,16 +37,17 @@ public class ClassOpeningServiceImpl implements IClassOpeningService {
         PageHelper.startPage(courseParam.getPageInfo().getCurrPage(), courseParam.getPageInfo().getPageSize());
         String sortType = courseParam.getPageInfo().getSortType();
         String sortColumn = courseParam.getPageInfo().getSortColumn();
-        if (null != sortColumn && sortColumn != "" &&sortType != "" && null != sortType) {
+        if (null != sortColumn && sortColumn != "" && sortType != "" && null != sortType) {
             PageHelper.orderBy(sortColumn + " " + sortType);
         }
         List<CourseInfo> courseInfoList = classOpeningMapper.queryAllClass(courseParam);
         PageInfo<CourseInfo> classInfoPageInfo = new PageInfo<>(courseInfoList);
-        return classInfoPageInfo ;
+        return classInfoPageInfo;
     }
 
     /**
      * 删除开课项
+     *
      * @param courseInfo
      */
     @Override
@@ -54,15 +58,19 @@ public class ClassOpeningServiceImpl implements IClassOpeningService {
 
     /**
      * 添加开课项
+     *
      * @param courseInfo
      */
     @Override
     public void insertClass(CourseInfo courseInfo) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmssSSS");
+        courseInfo.setOpeningID("cla" + sdf.format(new Date()));
         classOpeningMapper.insertClass(courseInfo);
     }
 
     /**
      * 根据OpeningID查找开课项
+     *
      * @param courseInfo
      * @return
      */
@@ -73,6 +81,7 @@ public class ClassOpeningServiceImpl implements IClassOpeningService {
 
     /**
      * 更新开课项
+     *
      * @param courseInfo
      */
     @Override

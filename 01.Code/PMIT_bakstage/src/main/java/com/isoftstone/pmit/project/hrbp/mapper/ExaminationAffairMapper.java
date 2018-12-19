@@ -24,7 +24,7 @@ public interface ExaminationAffairMapper {
      * 删除事务
      * @param affairID
      */
-    void deleteAffair(@Param("affairID") Integer affairID);
+    void deleteAffair(@Param("affairID") String affairID);
 
     /**
      * 更新事务
@@ -37,7 +37,7 @@ public interface ExaminationAffairMapper {
      * @param affairID
      * @return
      */
-    ExaminationAffair findExamAffairByAffairId(Integer affairID);
+    ExaminationAffair findExamAffairByAffairId(String affairID);
 
     /**
      * 添加考核事务
@@ -57,9 +57,4 @@ public interface ExaminationAffairMapper {
      */
     List<ExaminationAffair> findExamAffairSeries();
 
-    /**
-     * 查询所有事务名称用于去重
-     * @return
-     */
-    List<ExaminationAffair> findAllAffairName();
 }

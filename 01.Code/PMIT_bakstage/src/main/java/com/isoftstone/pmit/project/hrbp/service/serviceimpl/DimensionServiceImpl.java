@@ -34,14 +34,14 @@ public class DimensionServiceImpl implements IDimensionService {
             dimensionMapper.insertDimension(examinationDimension);
             integerList.add(examinationDimension.getDimensionID());
         }
-        Integer returnAffairID = examinationAffair.getAffairID();
+        String returnAffairID = examinationAffair.getAffairID();
         for (Integer dimensionId : integerList) {
             dimensionMapper.insertAffairDimension(returnAffairID,dimensionId);
         }
     }
 
     @Override
-    public List<ExaminationDimension> queryDimension(Integer affairID) {
+    public List<ExaminationDimension> queryDimension(String affairID) {
         return dimensionMapper.queryDimension(affairID);
     }
 }

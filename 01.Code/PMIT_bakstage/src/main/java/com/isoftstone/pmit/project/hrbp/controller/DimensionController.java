@@ -47,7 +47,7 @@ public class DimensionController extends AbstractController {
     @PostMapping(value = "/queryDimension")
     public String queryDimension(@RequestBody String parameter){
         ExaminationAffair examinationAffair = JsonUtils.readValue(parameter, ExaminationAffair.class);
-        Integer affairID = examinationAffair.getAffairID();
+        String affairID = examinationAffair.getAffairID();
         List<ExaminationDimension> examinationDimensionList;
         try {
             examinationDimensionList = dimensionService.queryDimension(affairID);

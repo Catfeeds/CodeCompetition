@@ -17,7 +17,7 @@
     <insert id="insertAffairDimension">
         insert into mms_affair_dimension(affair_id,dimension_id)values (#{affairID},#{dimensionId})
     </insert>
-    <select id="queryDimension" parameterType="java.lang.Integer" resultType="ExaminationDimension">
+    <select id="queryDimension" parameterType="java.lang.String" resultType="ExaminationDimension">
         select
         ed.dimension_name as dimensionName,
         ed.mark as mark,

@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class ExaminationAffair {
     /** 考核事务ID */
-    private int affairID;
+    private String affairID;
     /** 事务名称 */
     private String affairName;
     /** 所属体系 */
@@ -37,6 +37,14 @@ public class ExaminationAffair {
         this.examinationDimensionList = examinationDimensionList;
     }
 
+    public String getAffairID() {
+        return affairID;
+    }
+
+    public void setAffairID(String affairID) {
+        this.affairID = affairID;
+    }
+
     public String getBu() {
         return bu;
     }
@@ -51,14 +59,6 @@ public class ExaminationAffair {
 
     public void setEmployeeID(String employeeID) {
         this.employeeID = employeeID;
-    }
-
-    public int getAffairID() {
-        return affairID;
-    }
-
-    public void setAffairID(int affairID) {
-        this.affairID = affairID;
     }
 
     public String getAffairName() {

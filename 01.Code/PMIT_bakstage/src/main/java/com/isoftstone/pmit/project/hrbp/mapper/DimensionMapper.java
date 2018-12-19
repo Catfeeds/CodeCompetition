@@ -25,14 +25,14 @@ public interface DimensionMapper {
      * @param affairID
      * @param dimensionId
      */
-    void insertAffairDimension(@Param("affairID") Integer affairID,@Param("dimensionId") Integer dimensionId);
+    void insertAffairDimension(@Param("affairID") String affairID,@Param("dimensionId") Integer dimensionId);
 
     /**
      * 查看所有维度
      * @param affairID
      * @return
      */
-    List<ExaminationDimension> queryDimension(Integer affairID);
+    List<ExaminationDimension> queryDimension(String affairID);
 
     /**
      * 删除事务下已有维度

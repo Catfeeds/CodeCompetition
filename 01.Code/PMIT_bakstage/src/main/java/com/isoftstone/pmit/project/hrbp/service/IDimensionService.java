@@ -21,6 +21,6 @@ public interface IDimensionService {
      * @param affairID
      * @return
      */
-    List<ExaminationDimension> queryDimension(Integer affairID);
+    List<ExaminationDimension> queryDimension(String affairID);
 
 }
