@@ -95,6 +95,7 @@
           :on-success="handleSuccess"
           :on-error="handleError"
           :show-file-list="false"
+          :disabled="isEdit"
           accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
         >
           <el-button size="mini" icon="el-icon-upload2" type="primary">{{ $t("button.import") }}</el-button>
@@ -111,157 +112,200 @@
       </el-form-item>
     </el-form>
     <div>
-      <el-table
-        v-loading="listLoading"
-        :data="dataTable"
-        border
-        fit
-        size="mini"
-        stripe
-        max-height="420"
-        highlight-current-row
-        style="width: 100%;"
-        @sort-change="handleSort"
-      >
-        <el-table-column
-          header-align="center"
-          align="center"
-          :label="$t('table.id')"
-          width="50"
-          type="index"
-        ></el-table-column>
+      <el-form :model="tableForm" ref="tableForm">
+        <el-table
+          v-loading="listLoading"
+          :data="tableForm.dataTable"
+          border
+          fit
+          size="mini"
+          stripe
+          max-height="420"
+          highlight-current-row
+          style="width: 100%;"
+          @sort-change="handleSort"
+        >
+          <el-table-column
+            header-align="center"
+            align="center"
+            :label="$t('table.id')"
+            width="50"
+            type="index"
+          ></el-table-column>
 
-        <el-table-column
-          width="100px"
-          header-align="center"
-          label="软通工号"
-          sortable="custom"
-          prop="employeeID"
-        ></el-table-column>
+          <el-table-column
+            width="100px"
+            header-align="center"
+            label="软通工号"
+            :sortable="sortable"
+            prop="employeeID"
+          ></el-table-column>
 
-        <el-table-column
-          width="100px"
-          header-align="center"
-          label="员工姓名"
-          sortable="custom"
-          prop="employeeName"
-        ></el-table-column>
-        <el-table-column
-          width="90px"
-          header-align="center"
-          label="属性"
-          sortable="custom"
-          prop="types"
-        ></el-table-column>
-        <el-table-column
-          min-width="90"
-          header-align="center"
-          label="得分时间"
-          sortable="custom"
-          prop="scoreTime"
-        >
-          <template slot-scope="scope">
-            <span>{{ scope.row.scoreTime | formatDate }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          min-width="80"
-          header-align="center"
-          label="名称"
-          sortable="custom"
-          prop="affairName"
-        ></el-table-column>
-        <el-table-column
-          width="110"
-          header-align="center"
-          label="所属系列"
-          sortable="custom"
-          prop="series"
-        ></el-table-column>
-        <el-table-column
-          width="120"
-          header-align="center"
-          label="所属产品线"
-          sortable="custom"
-          prop="bu"
-        ></el-table-column>
-        <el-table-column
-          min-width="70"
-          header-align="center"
-          label="得分"
-          sortable="custom"
-          prop="score"
-        >
-          <template slot-scope="scope">
-            <el-input-number
-              v-if="scope.row.isEdit"
-              style="width:80px"
-              v-model="scope.row.score"
-              size="mini"
-              controls-position="right"
-              :min="1"
-              :max="100"
-              :step="1"
-            ></el-input-number>
-            <span v-else>{{scope.row.score}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          min-width="80"
-          header-align="center"
-          label="成本中心"
-          sortable="custom"
-          prop="costCenter"
-        ></el-table-column>
-        <el-table-column
-          width="110"
-          header-align="center"
-          label="最后修改人"
-          sortable="custom"
-          prop="modifier"
-        ></el-table-column>
-        <el-table-column
-          width="80"
-          header-align="center"
-          align="center"
-          :label="$t('table.option')"
-        >
-          <template slot-scope="scope">
-            <el-button
-              v-if="!scope.row.isEdit"
-              type="text"
-              size="mini"
-              icon="el-icon-edit"
-              title="编辑"
-              @click="handleEdit(scope.row);"
-            ></el-button>
-            <el-button
-              v-if="!scope.row.isEdit"
-              type="text"
-              size="mini"
-              icon="el-icon-delete"
-              title="删除"
-              @click="handleDel(scope.row);"
-            ></el-button>
-            <el-button
-              v-if="scope.row.isEdit"
-              type="text"
-              size="mini"
-              icon="el-icon-circle-plus-outline"
-              title="保存"
-              @click="handleSave(scope.row);"
-            ></el-button>
-            <el-button
-              v-if="scope.row.isEdit"
-              type="text"
-              size="mini"
-              icon="el-icon-remove-outline"
-              title="取消"
-              @click="handleFilter(null, page);"
-            ></el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+          <el-table-column
+            width="100px"
+            header-align="center"
+            label="员工姓名"
+            :sortable="sortable"
+            prop="employeeName"
+          ></el-table-column>
+          <el-table-column
+            width="70px"
+            header-align="center"
+            label="属性"
+            :sortable="sortable"
+            prop="types"
+          ></el-table-column>
+          <el-table-column
+            min-width="100"
+            header-align="center"
+            label="得分时间"
+            :sortable="sortable"
+            prop="scoreTime"
+          >
+            <template slot-scope="scope">
+              <span>{{ scope.row.scoreTime | formatDate }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            min-width="100"
+            header-align="center"
+            label="名称"
+            :sortable="sortable"
+            prop="affairName"
+          >
+            <template slot-scope="scope">
+              <span v-if="scope.row.types!=='评价'">{{scope.row.affairName}}</span>
+              <el-popover v-else placement="right-end" title="评价详情" width="600" trigger="hover">
+                <el-table
+                  :data="scope.row.personalTranAndDimeScores"
+                  border
+                  fit
+                  size="mini"
+                  stripe
+                  max-height="400"
+                  tooltip-effect="dark"
+                  style="width: 100%;"
+                >
+                  <el-table-column
+                    header-align="center"
+                    align="center"
+                    :label="$t('table.id')"
+                    width="50"
+                    type="index"
+                  ></el-table-column>
+                  <el-table-column
+                    prop="dimensionName"
+                    header-align="center"
+                    label="考核维度"
+                    width="150"
+                  ></el-table-column>
+                  <el-table-column prop="score" header-align="center" label="得分" width="100"></el-table-column>
+                  <el-table-column
+                    prop="evaluation"
+                    header-align="center"
+                    label="评价"
+                    show-overflow-tooltip
+                  ></el-table-column>
+                </el-table>
+                <el-button type="text" slot="reference">{{scope.row.affairName}}</el-button>
+              </el-popover>
+            </template>
+          </el-table-column>
+          <el-table-column
+            width="110"
+            header-align="center"
+            label="所属系列"
+            :sortable="sortable"
+            prop="series"
+          ></el-table-column>
+          <el-table-column
+            width="120"
+            header-align="center"
+            label="所属产品线"
+            :sortable="sortable"
+            prop="bu"
+          ></el-table-column>
+          <el-table-column
+            min-width="70"
+            header-align="center"
+            label="得分"
+            :sortable="sortable"
+            prop="score"
+          >
+            <template slot-scope="scope">
+              <el-form-item
+                v-if="scope.row.isEdit"
+                :prop="'dataTable.'+scope.$index+'.score'"
+                :rules="rules.score"
+              >
+                <el-input
+                  style="width:80px"
+                  v-model="scope.row.score"
+                  size="mini"
+                  controls-position="right"
+                ></el-input>
+              </el-form-item>
+              <span v-else>{{scope.row.score}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            v-if="!isEdit"
+            min-width="150"
+            header-align="center"
+            label="成本中心"
+            :sortable="sortable"
+            prop="costCenter"
+          ></el-table-column>
+          <el-table-column
+            width="110"
+            header-align="center"
+            label="最后修改人"
+            :sortable="sortable"
+            prop="modifier"
+          ></el-table-column>
+          <el-table-column
+            width="80"
+            header-align="center"
+            align="center"
+            :label="$t('table.option')"
+          >
+            <template slot-scope="scope">
+              <el-button
+                v-if="!scope.row.isEdit"
+                type="text"
+                size="mini"
+                icon="el-icon-edit"
+                title="编辑"
+                @click="handleEdit(scope.row);"
+              ></el-button>
+              <el-button
+                v-if="!scope.row.isEdit"
+                type="text"
+                size="mini"
+                icon="el-icon-delete"
+                title="删除"
+                @click="handleDel(scope.row);"
+              ></el-button>
+              <el-button
+                v-if="scope.row.isEdit"
+                type="text"
+                size="mini"
+                icon="el-icon-circle-plus-outline"
+                title="保存"
+                @click="handleSave(scope.row);"
+              ></el-button>
+              <el-button
+                v-if="scope.row.isEdit"
+                type="text"
+                size="mini"
+                icon="el-icon-remove-outline"
+                title="取消"
+                @click="handleFilter(null, page, true);"
+              ></el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-form>
       <el-row type="flex" justify="end">
         <el-pagination
           @current-change="handleCurrentChange"
@@ -269,6 +313,7 @@
           :page-size="page.pageSize"
           layout="total, slot, prev, pager, next"
           :total="page.totalRecord"
+          :disabled="isEdit"
           prev-text="上一页"
           next-text="下一页"
         ></el-pagination>
@@ -303,20 +348,40 @@ export default {
     this.handleFilter();
   },
   data() {
+    let validScore = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("请输入得分"));
+      }
+      if (isNaN(value)) {
+        return callback(new Error("只能输入整数和小数"));
+      }
+      if (Number(value) > 100 || Number(value) < 0) {
+        return callback(new Error("只能0~100的整数和小数"));
+      }
+      return callback();
+    };
     return {
       listLoading: false,
-      dataTable: [],
+      isEdit: false,
+      sortable: "custom",
+      tableForm: {
+        dataTable: []
+      },
       page: {
         currentPage: 1,
         pageSize: 100,
         totalRecord: 0,
         sortColumn: "employeeID",
         sortType: "desc"
+      },
+      rules: {
+        score: [{ required: true, validator: validScore, trigger: "blur" }]
       }
     };
   },
 
   computed: {
+    ...mapGetters(["employeeId", "employeeName"]),
     ...mapState({
       searchForm: state => state.scoreDisplayStore.searchForm,
       dataSource: state => state.scoreDisplayStore.scoreData
@@ -324,16 +389,25 @@ export default {
   },
   watch: {
     dataSource(data) {
-      this.dataTable = data.list;
+      this.tableForm.dataTable = data.list;
       this.page.totalRecord = data.total;
     }
   },
   methods: {
     ...mapActions(["getScoreProduct", "getScoreSeries", "getScoreDataList"]),
-    handleFilter(arg, curPage) {
+    handleFilter(arg, curPage, isCancel) {
       let vm = this;
+      if (!isCancel && vm.tableForm.dataTable.find(item => item.isEdit)) {
+        vm.$message.warning("存在正在编辑的行，请先保存");
+        return;
+      }
       if (!curPage) {
         vm.page.currentPage = 1;
+      }
+      vm.isEdit = !!isCancel;
+      if (isCancel) {
+        vm.isEdit = false;
+        vm.sortable = "custom";
       }
       vm.listLoading = true;
       vm.getScoreDataList(vm.page)
@@ -345,23 +419,44 @@ export default {
         });
     },
     handleCurrentChange(val) {
-      if(this.dataTable.find(item=>item.isEdit)) {
-        this.$message.warning("存在正在编辑的行，请先保存");
-        return;
-      }
       this.page.currentPage = val;
       this.handleFilter(null, this.page);
     },
     handleEdit(row) {
-      if(this.dataTable.find(item=>item.isEdit)) {
+      if (this.tableForm.dataTable.find(item => item.isEdit)) {
         this.$message.warning("存在正在编辑的行，请先保存");
         return;
       }
-      row.isEdit = true;
+      if (row.types !== "评价") {
+        row.isEdit = true;
+        this.sortable = false;
+        this.isEdit = true;
+      } else {
+      }
     },
-    handleSave(row) {},
+    handleSave(row) {
+      let vm = this;
+      vm.$refs.tableForm.validate(valid => {
+        if (valid) {
+          row.isEdit = false;
+          vm.isEdit = false;
+          vm.sortable = "custom";
+          row.modifier = vm.employeeId;
+          vm.$store.dispatch("editScoreInfo", row).then(res => {
+            if (res.success) {
+              vm.$message.success("成绩修改成功");
+              vm.handleFilter(null, vm.page);
+            } else {
+              vm.$message.success("成绩修改失败");
+            }
+          });
+        } else {
+          return false;
+        }
+      });
+    },
     handleDel(row) {
-      if(this.dataTable.find(item=>item.isEdit)) {
+      if (this.tableForm.dataTable.find(item => item.isEdit)) {
         this.$message.warning("存在正在编辑的行，请先保存");
         return;
       }
@@ -382,10 +477,6 @@ export default {
       });
     },
     handleSort(column) {
-      if(this.dataTable.find(item=>item.isEdit)) {
-        this.$message.warning("存在正在编辑的行，请先保存");
-        return;
-      }
       if (column.prop) {
         this.page.sortColumn = column.prop;
         this.page.sortType = column.order === "descending" ? "desc" : "asc";
@@ -396,10 +487,6 @@ export default {
       this.$message.info("功能正在完善中。。。");
     },
     handleUpload(file) {
-      if(this.dataTable.find(item=>item.isEdit)) {
-        this.$message.warning("存在正在编辑的行，请先保存");
-        return;
-      }
       var ext = file.name.substring(file.name.lastIndexOf(".") + 1);
       const extension = ext === "xls" || ext === "xlsx";
       const isLt2M = file.size / 1024 / 1024 < 10;

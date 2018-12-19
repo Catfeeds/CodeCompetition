@@ -27,7 +27,7 @@ public class PersonalScore {
     /**唯一的ID*/
     private int scoresID;
     /**所属类型的名称的ID*/
-    private int nameID;
+    private String nameID;
 
     private List<PersonalTranAndDimeScore> personalTranAndDimeScores;
 
@@ -39,11 +39,11 @@ public class PersonalScore {
         this.personalTranAndDimeScores = personalTranAndDimeScores;
     }
 
-    public int getNameID() {
+    public String getNameID() {
         return nameID;
     }
 
-    public void setNameID(int nameID) {
+    public void setNameID(String nameID) {
         this.nameID = nameID;
     }
 

@@ -57,7 +57,7 @@
         placeholder="员工编号"
       ></el-input>
       <el-input
-        v-model="searchForm.empolyeeName"
+        v-model="searchForm.employeeName"
         size="mini"
         clearable
         class="filter-item"
@@ -328,13 +328,11 @@ export default {
           sortColumn: vm.page.sortColumn,
           sortType: vm.page.sortType
         },
-        baseStaffInfo: {
-          bu: vm.searchForm.product,
-          du: vm.searchForm.du,
-          pdu: vm.searchForm.pdu,
-          employeeID: vm.searchForm.employeeId,
-          employeeName: vm.searchForm.employeeName
-        }
+        bu: vm.searchForm.product,
+        du: vm.searchForm.du,
+        pdu: vm.searchForm.pdu,
+        employeeID: vm.searchForm.employeeId,
+        employeeName: vm.searchForm.employeeName
       };
       vm.listLoading = true;
       vm.$store

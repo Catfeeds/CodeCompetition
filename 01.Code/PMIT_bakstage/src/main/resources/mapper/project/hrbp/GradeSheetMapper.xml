@@ -275,8 +275,8 @@
                 evaluator = #{evaluator}
             </if>
             <where>
-                <if test="tranAndDieId != null and tranAndDieId != ''">
-                    transaction_dimension_id = #{tranAndDieId}
+                <if test="scoresID != null and scoresID != ''">
+                    transaction_dimension_id = #{scoresID}
                 </if>
             </where>
         </if>

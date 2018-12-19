@@ -191,15 +191,15 @@ public class GradeSheetServiceImpl implements IGradeSheetService {
         List<PersonalScore> allPersonalScores = getScoreMapper.getAllPersonalScores(param);
         List<PersonalTranAndDimeScore> allPerTranInfo = getScoreMapper.getAllPersonalTransactionInfo();
         for (PersonalScore score : allPersonalScores){
-            int nameID = score.getNameID();
+            String nameID = score.getNameID();
             String employeeID = score.getEmployeeID();
             String types = score.getTypes();
             List<PersonalTranAndDimeScore> list = new ArrayList<>();
             for (PersonalTranAndDimeScore tranAndDimeScore : allPerTranInfo){
                 String id = tranAndDimeScore.getEmployeeID();
-                int affairId = tranAndDimeScore.getAffairId();
+                String affairId = tranAndDimeScore.getAffairId();
                 String scoreTypes = tranAndDimeScore.getTypes();
-                if (id.equals(employeeID) && affairId == nameID && types.equals(scoreTypes)){
+                if (id.equals(employeeID) && affairId.equals(nameID) && types.equals(scoreTypes)){
                     list.add(tranAndDimeScore);
                 }
             }

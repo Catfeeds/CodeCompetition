@@ -85,7 +85,7 @@
         <el-table-column
           v-if="!isAdd"
           key="1"
-          width="100px"
+          width="135px"
           header-align="center"
           label="事务编号"
           :sortable="!isAdd"
@@ -97,6 +97,7 @@
           label="事务名称"
           :sortable="!isAdd"
           prop="affairName"
+          show-overflow-tooltip
         >
           <template slot-scope="scope">
             <el-form-item label prop="affairsName" v-if="scope.row.isAdd">

@@ -6,7 +6,7 @@ public class PersonalTranAndDimeScore {
     private int tranAndDieId;
     private String employeeID;
     private String dimensionName;
-    private int affairId;
+    private String affairId;
     private float score;
     private String evaluation;
     private String evaluator;
@@ -14,11 +14,11 @@ public class PersonalTranAndDimeScore {
     private Date changeTime;
     private String types;
 
-    public int getAffairId() {
+    public String getAffairId() {
         return affairId;
     }
 
-    public void setAffairId(int affairId) {
+    public void setAffairId(String affairId) {
         this.affairId = affairId;
     }
 

@@ -16,7 +16,7 @@ function delScoreInfo(param) {
 }
 function editScoreInfo(param) {
   return request({
-    url: "hrbp/gradeSheet/getTotalPersonalsScore",
+    url: "hrbp/gradeSheet/updatePersonalScore",
     method: "post",
     data: param
   });

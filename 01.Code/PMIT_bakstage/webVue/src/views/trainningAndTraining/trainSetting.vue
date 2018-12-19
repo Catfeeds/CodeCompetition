@@ -91,13 +91,14 @@
         width="50"
         type="index"
       ></el-table-column>
-      <el-table-column width="100px" header-align="center" label="培训编号" sortable prop="trainingId"></el-table-column>
+      <el-table-column width="140px" header-align="center" label="培训编号" sortable prop="trainingId"></el-table-column>
       <el-table-column
-        min-width="100px"
+        min-width="120px"
         header-align="center"
         label="培训名称"
         sortable
         prop="trainingName"
+        show-overflow-tooltip
       >
         <template slot-scope="scope">
           <el-popover placement="right-end" title="培训详情" width="480" trigger="hover">
@@ -178,7 +179,7 @@
       <el-table-column min-width="100" header-align="center" label="课程类型" sortable prop="type"></el-table-column>
 
       <el-table-column min-width="110" header-align="center" label="所属产品线" sortable prop="bu"></el-table-column>
-      <el-table-column width="100" header-align="center" label="创建人" sortable prop="creatorName"></el-table-column>
+      <el-table-column width="90" header-align="center" label="创建人" sortable prop="creatorName"></el-table-column>
       <el-table-column
         min-width="110"
         header-align="center"

@@ -101,7 +101,7 @@
           type="index"
         ></el-table-column>
         <el-table-column
-          width="100px"
+          width="140px"
           header-align="center"
           label="开班编号"
           sortable="custom"
@@ -113,6 +113,7 @@
           label="开班名称"
           sortable="custom"
           prop="openingName"
+          show-overflow-tooltip
         >
           <template slot-scope="scope">
             <el-popover placement="right-end" title="开班详情" width="800" trigger="hover">
