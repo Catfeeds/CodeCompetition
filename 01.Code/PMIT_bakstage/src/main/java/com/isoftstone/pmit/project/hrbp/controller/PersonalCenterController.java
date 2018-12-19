@@ -57,5 +57,4 @@ public class PersonalCenterController {
 		List<Map<String, Object>> result = personalCenterService.queryHistorySolved(paramMap);
 		return AjaxResult.returnToResult(true, result);
 	}
-	
 }

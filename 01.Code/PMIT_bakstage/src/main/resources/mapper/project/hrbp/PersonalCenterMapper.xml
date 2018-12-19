@@ -36,7 +36,50 @@
 			med.dimension_id = mad.dimension_id AND
 			mad.affair_id = #{affairId}
 	</select>
-	
+	<select id="getStaffAffair" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT
+		itemId,
+		itemName
+		FROM
+		mms_examination_rule_item
+		WHERE
+		ruleId = (
+			SELECT
+				b.ruleId
+			FROM
+				(
+					SELECT
+						mpsi.staff_id,
+						mbsi.employeeName,
+						mpsi.po_role_id role,
+						mbsi.bu,
+						mbsi.rank
+					FROM
+						mms_base_staff_info mbsi,
+						mms_po_staff_info mpsi
+					WHERE
+						employeeID = mpsi.staff_id
+					AND employeeID = #{staffId}
+				) a
+			INNER JOIN (
+				SELECT
+					mer.*, msr.roleName,
+					mbsi.bu
+				FROM
+					mms_examination_rule mer,
+					mms_base_staff_info mbsi,
+					mms_special_role msr
+				WHERE
+					mbsi.employeeID = mer.creatorId
+				AND mer.roleId = msr.roleId
+			) b
+			WHERE
+				a.role = b.roleName
+			AND a.bu = b.bu
+			AND a.rank = b.roleLevel
+		)
+		AND itemType = 1
+	</select>
 	<select id="saveScoresByName" parameterType="java.util.Map" resultType="java.util.Map">
 		insert into mms_transaction_dimension_score 
 		(employee_id, affair_id, dimension_id, score, evaluation, evaluator, change_time) values 

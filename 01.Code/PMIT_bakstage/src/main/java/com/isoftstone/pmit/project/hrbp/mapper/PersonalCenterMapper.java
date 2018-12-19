@@ -20,4 +20,5 @@ public interface PersonalCenterMapper {
 
 	void updateStaffAffairStatus(Map<String, Object> paramMap);
 
+	List<Map<String,Object>> getStaffAffair(Map<String,Object> pendingSolvedMap);
 }
