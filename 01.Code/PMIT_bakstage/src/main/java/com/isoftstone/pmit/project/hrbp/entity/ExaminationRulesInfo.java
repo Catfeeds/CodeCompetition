@@ -21,6 +21,14 @@ public class ExaminationRulesInfo {
     private String updateStaffName;
     // 更新时间
     private Date updateTime;
+    // 及格分数
+    private int passScore;
+    // 及格规则 0:> 1:≥ 2:< 3:≤
+    private int passRule;
+    // 卓越分数
+    private int excellentScore;
+    // 卓越规则 0:> 1:≥ 2:< 3:≤
+    private int excellentRule;
 
     public int getRuleId() {
         return ruleId;
@@ -92,5 +100,37 @@ public class ExaminationRulesInfo {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public int getPassScore() {
+        return passScore;
+    }
+
+    public void setPassScore(int passScore) {
+        this.passScore = passScore;
+    }
+
+    public int getPassRule() {
+        return passRule;
+    }
+
+    public void setPassRule(int passRule) {
+        this.passRule = passRule;
+    }
+
+    public int getExcellentScore() {
+        return excellentScore;
+    }
+
+    public void setExcellentScore(int excellentScore) {
+        this.excellentScore = excellentScore;
+    }
+
+    public int getExcellentRule() {
+        return excellentRule;
+    }
+
+    public void setExcellentRule(int excellentRule) {
+        this.excellentRule = excellentRule;
     }
 }

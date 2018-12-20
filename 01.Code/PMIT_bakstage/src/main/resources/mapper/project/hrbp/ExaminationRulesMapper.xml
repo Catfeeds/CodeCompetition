@@ -24,10 +24,16 @@
         <if test="system != null and system != ''">system,</if>
         <if test="creatorId != null and creatorId != ''">creatorId,</if>
         <if test="creatorName != null and creatorName != ''">creatorName,</if>
-        createTime
+        createTime,
+        <if test="creatorId != null and creatorId != ''">updateStaffId,</if>
+        <if test="creatorName != null and creatorName != ''">updateStaffName,</if>
+        updateTime
         )select
         <if test="roleName != null and roleName != ''">#{roleName},</if>
         <if test="system != null and system != ''">#{system},</if>
+        <if test="creatorId != null and creatorId != ''">#{creatorId},</if>
+        <if test="creatorName != null and creatorName != ''">#{creatorName},</if>
+        now(),
         <if test="creatorId != null and creatorId != ''">#{creatorId},</if>
         <if test="creatorName != null and creatorName != ''">#{creatorName},</if>
         now()
@@ -46,7 +52,7 @@
         update mms_special_role role
 		inner join (
 			select 1 from dual where not exists
-				(select * from mms_special_role where roleName=#{roleName} and creatorId=#{creatorId})
+				(select * from mms_special_role where roleName=#{roleName} and creatorId=#{creatorId} and roleId <![CDATA[<>]]> #{roleId})
 		) temp on role.roleId = #{roleId}
 		set
 		    role.roleName = #{roleName},
@@ -75,8 +81,8 @@
     </select>
 
     <insert id="addExaminationRulesInfo" parameterType="ExaminationRulesInfo" useGeneratedKeys="true" keyProperty="ruleId">
-        insert into mms_examination_rule (roleId, roleLevel, creatorId, creatorName, createTime, updateStaffId, updateStaffName, updateTime)
-        select #{roleId}, #{roleLevel}, #{creatorId}, #{creatorName}, now(), #{updateStaffId}, #{updateStaffName}, now() from dual
+        insert into mms_examination_rule (roleId, roleLevel, creatorId, creatorName, createTime, updateStaffId, updateStaffName, updateTime, passScore, passRule, excellentScore, excellentRule)
+        select #{roleId}, #{roleLevel}, #{creatorId}, #{creatorName}, now(), #{creatorId}, #{creatorName}, now(), #{passScore}, #{passRule}, #{excellentScore}, #{excellentRule} from dual
 		where not exists (
 		    select bu from mms_base_staff_info where employeeID=#{creatorId}
             and bu in (
@@ -91,7 +97,11 @@
         update mms_examination_rule set
             updateStaffId = #{updateStaffId},
             updateStaffName = #{updateStaffName},
-            updateTime = #{updateTime}
+            updateTime = now(),
+            passScore = #{passScore},
+            passRule = #{passRule},
+            excellentScore = #{excellentScore},
+            excellentRule = #{excellentRule}
         where ruleId = #{ruleId}
     </update>
 
@@ -109,9 +119,7 @@
             (#{item.ruleId},
             #{item.itemId},
             #{item.itemType},
-            #{item.itemName},
-            #{item.credit},
-            #{item.pass})
+            #{item.itemName}
         </foreach>
     </insert>
 

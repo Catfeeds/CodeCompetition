@@ -42,7 +42,7 @@ public class ExaminationRulesController extends AbstractController {
         SpecialRolesInfo oneRole = JsonUtils.readValue(parameter, SpecialRolesInfo.class);
         boolean rst = examinationRulesService.saveSpecialRole(oneRole);
         if (!rst) {
-            return AjaxResult.returnToMessage(false, "保存关键角色失败");
+            return AjaxResult.returnToMessage(false, "保存关键角色失败，相同角色只允许存在一个");
         }
 
         return AjaxResult.returnToMessage(true, "保存关键角色成功");
