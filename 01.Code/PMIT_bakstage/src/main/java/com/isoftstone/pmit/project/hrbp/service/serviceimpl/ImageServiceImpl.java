@@ -25,7 +25,7 @@ public class ImageServiceImpl implements IImageService {
             try {
                 InputStream inputStream = file.getInputStream();
                 // 文件保存路径
-                lifefilePath = "src/main/resources/image/life/"+ file.getOriginalFilename();
+                lifefilePath = "image/life/"+ file.getOriginalFilename();
                 ImageUtil.readBin2Image(inputStream,lifefilePath);
                 PersonalStyle personalStyle = new PersonalStyle();
                 personalStyle.setEmployeeID(employeeID);
@@ -48,7 +48,7 @@ public class ImageServiceImpl implements IImageService {
         if (!file.isEmpty()) {
             try {
                 InputStream inputStream = file.getInputStream();
-                docFilePath = "src/main/resources/image/document/"+file.getOriginalFilename();
+                docFilePath = "image/document/"+file.getOriginalFilename();
                 ImageUtil.readBin2Image(inputStream,docFilePath);
                 PersonalStyle personalStyle = new PersonalStyle();
                 personalStyle.setEmployeeID(employeeID);
