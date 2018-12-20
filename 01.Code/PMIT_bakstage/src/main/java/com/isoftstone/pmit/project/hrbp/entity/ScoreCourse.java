@@ -4,28 +4,30 @@ package com.isoftstone.pmit.project.hrbp.entity;
 public class ScoreCourse {
 
     /**软通工号*/
-    private String employeeID;
+    private String employee_id;
     /**开班ID*/
-    private String openingID;
+    private String opening_id;
     /**类型*/
     private String type;
     /**课程成绩*/
-    private float courseScore;
+    private float test_score;
+    /**当前用户*/
+    private String modifier;
 
-    public String getEmployeeID() {
-        return employeeID;
+    public String getEmployee_id() {
+        return employee_id;
     }
 
-    public void setEmployeeID(String employeeID) {
-        this.employeeID = employeeID;
+    public void setEmployee_id(String employee_id) {
+        this.employee_id = employee_id;
     }
 
-    public String getOpeningID() {
-        return openingID;
+    public String getOpening_id() {
+        return opening_id;
     }
 
-    public void setOpeningID(String openingID) {
-        this.openingID = openingID;
+    public void setOpening_id(String opening_id) {
+        this.opening_id = opening_id;
     }
 
     public String getType() {
@@ -36,11 +38,19 @@ public class ScoreCourse {
         this.type = type;
     }
 
-    public float getCourseScore() {
-        return courseScore;
+    public float getTest_score() {
+        return test_score;
     }
 
-    public void setCourseScore(float courseScore) {
-        this.courseScore = courseScore;
+    public void setTest_score(float test_score) {
+        this.test_score = test_score;
+    }
+
+    public String getModifier() {
+        return modifier;
+    }
+
+    public void setModifier(String modifier) {
+        this.modifier = modifier;
     }
 }

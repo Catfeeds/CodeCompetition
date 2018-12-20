@@ -6,7 +6,7 @@
 
     <insert id="insertCompanyQualification"
             parameterType="com.isoftstone.pmit.system.exceloperation.mapper.ExcelCompanyQualificationMapper">
-        INSERT INTO company_qualification (employeeID, qualificationName, qualificationType, certificationLevel,
+        INSERT INTO mms_company_qualification (employeeID, qualificationName, qualificationType, certificationLevel,
         passDate, certificateNum) VALUES
         <foreach collection="list" item="test" separator=",">
             (

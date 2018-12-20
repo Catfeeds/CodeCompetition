@@ -36,7 +36,7 @@ public class ExcelOperationUtils {
             }
 
             FileInputStream fis = new FileInputStream(file);
-            if (fis.available() > (20 * 1024)){
+            if (fis.available() > (20 * 1024 * 1024)){
                 result.put(0, "导入excel文件不能超过20MB");
                 return result;
             }

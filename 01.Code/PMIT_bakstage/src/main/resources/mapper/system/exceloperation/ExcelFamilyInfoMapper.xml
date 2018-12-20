@@ -5,7 +5,7 @@
 <mapper namespace="com.isoftstone.pmit.system.exceloperation.mapper.ExcelFamilyInfoMapper">
 
     <insert id="insertFamilyInformation" parameterType="com.isoftstone.pmit.project.hrbp.entity.FamilyInformation">
-        INSERT INTO family_information (employeeID, birthdayDate, heigh, weight, currentHomeAddress,
+        INSERT INTO mms_family_information (employeeID, birthdayDate, heigh, weight, currentHomeAddress,
         emergencyContact, emergencyContactRelation, emergencyContactAdress, emergencyContactPhone,
         maritalStatus, childInformation, wayToWork, workingHour, isbuyHouse, dayOfBuyHouse, propertyAddress
         ) VALUES

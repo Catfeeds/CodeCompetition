@@ -67,7 +67,7 @@ public class PersonalInfoServiceImpl implements IPersonalInfoService {
             baseStaffInfo.setIfBackBone(personalInfo.get("是否骨干"));
             baseStaffInfo.setIfOffShore(personalInfo.get("是否在岸"));
             baseStaffInfo.setWorkPlace(personalInfo.get("办公实际场地"));
-            baseStaffInfo.setWorkStationNumber(Integer.parseInt(personalInfo.get("工位编号")));
+            baseStaffInfo.setWorkStationNumber(personalInfo.get("工位编号"));
             baseStaffInfo.setCooperationMode(personalInfo.get("合作模式"));
             baseStaffInfo.setPositionRole(personalInfo.get("岗位角色"));
             baseStaffInfo.setSkill(personalInfo.get("技能"));
@@ -103,6 +103,7 @@ public class PersonalInfoServiceImpl implements IPersonalInfoService {
             baseStaffInfo.setPolitical(personalInfo.get("政治面貌"));
             baseStaffInfo.setProjectTeamId(Integer.parseInt(personalInfo.get("项目组ID")));
             baseStaffInfo.setCurrentStatus(personalInfo.get("当前人员状态"));
+            baseStaffInfo.setRank(personalInfo.get("等级"));
             baseStaffInfoList.add(baseStaffInfo);
 
             // 组装家庭信息表数据

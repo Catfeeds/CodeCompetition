@@ -4,21 +4,36 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.system.exceloperation.mapper.ExcelTransactionMapper">
 
+    <select id="getTransaction" resultType="com.isoftstone.pmit.project.hrbp.entity.ScoreTransaction">
+        select employee_ID, affair_id from mms_transaction_dimension_score;
+    </select>
+
     <insert id="insertTransaction" parameterType="com.isoftstone.pmit.project.hrbp.entity.ScoreTransaction">
-        INSERT INTO mms_transaction_dimension_score (employee_ID, affair_id, dimension_ID, score,tutorID,headerID
+        INSERT INTO mms_transaction_dimension_score (employee_id, affair_id, dimension_id, score,
+        evaluator, modifier, change_time, type
         ) VALUES
         <foreach collection="list" item="test" separator=",">
             (
-            #{test.employeeID},
-            #{test.transactionID},
-            #{test.dimensionID},
-            #{test.dimensionScore},
-            #{test.tutorID},
-            #{test.headerID}
+            #{test.employee_id},
+            #{test.affair_id},
+            #{test.dimension_id},
+            #{test.score},
+            #{test.evaluator},
+            #{test.modifier},
+            #{test.change_time},
+            #{test.type}
             )
         </foreach>
     </insert>
-    <select id="getTransaction" resultType="com.isoftstone.pmit.project.hrbp.entity.ScoreTransaction">
-        select employee_ID, affair_id, dimension_ID, score,tutorID,headerID from mms_transaction_dimension_score;
-    </select>
+
+    <update id="updateTransaction" parameterType="com.isoftstone.pmit.project.hrbp.entity.ScoreTransaction">
+        <foreach collection="list" item="test" index="index" open="" close="" separator=";">
+            UPDATE mms_transaction_dimension_score
+            <set>
+                dimension_id = #{test.dimension_id}, score = #{test.score}, evaluator = #{test.evaluator},
+                modifier = #{test.modifier}, change_time = #{test.change_time}, type = #{test.type}
+            </set>
+            WHERE employee_id = #{test.employee_id} AND affair_id = #{test.affair_id}
+        </foreach>
+    </update>
 </mapper>

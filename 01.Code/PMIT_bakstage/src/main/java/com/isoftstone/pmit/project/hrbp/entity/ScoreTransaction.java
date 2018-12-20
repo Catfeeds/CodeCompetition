@@ -1,66 +1,84 @@
 package com.isoftstone.pmit.project.hrbp.entity;
 
 
+import java.util.Date;
+
 public class ScoreTransaction {
 
     /**软通工号*/
-    private String employeeID;
+    private String employee_id;
     /**事务ID*/
-    private String transactionID;
+    private String affair_id;
     /**维度ID*/
-    private String dimensionID;
+    private String dimension_id;
     /**分数*/
-    private float Score;
-    /**导师ID*/
-    private String tutorID;
-    /**HeaderID*/
-    private String headerID;
+    private float score;
+    /**类型*/
+    private String type;
+    /**评价人ID*/
+    private String evaluator;
+    /**当前用户*/
+    private String modifier;
+    /**当前时间*/
+    private String change_time;
 
-    public String getEmployeeID() {
-        return employeeID;
+    public String getEmployee_id() {
+        return employee_id;
     }
 
-    public void setEmployeeID(String employeeID) {
-        this.employeeID = employeeID;
+    public void setEmployee_id(String employee_id) {
+        this.employee_id = employee_id;
     }
 
-    public String getTransactionID() {
-        return transactionID;
+    public String getAffair_id() {
+        return affair_id;
     }
 
-    public void setTransactionID(String transactionID) {
-        this.transactionID = transactionID;
+    public void setAffair_id(String affair_id) {
+        this.affair_id = affair_id;
     }
 
-    public String getDimensionID() {
-        return dimensionID;
+    public String getDimension_id() {
+        return dimension_id;
     }
 
-    public void setDimensionID(String dimensionID) {
-        this.dimensionID = dimensionID;
+    public void setDimension_id(String dimension_id) {
+        this.dimension_id = dimension_id;
     }
 
     public float getScore() {
-        return Score;
+        return score;
     }
 
     public void setScore(float score) {
-        Score = score;
+        this.score = score;
     }
 
-    public String getTutorID() {
-        return tutorID;
+    public String getType() {
+        return type;
     }
 
-    public void setTutorID(String tutorID) {
-        this.tutorID = tutorID;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getHeaderID() {
-        return headerID;
+    public String getEvaluator() {
+        return evaluator;
     }
 
-    public void setHeaderID(String headerID) {
-        this.headerID = headerID;
+    public void setEvaluator(String evaluator) {
+        this.evaluator = evaluator;
+    }
+
+    public String getModifier() {
+        return modifier;
+    }
+
+    public void setModifier(String modifier) {
+        this.modifier = modifier;
+    }
+
+    public void setChange_time(String change_time) {
+        this.change_time = change_time;
     }
 }

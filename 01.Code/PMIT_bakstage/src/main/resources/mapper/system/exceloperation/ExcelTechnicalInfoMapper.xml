@@ -5,7 +5,7 @@
 <mapper namespace="com.isoftstone.pmit.system.exceloperation.mapper.ExcelTechnicalInfoMapper">
 
     <insert id="insertTechnicalInformation" parameterType="com.isoftstone.pmit.project.hrbp.entity.TechnicalInformation">
-        INSERT INTO technical_information (technicalName, employeeID, technologyPlatform,
+        INSERT INTO mms_technical_information (technicalName, employeeID, technologyPlatform,
         technologyGrade, areasOfExpertise) VALUES
         <foreach collection="list" item="test" separator=",">
             (

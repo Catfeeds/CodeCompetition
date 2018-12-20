@@ -5,13 +5,13 @@
 <mapper namespace="com.isoftstone.pmit.system.exceloperation.mapper.ExcelBaseStaffInfoMapper">
 
     <insert id="insertBaseStaffInfo" parameterType="com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo">
-        INSERT INTO base_staff_info (employeeID, employeeName, idNumber, isoftStatus, personCategory,
+        INSERT INTO mms_base_staff_info (employeeID, employeeName, idNumber, isoftStatus, personCategory,
         ifBackBone, ifOffShore, workPlace, workStationNumber, cooperationMode, positionRole, skill,
         sillDirection, directLeaderId, directLeaderName, employmentDate, departureDate, generalPosition,
         currentPositionDate, costCenter, costCenterLeaderName, bu, du, pdu, workPlaceArea, sex,
         graduationSchool, graduationTime, ifUnderGraduates, education, degree, if211, ifGraduate,
         graduationMajor, ifAbvoveTwoInstitutions, educationMode, isoftEmai, telephone, domainUserName,
-        nation, nativePlace, political, projectTeamId, currentStatus
+        nation, nativePlace, political, projectTeamId, currentStatus, rank
         ) VALUES
         <foreach collection="list" item="test" separator=",">
             (
@@ -58,7 +58,8 @@
             #{test.nativePlace},
             #{test.political},
             #{test.projectTeamId},
-            #{test.currentStatus}
+            #{test.currentStatus},
+            #{test.rank}
             )
         </foreach>
     </insert>

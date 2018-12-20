@@ -21,7 +21,7 @@ public class BaseStaffInfo {
     /**办公场地*/
     private String workPlace;
     /**工位编号*/
-    private int workStationNumber;
+    private String workStationNumber;
     /**合作模式*/
     private String cooperationMode;
     /**岗位角色*/
@@ -97,6 +97,8 @@ public class BaseStaffInfo {
     private String lengthOfService;
     /**司龄*/
     private String divisionAge;
+    /**等级*/
+    private String rank;
 
 
     public BaseStaffInfo() {
@@ -167,11 +169,11 @@ public class BaseStaffInfo {
         this.workPlace = workPlace;
     }
 
-    public int getWorkStationNumber() {
+    public String getWorkStationNumber() {
         return workStationNumber;
     }
 
-    public void setWorkStationNumber(int workStationNumber) {
+    public void setWorkStationNumber(String workStationNumber) {
         this.workStationNumber = workStationNumber;
     }
 
@@ -469,5 +471,13 @@ public class BaseStaffInfo {
 
     public void setEducationMode(String educationMode) {
         this.educationMode = educationMode;
+    }
+
+    public String getRank() {
+        return rank;
+    }
+
+    public void setRank(String rank) {
+        this.rank = rank;
     }
 }
