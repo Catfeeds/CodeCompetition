@@ -7,15 +7,18 @@
             <table class="base-information">
               <tr>
                 <th>员工编号</th>
-                <td>{{ postForm.baseStaffInfo.employeeID }}</td>
+                <td class="w15">{{ postForm.baseStaffInfo.employeeID }}</td>
                 <th>员工姓名</th>
                 <td>{{ postForm.baseStaffInfo.employeeName }}</td>
                 <th>性别</th>
                 <td>{{ postForm.baseStaffInfo.sex }}</td>
+                <td rowspan="6" colspan="2">
+                  <img v-if="documentPhotoUrl" :src="documentPhotoUrl" style="width:225px;height:240px">
+                </td>
               </tr>
               <tr>
                 <th>籍贯</th>
-                <td>{{ postForm.baseStaffInfo.nativePlace }}</td>
+                <td class="w15">{{ postForm.baseStaffInfo.nativePlace }}</td>
                 <th>民族</th>
                 <td>{{ postForm.baseStaffInfo.nation }}</td>
                 <th>政治面貌</th>
@@ -23,7 +26,7 @@
               </tr>
               <tr>
                 <th>手机号码</th>
-                <td>{{ postForm.baseStaffInfo.telephone }}</td>
+                <td class="w15">{{ postForm.baseStaffInfo.telephone }}</td>
                 <th>身份证号</th>
                 <td>{{ postForm.baseStaffInfo.idNumber }}</td>
                 <th>软通状态</th>
@@ -31,7 +34,7 @@
               </tr>
               <tr>
                 <th>人员类别</th>
-                <td>{{ postForm.baseStaffInfo.personCategory }}</td>
+                <td class="w15">{{ postForm.baseStaffInfo.personCategory }}</td>
                 <th>是否骨干</th>
                 <td>{{ postForm.baseStaffInfo.ifBackBone }}</td>
                 <th>是否在岸</th>
@@ -39,7 +42,7 @@
               </tr>
               <tr>
                 <th>办公场地</th>
-                <td>{{ postForm.baseStaffInfo.workPlace }}</td>
+                <td class="w15">{{ postForm.baseStaffInfo.workPlace }}</td>
                 <th>工位编号</th>
                 <td>{{ postForm.baseStaffInfo.workStationNumber }}</td>
                 <th>合作模式</th>
@@ -47,22 +50,16 @@
               </tr>
               <tr>
                 <th>岗位角色</th>
-                <td>{{ postForm.baseStaffInfo.positionRole }}</td>
-                <th>技能</th>
-                <td>{{ postForm.baseStaffInfo.skill }}</td>
-                <th>技能方向</th>
-                <td>{{ postForm.baseStaffInfo.sillDirection }}</td>
-              </tr>
-              <tr>
+                <td class="w15">{{ postForm.baseStaffInfo.positionRole }}</td>
                 <th>软通职位</th>
                 <td>{{ postForm.baseStaffInfo.generalPosition }}</td>
                 <th>职位生效时间</th>
                 <td>{{ postForm.baseStaffInfo.currentPositionDate }}</td>
-                <th>直接汇报上级工号</th>
-                <td>{{ postForm.baseStaffInfo.directLeaderId }}</td>
               </tr>
               <tr>
-                <th>直接汇报上级工号</th>
+                <th>直接主管工号</th>
+                <td class="w15">{{ postForm.baseStaffInfo.directLeaderId }}</td>
+                <th>直接主管姓名</th>
                 <td>{{ postForm.baseStaffInfo.directLeaderName }}</td>
                 <th>成本中心</th>
                 <td>{{ postForm.baseStaffInfo.costCenter }}</td>
@@ -70,60 +67,30 @@
                 <td>{{ postForm.baseStaffInfo.costCenterLeaderName }}</td>
               </tr>
               <tr>
-                <th>BU</th>
-                <td>{{ postForm.baseStaffInfo.bu }}</td>
+                <th>产品线</th>
+                <td class="w15">{{ postForm.baseStaffInfo.bu }}</td>
                 <th>DU</th>
                 <td>{{ postForm.baseStaffInfo.du }}</td>
                 <th>PDU</th>
                 <td>{{ postForm.baseStaffInfo.pdu }}</td>
-              </tr>
-              <tr>
-                <th>地域</th>
-                <td>{{ postForm.baseStaffInfo.workPlaceArea }}</td>
-                <th>毕业学校</th>
-                <td>{{ postForm.baseStaffInfo.graduationSchool }}</td>
-                <th>毕业时间</th>
-                <td>{{ postForm.baseStaffInfo.graduationTime }}</td>
-              </tr>
-              <tr>
-                <th>是否统招</th>
-                <td>{{ postForm.baseStaffInfo.ifUnderGraduates }}</td>
-                <th>是否211</th>
-                <td>{{ postForm.baseStaffInfo.if211 }}</td>
-                <th>学历</th>
-                <td>{{ postForm.baseStaffInfo.education }}</td>
-              </tr>
-              <tr>
-                <th>学位</th>
-                <td>{{ postForm.baseStaffInfo.degree }}</td>
-                <th>是否应届生</th>
-                <td>{{ postForm.baseStaffInfo.ifGraduate }}</td>
-                <th>专业名称</th>
-                <td>{{ postForm.baseStaffInfo.graduationMajor }}</td>
-              </tr>
-              <tr>
-                <th>是否二本及以上</th>
-                <td>{{ postForm.baseStaffInfo.ifAbvoveTwoInstitutions }}</td>
-                <th>教育模式</th>
-                <td>{{ postForm.baseStaffInfo.educationMode }}</td>
                 <th>软通邮件</th>
                 <td>{{ postForm.baseStaffInfo.isoftEmai }}</td>
               </tr>
               <tr>
                 <th>域用户名</th>
-                <td>{{ postForm.baseStaffInfo.domainUserName }}</td>
+                <td class="w15">{{ postForm.baseStaffInfo.domainUserName }}</td>
                 <th>入职日期</th>
                 <td>{{ postForm.baseStaffInfo.employmentDate }}</td>
                 <th>离职日期</th>
                 <td>{{ postForm.baseStaffInfo.departureDate }}</td>
-              </tr>
-              <tr>
                 <th>当前人员状态</th>
                 <td>{{ postForm.baseStaffInfo.currentStatus }}</td>
+              </tr>
+              <tr>
                 <th>项目组</th>
-                <td>{{ postForm.baseStaffInfo.projectTeamId }}</td>
-                <th>&nbsp;</th>
-                <td>&nbsp;</td>
+                <td class="w15">{{ postForm.baseStaffInfo.projectTeamId }}</td>
+                <th>地域</th>
+                <td>{{ postForm.baseStaffInfo.workPlaceArea }}</td>
               </tr>
             </table>
           </el-scrollbar>
@@ -144,7 +111,39 @@
           <el-table-column prop="areasOfExpertise" header-align="center" label="擅长领域"></el-table-column>
         </el-table>
       </el-tab-pane>
-      <el-tab-pane label="家庭信息" name="tab4">
+      <el-tab-pane label="教育信息" name="tab4">
+        <table class="base-information">
+          <tr>
+            <th>毕业时间</th>
+            <td>{{ postForm.baseStaffInfo.graduationTime }}</td>
+            <th>学历</th>
+            <td>{{ postForm.baseStaffInfo.education }}</td>
+            <th>学位</th>
+            <td>{{ postForm.baseStaffInfo.degree }}</td>
+          </tr>
+          <tr>
+            <th>毕业学校</th>
+            <td>{{ postForm.baseStaffInfo.graduationSchool }}</td>
+            <th>专业名称</th>
+            <td>{{ postForm.baseStaffInfo.graduationMajor }}</td>
+            <th>是否211</th>
+            <td>{{ postForm.baseStaffInfo.if211 }}</td>
+          </tr>
+          <tr>
+            <th>是否统招</th>
+            <td>{{ postForm.baseStaffInfo.ifUnderGraduates }}</td>
+            <th>教育模式</th>
+            <td>{{ postForm.baseStaffInfo.educationMode }}</td>
+            <th>是否二本及以上</th>
+            <td>{{ postForm.baseStaffInfo.ifAbvoveTwoInstitutions }}</td>
+          </tr>
+          <tr>
+            <th>是否应届生</th>
+            <td>{{ postForm.baseStaffInfo.ifGraduate }}</td>
+          </tr>
+        </table>
+      </el-tab-pane>
+      <el-tab-pane label="家庭信息" name="tab5">
         <table class="base-information">
           <tr>
             <th>出生年月</th>
@@ -188,7 +187,7 @@
           </tr>
         </table>
       </el-tab-pane>
-      <el-tab-pane label="个人风采" name="tab5">
+      <el-tab-pane label="个人风采" name="tab6">
         <table class="base-information personal-style">
           <tr>
             <th>喜欢的食物</th>
@@ -204,7 +203,6 @@
                   :show-file-list="false"
                   :on-success="handleLifeSuccess"
                   :before-upload="beforeLifeUpload"
-                  :on-preview="handlePictureCardPreview"
                   :data="fileParam"
                   accept="image/jpeg, image/jpg, image/png"
                 >
@@ -379,6 +377,9 @@ export default {
   }
   tr {
     line-height: 35px;
+  }
+  .w15 {
+    width: 15%;
   }
 }
 .personal-style {

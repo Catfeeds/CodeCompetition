@@ -324,7 +324,7 @@
         ></el-pagination>
       </el-row>
     </div>
-    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="60%">
+    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="60%" :close-on-click-modal="false">
       <el-form :model="startForm" size="mini" label-width="120px" ref="startForm" :rules="rules">
         <el-row>
           <el-col :span="8">

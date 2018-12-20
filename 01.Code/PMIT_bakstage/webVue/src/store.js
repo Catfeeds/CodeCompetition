@@ -16,6 +16,7 @@ import eSettingsStore from "./store/modules/employeeSettingsStore";
 import associatedPOStore from "./store/modules/associatedPOStore";
 import keyRoleStore from "./store/modules/keyRoleStore";
 import openClassStore from "./store/modules/openClassStore";
+import orgStructureStore from "./store/modules/orgStructureStore";
 import getters from "./store/getters";
 
 Vue.use(Vuex);
@@ -37,7 +38,8 @@ export default new Vuex.Store({
     eSettingsStore,
     associatedPOStore,
     keyRoleStore,
-    openClassStore
+    openClassStore,
+    orgStructureStore
   },
   getters
 });

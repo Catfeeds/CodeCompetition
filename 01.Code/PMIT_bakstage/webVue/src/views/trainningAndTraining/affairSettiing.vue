@@ -316,6 +316,7 @@
       :visible="dialogSetVisible"
       width="50%"
       @close="dialogSetVisible = false;"
+      :close-on-click-modal="false"
     >
       <el-row>
         <el-button
@@ -743,6 +744,7 @@ export default {
         .then(res => {
           if (res.success) {
             vm.$message.success(res.message);
+            vm.getAffairsList();
           } else {
             vm.$message.error(res.message);
           }

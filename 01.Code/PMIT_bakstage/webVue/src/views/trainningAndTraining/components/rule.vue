@@ -269,11 +269,19 @@
                   <el-table-column prop="trainName" header-align="center" label="培训名称" width="150"></el-table-column>
                   <el-table-column prop="credit" header-align="center" label="最高得分" min-width="130">
                     <template slot-scope="scope">
+                      <el-form-item style="margin-bottom:0px;" v-if="scope.row.trainId<0">
+                        <el-input
+                          v-model="scope.row.credit"
+                          size="mini"
+                          disabled
+                          style="width: 130px"
+                        ></el-input>
+                      </el-form-item>
                       <el-form-item
                         :prop="'ruleDataSource.'+scope.$index+'.credit'"
                         :rules="rules.score"
                         style="margin-bottom:0px;"
-                        v-if="scope.row.trainId>=0"
+                        v-else
                       >
                         <el-input
                           v-model="scope.row.credit"
@@ -281,14 +289,6 @@
                           clearable
                           style="width: 130px"
                           placeholder="请输入最高得分"
-                        ></el-input>
-                      </el-form-item>
-                      <el-form-item style="margin-bottom:0px;" v-else>
-                        <el-input
-                          v-model="scope.row.credit"
-                          size="mini"
-                          disabled
-                          style="width: 130px"
                         ></el-input>
                       </el-form-item>
                     </template>

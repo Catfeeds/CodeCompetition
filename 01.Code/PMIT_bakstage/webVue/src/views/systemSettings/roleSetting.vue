@@ -58,7 +58,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="30%">
+    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="30%" :close-on-click-modal="false">
       <el-form :model="roleForm" size="mini" label-width="80px" ref="roleForm" :rules="rules">
         <el-form-item label="角色名称" prop="roleName">
           <el-input v-model="roleForm.roleName" autocomplete="off" required maxlength="64"></el-input>

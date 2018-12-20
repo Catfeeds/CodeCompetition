@@ -90,7 +90,7 @@
       <el-form-item>
         <el-upload
           class="filter-item"
-          action="system/exceloperation/importScore"
+          :action="importAction()"
           :before-upload="handleUpload"
           :on-success="handleSuccess"
           :on-error="handleError"
@@ -333,6 +333,7 @@
       title="修改考核维度得分"
       :visible="dialogSetVisible"
       width="50%"
+      :close-on-click-modal="false"
     >
       <el-form :model="tableForm" size="mini" ref="tableForm">
         <el-table
@@ -353,21 +354,19 @@
             width="80"
             type="index"
           ></el-table-column>
-          <el-table-column prop="dimensionName" header-align="center" label="考核维度" width="150">
-          </el-table-column>
+          <el-table-column prop="dimensionName" header-align="center" label="考核维度" width="150"></el-table-column>
           <el-table-column prop="score" header-align="center" label="得分" width="130">
             <template slot-scope="scope">
-              <el-form-item label :prop="'dimensionList.'+scope.$index+'.score'"
-                :rules="rules.score">
+              <el-form-item
+                label
+                :prop="'dimensionList.'+scope.$index+'.score'"
+                :rules="rules.score"
+              >
                 <el-input v-model="scope.row.score" autocomplete="off" maxlength="3"></el-input>
               </el-form-item>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="evaluation"
-            header-align="center"
-            label="评价"
-          >
+          <el-table-column prop="evaluation" header-align="center" label="评价">
             <template slot-scope="scope">
               <el-form-item label prop="evaluation">
                 <el-input v-model="scope.row.evaluation" autocomplete="off"></el-input>
@@ -499,10 +498,10 @@ export default {
           vm.isEdit = false;
           vm.sortable = "custom";
           row.modifier = vm.employeeId;
-          row.personalTranAndDimeScores.map(item=>{
+          row.personalTranAndDimeScores.map(item => {
             item.modifier = vm.employeeId;
             return item;
-          })
+          });
           vm.$store.dispatch("editScoreInfo", row).then(res => {
             if (res.success) {
               vm.$message.success("成绩修改成功");
@@ -547,6 +546,9 @@ export default {
     },
     handleExport() {
       this.$message.info("功能正在完善中。。。");
+    },
+    importAction() {
+      return "system/exceloperation/importScore?user=" + this.employeeId;
     },
     handleUpload(file) {
       var ext = file.name.substring(file.name.lastIndexOf(".") + 1);

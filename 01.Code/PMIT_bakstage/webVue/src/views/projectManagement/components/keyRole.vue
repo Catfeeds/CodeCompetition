@@ -85,6 +85,7 @@
       :visible.sync="dialogVisible"
       width="70%"
       custom-class="key-role-setting"
+      :close-on-click-modal="false"
     >
       <el-row :gutter="12">
         <el-col :span="10">

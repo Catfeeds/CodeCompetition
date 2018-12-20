@@ -93,7 +93,7 @@
       ></el-pagination>
     </el-row>
 
-    <el-dialog title="选择PO信息" :visible.sync="createVisible" width="60%">
+    <el-dialog title="选择PO信息" :visible.sync="createVisible" width="60%" :close-on-click-modal="false">
       <el-form :model="searchForm" ref="searchForm" inline size="mini">
         <el-form-item prop="product">
           <el-input disabled v-model="teamInfo.bu" style="width:100px;"></el-input>

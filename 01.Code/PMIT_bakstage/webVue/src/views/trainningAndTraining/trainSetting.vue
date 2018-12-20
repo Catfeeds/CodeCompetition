@@ -228,7 +228,7 @@
         next-text="下一页"
       ></el-pagination>
     </el-row>
-    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="45%">
+    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="45%" :close-on-click-modal="false">
       <el-form :model="trainForm" size="mini" label-width="120px" ref="trainForm" :rules="rules">
         <el-row v-if="isEdit">
           <el-col>
