@@ -68,7 +68,7 @@ const openClass = {
     },
     updateStartSystemData(state, value) {
       state.searchForm.systemOptions = value;
-      state.startForm.system = "";
+      state.searchForm.system = "";
     }
   },
   actions: {

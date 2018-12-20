@@ -170,6 +170,18 @@ export const asyncRouterMap = [
           noCache: true,
           requiresAuth: true
         }
+      },
+      {
+        path: "postManagement",
+        component: () =>
+          import("@/views/organizationalStructure/postManagement"),
+        name: "PostManagement",
+        meta: {
+          title: "postManagement",
+          icon: "",
+          noCache: true,
+          requiresAuth: true
+        }
       }
     ]
   },

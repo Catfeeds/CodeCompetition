@@ -4,7 +4,7 @@ function getMainstayLevel(params) {
   return request({
     url: "hrbp/MainstayReport/queryMainstayLevel",
     method: "post",
-    data: params||{}
+    data: params || {}
   });
 }
 

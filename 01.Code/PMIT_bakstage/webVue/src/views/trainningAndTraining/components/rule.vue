@@ -319,9 +319,22 @@
                   <el-table-column prop="itemType" header-align="center" label="条件" width="130">
                     <template slot-scope="scope">
                       <el-form-item style="margin-bottom:0px;">
-                        <el-select v-model="scope.row.itemType" style="width:100px;">
+                        <el-select
+                          v-model="scope.row.itemType"
+                          v-if="scope.$index<1"
+                          style="width:100px;"
+                          @change="changeCondition(scope.row.itemType)"
+                        >
                           <el-option
-                            v-for="item in conditionOptions"
+                            v-for="item in passOptions"
+                            :key="item"
+                            :label="item"
+                            :value="item"
+                          ></el-option>
+                        </el-select>
+                        <el-select v-model="scope.row.itemType" v-else style="width:100px;">
+                          <el-option
+                            v-for="item in distinctionOptions"
                             :key="item"
                             :label="item"
                             :value="item"
@@ -470,7 +483,8 @@ export default {
       selectedTrain: [],
       selectedNodes: [],
       selectedAffair: [],
-      conditionOptions: ["<", "≤", ">", "≥"],
+      passOptions: ["<", "≤", ">", "≥"],
+      distinctionOptions: ["<", "≤", ">", "≥"],
       dialogBaseVisible: false,
       dialogViewVisible: false,
       defaultProps: {
@@ -596,13 +610,13 @@ export default {
           {
             trainId: 1,
             trainName: "及格",
-            itemType: vm.conditionOptions[3],
+            itemType: vm.passOptions[3],
             credit: ""
           },
           {
             trainId: 2,
             trainName: "卓越",
-            itemType: vm.conditionOptions[3],
+            itemType: vm.distinctionOptions[3],
             credit: ""
           }
         ];
@@ -763,6 +777,12 @@ export default {
           if (vm.active > 0) {
             vm.active = 3;
           }
+          let condition = {
+            ">": 0,
+            "≥": 1,
+            "<": 2,
+            "≤": 3
+          };
           let formData = {
             system: vm.ruleForm.system,
             oneRule: {
@@ -774,18 +794,8 @@ export default {
             },
             singleRuleInfo: vm.tableForm.ruleDataSource
               .filter(item => {
-                return item.trainId > 0;
+                return !(item.trainId < 0);
               })
-              .map(item => {
-                return {
-                  itemId: item.trainId,
-                  itemType: item.itemType,
-                  itemName: item.trainName,
-                  credit: item.credit * 1
-                };
-              }),
-            sumRuleInfo: vm.tableForm.sumDataSource
-              .filter(item => !!item.credit)
               .map(item => {
                 return {
                   itemId: item.trainId,
@@ -795,6 +805,18 @@ export default {
                 };
               })
           };
+          if (!!vm.tableForm.sumDataSource[0].credit) {
+            formData.oneRule.passScore =
+              vm.tableForm.sumDataSource[0].credit * 1;
+            formData.oneRule.passRule =
+              condition[vm.tableForm.sumDataSource[0].itemType];
+          }
+          if (!!vm.tableForm.sumDataSource[1].credit) {
+            formData.oneRule.excellentScore =
+              vm.tableForm.sumDataSource[1].credit * 1;
+            formData.oneRule.excellentRule =
+              condition[vm.tableForm.sumDataSource[1].itemType];
+          }
           vm.$store.dispatch("addRuleInfo", formData).then(res => {
             if (res.success) {
               vm.$message.success("规则添加成功");
@@ -828,6 +850,14 @@ export default {
         item.itemType = 1;
         return item;
       });
+    },
+    changeCondition(condition) {
+      if (["<", "≤"].indexOf(condition) >= 0) {
+        this.distinctionOptions = ["<", "≤"];
+      } else {
+        this.distinctionOptions = [">", "≥"];
+      }
+      this.tableForm.sumDataSource[1].itemType = this.distinctionOptions[0];
     }
   }
 };

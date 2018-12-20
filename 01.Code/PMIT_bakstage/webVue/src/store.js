@@ -4,7 +4,6 @@ import appStore from "./store/modules/appStore";
 import tagsViewStore from "./store/modules/tagsViewStore";
 import userInfoStore from "./store/modules/userInfoStore";
 import projectGroupStore from "./store/modules/projectGroupStore";
-import relationTreeStore from "./store/modules/relationTreeStore";
 import authorizationStore from "./store/modules/authorizationStore";
 import trainingStore from "./store/modules/trainingStore";
 import affairsStore from "./store/modules/affairsStore";
@@ -17,6 +16,8 @@ import associatedPOStore from "./store/modules/associatedPOStore";
 import keyRoleStore from "./store/modules/keyRoleStore";
 import openClassStore from "./store/modules/openClassStore";
 import orgStructureStore from "./store/modules/orgStructureStore";
+import postStore from "./store/modules/postStore";
+import personalCenterStore from "./store/modules/postStore";
 import getters from "./store/getters";
 
 Vue.use(Vuex);
@@ -27,7 +28,6 @@ export default new Vuex.Store({
     tagsViewStore,
     userInfoStore,
     projectGroupStore,
-    relationTreeStore,
     authorizationStore,
     trainingStore,
     affairsStore,
@@ -39,7 +39,9 @@ export default new Vuex.Store({
     associatedPOStore,
     keyRoleStore,
     openClassStore,
-    orgStructureStore
+    orgStructureStore,
+    postStore,
+    personalCenterStore
   },
   getters
 });
