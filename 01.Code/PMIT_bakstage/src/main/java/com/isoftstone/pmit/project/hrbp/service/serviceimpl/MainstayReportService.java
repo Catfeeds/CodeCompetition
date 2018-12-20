@@ -29,37 +29,6 @@ public class MainstayReportService implements IMainstayReportService {
         formatD1.setMaximumFractionDigits(1);
     }
 
-//    private void buildLevelTreeInfo(BaseTreeNode root, List<Map<String, String>> levelInfo) {
-//        if (levelInfo != null) {
-//            Map<String, BaseTreeNode> tempMap = new HashMap<String, BaseTreeNode>();
-//            for (Map<String, String> temp : levelInfo) {
-//                BaseTreeNode parentNode = root;
-//
-//                String bu = temp.get("bu");
-//                parentNode = getBaseTreeNode(tempMap, parentNode, bu);
-//
-//                String workPlaceArea = temp.get("workPlaceArea");
-//                parentNode = getBaseTreeNode(tempMap, parentNode, workPlaceArea);
-//
-//                String pdu = temp.get("pdu");
-//                parentNode = getBaseTreeNode(tempMap, parentNode, pdu);
-//            }
-//        }
-//    }
-//
-//    private BaseTreeNode getBaseTreeNode(Map<String, BaseTreeNode> tempMap, BaseTreeNode parentNode, String currentNode) {
-//        if (tempMap.containsKey(currentNode)) {
-//            parentNode = tempMap.get(currentNode);
-//        } else {
-//            BaseTreeNode child = new BaseTreeNode();
-//            child.setNodeName(currentNode);
-//            child.setChildList(new ArrayList<BaseTreeNode>());
-//            parentNode.getChildList().add(child);
-//            tempMap.put(currentNode, child);
-//            parentNode = child;
-//        }
-//        return parentNode;
-//    }
 
     @Override
     public List<TupleData> queryMainstayProportionChart(Map<String, Object> params) {
@@ -67,19 +36,6 @@ public class MainstayReportService implements IMainstayReportService {
         List<TupleData> proportionChart = new ArrayList<TupleData>();
         buildMainstayNum(datas, proportionChart);
         return proportionChart;
-    }
-
-    private void buildMainstayNum(Map<String, Object> datas, List<TupleData> result) {
-        if (datas != null) {
-            for (Map.Entry<String, Object> temp : datas.entrySet()) {
-                String name = temp.getKey();
-                String value = String.valueOf(temp.getValue());
-                if (!StringUtilsMethod.isEmpty(name) && !StringUtilsMethod.isEmpty(value)) {
-                    TupleData tupleData = new TupleData(name, value);
-                    result.add(tupleData);
-                }
-            }
-        }
     }
 
     @Override
@@ -98,46 +54,14 @@ public class MainstayReportService implements IMainstayReportService {
         return postMainstayNum;
     }
 
-    private void buildMainstayNum(List<Map<String, Object>> datas, List<TupleData> result, String defName) {
-        if (datas != null) {
-            for (Map<String, Object> temp : datas) {
-                String name = String.valueOf(temp.get("name"));
-                if (name.equalsIgnoreCase("null") || name.isEmpty()) {
-                    name = defName;
-                }
-                String value = String.valueOf(temp.get("number"));
-                if (!StringUtilsMethod.isEmpty(name) && !StringUtilsMethod.isEmpty(value)) {
-                    TupleData tupleData = new TupleData(name, value);
-                    result.add(tupleData);
-                }
-            }
-        }
-    }
-
     @Override
     public List<TupleData> queryMainstayTraining(Map<String, Object> params) {
         List<String> staffIDs = mapper.queryTrainingStaffs(params);
-        params.put("staffIDs", staffIDs);
+        staffIDs.remove(null);
         List<Map<String, Object>> trainInfo = mapper.queryTrainings(params);
         List<TupleData> result = new ArrayList<TupleData>();
         buildMainstayPercentage(trainInfo, (double) staffIDs.size(), result, "Other");
         return result;
-    }
-
-    private void buildMainstayPercentage(List<Map<String, Object>> datas, Double totleCount, List<TupleData> result, String defult) {
-        if (datas != null) {
-            for (Map<String, Object> tempMap : datas) {
-                String name = String.valueOf(tempMap.get("name"));
-
-                Double number = Double.valueOf(String.valueOf(tempMap.get("number")));
-                String value = formatD2.format(number / totleCount * 100);
-
-                TupleData tupleData = new TupleData();
-                tupleData.setName(name);
-                tupleData.setValue(value);
-                result.add(tupleData);
-            }
-        }
     }
 
     @Override
@@ -160,45 +84,84 @@ public class MainstayReportService implements IMainstayReportService {
     @Override
     public Map<String, Object> queryMainstayTable(Map<String, Object> params) {
         Map<String, Object> result = new HashMap<String, Object>();
-        Integer pagenNo = Integer.valueOf(String.valueOf(params.get("pageNo")));
-        params.put("rowStart", (pagenNo - 1) * 10);
-        params.put("rowEnd", (pagenNo) * 10 - 1);
 
-        Integer totleSize = mapper.queryBaseStaffInfoSize(params);
+        buildAgFilter(params);
+        List<Integer> staffs = mapper.queryBaseStaffs(params);
+        Integer totleSize = staffs == null ? 0 : staffs.size();
         result.put("totleSize", totleSize);
 
-        if (totleSize != 0) {
-            List<Map<String, Object>> staffInfo = mapper.queryBaseStaffInfo(params);
+        if (staffs != null) {
+            Integer pagenNo = Integer.valueOf(String.valueOf(params.get("pageNo")));
+            Integer pageSize = Integer.valueOf(String.valueOf(params.get("pageSize")));
 
-            Set<String> staffIDs = getStaffIDs(staffInfo);
-            params.put("staffIDs", staffIDs);
+            Integer rowStart = (pagenNo - 1) * pageSize;
+            rowStart = rowStart > totleSize - 1 ? (totleSize - 1) : rowStart;
+            Integer rowEnd = (pagenNo) * pageSize;
+            rowEnd = rowEnd > totleSize ? totleSize : rowEnd;
 
-            List<Map<String, Object>> trainInfos = mapper.queryStaffTrainInfo(params);
+            if (rowStart != rowEnd) {
+                staffs = staffs.subList(rowStart, rowEnd);
+                Map<String, Object> queryMap = new HashMap<String, Object>();
+                queryMap.put("staffs", staffs);
+                List<Map<String, Object>> staffInfo = mapper.queryBaseStaffInfo(queryMap);
+                List<Map<String, Object>> trainInfo = mapper.queryTrainInfo(queryMap);
+                List<Map<String, Object>> transaction = mapper.queryTransactionInfo(queryMap);
 
-            List<Train> trains = new ArrayList<Train>();
-            buildTrains(staffInfo, trainInfos, trains);
+                List<Train> trains = new ArrayList<Train>();
+                Map<String, Map<String, Object>> staffMap = getTempMap(staffInfo);
 
-            result.put("datas", staffInfo);
-            result.put("trains", trains);
+                buildTrains(staffMap, trainInfo, trains);
+                buildTrains(staffMap, transaction, trains);
+                result.put("datas", staffInfo);
+                result.put("trains", trains);
+            }
         }
         return result;
     }
 
-    private Set<String> getStaffIDs(List<Map<String, Object>> staffInfo) {
-        Set<String> staffIDs = null;
-        if (staffInfo != null) {
-            staffIDs = new HashSet<String>();
-            for (Map<String, Object> temp : staffInfo) {
-                staffIDs.add(String.valueOf(temp.get("staffID")));
-                calTimeCol(temp);
-            }
-
-            if (staffIDs.isEmpty()) {
-                staffIDs = null;
+    private void buildMainstayNum(Map<String, Object> datas, List<TupleData> result) {
+        if (datas != null) {
+            for (Map.Entry<String, Object> temp : datas.entrySet()) {
+                String name = temp.getKey();
+                String value = String.valueOf(temp.getValue());
+                if (!StringUtilsMethod.isEmpty(name) && !StringUtilsMethod.isEmpty(value)) {
+                    TupleData tupleData = new TupleData(name, value);
+                    result.add(tupleData);
+                }
             }
         }
+    }
 
-        return staffIDs;
+    private void buildMainstayNum(List<Map<String, Object>> datas, List<TupleData> result, String defName) {
+        if (datas != null) {
+            for (Map<String, Object> temp : datas) {
+                String name = String.valueOf(temp.get("name"));
+                if (name.equalsIgnoreCase("null") || name.isEmpty()) {
+                    name = defName;
+                }
+                String value = String.valueOf(temp.get("number"));
+                if (!StringUtilsMethod.isEmpty(name) && !StringUtilsMethod.isEmpty(value)) {
+                    TupleData tupleData = new TupleData(name, value);
+                    result.add(tupleData);
+                }
+            }
+        }
+    }
+
+    private void buildMainstayPercentage(List<Map<String, Object>> datas, Double totleCount, List<TupleData> result, String defult) {
+        if (datas != null) {
+            for (Map<String, Object> tempMap : datas) {
+                String name = String.valueOf(tempMap.get("name"));
+
+                Double number = Double.valueOf(String.valueOf(tempMap.get("number")));
+                String value = formatD2.format(number / totleCount * 100);
+
+                TupleData tupleData = new TupleData();
+                tupleData.setName(name);
+                tupleData.setValue(value);
+                result.add(tupleData);
+            }
+        }
     }
 
     private void calTimeCol(Map<String, Object> temp) {
@@ -231,17 +194,16 @@ public class MainstayReportService implements IMainstayReportService {
         return result;
     }
 
-    private void buildTrains(List<Map<String, Object>> staffInfo, List<Map<String, Object>> trainInfos,
+    private void buildTrains(Map<String, Map<String, Object>> staffMap, List<Map<String, Object>> trainInfo,
                              List<Train> trains) {
-        Map<String, Map<String, Object>> staffMap = getTempMap(staffInfo);
+
 
         Map<String, Train> trainMap = new HashMap<String, Train>();
         Map<String, Course> courseMap = new HashMap<String, Course>();
-        if (trainInfos != null) {
-            for (Map<String, Object> temp : trainInfos) {
+        if (trainInfo != null) {
+            for (Map<String, Object> temp : trainInfo) {
                 buildTrainMap(trainMap, temp, courseMap);
                 buildStaffScore(staffMap, temp);
-                //后续判断是否及格Double passScore = Double.valueOf(String.valueOf(temp.get("passScore")));
             }
 
             for (Map.Entry<String, Train> temp : trainMap.entrySet()) {
@@ -250,33 +212,32 @@ public class MainstayReportService implements IMainstayReportService {
         }
     }
 
-    private void buildTrainMap(Map<String, Train> trainMap, Map<String, Object> temp,
+    private void buildTrainMap(Map<String, Train> seriesMap, Map<String, Object> temp,
                                Map<String, Course> courseMap) {
-        String trainName = String.valueOf(temp.get("trainName"));
-        Train train = trainMap.get(trainName);
+        String series = String.valueOf(temp.get("series"));
+        Train train = seriesMap.get(series);
         if (train == null) {
             train = new Train();
-            train.setName(trainName);
+            train.setName(series);
             train.setCourses(new ArrayList<Course>());
-            trainMap.put(trainName, train);
+            seriesMap.put(series, train);
         }
 
-        String courseName = String.valueOf(temp.get("courseName"));
-        Integer sourseScore = Integer.valueOf(String.valueOf(temp.get("sourseScore")));
-        Course course = courseMap.get(trainName + "-" + courseName);
+        String courseName = String.valueOf(temp.get("training"));
+        Course course = courseMap.get(series + "-" + courseName);
         if (course == null) {
             course = new Course();
             course.setCourseID(courseName);
-            course.setCourseName(courseName + "(" + sourseScore + "分)");
+            course.setCourseName(courseName);
             train.getCourses().add(course);
-            courseMap.put(trainName + "-" + courseName, course);
+            courseMap.put(series + "-" + courseName, course);
         }
     }
 
     private void buildStaffScore(Map<String, Map<String, Object>> staffMap, Map<String, Object> temp) {
         String staffID = String.valueOf(temp.get("staffID"));
         Double score = Double.valueOf(String.valueOf(temp.get("score")));
-        String courseName = String.valueOf(temp.get("courseName"));
+        String courseName = String.valueOf(temp.get("training"));
 
         Map<String, Object> staff = staffMap.get(staffID);
         staff.put(courseName, formatD2.format(score));
@@ -290,5 +251,38 @@ public class MainstayReportService implements IMainstayReportService {
             }
         }
         return staffMap;
+    }
+
+    private void buildAgFilter(Map<String, Object> params) {
+        Object ageInfo = params.get("ageInfo");
+        if (ageInfo != null) {
+            switch (String.valueOf(ageInfo)) {
+                case "agelessthan30": {
+                    Calendar age30 = Calendar.getInstance();
+                    age30.roll(Calendar.YEAR, -30);
+                    params.put("ageStart", age30.getTime());
+                    break;
+                }
+                case "age30to40": {
+                    Calendar age40 = Calendar.getInstance();
+                    age40.roll(Calendar.YEAR, -40);
+                    params.put("ageStart", age40.getTime());
+
+                    Calendar age30 = Calendar.getInstance();
+                    age30.roll(Calendar.YEAR, -30);
+                    params.put("ageEnd", age30.getTime());
+                    break;
+                }
+                case "agegreaterthan40": {
+                    Calendar age40 = Calendar.getInstance();
+                    age40.roll(Calendar.YEAR, -40);
+                    params.put("ageEnd", age40.getTime());
+                    break;
+                }
+                default: {
+                    break;
+                }
+            }
+        }
     }
 }

@@ -4,18 +4,25 @@ import com.isoftstone.pmit.common.exception.RelationTreeNodeException;
 import com.isoftstone.pmit.common.util.StringUtilsMethod;
 import com.isoftstone.pmit.project.hrbp.common.TreeUtil;
 import com.isoftstone.pmit.project.hrbp.entity.RelationTreeNode;
-import com.isoftstone.pmit.project.hrbp.mapper.TeamRelationMapper;
-import com.isoftstone.pmit.project.hrbp.service.ITeamRelationService;
+import com.isoftstone.pmit.project.hrbp.mapper.RelationMapper;
+import com.isoftstone.pmit.project.hrbp.service.IRelationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
-public class TeamRelationService implements ITeamRelationService {
+public class RelationService implements IRelationService {
 
     @Autowired
-    private TeamRelationMapper mapper;
+    private RelationMapper mapper;
+
+    private Map<String, String> tableNames = new HashMap<String, String>();
+
+    {
+        tableNames.put("team", "mms_relation_team");
+        tableNames.put("po", "mms_relation_po");
+    }
 
     @Override
     public List<Map<String, Object>> queryAllLevel(Map<String, Object> params) {
@@ -23,8 +30,20 @@ public class TeamRelationService implements ITeamRelationService {
     }
 
     @Override
-    public List<RelationTreeNode> queryTeamTree() {
-        List<RelationTreeNode> levelNodes = mapper.queryTree();
+    public List<RelationTreeNode> queryTeamInfo() {
+        return mapper.queryTeamInfo();
+    }
+
+    @Override
+    public List<RelationTreeNode> queryPOInfo() {
+        return mapper.queryPOInfo();
+    }
+
+
+    @Override
+    public List<RelationTreeNode> queryAllTree(Map<String, Object> params) {
+        params.put("tableName", tableNames.get(params.get("type")));
+        List<RelationTreeNode> levelNodes = mapper.queryTree(params);
         List<RelationTreeNode> trees = buildTree(levelNodes);
         return trees;
     }
@@ -32,6 +51,7 @@ public class TeamRelationService implements ITeamRelationService {
     @Override
     public void addTeamNode(Map<String, Object> params) {
         checkAddNodeInfo(params);
+        params.put("tableName", tableNames.get(params.get("type")));
         String addNodeType = (String) params.get("addNodeType");
         if (!addNodeType.equalsIgnoreCase("Team")) {
             if (params.containsKey("addTeamID")) {
@@ -49,6 +69,7 @@ public class TeamRelationService implements ITeamRelationService {
     @Override
     public void deleteNode(Map<String, Object> params) {
         checkDeleteNodeInfo(params);
+        params.put("tableName", tableNames.get(params.get("type")));
         Integer nodeID = Integer.valueOf(String.valueOf(params.get("nodeID")));
         params.put("nodePath", ":" + nodeID + ":");
         mapper.deleteNode(params);
@@ -56,6 +77,7 @@ public class TeamRelationService implements ITeamRelationService {
 
     @Override
     public void deleteNodeAndChildren(Map<String, Object> params) {
+        params.put("tableName", tableNames.get(params.get("type")));
         String nodePath = String.valueOf(params.get("nodePath"));
         Integer nodeID = Integer.valueOf(String.valueOf(params.get("nodeID")));
         params.put("nodePath", TreeUtil.getParentPath(nodePath, nodeID));
@@ -63,22 +85,23 @@ public class TeamRelationService implements ITeamRelationService {
     }
 
     @Override
-    public void updateTreeNode(Map<String, Object> queryMap) {
-        checkUpdateNodeInfo(queryMap);
-        mapper.updateTreeNode(queryMap);
+    public void updateTreeNode(Map<String, Object> params) {
+        checkUpdateNodeInfo(params);
+        params.put("tableName", tableNames.get(params.get("type")));
+        mapper.updateTreeNode(params);
     }
 
     @Override
-    public void moveTreeNode(Map<String, Object> paramMap) {
-        checkMoveNodeInfo(paramMap);
+    public void moveTreeNode(Map<String, Object> params) {
+        checkMoveNodeInfo(params);
 
-        Integer targetNodeID = (Integer) paramMap.get("targetNodeID");
-        String targetNodePath = (String) paramMap.get("targetNodePath");
-        Integer moveNodeID = (Integer) paramMap.get("moveNodeID");
-        String moveNodePath = (String) paramMap.get("moveNodePath");
+        Integer targetNodeID = (Integer) params.get("targetNodeID");
+        String targetNodePath = (String) params.get("targetNodePath");
+        Integer moveNodeID = (Integer) params.get("moveNodeID");
+        String moveNodePath = (String) params.get("moveNodePath");
 
         Map<String, Object> queryMap = new HashMap<String, Object>();
-
+        queryMap.put("tableName", tableNames.get(params.get("type")));
         queryMap.put("moveNodeID", moveNodeID);
         String replaceSourcePath = TreeUtil.getParentPath(moveNodePath, moveNodeID);
         queryMap.put("replaceSourcePath", replaceSourcePath);
@@ -93,6 +116,7 @@ public class TeamRelationService implements ITeamRelationService {
 
     @Override
     public List<RelationTreeNode> queryParentTreesByNode(Map<String, Object> params) {
+        params.put("tableName", tableNames.get(params.get("type")));
         List<RelationTreeNode> nodes = new ArrayList<RelationTreeNode>();
         nodes = mapper.queryNodes(params);
 
@@ -107,6 +131,7 @@ public class TeamRelationService implements ITeamRelationService {
 
     @Override
     public List<RelationTreeNode> queryChildTreesByNode(Map<String, Object> params) {
+        params.put("tableName", tableNames.get(params.get("type")));
         List<RelationTreeNode> nodes = new ArrayList<RelationTreeNode>();
         nodes = mapper.queryNodes(params);
 

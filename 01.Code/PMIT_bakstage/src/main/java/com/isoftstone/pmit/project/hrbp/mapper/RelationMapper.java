@@ -9,10 +9,14 @@ import java.util.Map;
 
 @Repository
 @Mapper
-public interface TeamRelationMapper {
+public interface RelationMapper {
     public List<Map<String,Object>> queryAllLevel(Map<String, Object> queryMap);
 
-    public List<RelationTreeNode> queryTree();
+    public List<RelationTreeNode> queryTeamInfo();
+
+    public List<RelationTreeNode> queryPOInfo();
+
+    public List<RelationTreeNode> queryTree(Map<String, Object> queryMap);
 
     public void addTeamNode(Map<String, Object> queryMap);
 

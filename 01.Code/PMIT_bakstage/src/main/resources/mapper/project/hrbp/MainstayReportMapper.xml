@@ -3,266 +3,172 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.MainstayReportMapper">
+    
+    <sql id="po_staff">
+        SELECT DISTINCT
+            staff_id
+        FROM
+            (
+            SELECT
+                projectId
+            FROM
+                mms_project_information
+            <where>
+                endTime >= CURRENT_DATE
+                <if test="poIDs != null and !poIDs.isEmpty()">
+                    <foreach collection="poIDs" item="poID" open="AND projectId IN(" separator="," close=")">
+                        #{poID}
+                    </foreach>
+                </if>
+            </where>
+            ) po_info
+        LEFT JOIN
+            (
+            SELECT
+                project_id,
+                <choose>
+                    <when test="isMMS">
+                        staff_id AS staff_id
+                    </when>
+                    <otherwise>
+                        backup_staff_id AS staff_id
+                    </otherwise>
+                </choose>
+            FROM
+                mms_po_staff_info
+            ) staff_info
+        ON
+            po_info.projectId = staff_info.project_id
+    </sql>
+
     <select id="queryMainstayProportionChart"  parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
         SELECT
-          SUM(CASE WHEN po_role.po_role_id IS NULL THEN 0 ELSE 1 END) AS backnonenum,
-          SUM(CASE WHEN po_role.po_role_id IS NULL THEN 1 ELSE 0 END) AS nobacknonenum
+	        SUM(CASE WHEN staff_id IS NULL THEN	0 ELSE 1 END) AS mmsNumber,
+	        SUM(CASE WHEN backup_staff_id IS NULL THEN 0 ELSE 1 END) AS backupMmsNumber
         FROM
-        mms_base_staff_info
+	        (
+		    SELECT
+			    projectId
+		    FROM
+			    mms_project_information
+		    <where>
+                endTime >= CURRENT_DATE
+                <if test="poIDs != null and !poIDs.isEmpty()">
+                    <foreach collection="poIDs" item="poID" open="AND projectId IN(" separator="," close=")">
+                        #{poID}
+                    </foreach>
+                </if>
+            </where>
+	        ) po_info
         LEFT JOIN
-          (
-          SELECT
-            staff_id,
-            po_role_id
-          FROM
-            mms_po_staff_info,po_temp
-          WHERE
-            mms_po_staff_info.project_id =po_temp.poID
-            AND
-            po_temp.endDate >= CURRENT_DATE
-          ) po_role
-        ON mms_base_staff_info.employeeID = po_role.staff_id
-        <where>
-            <if test="null != bu and '' != bu">
-                mms_base_staff_info.bu = #{bu}
-            </if>
-            <if test="null != workPlaceArea and '' != workPlaceArea">
-                AND mms_base_staff_info.workPlaceArea = #{workPlaceArea}
-            </if>
-            <if test="null != cu and '' != cu">
-                AND mms_base_staff_info.pdu = #{cu}
-            </if>
-        </where>
+            (
+	        SELECT
+		        project_id,
+		        staff_id,
+		        backup_staff_id
+	        FROM
+		        mms_po_staff_info
+            ) staff_info
+        ON
+            po_info.projectId = staff_info.project_id
     </select>
 
     <select id="queryCostCenterMainstay" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT
-        mms_base_staff_info.costCenter AS name,
-          COUNT(*) AS number
+            mms_base_staff_info.costCenter as name,
+            COUNT(*) AS number
         FROM
-        mms_base_staff_info
+            (<include refid="po_staff"/>) po_staff
         LEFT JOIN
-          (
-          SELECT
-            staff_id,
-            po_role_id
-          FROM
-        mms_po_staff_info,po_temp
-          WHERE
-        mms_po_staff_info.project_id =po_temp.poID
-            AND
-        po_temp.endDate >= CURRENT_DATE
-          ) po_role
-        ON mms_base_staff_info.employeeID = po_role.staff_id
-        <where>
-            <choose>
-                <when test="isBacknone">
-                    po_role.po_role_id IS NOT NULL
-                </when>
-                <otherwise>
-                    po_role.po_role_id IS NULL
-                </otherwise>
-            </choose>
-            <if test="null != bu and '' != bu">
-                AND mms_base_staff_info.bu = #{bu}
-            </if>
-            <if test="null != workPlaceArea and '' != workPlaceArea">
-                AND mms_base_staff_info.workPlaceArea = #{workPlaceArea}
-            </if>
-            <if test="null != cu and '' != cu">
-                AND mms_base_staff_info.pdu = #{cu}
-            </if>
-        </where>
+            mms_base_staff_info
+        ON
+            po_staff.staff_id = mms_base_staff_info.employeeID
+        WHERE
+            po_staff.staff_id IS NOT NULL
         GROUP BY mms_base_staff_info.costCenter
     </select>
 
     <select id="queryMainstayByPost" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT
-          po_role.po_role_id AS name,
-          COUNT(*) AS number
+            staff_info.po_role_id AS name,
+            COUNT(*) AS number
         FROM
-          mms_base_staff_info
+            (
+            SELECT
+                projectId
+            FROM
+                mms_project_information
+            <where>
+                endTime >= CURRENT_DATE
+                <if test="poIDs != null and !poIDs.isEmpty()">
+                    <foreach collection="poIDs" item="poID" open="AND projectId IN(" separator="," close=")">
+                        #{poID}
+                    </foreach>
+                </if>
+            </where>
+            ) po_info
         LEFT JOIN
-          (
-          SELECT
-            staff_id,
-            po_role_id
-          FROM
-        mms_po_staff_info,po_temp
-          WHERE
-        mms_po_staff_info.project_id =po_temp.poID
-            AND
-        po_temp.endDate >= CURRENT_DATE
-          ) po_role
-        ON mms_base_staff_info.employeeID = po_role.staff_id
-        <where>
-            <choose>
-                <when test="isBacknone">
-                    po_role.po_role_id IS NOT NULL
-                </when>
-                <otherwise>
-                    po_role.po_role_id IS NULL
-                </otherwise>
-            </choose>
-            <if test="null != bu and '' != bu">
-                AND mms_base_staff_info.bu = #{bu}
-            </if>
-            <if test="null != workPlaceArea and '' != workPlaceArea">
-                AND mms_base_staff_info.workPlaceArea = #{workPlaceArea}
-            </if>
-            <if test="null != cu and '' != cu">
-                AND mms_base_staff_info.pdu = #{cu}
-            </if>
-        </where>
-        GROUP BY po_role.po_role_id
+            (
+            SELECT
+                project_id,
+                po_role_id,
+                <choose>
+                    <when test="isMMS">
+                        staff_id AS staff_id
+                    </when>
+                    <otherwise>
+                        backup_staff_id AS staff_id
+                    </otherwise>
+                </choose>
+            FROM
+                mms_po_staff_info
+            ) staff_info
+        ON
+            po_info.projectId = staff_info.project_id
+        WHERE
+            staff_info.staff_id IS NOT NULL
+        GROUP BY staff_info.po_role_id
     </select>
 
     <select id="queryTrainingStaffs" parameterType="java.util.Map" resultType="java.lang.String">
-        SELECT
-        mms_base_staff_info.employeeID
-        FROM
-        mms_base_staff_info
-        LEFT JOIN
-        (
-        SELECT
-        staff_id,
-        po_role_id
-        FROM
-        mms_po_staff_info,po_temp
-        WHERE
-        mms_po_staff_info.project_id =po_temp.poID
-        AND
-        po_temp.endDate >= CURRENT_DATE
-        ) po_role
-        ON mms_base_staff_info.employeeID = po_role.staff_id
-        <where>
-            <choose>
-                <when test="isBacknone">
-                    po_role.po_role_id IS NOT NULL
-                </when>
-                <otherwise>
-                    po_role.po_role_id IS NULL
-                </otherwise>
-            </choose>
-            <if test="null != bu and '' != bu">
-                AND mms_base_staff_info.bu = #{bu}
-            </if>
-            <if test="null != workPlaceArea and '' != workPlaceArea">
-                AND mms_base_staff_info.workPlaceArea = #{workPlaceArea}
-            </if>
-            <if test="null != cu and '' != cu">
-                AND mms_base_staff_info.pdu = #{cu}
-            </if>
-        </where>
+        <include refid="po_staff"/>
     </select>
 
     <select id="queryTrainings" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT
-          name,
-          COUNT(*) AS number
+            name,
+            COUNT(*) AS number
         FROM
-          (
-          SELECT DISTINCT
-            <choose>
-                <when test="null != trainName and '' != trainName">
-                    courseName AS name,
-                </when>
-                <otherwise>
-                    trainName AS name,
-                </otherwise>
-            </choose>
-            staffID
-          FROM
-        train_temp
-          <where>
-              <if test="null != staffIDs and !staffIDs.isEmpty()">
-                  staffID IN
-                  <foreach collection="staffIDs" item="item" open="(" separator="," close=")">
-                      #{item}
-                  </foreach>
-              </if>
-              <if test="null != trainName and '' != trainName">
-                  AND trainName = #{trainName}
-              </if>
-          </where>
-          ) temp
+            (
+            SELECT DISTINCT
+                <choose>
+                    <when test="null != series and '' != series">
+                        training_name AS name,
+                    </when>
+                    <otherwise>
+                        series AS name,
+                    </otherwise>
+                </choose>
+                staff_id
+            FROM
+                (<include refid="po_staff"/>) po_staff
+            LEFT JOIN
+                mms_course_test_score
+            ON
+                po_staff.staff_id = mms_course_test_score.employee_id
+            LEFT JOIN
+                mms_course_setting
+            ON
+                mms_course_test_score.opening_id = mms_course_setting.opening_id
+            <where>
+                po_staff.staff_id IS NOT NULL
+                <if test="null != series and '' != series">
+                    AND mms_course_setting.series = #{series}
+                </if>
+            </where>
+            ) temp
         GROUP BY name
     </select>
-
-    <!--
-    <select id="queryMainstayTraining" parameterType="java.util.Map" resultType="java.util.Map">
-        SELECT
-        <choose>
-            <when test="null != trainName and '' != trainName">
-                courseName,
-            </when>
-            <otherwise>
-                trainName,
-            </otherwise>
-        </choose>
-          COUNT(*) AS mainstaynumber
-        FROM
-          (
-          SELECT
-            base_staff_info.employeeID
-          FROM
-            base_staff_info
-          LEFT JOIN
-            (
-            SELECT
-              staff_id,
-              po_role_id
-            FROM
-              po_staff_info,po_temp
-            WHERE
-              po_staff_info.project_id =po_temp.poID
-              AND
-              po_temp.endDate >= CURRENT_DATE
-            ) po_role
-          ON base_staff_info.employeeID = po_role.staff_id
-          <where>
-              <choose>
-                  <when test="isBacknone">
-                      po_role.po_role_id IS NOT NULL
-                  </when>
-                  <otherwise>
-                      po_role.po_role_id IS NULL
-                  </otherwise>
-              </choose>
-              <if test="null != bu and '' != bu">
-                  AND base_staff_info.bu = #{bu}
-              </if>
-              <if test="null != workPlaceArea and '' != workPlaceArea">
-                  AND base_staff_info.workPlaceArea = #{workPlaceArea}
-              </if>
-              <if test="null != pdu and '' != pdu">
-                  AND base_staff_info.pdu = #{pdu}
-              </if>
-          </where>
-          ) staffInfo
-        LEFT JOIN
-          (
-          SELECT DISTINCT
-            <if test="null != trainName and '' != trainName">
-                courseName,
-            </if>
-            trainName ,
-            staffID
-          FROM
-            train_temp
-          ) trainInfo
-        ON staffInfo.employeeID = trainInfo.staffID
-        <where>
-            <if test="null != trainName and '' != trainName">
-                trainName = #{trainName}
-            </if>
-        </where>
-        GROUP BY trainName
-        <if test="null != trainName and '' != trainName">
-            ,courseName
-        </if>
-    </select>
-    -->
 
     <select id="queryMainstayAge" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT
@@ -270,183 +176,196 @@
           SUM(CASE WHEN birthdayDate <![CDATA[ < ]]> #{age30} AND birthdayDate >= #{age40} THEN 1 ELSE 0 END) AS age30to40,
           SUM(CASE WHEN birthdayDate <![CDATA[ < ]]> #{age40} THEN 1 ELSE 0 END) AS agegreaterthan40
         FROM
-          (
-          SELECT
-        mms_base_staff_info.employeeID AS staff_id
-          FROM
-        mms_base_staff_info
-          LEFT JOIN
-            (
-            SELECT
-              staff_id,
-              po_role_id
-            FROM
-        mms_po_staff_info,po_temp
-            WHERE
-        mms_po_staff_info.project_id = po_temp.poID
-              AND
-        po_temp.endDate >= CURRENT_DATE
-            ) po_role
-          ON mms_base_staff_info.employeeID = po_role.staff_id
-          <where>
-              <choose>
-                  <when test="isBacknone">
-                      po_role.po_role_id IS NOT NULL
-                  </when>
-                  <otherwise>
-                      po_role.po_role_id IS NULL
-                  </otherwise>
-              </choose>
-              <if test="null != bu and '' != bu">
-                  AND mms_base_staff_info.bu = #{bu}
-              </if>
-              <if test="null != workPlaceArea and '' != workPlaceArea">
-                  AND mms_base_staff_info.workPlaceArea = #{workPlaceArea}
-              </if>
-              <if test="null != cu and '' != cu">
-                  AND mms_base_staff_info.pdu = #{cu}
-              </if>
-          </where>
-          ) staff_info
+          (<include refid="po_staff"/>) po_staff
         LEFT JOIN
-        mms_family_information
+            mms_family_information
         ON
-          staff_info.staff_id =mms_family_information.employeeID
+            po_staff.staff_id = mms_family_information.employeeID
+        WHERE
+            po_staff.staff_id IS NOT NULL
     </select>
 
-    <select id="queryBaseStaffInfoSize" parameterType="java.util.Map" resultType="java.lang.Integer">
-        SELECT
-        COUNT(*) AS totleNumber
+    <select id="queryBaseStaffs" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT DISTINCT
+            staff_id
         FROM
-        mms_base_staff_info
-        LEFT JOIN
-        (
-        SELECT
-        staff_id,
-        po_role_id
-        FROM
-        mms_po_staff_info,po_temp
-        WHERE
-        mms_po_staff_info.project_id =po_temp.poID
-        AND
-        po_temp.endDate >= CURRENT_DATE
-        ) po_role
-        ON mms_base_staff_info.employeeID = po_role.staff_id
+            (
+                (
+                SELECT DISTINCT
+                    staff_id,
+                    po_role_id
+                FROM
+                    (
+                    SELECT
+                        projectId
+                    FROM
+                        mms_project_information
+                    <where>
+                        endTime >= CURRENT_DATE
+                        <if test="poIDs != null and !poIDs.isEmpty()">
+                            <foreach collection="poIDs" item="poID" open="AND projectId IN(" separator="," close=")">
+                                #{poID}
+                            </foreach>
+                        </if>
+                    </where>
+                    ) po_info
+                LEFT JOIN
+                    (
+                    SELECT
+                        project_id,
+                        po_role_id,
+                        <choose>
+                            <when test="isMMS">
+                                staff_id AS staff_id
+                            </when>
+                            <otherwise>
+                                backup_staff_id AS staff_id
+                            </otherwise>
+                        </choose>
+                    FROM
+                        mms_po_staff_info
+                    ) staff_info
+                ON
+                    po_info.projectId = staff_info.project_id
+                WHERE
+                    staff_id IS NOT NULL
+                ) po_staff
+            LEFT JOIN
+                (
+                SELECT
+                    employeeID,
+                    employeeName,
+                    costCenter
+                FROM
+                    mms_base_staff_info
+                ) staff_info
+            ON
+                po_staff.staff_id = staff_info.employeeID
+            LEFT JOIN
+                (
+                SELECT
+                    employeeID,
+                    birthdayDate
+                FROM
+                    mms_family_information
+                ) age_info
+            ON
+                po_staff.staff_id = age_info.employeeID
+            LEFT JOIN
+                (
+                SELECT
+                    employee_id,
+                    opening_id
+                FROM
+                    mms_course_test_score
+                ) source_info
+            ON
+                po_staff.staff_id = source_info.employee_id
+            LEFT JOIN
+                (
+                SELECT
+                    opening_id,
+                    series,
+                    training_name
+                FROM
+                    mms_course_setting
+                ) training_info
+            ON
+                source_info.opening_id = training_info.opening_id
+            )
         <where>
-            <choose>
-                <when test="isBacknone">
-                    po_role.po_role_id IS NOT NULL
-                </when>
-                <otherwise>
-                    po_role.po_role_id IS NULL
-                </otherwise>
-            </choose>
-            <if test="null != bu and '' != bu">
-                AND mms_base_staff_info.bu = #{bu}
+            <if test="null != staffID and '' != staffID">
+                AND staff_id like '%${staffID}%'
             </if>
-            <if test="null != workPlaceArea and '' != workPlaceArea">
-                AND mms_base_staff_info.workPlaceArea = #{workPlaceArea}
+                <if test="null != staffName and '' != staffName">
+                AND employeeName like '%${staffName}%'
             </if>
-            <if test="null != cu and '' != cu">
-                AND mms_base_staff_info.pdu = #{cu}
+            <if test="null != costCenter and '' != costCenter">
+                AND costCenter = #{costCenter}
             </if>
             <if test="null != post and '' != post">
-                AND mms_base_staff_info.generalPosition = #{post}
+                AND po_role_id = #{post}
             </if>
-            <if test="null != staffID and '' != staffID">
-                AND mms_base_staff_info.employeeID like '%${staffID}%'
+            <if test="null != series and '' != series">
+                AND series = #{series}
             </if>
-            <if test="null != staffName and '' != staffName">
-                AND mms_base_staff_info.employeeName like '%${staffName}%'
+            <if test="null != trainingname and '' != trainingname">
+                AND training_name = #{trainingname}
+            </if>
+            <if test="null != ageStart">
+                AND birthdayDate >= #{ageStart}
+            </if>
+            <if test="null != ageEnd">
+                AND birthdayDate <![CDATA[ < ]]> #{ageEnd}
             </if>
         </where>
     </select>
 
     <select id="queryBaseStaffInfo" parameterType="java.util.Map" resultType="java.util.Map">
-        SET @r:=-1;
-
         SELECT
-        *
+            employeeID AS staffID,
+            employeeName AS staffName,
+            costCenter AS costCenter,
+            sex AS sex,
+            cooperationMode AS cooperationMode,
+            positionRole AS positionRole,
+            employmentDate AS employmentDate,
+            graduationTime AS graduationTime,
+            education AS education,
+            if211 AS if211
         FROM
-        (
-        SELECT
-        @r:=@r+1 as row_num,
-        employeeID AS staffID,
-        employeeName AS staffName,
-        costCenter AS costCenter,
-        sex AS sex,
-        cooperationMode AS cooperationMode,
-        positionRole AS positionRole,
-        employmentDate AS employmentDate,
-        graduationTime AS graduationTime,
-        education AS education,
-        if211 AS if211
-        FROM
-        mms_base_staff_info
-        LEFT JOIN
-        (
-        SELECT
-        staff_id,
-        po_role_id
-        FROM
-        mms_po_staff_info,po_temp
-        WHERE
-        mms_po_staff_info.project_id =po_temp.poID
-        AND
-        po_temp.endDate >= CURRENT_DATE
-        ) po_role
-        ON mms_base_staff_info.employeeID = po_role.staff_id
+            mms_base_staff_info
         <where>
-            <choose>
-                  <when test="isBacknone">
-                      po_role.po_role_id IS NOT NULL
-                  </when>
-                  <otherwise>
-                      po_role.po_role_id IS NULL
-                  </otherwise>
-              </choose>
-              <if test="null != bu and '' != bu">
-                  AND mms_base_staff_info.bu = #{bu}
-              </if>
-              <if test="null != workPlaceArea and '' != workPlaceArea">
-                  AND mms_base_staff_info.workPlaceArea = #{workPlaceArea}
-              </if>
-              <if test="null != cu and '' != cu">
-                  AND mms_base_staff_info.pdu = #{cu}
-              </if>
-              <if test="null != post and '' != post">
-                  AND mms_base_staff_info.generalPosition = #{post}
-              </if>
-              <if test="null != staffID and '' != staffID">
-                  AND mms_base_staff_info.employeeID like '%${staffID}%'
-              </if>
-              <if test="null != staffName and '' != staffName">
-                  AND mms_base_staff_info.employeeName like '%${staffName}%'
-              </if>
-          </where>
-          ) TMP
-        WHERE row_num BETWEEN #{rowStart} AND #{rowEnd}
-    </select>
-
-    <select id="queryStaffTrainInfo" parameterType="java.util.Map" resultType="java.util.Map">
-        SELECT
-          courseName,
-          trainName,
-          staffID,
-          score,
-          passScore,
-          sourseScore
-        FROM
-        train_temp
-        <where>
-            <if test="null != staffIDs">
-                staffID IN
-                <foreach collection="staffIDs" item="item" open="(" separator="," close=")">
-                    #{item}
+            <if test="staffs != null and !staffs.isEmpty()">
+                <foreach collection="staffs" item="staffID" open="employeeID IN(" separator="," close=")">
+                    #{staffID}
                 </foreach>
             </if>
-            <if test="null != trainName and '' != trainName">
-                AND trainName = #{trainName}
+        </where>
+    </select>
+
+    <select id="queryTrainInfo" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+            mms_course_setting.training_name AS training,
+            mms_course_setting.series  AS series,
+            mms_course_test_score.employee_id AS staffID,
+            mms_course_test_score.test_score AS score
+        FROM
+            mms_course_test_score
+        LEFT JOIN
+            mms_course_setting
+        ON
+            mms_course_test_score.opening_id =mms_course_setting.opening_id
+        <where>
+            <if test="staffs != null and !staffs.isEmpty()">
+                <foreach collection="staffs" item="staffID" open="employee_id IN(" separator="," close=")">
+                    #{staffID}
+                </foreach>
+            </if>
+        </where>
+    </select>
+    
+    <select id="queryTransactionInfo" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+            employee_id AS staffID,
+            affair_name AS series,
+            dimension_name AS training,
+            score AS score
+        FROM
+            mms_transaction_dimension_score
+        LEFT JOIN
+            mms_examination_affair
+        ON
+            mms_transaction_dimension_score.affair_id = mms_examination_affair.affair_id
+        LEFT JOIN
+            mms_examination_dimension
+        ON
+            mms_transaction_dimension_score.dimension_id = mms_examination_dimension.dimension_id
+        <where>
+            <if test="staffs != null and !staffs.isEmpty()">
+                <foreach collection="staffs" item="staffID" open="employee_id IN(" separator="," close=")">
+                    #{staffID}
+                </foreach>
             </if>
         </where>
     </select>

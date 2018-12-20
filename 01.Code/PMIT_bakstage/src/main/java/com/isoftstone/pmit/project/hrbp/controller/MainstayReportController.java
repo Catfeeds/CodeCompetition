@@ -3,7 +3,6 @@ package com.isoftstone.pmit.project.hrbp.controller;
 
 import com.isoftstone.pmit.common.util.AjaxResult;
 import com.isoftstone.pmit.project.hrbp.entity.TupleData;
-import com.isoftstone.pmit.project.hrbp.service.ITeamLevelService;
 import com.isoftstone.pmit.project.hrbp.service.IMainstayReportService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

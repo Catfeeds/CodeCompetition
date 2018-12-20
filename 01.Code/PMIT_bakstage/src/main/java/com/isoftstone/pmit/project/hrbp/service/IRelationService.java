@@ -5,10 +5,14 @@ import com.isoftstone.pmit.project.hrbp.entity.RelationTreeNode;
 import java.util.List;
 import java.util.Map;
 
-public interface ITeamRelationService {
+public interface IRelationService {
     public List<Map<String,Object>> queryAllLevel(Map<String, Object> params);
 
-    public List<RelationTreeNode> queryTeamTree();
+    public List<RelationTreeNode> queryTeamInfo();
+
+    public List<RelationTreeNode> queryPOInfo();
+
+    public List<RelationTreeNode> queryAllTree(Map<String, Object> params);
 
     public void addTeamNode(Map<String, Object> params);
 

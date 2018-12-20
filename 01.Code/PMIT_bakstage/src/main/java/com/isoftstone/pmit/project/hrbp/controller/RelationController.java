@@ -2,7 +2,7 @@ package com.isoftstone.pmit.project.hrbp.controller;
 
 import com.isoftstone.pmit.common.util.AjaxResult;
 import com.isoftstone.pmit.project.hrbp.entity.RelationTreeNode;
-import com.isoftstone.pmit.project.hrbp.service.ITeamRelationService;
+import com.isoftstone.pmit.project.hrbp.service.IRelationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +16,10 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/hrbp/LevelTree")
-@Api(value = "层级树", tags = {"层级树"})
-public class TeamRelationController {
+@Api(value = "项目组层级树", tags = {"项目组层级树"})
+public class RelationController {
     @Autowired
-    private ITeamRelationService service;
+    private IRelationService service;
 
 
     @ApiOperation(value = "查询全部层级", notes = "查询全部层级")
@@ -27,7 +27,34 @@ public class TeamRelationController {
     public String queryAllLevel(@RequestBody Map<String, Object> params) {
         List<Map<String, Object>> result;
         try {
+            params.put("tableName", "mms_relation_team");
             result = service.queryAllLevel(params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.returnToMessage(false, e.getMessage());
+        }
+        return AjaxResult.returnToResult(true, result);
+    }
+
+    @ApiOperation(value = "查询需要挂载的项目组", notes = "查询需要挂载的项目组")
+    @PostMapping(value = "/queryTeamInfo")
+    public String queryTeamInfo() {
+        List<RelationTreeNode> result;
+        try {
+            result = service.queryTeamInfo();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.returnToMessage(false, e.getMessage());
+        }
+        return AjaxResult.returnToResult(true, result);
+    }
+
+    @ApiOperation(value = "查询需要挂载的PO", notes = "查询需要挂载的PO")
+    @PostMapping(value = "/queryPOInfo")
+    public String queryPOInfo() {
+        List<RelationTreeNode> result;
+        try {
+            result = service.queryPOInfo();
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
@@ -37,10 +64,10 @@ public class TeamRelationController {
 
     @ApiOperation(value = "查询层级树", notes = "查询层级树")
     @PostMapping(value = "/queryAllTree")
-    public String queryAllTree() {
+    public String queryAllTree(@RequestBody Map<String, Object> params) {
         List<RelationTreeNode> result;
         try {
-            result = service.queryTeamTree();
+            result = service.queryAllTree(params);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());

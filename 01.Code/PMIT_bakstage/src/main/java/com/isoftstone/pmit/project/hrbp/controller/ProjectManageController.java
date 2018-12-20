@@ -3,7 +3,6 @@ package com.isoftstone.pmit.project.hrbp.controller;
 
 import com.isoftstone.pmit.common.util.AjaxResult;
 import com.isoftstone.pmit.project.hrbp.service.IProjectManageService;
-import com.isoftstone.pmit.project.hrbp.service.ITeamLevelService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +23,6 @@ public class ProjectManageController {
     @Autowired
     private IProjectManageService projectManageService;
 
-    @Autowired
-    private ITeamLevelService teamLevelService;
 
     @ApiOperation(value = "项目组查询接口", notes = "项目组级查询接口")
     @PostMapping(value = "/queryProjects")

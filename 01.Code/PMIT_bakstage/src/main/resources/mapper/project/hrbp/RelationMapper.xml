@@ -2,28 +2,66 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.TeamRelationMapper">
+<mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.RelationMapper">
     <select id="queryAllLevel" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT
-        *
+            *
         FROM
-        mms_relation_info
+            mms_relation_info
         WHERE
-        relationID = #{relationID}
+            relationID = #{relationID}
         ORDER BY levelIndex ASC
     </select>
 
-    <select id="queryTree" resultType="RelationTreeNode">
+    <select id="queryTeamInfo" resultType="RelationTreeNode">
+        SELECT
+            projectID AS teamID,
+            'Team' AS nodeType,
+            projectName AS nodeName,
+            1 AS isTeamNode
+        FROM
+            mms_project_manage
+        WHERE
+            projectID NOT IN (
+                              SELECT
+                                  teamID
+                              FROM
+                                  mms_relation_team
+                              WHERE
+                                  isTeamNode = TRUE
+                              )
+    </select>
+
+    <select id="queryPOInfo" resultType="RelationTreeNode">
+        SELECT
+            projectid AS teamID,
+            'Team' AS nodeType,
+            projectName AS nodeName,
+            1 AS isTeamNode
+        FROM
+            mms_project_information
+        WHERE
+            projectid NOT IN (
+                              SELECT
+                                  teamID
+                              FROM
+                                  mms_relation_po
+                              WHERE
+                                  isTeamNode = TRUE
+                              )
+    </select>
+
+    <select id="queryTree" resultType="RelationTreeNode" parameterType="java.util.Map">
         SELECT
           *
         FROM
-          mms_relation_team
+          ${tableName}
         ORDER BY nodePath
     </select>
 
     <insert id="addTeamNode" parameterType="java.util.Map">
         INSERT INTO
-        mms_relation_team
+        ${tableName}
           (
           <if test="null != addNodeName and '' != addNodeName">
               nodeName,
@@ -58,25 +96,25 @@
 
     <update id="deleteNode" parameterType="java.util.Map">
         UPDATE
-          mms_relation_team
+          ${tableName}
         SET
           nodePath = REPLACE(nodePath,#{nodePath},':');
 
         DELETE FROM
-          mms_relation_team
+          ${tableName}
         WHERE nodeID = #{nodeID}
     </update>
 
     <delete id="deleteNodeAndChildren" parameterType="java.util.Map">
         DELETE FROM
-          mms_relation_team
+          ${tableName}
         WHERE
           nodeID = #{nodeID} OR nodePath LIKE '${nodePath}%'
     </delete>
 
     <update id="updateTreeNode" parameterType="java.util.Map">
         UPDATE
-        mms_relation_team
+        ${tableName}
         <set>
             <if test="null != nodeName and '' != nodeName">
                 nodeName = #{nodeName},
@@ -88,13 +126,13 @@
 
     <select id="moveTreeNode" parameterType="java.util.Map">
         UPDATE
-          mms_relation_team
+           ${tableName}
         SET
           nodePath = REPLACE(nodePath,#{replaceSourcePath},#{replaceTargetPath})
         WHERE
           nodePath LIKE '${replaceSourcePath}%';
         UPDATE
-          mms_relation_team
+           ${tableName}
         SET
           nodePath = #{replaceParentPath}
         WHERE
@@ -105,7 +143,7 @@
       SELECT
         *
       FROM
-        mms_relation_team
+        ${tableName}
       <where>
           <if test="nodeIDs != null and !nodeIDs.isEmpty()">
               <foreach collection="nodeIDs" item="item" open="nodeID IN (" separator="," close=")">
@@ -120,31 +158,4 @@
           </if>
       </where>
     </select>
-
-    <!--<select id="queryTeams" parameterType="java.util.Map" resultType="java.lang.Integer">-->
-        <!--SELECT-->
-          <!--teamID-->
-        <!--FROM-->
-          <!--(-->
-          <!--SELECT-->
-            <!--*-->
-          <!--FROM-->
-            <!--mms_relation_team-->
-          <!--<where>-->
-              <!--<if test="nodeIDs != null and !nodeIDs.isEmpty()">-->
-                  <!--<foreach collection="nodeIDs" item="item" open="nodeID IN (" separator="," close=")">-->
-                      <!--#{item}-->
-                  <!--</foreach>-->
-              <!--</if>-->
-
-              <!--<if test="nodePaths != null and !nodePaths.isEmpty()">-->
-                  <!--<foreach collection="nodePaths" item="item">-->
-                      <!--OR nodePath LIKE '${item}%'-->
-                  <!--</foreach>-->
-              <!--</if>-->
-          <!--</where>-->
-          <!--) temp-->
-        <!--WHERE-->
-          <!--isTeamNode = TRUE-->
-    <!--</select>-->
 </mapper>

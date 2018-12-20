@@ -19,14 +19,13 @@ public interface MainstayReportMapper {
 
     public List<Map<String, Object>> queryTrainings(Map<String, Object> queryMap);
 
-    //public List<Map<String, Object>> queryMainstayTraining(Map<String, Object> queryMap);
-
     public Map<String, Object> queryMainstayAge(Map<String, Object> queryMap);
 
-    public Integer queryBaseStaffInfoSize(Map<String, Object> queryMap);
+    public List<Integer> queryBaseStaffs(Map<String, Object> queryMap);
 
     public List<Map<String,Object>> queryBaseStaffInfo(Map<String, Object> queryMap);
 
-    public List<Map<String,Object>> queryStaffTrainInfo(Map<String, Object> queryMap);
+    public List<Map<String,Object>> queryTrainInfo(Map<String, Object> queryMap);
 
+    public List<Map<String,Object>> queryTransactionInfo(Map<String, Object> queryMap);
 }
