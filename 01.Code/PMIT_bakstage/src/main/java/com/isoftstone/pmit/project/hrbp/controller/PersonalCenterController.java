@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.isoftstone.pmit.project.hrbp.entity.PersonalAffairdimension;
+import com.isoftstone.pmit.project.hrbp.entity.PersonalHistoryInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,15 +43,16 @@ public class PersonalCenterController {
 		List<Map<String, Object>> result = personalCenterService.getDimensionByAffair(paramMap);
 		return AjaxResult.returnToResult(true, result);
 	}
-	
-	@ApiOperation("保存评价得分")
-	@PostMapping("/saveScoresByName")
-	public String saveScoresByName(@RequestBody String param) {
-		Map<String, Object> paramMap = JSONObject.parseObject(param, HashMap.class);
-		personalCenterService.saveScoresByName(paramMap);
+
+	@ApiOperation("保存评价")
+	@PostMapping("/saveEvaluation")
+	public String saveEvaluation(@RequestBody String param) {
+		PersonalHistoryInfo personalHistoryInfo = JSONObject.parseObject(param, PersonalHistoryInfo.class);
+		List<PersonalAffairdimension> personalAffairdimensionList = personalHistoryInfo.getPersonalAffairdimensionList();
+		personalCenterService.saveEvaluation(personalAffairdimensionList);
 		return AjaxResult.returnToMessage(true, "success");
 	}
-	
+
 	@ApiOperation("查询历史记录")
 	@PostMapping("/queryHistorySolved")
 	public String queryHistorySolved(@RequestBody Map<String, Object> paramMap) {

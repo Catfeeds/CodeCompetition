@@ -4,10 +4,28 @@ package com.isoftstone.pmit.project.hrbp.entity;
  * @author lf
  */
 public class PersonalAffairdimension {
-   private int dimensionId;
-   private String dimensionName;
-   private Double score;
-   private String evaluation;
+    private String employeeId;
+    private Integer transactionDimensionId;
+    private int dimensionId;
+    private String dimensionName;
+    private Double score;
+    private String evaluation;
+
+    public String getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(String employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public Integer getTransactionDimensionId() {
+        return transactionDimensionId;
+    }
+
+    public void setTransactionDimensionId(Integer transactionDimensionId) {
+        this.transactionDimensionId = transactionDimensionId;
+    }
 
     public int getDimensionId() {
         return dimensionId;
