@@ -373,6 +373,13 @@
                 </includes>
             </resource>
             <resource>
+                <directory>${basedir}/src/main/resources/image</directory>
+                <targetPath>${basedir}/target/classes/resources/image</targetPath>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+            <resource>
                 <directory>${basedir}</directory>
                 <includes>
                     <include>start*</include>

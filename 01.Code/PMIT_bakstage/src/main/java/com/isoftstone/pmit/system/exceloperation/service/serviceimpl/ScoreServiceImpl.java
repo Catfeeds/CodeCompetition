@@ -4,7 +4,6 @@ import com.isoftstone.pmit.project.hrbp.entity.*;
 import com.isoftstone.pmit.system.exceloperation.mapper.*;
 import com.isoftstone.pmit.system.exceloperation.service.IScoreService;
 import com.isoftstone.pmit.system.exceloperation.util.ExcelOperationUtils;
-import com.sun.org.apache.xerces.internal.xs.datatypes.ObjectList;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,7 +80,7 @@ public class ScoreServiceImpl implements IScoreService {
         for (ScoreCourse course :getCourse){
             String employeeID = course.getEmployeeID();
             String openingID = course.getOpeningID();
-            
+
 
         }
 

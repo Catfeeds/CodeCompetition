@@ -312,7 +312,8 @@ export default {
             this.certificationData = this.postForm.companyQualifications;
             this.skillData = this.postForm.technicalInformation;
             this.setTagsViewTitle();
-            this.documentPhoto = this.postForm.personalStyle.documentPhoto;
+            this.documentPhotoUrl = this.postForm.personalStyle.documentPhoto;
+            this.lifePhotoUrl = this.postForm.personalStyle.photosOfLife;
           }
         })
         .catch(err => {
