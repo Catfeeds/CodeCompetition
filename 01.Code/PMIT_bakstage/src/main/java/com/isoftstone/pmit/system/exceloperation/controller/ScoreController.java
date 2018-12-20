@@ -29,7 +29,8 @@ public class ScoreController {
     @PostMapping(value ="/importScore")
     @ResponseBody
     @ApiOperation(value = "importScore", notes = "importScore")
-    public String importScore(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+    public String importScore(@RequestParam("file") MultipartFile file,
+                              @RequestParam("user") String user, HttpServletRequest request) {
         if (!file.isEmpty()) {
             String saveFileName = file.getOriginalFilename();
             File saveFile = new File(request.getSession().getServletContext().getRealPath("/upload/") + saveFileName);
@@ -41,7 +42,7 @@ public class ScoreController {
                 out.write(file.getBytes());
                 out.flush();
                 out.close();
-                return scoreService.importScore(saveFile);
+                return scoreService.importScore(saveFile, user);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 return AjaxResult.returnToResult(false,"上传失败," + e.getMessage());

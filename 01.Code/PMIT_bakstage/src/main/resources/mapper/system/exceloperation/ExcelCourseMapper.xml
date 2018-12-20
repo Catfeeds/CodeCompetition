@@ -4,19 +4,30 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.system.exceloperation.mapper.ExcelCourseMapper">
 
+    <select id="getCourse" resultType="com.isoftstone.pmit.project.hrbp.entity.ScoreCourse">
+        select  employee_id, opening_id from mms_course_test_score
+    </select>
+
     <insert id="insertCourse" parameterType="com.isoftstone.pmit.project.hrbp.entity.ScoreCourse">
-        INSERT INTO mms_course_test_score (employee_ID, opening_ID, test_score, type) VALUES
+        INSERT INTO mms_course_test_score (employee_id, opening_id, test_score, type, modifier) VALUES
         <foreach collection="list" item="test" separator=",">
             (
-            #{test.employeeID},
-            #{test.openingID},
-            #{test.courseScore},
-            #{test.type}
+            #{test.employee_id},
+            #{test.opening_id},
+            #{test.test_score},
+            #{test.type},
+            #{test.modifier}
             )
         </foreach>
     </insert>
-    <select id="getCourse" resultType="com.isoftstone.pmit.project.hrbp.entity.ScoreCourse">
-        select  employee_ID, opening_ID, test_score, type
-         from mms_course_test_score
-    </select>
+
+    <update id="updateCourse" parameterType="com.isoftstone.pmit.project.hrbp.entity.ScoreCourse">
+        <foreach collection="list" item="test" index="index" open="" close="" separator=";">
+            UPDATE mms_course_test_score
+            <set>
+                test_score = #{test.test_score}, type = #{test.type}, modifier = #{test.modifier}
+            </set>
+            WHERE employee_id = #{test.employee_id} AND opening_id = #{test.opening_id}
+        </foreach>
+    </update>
 </mapper>

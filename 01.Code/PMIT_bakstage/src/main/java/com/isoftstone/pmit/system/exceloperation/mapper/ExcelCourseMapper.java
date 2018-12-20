@@ -10,7 +10,9 @@ import java.util.List;
 @Repository
 public interface ExcelCourseMapper {
 
-    int insertCourse(List<ScoreCourse> courseList);
-
     List<ScoreCourse> getCourse();
+
+    int insertCourse(List<ScoreCourse> newCoursesInsert);
+
+    int updateCourse(List<ScoreCourse> newCoursesUpdate);
 }

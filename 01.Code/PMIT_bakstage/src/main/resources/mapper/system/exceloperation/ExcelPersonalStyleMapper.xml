@@ -5,7 +5,7 @@
 <mapper namespace="com.isoftstone.pmit.system.exceloperation.mapper.ExcelPersonalStyleMapper">
 
     <insert id="insertPersonalStyle" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalStyle">
-        INSERT INTO personal_style (employeeID, food, game, motion, book,
+        INSERT INTO mms_personal_style (employeeID, food, game, motion, book,
         movie, music, dislike, oneSentence, documentPhoto, photosOfLife
         ) VALUES
         <foreach collection="list" item="test" separator=",">

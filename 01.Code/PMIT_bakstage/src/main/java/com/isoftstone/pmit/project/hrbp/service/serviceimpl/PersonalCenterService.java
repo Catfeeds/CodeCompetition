@@ -38,7 +38,6 @@ public class PersonalCenterService implements IPersonalCenterService {
 			}
 		}
 		return returnMapList;
-
 	}
 
 	@Override

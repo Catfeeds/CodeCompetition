@@ -10,7 +10,9 @@ import java.util.List;
 @Repository
 public interface ExcelTransactionMapper {
 
-    int insertTransaction(List<ScoreTransaction> transList);
-
     List<ScoreTransaction> getTransaction();
+
+    int insertTransaction(List<ScoreTransaction> newTransInsert);
+
+    int updateTransaction(List<ScoreTransaction> newTransUpdate);
 }
