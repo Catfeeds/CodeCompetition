@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.isoftstone.pmit.system.exceloperation.mapper.ExcelStaffMapper">
+
+    <insert id="insertStaff" parameterType="com.isoftstone.pmit.project.hrbp.entity.ScoreTransaction">
+        INSERT INTO mms_staff_affair (staff_id, affair_id, evaluator_id) VALUES
+        <foreach collection="list" item="test" separator=",">
+            (
+            #{test.employee_id},
+            #{test.affair_id},
+            #{test.evaluator}
+            )
+        </foreach>
+    </insert>
+</mapper>
