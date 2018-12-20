@@ -73,33 +73,34 @@
 
 	<select id="addTrainingInfo" parameterType="java.util.Map">
 		insert into mms_training_info
-			(training_id,
-			training_name,
-			series,
-			sort,
-			type,
-			class_type,
-			bu,
-			creator_id,
-			creator_name,
-			create_time,
-			training_des,
-			training_duration)
-		values
-			(#{trainingId},
-			#{trainingName},
-			#{series},
-			#{sort},
-			#{type},
-			#{classType},
-			#{bu},
-			#{creatorId},
-			#{creatorName},
-			now(),
-			#{trainingDes},
-			#{trainingDuration})
+			(
+		<if test="null != trainingId and trainingId != ''">training_id,</if>
+		<if test="null != trainingName and trainingName != ''">training_name,</if>
+		<if test="null != series and series != ''">series,</if>
+		<if test="null != sort and sort != ''">sort,</if>
+		<if test="null != type and type != ''">type,</if>
+		<if test="null != classType and classType != ''">class_type,</if>
+		<if test="null != bu and bu != ''">bu,</if>
+		<if test="null != creatorId and creatorId != ''">creator_id,</if>
+		<if test="null != creatorName and creatoName != ''">creator_name,</if>
+		<if test="null != trainingDes and trainingDes != ''">training_des,</if>
+		<if test="null != trainingDuration and trainingDuration != ''">training_duration,</if>
+		<if test="null != createTime and createTime != ''">create_time</if>
+		)values(
+		<if test="null != trainingId and trainingId != ''">#{trainingId},</if>
+		<if test="null != trainingName and trainingName != ''">#{trainingName},</if>
+		<if test="null != series and series != ''">#{series}</if>
+		<if test="null != sort and sort != ''">#{sort},</if>
+		<if test="null != type and type != ''">	#{type},</if>
+		<if test="null != classType and classType != ''">#{classType},</if>
+		<if test="null != bu and bu != ''">#{bu},</if>
+		<if test="null != creatorId and creatorId != ''">#{creatorId},</if>
+		<if test="null != creatorName and creatoName != ''">#{creatorName},</if>
+		<if test="null != trainingDes and trainingDes != ''">#{trainingDes},</if>
+		<if test="null != trainingDuration and trainingDuration != ''">#{trainingDuration},</if>
+		<if test="null != createTime and createTime != ''">now()</if>
+		)
 	</select>
-
 	<select id="updateTrainingInfo" parameterType="java.util.Map">
 		update
 			mms_training_info

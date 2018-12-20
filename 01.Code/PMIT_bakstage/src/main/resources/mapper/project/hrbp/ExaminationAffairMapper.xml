@@ -111,4 +111,10 @@
         DISTINCT(affair_name) as AffairName
         from mms_examination_affair
     </select>
+    <update id="updateAffairTime">
+        update mms_examination_affair
+        set update_time = now(),
+        update_by = (SELECT employee_name FROM mms_login_information WHERE employee_ID = #{employeeID})
+        where affair_id = #{affairID}
+    </update>
 </mapper>

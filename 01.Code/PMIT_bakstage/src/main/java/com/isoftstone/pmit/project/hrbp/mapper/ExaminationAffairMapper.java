@@ -57,4 +57,9 @@ public interface ExaminationAffairMapper {
      */
     List<ExaminationAffair> findExamAffairSeries();
 
+    /**
+     * 修改事务时间
+     * @param examinationAffair
+     */
+    void updateAffairTime(ExaminationAffair examinationAffair);
 }

@@ -3,6 +3,7 @@ package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 import com.isoftstone.pmit.project.hrbp.entity.ExaminationAffair;
 import com.isoftstone.pmit.project.hrbp.entity.ExaminationDimension;
 import com.isoftstone.pmit.project.hrbp.mapper.DimensionMapper;
+import com.isoftstone.pmit.project.hrbp.mapper.ExaminationAffairMapper;
 import com.isoftstone.pmit.project.hrbp.service.IDimensionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ public class DimensionServiceImpl implements IDimensionService {
 
     @Autowired
     private DimensionMapper dimensionMapper;
+
+    @Autowired
+    private ExaminationAffairMapper examinationAffairMapper;
 
     @Override
     public void insertDimension(ExaminationAffair examinationAffair, List<ExaminationDimension> examinationDimensionList) {
@@ -38,6 +42,7 @@ public class DimensionServiceImpl implements IDimensionService {
         for (Integer dimensionId : integerList) {
             dimensionMapper.insertAffairDimension(returnAffairID,dimensionId);
         }
+        examinationAffairMapper.updateAffairTime(examinationAffair);
     }
 
     @Override
