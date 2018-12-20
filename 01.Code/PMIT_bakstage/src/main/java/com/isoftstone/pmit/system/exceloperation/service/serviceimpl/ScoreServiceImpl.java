@@ -73,6 +73,23 @@ public class ScoreServiceImpl implements IScoreService {
             }
         }
 
+        List<ScoreTransaction> getTransaction = transactionMapper.getTransaction();
+        List<ScoreCourse> getCourse = CourseMapper.getCourse();
+        List<ScoreTransaction> repeatedTransaction = new ArrayList<>();
+        List<ScoreCourse> repeatedCourse = new ArrayList<>();
+
+        for (ScoreCourse course :getCourse){
+            String employeeID = course.getEmployeeID();
+            String openingID = course.getOpeningID();
+            
+
+        }
+
+        for (ScoreTransaction transaction : getTransaction){
+            String employeeID = transaction.getEmployeeID();
+            String dimensionID = transaction.getDimensionID();
+        }
+
 
         int transAddResult = 0;
         int scoreAddResult = 0;

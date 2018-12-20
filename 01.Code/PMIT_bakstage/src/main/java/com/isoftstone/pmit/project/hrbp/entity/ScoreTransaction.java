@@ -5,12 +5,16 @@ public class ScoreTransaction {
 
     /**软通工号*/
     private String employeeID;
-    /**事务名*/
-    private String transactionName;
-    /**事务维度*/
-    private String dimensionName;
-    /**维度分数*/
-    private String dimensionScore;
+    /**事务ID*/
+    private String transactionID;
+    /**维度ID*/
+    private String dimensionID;
+    /**分数*/
+    private float Score;
+    /**导师ID*/
+    private String tutorID;
+    /**HeaderID*/
+    private String headerID;
 
     public String getEmployeeID() {
         return employeeID;
@@ -20,27 +24,43 @@ public class ScoreTransaction {
         this.employeeID = employeeID;
     }
 
-    public String getTransactionName() {
-        return transactionName;
+    public String getTransactionID() {
+        return transactionID;
     }
 
-    public void setTransactionName(String transactionName) {
-        this.transactionName = transactionName;
+    public void setTransactionID(String transactionID) {
+        this.transactionID = transactionID;
     }
 
-    public String getDimensionName() {
-        return dimensionName;
+    public String getDimensionID() {
+        return dimensionID;
     }
 
-    public void setDimensionName(String dimensionName) {
-        this.dimensionName = dimensionName;
+    public void setDimensionID(String dimensionID) {
+        this.dimensionID = dimensionID;
     }
 
-    public String getDimensionScore() {
-        return dimensionScore;
+    public float getScore() {
+        return Score;
     }
 
-    public void setDimensionScore(String dimensionScore) {
-        this.dimensionScore = dimensionScore;
+    public void setScore(float score) {
+        Score = score;
+    }
+
+    public String getTutorID() {
+        return tutorID;
+    }
+
+    public void setTutorID(String tutorID) {
+        this.tutorID = tutorID;
+    }
+
+    public String getHeaderID() {
+        return headerID;
+    }
+
+    public void setHeaderID(String headerID) {
+        this.headerID = headerID;
     }
 }

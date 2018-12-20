@@ -5,15 +5,18 @@
 <mapper namespace="com.isoftstone.pmit.system.exceloperation.mapper.ExcelCourseMapper">
 
     <insert id="insertCourse" parameterType="com.isoftstone.pmit.project.hrbp.entity.ScoreCourse">
-        INSERT INTO course_table (employeeID, courseDimension, courseName, courseScore) VALUES
+        INSERT INTO mms_course_test_score (employee_ID, opening_ID, test_score, type) VALUES
         <foreach collection="list" item="test" separator=",">
             (
             #{test.employeeID},
-            #{test.courseDimension},
-            #{test.courseName},
-            #{test.courseScore}
+            #{test.openingID},
+            #{test.courseScore},
+            #{test.type}
             )
         </foreach>
     </insert>
-
+    <select id="getCourse" resultType="com.isoftstone.pmit.project.hrbp.entity.ScoreCourse">
+        select  employee_ID, opening_ID, test_score, type
+         from mms_course_test_score
+    </select>
 </mapper>

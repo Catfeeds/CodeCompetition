@@ -70,9 +70,9 @@ public class ShiroConfiguration {
         filterChainDefinitionMap.put("/webjars/**", "anon");
         filterChainDefinitionMap.put("/v2/**", "anon");
         filterChainDefinitionMap.put("/admin/**", "roles[admin]");// 表示admin权限才可以访问
-        filterChainDefinitionMap.put("/*", "authc");// 表示需要认证才可以访问
+        /*filterChainDefinitionMap.put("/*", "authc");// 表示需要认证才可以访问
         filterChainDefinitionMap.put("/**", "authc");
-        filterChainDefinitionMap.put("/*.*", "authc");
+        filterChainDefinitionMap.put("/*.*", "authc");*/
         filterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         log.info("shiroFilter注册完成");
         return filterFactoryBean;

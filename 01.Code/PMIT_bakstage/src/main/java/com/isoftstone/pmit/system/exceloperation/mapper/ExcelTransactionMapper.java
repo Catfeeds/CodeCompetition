@@ -11,4 +11,6 @@ import java.util.List;
 public interface ExcelTransactionMapper {
 
     int insertTransaction(List<ScoreTransaction> transList);
+
+    List<ScoreTransaction> getTransaction();
 }

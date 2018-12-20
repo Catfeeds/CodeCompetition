@@ -11,4 +11,6 @@ import java.util.List;
 public interface ExcelCourseMapper {
 
     int insertCourse(List<ScoreCourse> courseList);
+
+    List<ScoreCourse> getCourse();
 }

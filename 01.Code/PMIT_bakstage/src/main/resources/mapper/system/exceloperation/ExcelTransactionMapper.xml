@@ -5,16 +5,20 @@
 <mapper namespace="com.isoftstone.pmit.system.exceloperation.mapper.ExcelTransactionMapper">
 
     <insert id="insertTransaction" parameterType="com.isoftstone.pmit.project.hrbp.entity.ScoreTransaction">
-        INSERT INTO transaction_table (employeeID, transactionName, dimensionName, dimensionScore
+        INSERT INTO mms_transaction_dimension_score (employee_ID, affair_id, dimension_ID, score,tutorID,headerID
         ) VALUES
         <foreach collection="list" item="test" separator=",">
             (
             #{test.employeeID},
-            #{test.transactionName},
-            #{test.dimensionName},
-            #{test.dimensionScore}
+            #{test.transactionID},
+            #{test.dimensionID},
+            #{test.dimensionScore},
+            #{test.tutorID},
+            #{test.headerID}
             )
         </foreach>
     </insert>
-
+    <select id="getTransaction" resultType="com.isoftstone.pmit.project.hrbp.entity.ScoreTransaction">
+        select employee_ID, affair_id, dimension_ID, score,tutorID,headerID from mms_transaction_dimension_score;
+    </select>
 </mapper>

@@ -5,12 +5,12 @@ public class ScoreCourse {
 
     /**软通工号*/
     private String employeeID;
-    /**课程维度*/
-    private String courseDimension;
-    /**课程名*/
-    private String courseName;
+    /**开班ID*/
+    private String openingID;
+    /**类型*/
+    private String type;
     /**课程成绩*/
-    private String courseScore;
+    private float courseScore;
 
     public String getEmployeeID() {
         return employeeID;
@@ -20,27 +20,27 @@ public class ScoreCourse {
         this.employeeID = employeeID;
     }
 
-    public String getCourseDimension() {
-        return courseDimension;
+    public String getOpeningID() {
+        return openingID;
     }
 
-    public void setCourseDimension(String courseDimension) {
-        this.courseDimension = courseDimension;
+    public void setOpeningID(String openingID) {
+        this.openingID = openingID;
     }
 
-    public String getCourseName() {
-        return courseName;
+    public String getType() {
+        return type;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getCourseScore() {
+    public float getCourseScore() {
         return courseScore;
     }
 
-    public void setCourseScore(String courseScore) {
+    public void setCourseScore(float courseScore) {
         this.courseScore = courseScore;
     }
 }
