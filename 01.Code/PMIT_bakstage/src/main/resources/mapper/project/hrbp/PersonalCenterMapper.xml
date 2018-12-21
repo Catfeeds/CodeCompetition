@@ -30,7 +30,7 @@
 			mea.affair_name as afairName,
 			mea.series as series,
 			mea.system as system,
-			mea.bu as bu
+			mbsi.du as du
 		FROM 
 			mms_staff_affair msa,
 			mms_examination_affair mea,
