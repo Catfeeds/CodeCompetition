@@ -319,19 +319,9 @@
         ></el-pagination>
       </el-row>
     </div>
-    <div style="display:none">
-      <form
-        ref="templateForm"
-        target="downloadFrame"
-        id="downloadTemplate"
-        action="system/exceloperation/download/scoreTemplate"
-        method="post"
-      ></form>
-      <iframe id="downloadFrame" name="downloadFrame"></iframe>
-    </div>
     <el-dialog
       title="修改考核维度得分"
-      :visible="dialogSetVisible"
+      :visible.sync="dialogSetVisible"
       width="50%"
       :close-on-click-modal="false"
     >
@@ -385,6 +375,7 @@
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
 import { formatDate } from "@/utils/date";
+import { postDownLoadFile } from "@/utils/export";
 export default {
   filters: {
     formatDate(time) {
@@ -544,9 +535,6 @@ export default {
         this.handleFilter(null, this.page);
       }
     },
-    handleExport() {
-      this.$message.info("功能正在完善中。。。");
-    },
     importAction() {
       return "system/exceloperation/importScore?user=" + this.employeeId;
     },
@@ -577,7 +565,34 @@ export default {
       this.$message.error("文件导入失败,请检查文件格式是否合法");
     },
     handleTemplate() {
-      this.$refs.templateForm.submit();
+      postDownLoadFile({
+        url: "system/exceloperation/download/scoreTemplate",
+        data: {}
+      });
+    },
+    handleExport() {
+      let vm = this;
+      postDownLoadFile({
+        url: "system/exceloperation/download/exportPersonalInfo",
+        data: {
+          bu: vm.searchForm.product,
+          series: vm.searchForm.series,
+          affairName: vm.searchForm.trainName,
+          types: vm.searchForm.property,
+          startTime: vm.searchForm.scoreTime
+            ? formatDate(vm.searchForm.scoreTime[0], "yyyy-MM-dd HH:mm:ss")
+            : "",
+          endTime: vm.searchForm.scoreTime
+            ? formatDate(vm.searchForm.scoreTime[1], "yyyy-MM-dd HH:mm:ss")
+            : "",
+          pageParam: {
+            currPage: 0,
+            pageSize: 0,
+            sortColumn: "",
+            sortType: ""
+          }
+        }
+      });
     }
   }
 };

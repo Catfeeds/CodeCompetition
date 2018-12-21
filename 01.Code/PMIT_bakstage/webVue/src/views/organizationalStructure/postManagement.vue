@@ -313,9 +313,8 @@
     </el-row>
     <el-dialog
       :title="dialogSetTitle"
-      :visible="dialogSetVisible"
+      :visible.sync="dialogSetVisible"
       width="50%"
-      @close="dialogSetVisible = false;"
       :close-on-click-modal="false"
     >
       <el-row>

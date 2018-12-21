@@ -1,24 +1,194 @@
 <template>
   <div class="app-container">
-    <el-tabs @tab-click="changeTab" v-model="activeTab">
+    <el-tabs v-model="activeTab">
       <el-tab-pane label="我的待办" name="tab1">
         <el-row type="flex" justify="end" style="margin-bottom:10px;">
-          <el-button type="primary" icon="el-icon-circle-plus-outline" size="mini" @click="collpseAll">全部折叠</el-button>
-          <el-button type="primary" icon="el-icon-remove-outline" size="mini" @click="expandAll">全部展开</el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-circle-plus-outline"
+            size="mini"
+            @click="collpseAll"
+          >全部折叠</el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-remove-outline"
+            size="mini"
+            @click="expandAll"
+          >全部展开</el-button>
         </el-row>
-        <el-collapse v-model="activeNames" @change="handleChange">
-          <el-collapse-item title="待我评价" name="evaluation">
-            
+        <el-collapse v-model="activeNames">
+          <el-collapse-item :title="evaluateTitle" name="evaluation">
+            <el-table
+              :data="evaluationTable"
+              border
+              fit
+              size="mini"
+              stripe
+              max-height="220"
+              highlight-current-row
+              style="width: 100%;"
+            >
+              <el-table-column
+                header-align="center"
+                align="center"
+                :label="$t('table.id')"
+                width="50"
+                type="index"
+              ></el-table-column>
+
+              <el-table-column
+                width="150px"
+                header-align="center"
+                label="评价名称"
+                prop="afairName"
+                sortable
+              ></el-table-column>
+
+              <el-table-column
+                width="150px"
+                header-align="center"
+                label="所属系列"
+                prop="series"
+                sortable
+              ></el-table-column>
+              <el-table-column
+                min-width="120"
+                header-align="center"
+                label="评价对象姓名"
+                sortable
+                prop="staffName"
+              ></el-table-column>
+              <el-table-column
+                min-width="80"
+                header-align="center"
+                label="评价对象工号"
+                sortable
+                prop="staffId"
+              ></el-table-column>
+              <el-table-column
+                min-width="110"
+                header-align="center"
+                label="部门名称"
+                sortable
+                prop="du"
+              ></el-table-column>
+              <el-table-column
+                align="center"
+                :label="$t('table.option')"
+                width="50"
+                header-align="center"
+              >
+                <template slot-scope="scope">
+                  <el-button
+                    type="text"
+                    size="mini"
+                    icon="el-icon-edit-outline"
+                    title="处理"
+                    @click="handleProcess(scope.row);"
+                  ></el-button>
+                </template>
+              </el-table-column>
+            </el-table>
           </el-collapse-item>
-          <el-collapse-item title="我的培训" name="training">
-            
-          </el-collapse-item>
-          <el-collapse-item title="我的考试" name="examination">
-            
-          </el-collapse-item>
+          <el-collapse-item title="我的培训" name="training"></el-collapse-item>
+          <el-collapse-item title="我的考试" name="examination"></el-collapse-item>
         </el-collapse>
       </el-tab-pane>
-      <el-tab-pane label="历史记录" name="tab2"></el-tab-pane>
+      <el-tab-pane label="历史记录" name="tab2">
+        <el-row type="flex" justify="end" style="margin-bottom:10px;">
+          <el-button
+            type="primary"
+            icon="el-icon-circle-plus-outline"
+            size="mini"
+            @click="collpseHistoryAll"
+          >全部折叠</el-button>
+          <el-button
+            type="primary"
+            icon="el-icon-remove-outline"
+            size="mini"
+            @click="expandHistoryAll"
+          >全部展开</el-button>
+        </el-row>
+        <el-collapse v-model="activeHistoryNames">
+          <el-collapse-item :title="historyEvaluateTitle" name="evaluation">
+            <el-table
+              :data="historyEvaluationTable"
+              border
+              fit
+              size="mini"
+              stripe
+              max-height="220"
+              highlight-current-row
+              style="width: 100%;"
+            >
+              <el-table-column
+                header-align="center"
+                align="center"
+                :label="$t('table.id')"
+                width="50"
+                type="index"
+              ></el-table-column>
+
+              <el-table-column
+                width="150px"
+                header-align="center"
+                label="评价名称"
+                prop="affairName"
+                sortable
+              ></el-table-column>
+
+              <el-table-column
+                width="150px"
+                header-align="center"
+                label="所属系列"
+                prop="series"
+                sortable
+              ></el-table-column>
+              <el-table-column
+                min-width="120"
+                header-align="center"
+                label="评价对象姓名"
+                sortable
+                prop="staffName"
+              ></el-table-column>
+              <el-table-column
+                min-width="80"
+                header-align="center"
+                label="评价对象工号"
+                sortable
+                prop="staffId"
+              ></el-table-column>
+              <el-table-column min-width="110" header-align="center" label="部门" sortable prop="du"></el-table-column>
+              <el-table-column
+                min-width="110"
+                header-align="center"
+                label="评价时间"
+                sortable
+                prop="du"
+              ></el-table-column>
+              <el-table-column width="80" header-align="center" label="得分" sortable prop="sumScore"></el-table-column>
+              <el-table-column
+                align="center"
+                :label="$t('table.option')"
+                width="50"
+                header-align="center"
+              >
+                <template slot-scope="scope">
+                  <el-button
+                    type="text"
+                    size="mini"
+                    icon="el-icon-edit"
+                    title="处理"
+                    @click="handleEdit(scope.row);"
+                  ></el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-collapse-item>
+          <el-collapse-item title="我的培训" name="training"></el-collapse-item>
+          <el-collapse-item title="我的考试" name="examination"></el-collapse-item>
+        </el-collapse>
+      </el-tab-pane>
       <el-tab-pane label="我的成绩" name="tab3">
         <el-table
           :data="dataTable"
@@ -68,31 +238,123 @@
         </el-table>
       </el-tab-pane>
     </el-tabs>
+    <el-dialog :visible.sync="dialogSetVisible" width="50%" :close-on-click-modal="false">
+      <el-row>
+        
+      </el-row>
+      <el-form :model="dimensionForm" size="mini" ref="dimensionForm" :rules="rules">
+        <el-table
+          ref="multipleTable"
+          :data="dimensionList"
+          border
+          fit
+          size="mini"
+          stripe
+          max-height="185"
+          tooltip-effect="dark"
+          highlight-current-row
+          @selection-change="handleSelectionChange"
+          style="width: 100%; margin:10px 0px"
+        >
+          <el-table-column type="selection" width="55" v-if="!isView"></el-table-column>
+          <el-table-column
+            header-align="center"
+            align="center"
+            :label="$t('table.id')"
+            width="80"
+            type="index"
+          ></el-table-column>
+          <el-table-column prop="dimension" header-align="center" label="考核维度" width="150">
+            <template slot-scope="scope">
+              <el-form-item label prop="dimension" v-if="scope.row.isAdd">
+                <el-input v-model="dimensionForm.dimension" autocomplete="off"></el-input>
+              </el-form-item>
+              <span v-else>{{scope.row.dimension}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="score" header-align="center" label="分数" width="100">
+            <template slot-scope="scope">
+              <el-form-item label prop="score" v-if="scope.row.isAdd">
+                <el-input v-model="dimensionForm.score" autocomplete="off" maxlength="3"></el-input>
+              </el-form-item>
+              <span v-else>{{scope.row.score}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="description"
+            header-align="center"
+            label="考核点说明"
+            show-overflow-tooltip
+          >
+            <template slot-scope="scope">
+              <el-form-item label prop="description" v-if="scope.row.isAdd">
+                <el-input v-model="dimensionForm.description" autocomplete="off"></el-input>
+              </el-form-item>
+              <span v-else>{{scope.row.description}}</span>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogSetVisible = false;" size="mini" v-if="isView">关 闭</el-button>
+        <el-button type="primary" @click="handleSave();" size="mini" v-else>确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
       activeTab: "tab1",
-      activeNames: []
+      activeNames: [],
+      activeHistoryNames: [],
+      dataTable: [],
+      dialogSetVisible: false,
+      evaluateTitle: "待我评价",
+      historyEvaluateTitle: "待我评价"
     };
   },
   mounted() {
     this.getScoreInfo();
+    this.getEvaluateListData(this.employeeId);
+    this.getHistoryEvaluateList(this.employeeId);
   },
   computed: {
-    ...mapGetters(["employeeId", "employeeName"])
+    ...mapGetters(["employeeId", "employeeName"]),
+    ...mapState({
+      evaluationTable: state => state.personalCenterStore.evaluateList,
+      historyEvaluationTable: state =>
+        state.personalCenterStore.historyEvaluateList
+    })
+  },
+  watch: {
+    evaluationTable(data) {
+      this.evaluateTitle = "待我评价(" + data.length + ")";
+    },
+    historyEvaluationTable(data) {
+      this.historyEvaluateTitle = "待我评价(" + data.length + ")";
+    }
   },
   methods: {
-    changeTab() {},
+    ...mapActions(["getEvaluateListData", "getHistoryEvaluateList"]),
     collpseAll() {
       this.activeNames = [];
     },
     expandAll() {
-      this.activeNames = ["evaluation", "training", "examination"]
+      this.activeNames = ["evaluation", "training", "examination"];
+    },
+    expandHistoryAll() {
+      this.activeHistoryNames = ["evaluation", "training", "examination"];
+    },
+    collpseHistoryAll() {
+      this.activeHistoryNames = [];
+    },
+    handleProcess(row) {
+      let vm = this;
+      vm.dialogSetVisible = true;
     },
     getScoreInfo() {
       let vm = this;

@@ -373,7 +373,7 @@
         <el-button type="primary" @click="handleSubmit();" v-if="isResult" size="mini">完 成</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="查看考核规则" :visible="dialogViewVisible" width="50%">
+    <el-dialog title="查看考核规则" :visible.sync="dialogViewVisible" width="50%">
       <el-table
         :data="ruleList"
         border

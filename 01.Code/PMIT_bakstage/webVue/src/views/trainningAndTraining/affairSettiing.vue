@@ -127,7 +127,12 @@
                   width="50"
                   type="index"
                 ></el-table-column>
-                <el-table-column prop="dimensionName" header-align="center" label="考核维度" width="150"></el-table-column>
+                <el-table-column
+                  prop="dimensionName"
+                  header-align="center"
+                  label="考核维度"
+                  width="150"
+                ></el-table-column>
                 <el-table-column prop="mark" header-align="center" label="分数" width="100"></el-table-column>
                 <el-table-column
                   prop="explanation"
@@ -313,9 +318,8 @@
     </el-row>
     <el-dialog
       :title="dialogSetTitle"
-      :visible="dialogSetVisible"
+      :visible.sync="dialogSetVisible"
       width="50%"
-      @close="dialogSetVisible = false;"
       :close-on-click-modal="false"
     >
       <el-row>
@@ -730,7 +734,10 @@ export default {
         return;
       }
       let param = {
-        examinationAffair: { affairID: vm.dimensionForm.affairsId },
+        examinationAffair: {
+          affairID: vm.dimensionForm.affairsId,
+          employeeID: vm.employeeId
+        },
         examinationDimensionList: vm.dimensionList.map(item => {
           return {
             dimensionName: item.dimension,

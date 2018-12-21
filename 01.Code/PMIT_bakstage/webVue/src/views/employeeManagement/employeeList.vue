@@ -87,7 +87,7 @@
         type="primary"
         size="mini"
         icon="el-icon-download"
-        @click="handleCreate"
+        @click="handleExport"
       >{{ $t("button.export") }}</el-button>
       <el-upload
         class="filter-item"
@@ -229,21 +229,12 @@
         next-text="下一页"
       ></el-pagination>
     </el-row>
-    <div style="display:none">
-      <form
-        ref="templateForm"
-        target="downloadFrame"
-        id="downloadTemplate"
-        action="system/exceloperation/download/personalInfoTemplate"
-        method="post"
-      ></form>
-      <iframe id="downloadFrame" name="downloadFrame"></iframe>
-    </div>
   </div>
 </template>
 
 <script>
 import { formatDate } from "@/utils/date";
+import { postDownLoadFile } from "@/utils/export";
 import { mapGetters } from "vuex";
 export default {
   filters: {
@@ -265,6 +256,7 @@ export default {
         employeeId: "",
         employeeName: ""
       },
+      searchCondition: {},
       list: [],
       listLoading: false,
       page: {
@@ -321,7 +313,7 @@ export default {
     },
     getEmployeeList() {
       let vm = this;
-      let condition = {
+      vm.searchCondition = {
         pageInfo: {
           currPage: vm.page.currentPage,
           pageSize: vm.page.pageSize,
@@ -336,7 +328,7 @@ export default {
       };
       vm.listLoading = true;
       vm.$store
-        .dispatch("getEmployeeList", condition)
+        .dispatch("getEmployeeList", vm.searchCondition)
         .then(res => {
           if (res.success) {
             vm.list = res.data.list;
@@ -469,7 +461,18 @@ export default {
       this.$message.error("文件导入失败,请检查文件格式是否合法");
     },
     handleTemplate() {
-      this.$refs.templateForm.submit();
+      postDownLoadFile({
+        url: "system/exceloperation/download/personalInfoTemplate",
+        data: {}
+      });
+    },
+    handleExport() {
+      postDownLoadFile({
+        url: "system/exceloperation/download/exportPersonalInfo",
+        data: _.extend({}, this.searchCondition, {
+          pageInfo: { currPage: 0, pageSize: 0 }
+        })
+      });
     }
   }
 };
