@@ -10,6 +10,13 @@ public class PersonalAffairdimension {
     private String dimensionName;
     private Double score;
     private String evaluation;
+    private String explanation;
+    public String getExplanation() {
+        return explanation;
+    }
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
+    }
 
     public String getEmployeeId() {
         return employeeId;

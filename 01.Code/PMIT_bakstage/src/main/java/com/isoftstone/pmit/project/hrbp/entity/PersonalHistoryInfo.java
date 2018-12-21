@@ -1,5 +1,6 @@
 package com.isoftstone.pmit.project.hrbp.entity;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -16,6 +17,7 @@ public class PersonalHistoryInfo {
     private String series;
     private String du;
     private Double sumScore;
+    private Date ChangeTime;
     private List<PersonalAffairdimension> PersonalAffairdimensionList;
 
     public String getStaffName() {
@@ -24,6 +26,14 @@ public class PersonalHistoryInfo {
 
     public void setStaffName(String staffName) {
         this.staffName = staffName;
+    }
+
+    public Date getChangeTime() {
+        return ChangeTime;
+    }
+
+    public void setChangeTime(Date changeTime) {
+        ChangeTime = changeTime;
     }
 
     public String getStaffId() {

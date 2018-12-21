@@ -13,6 +13,7 @@
 		<result column="affairName" property="affairName"></result>
 		<result column="series" property="series"></result>
 		<result column="du" property="du"></result>
+		<result column="changeTime" property="changeTime"></result>
 		<result column="sumScore" property="sumScore"></result>
 		<collection property="PersonalAffairdimensionList" ofType="com.isoftstone.pmit.project.hrbp.entity.PersonalAffairdimension">
 			<result column="transactionDimensionId" property="transactionDimensionId"></result>
@@ -20,6 +21,7 @@
 			<result column="dimensionName" property="dimensionName"></result>
 			<result column="score" property="score"></result>
 			<result column="evaluation" property="evaluation"></result>
+			<result column="explanation" property="explanation"></result>
 		</collection>
 	</resultMap>
 	<select id="getPendingSolved" parameterType="java.util.Map" resultType="java.util.Map">
@@ -107,6 +109,10 @@
 	</select>
 	<select id="queryHistorySolved" parameterType="java.util.Map" resultMap="personalHistoryAffairMapper">
 		SELECT
+	temp.*, med.explanation
+FROM
+	(
+		SELECT
 			a.staffId,
 			a.staffName,
 			a.evaluatorId,
@@ -115,67 +121,74 @@
 			a.series,
 			a.du,
 			b.sumScore,
+			b.changeTime,
 			b.transactionDimensionId,
 			b.dimensionId,
 			b.dimensionName,
 			b.score,
 			b.evaluation
 		FROM
-		(
-		SELECT
-			msa.staff_id AS staffId,
-			mbsi.employeeName AS staffName,
-			msa.evaluator_id evaluatorId,
-			mea.affair_id AS affairId,
-			mea.affair_name AS affairName,
-			mea.series AS series,
-			mea.system AS system,
-			mbsi.du AS du
-		FROM
-			mms_staff_affair msa,
-			mms_examination_affair mea,
-			mms_base_staff_info mbsi
-		WHERE
-			msa.staff_id = mbsi.employeeId
-		AND mea.affair_id = msa.affair_id
-		AND msa.is_solved = 1
-		) a
-		LEFT JOIN (
-		SELECT
-		temp.*, med.dimension_name dimensionName
-		FROM
-		(
-		SELECT
-			a.employee_id employeeId,
-			a.affair_id affairId,
-			a.sumScore,
-			a.changeTime,
-			mtds.transaction_dimension_id transactionDimensionId,
-			mtds.dimension_id dimensionId,
-			mtds.score,
-			mtds.evaluation
-		FROM
 			(
 				SELECT
-					mtds.employee_id,
-					mtds.affair_id,
-					SUM(mtds.score) sumScore,
-					MAX(mtds.change_time) changeTime
+					msa.staff_id AS staffId,
+					mbsi.employeeName AS staffName,
+					msa.evaluator_id evaluatorId,
+					mea.affair_id AS affairId,
+					mea.affair_name AS affairName,
+					mea.series AS series,
+					mea.system AS system,
+					mbsi.du AS du
 				FROM
-					mms_transaction_dimension_score mtds,
-					mms_examination_dimension med
+					mms_staff_affair msa,
+					mms_examination_affair mea,
+					mms_base_staff_info mbsi
 				WHERE
-					mtds.dimension_id = med.dimension_id
-				GROUP BY
-					mtds.employee_id,
-					mtds.affair_id
+					msa.staff_id = mbsi.employeeId
+				AND mea.affair_id = msa.affair_id
+				AND msa.is_solved = 1
 			) a
-		LEFT JOIN mms_transaction_dimension_score mtds ON a.affair_id = mtds.affair_id
-		AND a.employee_id = mtds.employee_id
-		) temp
-		LEFT JOIN mms_examination_dimension med ON temp.dimensionId = med.dimension_id
+		LEFT JOIN (
+			SELECT
+				temp.*, med.dimension_name dimensionName
+			FROM
+				(
+					SELECT
+						a.employee_id employeeId,
+						a.affair_id affairId,
+						a.sumScore,
+						a.changeTime,
+						mtds.transaction_dimension_id transactionDimensionId,
+						mtds.dimension_id dimensionId,
+						mtds.score,
+						mtds.evaluation
+					FROM
+						(
+							SELECT
+								mtds.employee_id,
+								mtds.affair_id,
+								SUM(mtds.score) sumScore,
+								MAX(mtds.change_time) changeTime
+							FROM
+								mms_transaction_dimension_score mtds,
+								mms_examination_dimension med
+							WHERE
+								mtds.dimension_id = med.dimension_id
+							GROUP BY
+								mtds.employee_id,
+								mtds.affair_id
+						) a
+					LEFT JOIN mms_transaction_dimension_score mtds ON a.affair_id = mtds.affair_id
+					AND a.employee_id = mtds.employee_id
+				) temp
+			LEFT JOIN mms_examination_dimension med ON temp.dimensionId = med.dimension_id
 		) b ON a.staffId = b.employeeId
-		where a.evaluatorId = #{evaluatorId}
+		WHERE
+			a.evaluatorId = #{evaluatorId}
+	) temp,
+	mms_examination_dimension med
+WHERE
+	temp.dimensionId = med.dimension_id
+
 	</select>
 	<update id="saveEvaluation" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalAffairdimension">
 		update mms_transaction_dimension_score set score = #{score},evaluation = #{evaluation},modifier=(SELECT
@@ -184,5 +197,8 @@
                 mms_login_information
                 WHERE
                 employee_ID = #{employeeId}),change_time = now() where transaction_dimension_id = #{transactionDimensionId}
+	</update>
+	<update id="updateIsSolved" parameterType="PersonalHistoryInfo">
+		update mms_staff_affair set is_solved = 1 where staff_id = #{staffId} and affair_id= #{affairId} and evaluator_id = #{evaluatorId}
 	</update>
 </mapper>

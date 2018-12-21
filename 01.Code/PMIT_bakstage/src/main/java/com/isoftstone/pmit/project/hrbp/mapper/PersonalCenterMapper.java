@@ -21,4 +21,6 @@ public interface PersonalCenterMapper {
 	List<Map<String,Object>> getStaffAffair(Map<String,Object> pendingSolvedMap);
 
 	void saveEvaluation(PersonalAffairdimension personalAffairdimension);
+
+    void updateIsSolved(PersonalAffairdimension personalAffairdimension);
 }

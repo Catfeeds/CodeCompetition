@@ -55,8 +55,8 @@ public class PersonalCenterService implements IPersonalCenterService {
     public void saveEvaluation(List<PersonalAffairdimension> personalAffairdimensionList) {
         for (PersonalAffairdimension personalAffairdimension : personalAffairdimensionList) {
             personalCenterMapper.saveEvaluation(personalAffairdimension);
+            personalCenterMapper.updateIsSolved(personalAffairdimension);
         }
-
     }
 
     @Override
