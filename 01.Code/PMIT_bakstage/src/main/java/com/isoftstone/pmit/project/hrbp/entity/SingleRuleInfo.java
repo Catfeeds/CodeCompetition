@@ -4,7 +4,7 @@ public class SingleRuleInfo {
     // 规则Id
     private int ruleId;
     // 规则项Id （可以是培训或者事务，但必须是表中对应的Id）
-    private int itemId;
+    private String itemId;
     // 规则项类型(0:培训;1:事务)
     private int itemType;
     // 规则项名称
@@ -22,11 +22,11 @@ public class SingleRuleInfo {
         this.ruleId = ruleId;
     }
 
-    public int getItemId() {
+    public String getItemId() {
         return itemId;
     }
 
-    public void setItemId(int itemId) {
+    public void setItemId(String itemId) {
         this.itemId = itemId;
     }
 
