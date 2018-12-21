@@ -1,35 +1,33 @@
 package com.isoftstone.pmit.project.hrbp.entity;
 
 /**
- * 
+ *
  * 项目组人员配置信息
  *
  */
 public class TeamInfo{
-	
+
 	/** 项目组ID */
 	private String teamId;
-	
+
 	/** 项目组名称  */
 	private String teamName;
-	
+
 	/** 成员姓名  */
 	private String staffName;
-	
+
 	/** 成员ID  */
 	private String staffId;
-	
+
 	/** 组内角色  */
 	private String position;
-	
+
 	/** 父节点工号  */
 	private String parentId;
-	
+
 	/** 层级  */
 	private String level;
-	
-	/** 父节点路径  */
-	private String parentPath;
+
 
 	private String status;
 
@@ -51,12 +49,6 @@ public class TeamInfo{
 		this.changeTime = changeTime;
 	}
 
-	public String getParentPath() {
-		return parentPath;
-	}
-	public void setParentPath(String parentPath) {
-		this.parentPath = parentPath;
-	}
 	public String getParentId() {
 		return parentId;
 	}
@@ -128,5 +120,5 @@ public class TeamInfo{
 			return false;
 		return true;
 	}
-	
+
 }

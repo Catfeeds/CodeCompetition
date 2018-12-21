@@ -149,5 +149,15 @@ public class BaseStaffInfoServiceImpl implements BaseStaffInfoService {
         return pageInfoBaseStaff;
     }
 
+    @Override
+    public List<PersonalInformation> exportPersonalInformation(PersonInfoAndPageInfo paramter) {
+        if (paramter == null){
+            new PersonalScoreParam();
+        }
+        List<PersonalInformation> personalInformations = baseStaffInfoMapper.exportPersonalInformation(paramter);
+
+        return personalInformations;
+    }
+
 
 }

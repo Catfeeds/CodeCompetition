@@ -97,4 +97,9 @@ public class BaseStaffInfoController {
         }
         return AjaxResult.returnToResult(true, fuzzyQuery);
     }
+    @RequestMapping(value = "/exportPersonalInfo", method = { RequestMethod.POST })
+    @ApiOperation(value="导出全员信息", notes="导出全员信息")
+    public List<PersonalInformation> exportPersonalInformation(@RequestBody PersonInfoAndPageInfo paramter) {
+        return  baseStaffInfoService.exportPersonalInformation(paramter);
+    }
 }

@@ -42,7 +42,8 @@ public interface BaseStaffInfoMapper {
 
 
     List<BaseStaffInfo> getPersonalInfoByFuzzyQuery(Map<String,Object> paramter);
-    int getPersonalListSize();
+
+    List<PersonalInformation> exportPersonalInformation(PersonInfoAndPageInfo paramter);
 
 
 }
