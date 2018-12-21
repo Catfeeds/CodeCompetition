@@ -86,7 +86,7 @@ export default {
       eName: "",
       eNumber: "",
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 100,
       total: 0,
       tableData: [],
       headers: []
@@ -113,6 +113,7 @@ export default {
       params.staffID = this.eNumber;
       params.staffName = this.eName;
       params.pageNo = this.currentPage;
+      params.pageSize = this.pageSize;
       this.$store.dispatch("getRDEmployee", params);
     },
     handleSizeChange() {

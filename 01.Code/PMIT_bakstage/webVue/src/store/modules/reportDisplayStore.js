@@ -23,7 +23,7 @@ let getters = {
         bu: state.selectedProduct,
         workPlaceArea: state.selectedArea,
         pdu: state.selectedPDU,
-        isBacknone: state.selectedEType == 0
+        isMMS: state.selectedEType == 0
       };
     };
   }
@@ -141,10 +141,11 @@ let actions = {
     });
   },
   getRDEmployee({ commit }, params) {
-    if(params){
-        params.pageNo = params.pageNo || 1;
-        params.staffID = params.staffID || '';
-        params.staffName = params.staffName || '';
+    if (params) {
+      params.pageNo = params.pageNo || 1;
+      params.pageSize = params.pageSize || 100;
+      params.staffID = params.staffID || "";
+      params.staffName = params.staffName || "";
     }
     return api.getEmployee(params).then(ret => {
       commit("setEmployeeData", ret && ret.data && ret.data.data);
