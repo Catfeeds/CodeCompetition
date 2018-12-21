@@ -78,7 +78,7 @@ public class ExaminationRulesController extends AbstractController {
         ExaminationRulesParam examinationRulesParam = JsonUtils.readValue(parameter, ExaminationRulesParam.class);
         boolean rst = examinationRulesService.saveExaminationRulesInfo(examinationRulesParam);
         if (!rst) {
-            return AjaxResult.returnToMessage(false, "保存考核规则失败");
+            return AjaxResult.returnToMessage(false, "保存考核规则失败,相同角色与级别只允许存在一个");
         }
         return AjaxResult.returnToMessage(true, "保存考核规则成功");
     }
