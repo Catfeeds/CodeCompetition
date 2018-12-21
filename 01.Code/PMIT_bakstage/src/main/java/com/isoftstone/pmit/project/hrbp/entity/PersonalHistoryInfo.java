@@ -9,6 +9,7 @@ import java.util.List;
 public class PersonalHistoryInfo {
     /** 事务Id */
     private String staffId;
+    private String staffName;
     private String affairId;
     private String affairName;
     private String evaluatorId;
@@ -16,6 +17,15 @@ public class PersonalHistoryInfo {
     private String du;
     private Double sumScore;
     private List<PersonalAffairdimension> PersonalAffairdimensionList;
+
+    public String getStaffName() {
+        return staffName;
+    }
+
+    public void setStaffName(String staffName) {
+        this.staffName = staffName;
+    }
+
     public String getStaffId() {
         return staffId;
     }

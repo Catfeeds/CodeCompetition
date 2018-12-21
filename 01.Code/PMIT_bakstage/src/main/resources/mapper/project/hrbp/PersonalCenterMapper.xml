@@ -5,6 +5,7 @@
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.PersonalCenterMapper">
 	<resultMap id="personalHistoryAffairMapper" type="com.isoftstone.pmit.project.hrbp.entity.PersonalHistoryInfo">
 		<id column="staffId" property="staffId"></id>
+		<result column="staffName" property="staffName"></result>
 		<result column="affairId" property="affairId"></result>
 		<result column="affairName" property="affairName"></result>
 		<result column="evaluatorId" property="evaluatorId"></result>
@@ -45,7 +46,8 @@
 			mtds.transaction_dimension_id as transactionDimensionId,
 			mtds.dimension_id as dimensionId,
 			med.dimension_name as dimensionName,
-			mtds.score as score
+			mtds.score as score,
+			med.explanation
 		FROM
 			mms_examination_dimension med,
 			mms_transaction_dimension_score mtds
@@ -66,16 +68,17 @@
 			FROM
 				(
 					SELECT
-						mpsi.staff_id,
-						mbsi.employeeName,
-						mpsi.po_role_id role,
-						mbsi.bu,
-						mbsi.rank
-					FROM
-						mms_base_staff_info mbsi,
-						mms_po_staff_info mpsi
-					WHERE
-						employeeID = mpsi.staff_id
+					mpsi.staff_id,
+					mbsi.employeeName,
+					mpsi.po_role_id role,
+					mbsi.bu,
+					mbsi.rank
+				FROM
+					mms_base_staff_info mbsi,
+					mms_po_staff_info mpsi,
+					mms_project_information mpi
+				WHERE
+					employeeID = mpsi.staff_id AND mpi.projectId = mpsi.project_id AND mpi.endTime >= NOW()
 					AND employeeID = #{staffId}
 				) a
 			INNER JOIN (
@@ -174,7 +177,7 @@
 		where a.evaluatorId = #{evaluatorId}
 	</select>
 	<update id="saveEvaluation" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalAffairdimension">
-		update mms_transaction_dimension_score set evaluation = #{evaluation},modifier=(SELECT
+		update mms_transaction_dimension_score set score = #{score},evaluation = #{evaluation},modifier=(SELECT
                 employee_name
                 FROM
                 mms_login_information
