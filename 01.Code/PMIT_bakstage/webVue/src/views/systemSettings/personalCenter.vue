@@ -238,13 +238,13 @@
         </el-table>
       </el-tab-pane>
     </el-tabs>
-    <el-dialog :visible.sync="dialogSetVisible" width="50%" :close-on-click-modal="false">
+    <el-dialog :visible.sync="dialogSetVisible" width="70%" :close-on-click-modal="false">
       <el-row>{{dimensionForm.affairName}}</el-row>
-      <el-row>
+      <el-row style="font-size:12px;margin:10px 0px;">
         <el-col :span="16">被评价人:{{dimensionForm.evaluator}}</el-col>
         <el-col :span="8">评价日期:{{dimensionForm.evaluateDate}}</el-col>
       </el-row>
-      <el-form :model="dimensionForm" size="mini" ref="dimensionForm" :rules="rules">
+      <el-form :model="dimensionForm" size="mini" ref="dimensionForm">
         <el-table
           ref="multipleTable"
           :data="dimensionForm.dimensionList"
@@ -255,7 +255,7 @@
           max-height="285"
           tooltip-effect="dark"
           highlight-current-row
-          style="width: 100%; margin:10px 0px"
+          style="width: 100%;"
         >
           <el-table-column
             header-align="center"
@@ -264,17 +264,20 @@
             width="50"
             type="index"
           ></el-table-column>
-          <el-table-column prop="dimensionName" header-align="center" label="考核维度" width="150"></el-table-column>
-          <el-table-column prop="score" header-align="center" label="得分" width="100">
+          <el-table-column prop="dimension" header-align="center" label="考核维度" width="150"></el-table-column>
+          <el-table-column header-align="center" label="得分" width="100">
             <template slot-scope="scope">
-              <el-form-item label prop="score">
+              <el-form-item
+                :prop="'dimensionList.'+scope.$index+'.scope'"
+                :rules="rules.score"
+              >
                 <el-input v-model="scope.row.score" autocomplete="off" maxlength="3"></el-input>
               </el-form-item>
             </template>
           </el-table-column>
-          <el-table-column prop="evaluate" header-align="center" label="评价" width="100">
+          <el-table-column prop="evaluate" header-align="center" label="评价" min-width="120">
             <template slot-scope="scope">
-              <el-form-item label prop="score">
+              <el-form-item>
                 <el-input v-model="scope.row.evaluate" autocomplete="off" maxlength="3"></el-input>
               </el-form-item>
             </template>
@@ -289,8 +292,8 @@
         </el-table>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogSetVisible = false;" size="mini" v-if="isView">关 闭</el-button>
-        <el-button type="primary" @click="handleSave();" size="mini" v-else>保 存</el-button>
+        <!-- <el-button @click="dialogSetVisible = false;" size="mini" v-if="isView">关 闭</el-button> -->
+        <el-button type="primary" @click="handleSave();" size="mini">保 存</el-button>
       </div>
     </el-dialog>
   </div>
@@ -301,6 +304,18 @@ import { mapGetters, mapActions, mapState } from "vuex";
 import { formatDate } from "@/utils/date";
 export default {
   data() {
+    let validScore = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("请输入得分"));
+      }
+      if (isNaN(value)) {
+        return callback(new Error("只能输入整数和小数"));
+      }
+      if (Number(value) > 100 || Number(value) < 0) {
+        return callback(new Error("只能0~100的整数和小数"));
+      }
+      return callback();
+    };
     return {
       activeTab: "tab1",
       activeNames: [],
@@ -314,6 +329,9 @@ export default {
         evaluator: "",
         affairName: "",
         evaluateDate: ""
+      },
+      rules: {
+        score: [{ required: true, validator: validScore, trigger: "blur" }]
       }
     };
   },
@@ -366,7 +384,11 @@ export default {
       );
       vm.$store.dispatch("getDimenssionList", param).then(res => {
         if (res.success) {
-          vm.dimensionForm.dimensionList = res.data;
+          vm.dimensionForm.dimensionList = res.data.map(item => {
+            item.dimension = item.dimensionName + "(总分" + item.mark + ")";
+            item.score = "";
+            return item;
+          });
         } else {
           vm.dimensionForm.dimensionList = [];
         }

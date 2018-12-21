@@ -107,7 +107,6 @@ export default {
   },
   methods: {
     handleFilterEmployee(arg, curPage) {
-      console.log("aaa");
       this.currentPage = curPage || 1;
       var params = this.getParams();
       params.staffID = this.eNumber;
