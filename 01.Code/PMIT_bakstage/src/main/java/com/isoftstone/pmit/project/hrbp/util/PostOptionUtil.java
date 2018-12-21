@@ -11,7 +11,7 @@ public class PostOptionUtil {
     public static final String TREE_PATH_SEPARATOR = ":";
 
     public static void covertPostOption2Path(RelationTreeNode inputSelectOpt, List<String> rst) {
-        if (isCantSelectNode(inputSelectOpt)) {
+        if (isCannotSelectNode(inputSelectOpt)) {
             return;
         }
 
@@ -28,9 +28,24 @@ public class PostOptionUtil {
         }
     }
 
-    private static boolean isCantSelectNode(RelationTreeNode inputSelectOpt) {
+    private static boolean isCannotSelectNode(RelationTreeNode inputSelectOpt) {
         return !inputSelectOpt.getIsSelected() || inputSelectOpt.getIsTeamNode() ||
                 (!inputSelectOpt.getIsHasAuthority() && ListUtils.isEmpty(inputSelectOpt.getChildList()));
+    }
+
+    public static void covertPostOption2Leaf(RelationTreeNode inputSelectOpt, List<String> rst) {
+        if (isCannotSelectNode(inputSelectOpt)) {
+            return;
+        }
+
+        if (inputSelectOpt.getIsTeamNode() && inputSelectOpt.getIsSelected() && inputSelectOpt.getIsHasAuthority()) {
+            rst.add(String.valueOf(inputSelectOpt.getTeamID()));
+            return;
+        }
+
+        for (RelationTreeNode oneNode : inputSelectOpt.getChildList()) {
+            covertPostOption2Leaf(oneNode, rst);
+        }
     }
 
     public static void main(String[] args) {
@@ -40,7 +55,7 @@ public class PostOptionUtil {
         baseNode.setNodeType("BD");
         baseNode.setNodePath(":");
         baseNode.setIsTeamNode(false);
-        baseNode.setIsHasAuthority(true);
+        baseNode.setIsHasAuthority(false);
         baseNode.setIsSelected(true);
         baseNode.setChildList(new ArrayList<>());
 
@@ -54,7 +69,7 @@ public class PostOptionUtil {
         _2012BuNode.setNodeType("BU");
         _2012BuNode.setNodePath(":1:");
         _2012BuNode.setIsTeamNode(false);
-        _2012BuNode.setIsHasAuthority(true);
+        _2012BuNode.setIsHasAuthority(false);
         _2012BuNode.setIsSelected(true);
         _2012BuNode.setChildList(new ArrayList<>());
 
@@ -97,7 +112,7 @@ public class PostOptionUtil {
 
         RelationTreeNode changshaBuNode = _2012CuNodes.get(2);
         changshaBuNode.setNodeID(6);
-        changshaBuNode.setNodeName("成都交付部");
+        changshaBuNode.setNodeName("福建交付部");
         changshaBuNode.setNodeType("CU");
         changshaBuNode.setNodePath(":1:2:");
         changshaBuNode.setIsTeamNode(false);
@@ -135,13 +150,17 @@ public class PostOptionUtil {
         shanghaiBuNode.setNodeName("上海交付部");
         shanghaiBuNode.setNodeType("CU");
         shanghaiBuNode.setNodePath(":1:3:");
-        shanghaiBuNode.setIsTeamNode(false);
+        shanghaiBuNode.setIsTeamNode(true);
         shanghaiBuNode.setIsHasAuthority(true);
         shanghaiBuNode.setIsSelected(true);
         shanghaiBuNode.setChildList(new ArrayList<>());
 
-        List<String> rst = new ArrayList<>();
-        covertPostOption2Path(baseNode, rst);
-        System.out.println(rst);
+        List<String> rst1 = new ArrayList<>();
+        List<String> rst2 = new ArrayList<>();
+        covertPostOption2Path(baseNode, rst1);
+        System.out.println(rst1);
+        covertPostOption2Leaf(baseNode, rst2);
+        System.out.println(rst2);
+
     }
 }

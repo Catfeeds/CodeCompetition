@@ -30,7 +30,7 @@ public class PostOptionController {
     public String queryPostOption(@RequestBody String parameter) {
         PostOptionParam params = JsonUtils.readValue(parameter, PostOptionParam.class);
         Map<String, Object> queryParams = ParamUtils.getPostOptionParams(params);
-        RelationTreeNode rst = postOptionService.queryPostOption(queryParams);
+        RelationTreeNode rst = postOptionService.queryBuByPostOption(queryParams);
         if (null == rst) {
             return AjaxResult.returnToResult(false, "查询岗位选项失败!");
         }

@@ -6,12 +6,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface IPostOptionService {
+    // List<String> queryPoIdsOrTeamIds(PostOptionInfo onePost);
+
+    // List<String> queryBu(Map<String, Object> params);
+
     /**
      * 查询单个员工的权限树
      * @param params 查询参数
-     * @return 级联权限树
+     * @return 有权限的Bu
      */
-    RelationTreeNode queryPostOption(Map<String, Object> params);
+    List<String> queryBuByPostOption(Map<String, Object> params);
 
     /**
      * 查询所有岗位项信息

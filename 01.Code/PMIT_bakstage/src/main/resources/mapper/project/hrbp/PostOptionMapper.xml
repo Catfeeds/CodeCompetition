@@ -3,11 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.PostOptionMapper">
-    <select id="querySpecialRolesInfo" parameterType="java.util.Map" resultType="com.isoftstone.pmit.project.hrbp.entity.PostOptionInfo">
-        select * from mms_data_auth auth
+    <select id="queryPostOption" parameterType="java.util.Map" resultType="com.isoftstone.pmit.project.hrbp.entity.PostOptionInfo">
+        select authcontent from mms_data_auth auth
         <where>
             <if test="null != employeeId and '' != employeeId">
-                AND employeeId = #{employeeId}
+                AND employeeIds like %#{employeeId}%
             </if>
             <if test="null != authType and '' != authType">
                 AND authType = #{authType}

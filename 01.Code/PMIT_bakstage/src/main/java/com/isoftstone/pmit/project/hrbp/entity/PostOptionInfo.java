@@ -3,13 +3,13 @@ package com.isoftstone.pmit.project.hrbp.entity;
 import java.util.Date;
 
 public class PostOptionInfo {
-    // 权限Id
+    // 岗位权限Id
     private int postId;
-    // 权限名称
+    // 岗位权限名称
     private String postName;
-    // 权限类型 0:人力树   1:业务树
+    // 岗位权限类型 0:人力树   1:业务树
     private  int authType;
-    // 拥有角色工号，多人以|分隔
+    // 拥有角色工号
     private String employeeId;
     // 权限树内容 多个权限以|分隔
     private String authContent;
