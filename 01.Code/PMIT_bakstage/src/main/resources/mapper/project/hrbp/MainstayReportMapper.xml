@@ -90,7 +90,7 @@
 
     <select id="queryMainstayByPost" parameterType="java.util.Map" resultType="java.util.Map">
         SELECT
-            staff_info.po_role_id AS name,
+            staff_info.roleName AS name,
             COUNT(*) AS number
         FROM
             (
@@ -111,7 +111,7 @@
             (
             SELECT
                 project_id,
-                po_role_id,
+                roleName,
                 <choose>
                     <when test="isMMS">
                         staff_id AS staff_id
@@ -121,13 +121,13 @@
                     </otherwise>
                 </choose>
             FROM
-                mms_po_staff_info
+                mms_po_staff_info LEFT JOIN mms_special_role ON mms_po_staff_info.po_role_id = roleId
             ) staff_info
         ON
             po_info.projectId = staff_info.project_id
         WHERE
             staff_info.staff_id IS NOT NULL
-        GROUP BY staff_info.po_role_id
+        GROUP BY staff_info.roleName
     </select>
 
     <select id="queryTrainingStaffs" parameterType="java.util.Map" resultType="java.lang.String">
@@ -193,7 +193,7 @@
                 (
                 SELECT DISTINCT
                     staff_id,
-                    po_role_id
+                    roleName
                 FROM
                     (
                     SELECT
@@ -213,7 +213,7 @@
                     (
                     SELECT
                         project_id,
-                        po_role_id,
+                        roleName,
                         <choose>
                             <when test="isMMS">
                                 staff_id AS staff_id
@@ -223,7 +223,7 @@
                             </otherwise>
                         </choose>
                     FROM
-                        mms_po_staff_info
+                        mms_po_staff_info LEFT JOIN mms_special_role ON mms_po_staff_info.po_role_id = roleId
                     ) staff_info
                 ON
                     po_info.projectId = staff_info.project_id
@@ -284,7 +284,7 @@
                 AND costCenter = #{costCenter}
             </if>
             <if test="null != post and '' != post">
-                AND po_role_id = #{post}
+                AND roleName = #{post}
             </if>
             <if test="null != series and '' != series">
                 AND series = #{series}
