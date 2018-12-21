@@ -82,7 +82,7 @@
 
     <insert id="addExaminationRulesInfo" parameterType="ExaminationRulesInfo" useGeneratedKeys="true" keyProperty="ruleId">
         insert into mms_examination_rule (roleId, roleLevel, system, creatorId, creatorName, createTime, updateStaffId, updateStaffName, updateTime, passScore, passRule, excellentScore, excellentRule)
-        select #{roleId}, #{roleLevel}, #{creatorId}, #{system}, #{creatorName}, now(), #{creatorId}, #{creatorName}, now(), #{passScore}, #{passRule}, #{excellentScore}, #{excellentRule} from dual
+        select #{roleId}, #{roleLevel}, #{system},#{creatorId}, #{creatorName}, now(), #{creatorId}, #{creatorName}, now(), #{passScore}, #{passRule}, #{excellentScore}, #{excellentRule} from dual
 		where not exists (
 		    select bu from mms_base_staff_info where employeeID=#{creatorId}
             and bu in (
