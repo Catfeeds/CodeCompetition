@@ -239,65 +239,58 @@
       </el-tab-pane>
     </el-tabs>
     <el-dialog :visible.sync="dialogSetVisible" width="50%" :close-on-click-modal="false">
+      <el-row>{{dimensionForm.affairName}}</el-row>
       <el-row>
-        
+        <el-col :span="16">被评价人:{{dimensionForm.evaluator}}</el-col>
+        <el-col :span="8">评价日期:{{dimensionForm.evaluateDate}}</el-col>
       </el-row>
       <el-form :model="dimensionForm" size="mini" ref="dimensionForm" :rules="rules">
         <el-table
           ref="multipleTable"
-          :data="dimensionList"
+          :data="dimensionForm.dimensionList"
           border
           fit
           size="mini"
           stripe
-          max-height="185"
+          max-height="285"
           tooltip-effect="dark"
           highlight-current-row
-          @selection-change="handleSelectionChange"
           style="width: 100%; margin:10px 0px"
         >
-          <el-table-column type="selection" width="55" v-if="!isView"></el-table-column>
           <el-table-column
             header-align="center"
             align="center"
             :label="$t('table.id')"
-            width="80"
+            width="50"
             type="index"
           ></el-table-column>
-          <el-table-column prop="dimension" header-align="center" label="考核维度" width="150">
+          <el-table-column prop="dimensionName" header-align="center" label="考核维度" width="150"></el-table-column>
+          <el-table-column prop="score" header-align="center" label="得分" width="100">
             <template slot-scope="scope">
-              <el-form-item label prop="dimension" v-if="scope.row.isAdd">
-                <el-input v-model="dimensionForm.dimension" autocomplete="off"></el-input>
+              <el-form-item label prop="score">
+                <el-input v-model="scope.row.score" autocomplete="off" maxlength="3"></el-input>
               </el-form-item>
-              <span v-else>{{scope.row.dimension}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="score" header-align="center" label="分数" width="100">
+          <el-table-column prop="evaluate" header-align="center" label="评价" width="100">
             <template slot-scope="scope">
-              <el-form-item label prop="score" v-if="scope.row.isAdd">
-                <el-input v-model="dimensionForm.score" autocomplete="off" maxlength="3"></el-input>
+              <el-form-item label prop="score">
+                <el-input v-model="scope.row.evaluate" autocomplete="off" maxlength="3"></el-input>
               </el-form-item>
-              <span v-else>{{scope.row.score}}</span>
             </template>
           </el-table-column>
           <el-table-column
-            prop="description"
+            min-width="100"
+            prop="explanation"
             header-align="center"
             label="考核点说明"
             show-overflow-tooltip
-          >
-            <template slot-scope="scope">
-              <el-form-item label prop="description" v-if="scope.row.isAdd">
-                <el-input v-model="dimensionForm.description" autocomplete="off"></el-input>
-              </el-form-item>
-              <span v-else>{{scope.row.description}}</span>
-            </template>
-          </el-table-column>
+          ></el-table-column>
         </el-table>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogSetVisible = false;" size="mini" v-if="isView">关 闭</el-button>
-        <el-button type="primary" @click="handleSave();" size="mini" v-else>确 定</el-button>
+        <el-button type="primary" @click="handleSave();" size="mini" v-else>保 存</el-button>
       </div>
     </el-dialog>
   </div>
@@ -305,6 +298,7 @@
 
 <script>
 import { mapGetters, mapActions, mapState } from "vuex";
+import { formatDate } from "@/utils/date";
 export default {
   data() {
     return {
@@ -314,7 +308,13 @@ export default {
       dataTable: [],
       dialogSetVisible: false,
       evaluateTitle: "待我评价",
-      historyEvaluateTitle: "待我评价"
+      historyEvaluateTitle: "待我评价",
+      dimensionForm: {
+        dimensionList: [],
+        evaluator: "",
+        affairName: "",
+        evaluateDate: ""
+      }
     };
   },
   mounted() {
@@ -354,7 +354,24 @@ export default {
     },
     handleProcess(row) {
       let vm = this;
-      vm.dialogSetVisible = true;
+      let param = {
+        affairId: row.affairId,
+        employeeId: row.staffId
+      };
+      vm.dimensionForm.affairName = row.afairName;
+      vm.dimensionForm.evaluator = row.staffName;
+      vm.dimensionForm.evaluateDate = formatDate(
+        new Date(),
+        "yyyy-MM-dd hh:mm"
+      );
+      vm.$store.dispatch("getDimenssionList", param).then(res => {
+        if (res.success) {
+          vm.dimensionForm.dimensionList = res.data;
+        } else {
+          vm.dimensionForm.dimensionList = [];
+        }
+        vm.dialogSetVisible = true;
+      });
     },
     getScoreInfo() {
       let vm = this;
@@ -377,7 +394,8 @@ export default {
         .catch(() => {
           vm.dataTable = [];
         });
-    }
+    },
+    handleSave() {}
   }
 };
 </script>

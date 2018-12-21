@@ -573,7 +573,7 @@ export default {
     handleExport() {
       let vm = this;
       postDownLoadFile({
-        url: "system/exceloperation/download/exportPersonalInfo",
+        url: "system/exceloperation/exportScore",
         data: {
           bu: vm.searchForm.product,
           series: vm.searchForm.series,

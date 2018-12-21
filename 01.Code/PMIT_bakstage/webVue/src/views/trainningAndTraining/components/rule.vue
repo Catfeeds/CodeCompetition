@@ -784,10 +784,10 @@ export default {
             "≤": 3
           };
           let formData = {
-            system: vm.ruleForm.system,
+            system: vm.ruleForm.system[0],
             oneRule: {
               ruleId: -1,
-              roleId: vm.ruleForm.role,
+              roleId: vm.ruleForm.role[0],
               roleLevel: vm.ruleForm.rank,
               creatorId: vm.employeeId,
               creatorName: vm.employeeName

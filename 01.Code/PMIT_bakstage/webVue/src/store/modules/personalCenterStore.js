@@ -53,6 +53,18 @@ export default {
             reject(error);
           });
       });
+    },
+    getDimenssionList(arg, param) {
+      return new Promise((resolve, reject) => {
+        api
+          .getDimensionListByAffairId(param.affairId, param.employeeId)
+          .then(res => {
+            resolve(res.data);
+          })
+          .catch(error => {
+            reject(error);
+          });
+      });
     }
   }
 };

@@ -11,6 +11,18 @@ function getEvaluateList(evaluatorId) {
   });
 }
 /**
+ * 查询考核维度
+ * @param {*} affairId 考核编号
+ * @param {*} employeeID 当前登录用户ID
+ */
+function getDimensionListByAffairId(affairId, employeeID) {
+  return request({
+    url: "hrbp/PersonalCenter/getDimensionByAffair",
+    method: "post",
+    data: { affairId, employeeID }
+  });
+}
+/**
  * 查询历史记录
  * @param {*} evaluatorId 当前登录用户ID
  */
@@ -35,5 +47,6 @@ function saveEvaluation(evaluateInfo) {
 export default {
   getEvaluateList,
   getHistoryEvaluateList,
-  saveEvaluation
+  saveEvaluation,
+  getDimensionListByAffairId
 };

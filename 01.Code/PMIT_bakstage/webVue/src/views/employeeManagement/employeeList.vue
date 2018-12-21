@@ -468,7 +468,7 @@ export default {
     },
     handleExport() {
       postDownLoadFile({
-        url: "system/exceloperation/download/exportPersonalInfo",
+        url: "system/exceloperation/exportPersonalInfo",
         data: _.extend({}, this.searchCondition, {
           pageInfo: { currPage: 0, pageSize: 0 }
         })
