@@ -7,6 +7,8 @@ public class ExaminationRulesInfo {
     private int ruleId;
     // 角色Id
     private int roleId;
+    // 体系
+    private String system;
     // 级别
     private String roleLevel;
     // 创建者工号
@@ -44,6 +46,14 @@ public class ExaminationRulesInfo {
 
     public void setRoleId(int roleId) {
         this.roleId = roleId;
+    }
+
+    public String getSystem() {
+        return system;
+    }
+
+    public void setSystem(String system) {
+        this.system = system;
     }
 
     public String getRoleLevel() {
