@@ -35,7 +35,7 @@
     <select id="queryPOInfo" resultType="RelationTreeNode">
         SELECT
             projectid AS teamID,
-            'Team' AS nodeType,
+            'PO' AS nodeType,
             projectName AS nodeName,
             1 AS isTeamNode
         FROM

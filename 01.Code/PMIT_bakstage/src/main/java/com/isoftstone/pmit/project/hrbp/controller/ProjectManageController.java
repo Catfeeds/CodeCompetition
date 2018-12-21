@@ -25,8 +25,8 @@ public class ProjectManageController {
     private Map<String, List<String>> tempLevelMap = new HashMap<String, List<String>>();
     {
         tempMap.put("ALL", new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)));
-        tempMap.put("西安2012成本中心", new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8)));
-        tempMap.put("成都2012成本中心", new ArrayList<Integer>(Arrays.asList(9, 10, 11, 12, 13)));
+        tempMap.put("西安2012成本中心", new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8,13)));
+        tempMap.put("成都2012成本中心", new ArrayList<Integer>(Arrays.asList(9, 10, 11, 12)));
 
 
         tempLevelMap.put("ALL", new ArrayList<String>(Arrays.asList("2012与企业IT")));

@@ -28,7 +28,12 @@ public class RelationService implements IRelationService {
 
     @Override
     public List<Map<String, Object>> queryAllLevel(Map<String, Object> params) {
-        return mapper.queryAllLevel(params);
+        List<Map<String, Object>> result = mapper.queryAllLevel(params);
+
+        if (result != null && result.size() > 1) {
+            result.get(result.size() - 1).put("operationAllow", 0);
+        }
+        return result;
     }
 
     @Override
@@ -55,7 +60,7 @@ public class RelationService implements IRelationService {
         checkAddNodeInfo(params);
         params.put("tableName", tableNames.get(params.get("type")));
         String addNodeType = (String) params.get("addNodeType");
-        if (!addNodeType.equalsIgnoreCase("Team")) {
+        if (!addNodeType.equalsIgnoreCase("Team") && !addNodeType.equalsIgnoreCase("PO")) {
             if (params.containsKey("addTeamID")) {
                 params.remove("addTeamID");
             }
@@ -178,7 +183,7 @@ public class RelationService implements IRelationService {
         root.setNodeName("root");
 
         for (RelationTreeNode temp : trees) {
-           // getCascadeTree(root, temp, levels);
+            // getCascadeTree(root, temp, levels);
         }
 
 
@@ -190,7 +195,7 @@ public class RelationService implements IRelationService {
         if (currentNode.getChildList() != null) {
             List<RelationTreeNode> tempCurrentList = new ArrayList<RelationTreeNode>();
             for (RelationTreeNode temp : currentNode.getChildList()) {
-                getCascadeTree(currentNode, temp, levels,tempCurrentList);
+                getCascadeTree(currentNode, temp, levels, tempCurrentList);
             }
             parentNode.setChildList(tempCurrentList);
         }
@@ -208,7 +213,7 @@ public class RelationService implements IRelationService {
                 }
                 parentNode.getTeamList().addAll(currentNode.getTeamList());
             }
-        }else {
+        } else {
             tempList.add(currentNode);
         }
     }
@@ -278,15 +283,15 @@ public class RelationService implements IRelationService {
     private void checkAddNodeInfo(Map<String, Object> queryMap) {
         Map<String, Map<String, Object>> levelInfo = new HashMap<String, Map<String, Object>>();
         List<String> fixedLevel = new ArrayList<String>();
-        buildLevelInfo(levelInfo, fixedLevel);
+        buildLevelInfo(levelInfo, fixedLevel, String.valueOf(queryMap.get("type")));
 
         String parentNodeType = (String) queryMap.get("parentNodeType");
         if (parentNodeType.equalsIgnoreCase("Team")) {
             throw new RelationTreeNodeException(parentNodeType + "不支持插入子节点");
         }
-        if (parentNodeType.equalsIgnoreCase("BG")) {
-            throw new RelationTreeNodeException(parentNodeType + "不支持插入子节点,请从BD节点开始建立树结构");
-        }
+//        if (parentNodeType.equalsIgnoreCase("BG")) {
+//            throw new RelationTreeNodeException(parentNodeType + "不支持插入子节点,请从BD节点开始建立树结构");
+//        }
 
         String addNodeType = (String) queryMap.get("addNodeType");
 
@@ -307,7 +312,7 @@ public class RelationService implements IRelationService {
     private void checkMoveNodeInfo(Map<String, Object> queryMap) {
         Map<String, Map<String, Object>> levelInfo = new HashMap<String, Map<String, Object>>();
         List<String> fixedLevel = new ArrayList<String>();
-        buildLevelInfo(levelInfo, fixedLevel);
+        buildLevelInfo(levelInfo, fixedLevel, String.valueOf(queryMap.get("type")));
 
         String targetNodeType = (String) queryMap.get("targetNodeType");
         if (targetNodeType.equalsIgnoreCase("BG")) {
@@ -331,7 +336,7 @@ public class RelationService implements IRelationService {
 
     private void checkDeleteNodeInfo(Map<String, Object> queryMap) {
         List<String> fixedLevel = new ArrayList<String>();
-        buildLevelInfo(null, fixedLevel);
+        buildLevelInfo(null, fixedLevel, String.valueOf(queryMap.get("type")));
 
         String nodeType = (String) queryMap.get("nodeType");
         if (fixedLevel.contains(nodeType)) {
@@ -341,7 +346,7 @@ public class RelationService implements IRelationService {
 
     private void checkUpdateNodeInfo(Map<String, Object> queryMap) {
         List<String> fixedLevel = new ArrayList<String>();
-        buildLevelInfo(null, fixedLevel);
+        buildLevelInfo(null, fixedLevel, String.valueOf(queryMap.get("type")));
 
         String nodeType = (String) queryMap.get("nodeType");
         if (fixedLevel.contains(nodeType)) {
@@ -349,9 +354,14 @@ public class RelationService implements IRelationService {
         }
     }
 
-    private void buildLevelInfo(Map<String, Map<String, Object>> levelInfo, List<String> fixedLevel) {
+    private void buildLevelInfo(Map<String, Map<String, Object>> levelInfo, List<String> fixedLevel, String type) {
         Map<String, Object> levelQueryMap = new HashMap<String, Object>();
-        levelQueryMap.put("relationID", 1);
+        if (type.equalsIgnoreCase("Team")) {
+            levelQueryMap.put("relationID", 1);
+
+        } else {
+            levelQueryMap.put("relationID", 2);
+        }
         List<Map<String, Object>> levelInfoList = queryAllLevel(levelQueryMap);
         if (null != levelInfoList) {
             for (Map<String, Object> temp : levelInfoList) {
