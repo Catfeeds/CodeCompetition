@@ -85,11 +85,11 @@
 		<if test="null != creatorName and creatoName != ''">creator_name,</if>
 		<if test="null != trainingDes and trainingDes != ''">training_des,</if>
 		<if test="null != trainingDuration and trainingDuration != ''">training_duration,</if>
-		<if test="null != createTime and createTime != ''">create_time</if>
+		create_time
 		)values(
 		<if test="null != trainingId and trainingId != ''">#{trainingId},</if>
 		<if test="null != trainingName and trainingName != ''">#{trainingName},</if>
-		<if test="null != series and series != ''">#{series}</if>
+		<if test="null != series and series != ''">#{series},</if>
 		<if test="null != sort and sort != ''">#{sort},</if>
 		<if test="null != type and type != ''">	#{type},</if>
 		<if test="null != classType and classType != ''">#{classType},</if>
@@ -98,7 +98,7 @@
 		<if test="null != creatorName and creatoName != ''">#{creatorName},</if>
 		<if test="null != trainingDes and trainingDes != ''">#{trainingDes},</if>
 		<if test="null != trainingDuration and trainingDuration != ''">#{trainingDuration},</if>
-		<if test="null != createTime and createTime != ''">now()</if>
+		now()
 		)
 	</select>
 	<select id="updateTrainingInfo" parameterType="java.util.Map">
