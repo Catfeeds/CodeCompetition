@@ -23,9 +23,10 @@ public class ProjectManageController {
 
     private Map<String, List<Integer>> tempMap = new HashMap<String, List<Integer>>();
     private Map<String, List<String>> tempLevelMap = new HashMap<String, List<String>>();
+
     {
         tempMap.put("ALL", new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13)));
-        tempMap.put("西安2012成本中心", new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8,13)));
+        tempMap.put("西安2012成本中心", new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 13)));
         tempMap.put("成都2012成本中心", new ArrayList<Integer>(Arrays.asList(9, 10, 11, 12)));
 
 
@@ -34,12 +35,12 @@ public class ProjectManageController {
         tempLevelMap.put("2012", new ArrayList<String>(Arrays.asList("西安2012成本中心", "成都2012成本中心")));
     }
 
-    private void getTeamID(Map<String, Object> parameter){
+    private void getTeamID(Map<String, Object> parameter) {
         Object o = parameter.get("CU");
-        if(o== null||o.equals("")){
+        if (o == null || o.equals("")) {
             o = "ALL";
         }
-        parameter.put("teamIDs",tempMap.get(String.valueOf(o)));
+        parameter.put("teamIDs", tempMap.get(String.valueOf(o)));
     }
 
     @PostMapping(value = "/queryProjectLevel")
@@ -66,7 +67,13 @@ public class ProjectManageController {
     @ApiOperation(value = "项目组查询接口", notes = "项目组级查询接口")
     @PostMapping(value = "/queryProjects")
     public String queryProjects(@RequestBody Map<String, Object> parameter) {
-        getTeamID(parameter);
+        if (parameter.get("teamID") == null) {
+            getTeamID(parameter);
+        } else {
+            List<Integer> teamIDs = new ArrayList<Integer>();
+            teamIDs.add(Integer.valueOf(String.valueOf(parameter.get("teamID"))));
+            parameter.put("teamIDs", teamIDs);
+        }
         Map<String, Object> result = new HashMap<String, Object>();
 
         try {
@@ -110,7 +117,7 @@ public class ProjectManageController {
         getTeamID(params);
         try {
             Long teamID = projectManageService.addProjectNode(params);
-            params.put("teamID",teamID);
+            params.put("teamID", teamID);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());
