@@ -207,8 +207,12 @@
                 header-align="center"
                 label="评价时间"
                 sortable
-                prop="du"
-              ></el-table-column>
+                prop="changeTime"
+              >
+                <template slot-scope="scope">
+                  <span>{{ scope.row.changeTime | formatDate }}</span>
+                </template>
+              </el-table-column>
               <el-table-column width="80" header-align="center" label="得分" sortable prop="sumScore"></el-table-column>
               <el-table-column
                 align="center"
@@ -343,6 +347,12 @@
 import { mapGetters, mapActions, mapState } from "vuex";
 import { formatDate } from "@/utils/date";
 export default {
+  filters: {
+    formatDate(time) {
+      let date = new Date(time);
+      return formatDate(date, "yyyy-MM-dd hh:mm:ss");
+    }
+  },
   data() {
     let vm = this;
     let validScore = (rule, value, callback) => {
@@ -465,7 +475,11 @@ export default {
       vm.dimensionForm.evaluateDate = "";
       vm.dimensionForm.dimensionList = row.personalAffairdimensionList.map(
         item => {
-          item.dimension = item.dimensionName + "(总分" + item.mark + ")";
+          if(item.mark) {
+            item.dimension = item.dimensionName + "(总分" + item.mark + ")";
+          }else{
+            item.dimension = item.dimensionName;
+          }
           item.score = item.score;
           item.evaluate = item.evaluation;
           return item;
