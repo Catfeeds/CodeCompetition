@@ -2,6 +2,7 @@ package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 
 import com.isoftstone.pmit.common.util.ListUtils;
 import com.isoftstone.pmit.project.hrbp.entity.PersonalAffairdimension;
+import com.isoftstone.pmit.project.hrbp.entity.PersonalHistoryInfo;
 import com.isoftstone.pmit.project.hrbp.mapper.PersonalCenterMapper;
 import com.isoftstone.pmit.project.hrbp.service.IPersonalCenterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,11 +53,11 @@ public class PersonalCenterService implements IPersonalCenterService {
     }
 
     @Override
-    public void saveEvaluation(List<PersonalAffairdimension> personalAffairdimensionList) {
-        for (PersonalAffairdimension personalAffairdimension : personalAffairdimensionList) {
+    public void saveEvaluation(PersonalHistoryInfo personalHistoryInfo) {
+        for (PersonalAffairdimension personalAffairdimension : personalHistoryInfo.getPersonalAffairdimensionList()) {
             personalCenterMapper.saveEvaluation(personalAffairdimension);
-            personalCenterMapper.updateIsSolved(personalAffairdimension);
         }
+        personalCenterMapper.updateIsSolved(personalHistoryInfo);
     }
 
     @Override

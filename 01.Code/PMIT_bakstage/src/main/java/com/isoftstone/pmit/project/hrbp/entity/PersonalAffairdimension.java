@@ -11,6 +11,7 @@ public class PersonalAffairdimension {
     private Double score;
     private String evaluation;
     private String explanation;
+
     public String getExplanation() {
         return explanation;
     }

@@ -22,5 +22,5 @@ public interface PersonalCenterMapper {
 
 	void saveEvaluation(PersonalAffairdimension personalAffairdimension);
 
-    void updateIsSolved(PersonalAffairdimension personalAffairdimension);
+    void updateIsSolved(PersonalHistoryInfo personalHistoryInfo);
 }

@@ -198,7 +198,7 @@ WHERE
                 WHERE
                 employee_ID = #{employeeId}),change_time = now() where transaction_dimension_id = #{transactionDimensionId}
 	</update>
-	<update id="updateIsSolved" parameterType="PersonalHistoryInfo">
+	<update id="updateIsSolved" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalHistoryInfo">
 		update mms_staff_affair set is_solved = 1 where staff_id = #{staffId} and affair_id= #{affairId} and evaluator_id = #{evaluatorId}
 	</update>
 </mapper>

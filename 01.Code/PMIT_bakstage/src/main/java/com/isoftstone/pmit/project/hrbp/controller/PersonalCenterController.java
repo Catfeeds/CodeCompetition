@@ -48,8 +48,7 @@ public class PersonalCenterController {
 	@PostMapping("/saveEvaluation")
 	public String saveEvaluation(@RequestBody String param) {
 		PersonalHistoryInfo personalHistoryInfo = JSONObject.parseObject(param, PersonalHistoryInfo.class);
-		List<PersonalAffairdimension> personalAffairdimensionList = personalHistoryInfo.getPersonalAffairdimensionList();
-		personalCenterService.saveEvaluation(personalAffairdimensionList);
+		personalCenterService.saveEvaluation(personalHistoryInfo);
 		return AjaxResult.returnToMessage(true, "success");
 	}
 

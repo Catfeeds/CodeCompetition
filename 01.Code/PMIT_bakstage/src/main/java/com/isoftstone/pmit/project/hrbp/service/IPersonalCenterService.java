@@ -1,6 +1,5 @@
 package com.isoftstone.pmit.project.hrbp.service;
 
-import com.isoftstone.pmit.project.hrbp.entity.PersonalAffairdimension;
 import com.isoftstone.pmit.project.hrbp.entity.PersonalHistoryInfo;
 
 import java.util.List;
@@ -14,7 +13,7 @@ public interface IPersonalCenterService {
 
 	List<Map<String, Object>> queryHistorySolved(Map<String, Object> paramMap);
 
-    void saveEvaluation(List<PersonalAffairdimension> personalAffairdimensionList);
+    void saveEvaluation(PersonalHistoryInfo personalHistoryInfo);
 
 	Map<String, Object> countPendingSolved(Map<String,Object> paramMap);
 }
