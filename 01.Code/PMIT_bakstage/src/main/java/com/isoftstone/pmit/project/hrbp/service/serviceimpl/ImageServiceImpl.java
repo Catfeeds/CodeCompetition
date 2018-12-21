@@ -20,13 +20,13 @@ public class ImageServiceImpl implements IImageService {
 
     @Override
     public String saveLifeImage(MultipartFile file, String employeeID) {
-        String lifefilePath = null;
+        String lifefilePath = "image/life/"+ employeeID+".png";
         if (!file.isEmpty()) {
             try {
                 InputStream inputStream = file.getInputStream();
                 // 文件保存路径
-                lifefilePath = "image/life/"+ file.getOriginalFilename();
-                ImageUtil.readBin2Image(inputStream,lifefilePath);
+                String lifePath = "target\\classes\\resources\\image\\life\\"+employeeID+".png";
+                ImageUtil.readBin2Image(inputStream,lifePath);
                 PersonalStyle personalStyle = new PersonalStyle();
                 personalStyle.setEmployeeID(employeeID);
                 personalStyle.setPhotosOfLife(lifefilePath);
@@ -44,12 +44,12 @@ public class ImageServiceImpl implements IImageService {
 
     @Override
     public String saveDocumentImage(MultipartFile file, String employeeID) {
-        String docFilePath = null;
+        String docFilePath ="image/document/"+employeeID+".png";
         if (!file.isEmpty()) {
             try {
                 InputStream inputStream = file.getInputStream();
-                docFilePath = "image/document/"+file.getOriginalFilename();
-                ImageUtil.readBin2Image(inputStream,docFilePath);
+                String docPath ="target\\classes\\resources\\image\\document\\"+employeeID+".png";
+                ImageUtil.readBin2Image(inputStream,docPath);
                 PersonalStyle personalStyle = new PersonalStyle();
                 personalStyle.setEmployeeID(employeeID);
                 personalStyle.setDocumentPhoto(docFilePath);

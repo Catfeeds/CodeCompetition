@@ -12,7 +12,7 @@ public class ImageUtil {
     //读取表中图片获取输出流
     public static void readBin2Image(InputStream inputStream,String targetPath){
         File file = new File(targetPath);
-        String path = targetPath.substring(0,targetPath.indexOf("/"));
+        String path = targetPath.substring(0,targetPath.indexOf("\\"));
         if (!file.exists()){
             new File(path).mkdir();
         }
