@@ -2,18 +2,27 @@ package com.isoftstone.pmit.project.hrbp.entity;
 
 import java.util.List;
 
+
 /**
  * @author lf
  */
 public class PersonalHistoryInfo {
-   /** 事务Id */
-   private String affairId;
-   private String affairName;
-   private String evaluatorId;
-   private String series;
-   private String du;
-   private Boolean sumScore;
-   private List<PersonalAffairdimension> PersonalAffairdimensionList;
+    /** 事务Id */
+    private String staffId;
+    private String affairId;
+    private String affairName;
+    private String evaluatorId;
+    private String series;
+    private String du;
+    private Double sumScore;
+    private List<PersonalAffairdimension> PersonalAffairdimensionList;
+    public String getStaffId() {
+        return staffId;
+    }
+
+    public void setStaffId(String staffId) {
+        this.staffId = staffId;
+    }
 
     public String getAffairId() {
         return affairId;
@@ -55,11 +64,11 @@ public class PersonalHistoryInfo {
         this.du = du;
     }
 
-    public Boolean getSumScore() {
+    public Double getSumScore() {
         return sumScore;
     }
 
-    public void setSumScore(Boolean sumScore) {
+    public void setSumScore(Double sumScore) {
         this.sumScore = sumScore;
     }
 

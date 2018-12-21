@@ -1,8 +1,9 @@
 import request from "@/utils/request";
-function getHumanTreeData() {
+function getHumanTreeData(type) {
   return request({
     url: "hrbp/LevelTree/queryAllTree",
-    method: "post"
+    method: "post",
+    data: { type }
   });
 }
 function addHumanTreeNode(param) {
@@ -40,12 +41,19 @@ function getHumanTreeNode(relationID) {
     data: { relationID }
   });
 }
-
+function getHumanTreeTeamNode() {
+  return request({
+    url: "hrbp/LevelTree/queryTeamInfo",
+    method: "post",
+    data: {}
+  });
+}
 export default {
   getHumanTreeData,
   addHumanTreeNode,
   delHumanTreeNode,
   editHumanTreeNode,
   moveHumanTreeNode,
-  getHumanTreeNode
+  getHumanTreeNode,
+  getHumanTreeTeamNode
 };

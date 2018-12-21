@@ -4,7 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.PersonalCenterMapper">
 	<resultMap id="personalHistoryAffairMapper" type="com.isoftstone.pmit.project.hrbp.entity.PersonalHistoryInfo">
-		<id column="affairId" property="affairId"></id>
+		<id column="staffId" property="staffId"></id>
+		<result column="affairId" property="affairId"></result>
 		<result column="affairName" property="affairName"></result>
 		<result column="evaluatorId" property="evaluatorId"></result>
 		<result column="affairId" property="affairId"></result>
@@ -13,6 +14,7 @@
 		<result column="du" property="du"></result>
 		<result column="sumScore" property="sumScore"></result>
 		<collection property="PersonalAffairdimensionList" ofType="com.isoftstone.pmit.project.hrbp.entity.PersonalAffairdimension">
+			<result column="transactionDimensionId" property="transactionDimensionId"></result>
 			<result column="dimensionId" property="dimensionId"></result>
 			<result column="dimensionName" property="dimensionName"></result>
 			<result column="score" property="score"></result>
@@ -39,16 +41,17 @@
 			msa.evaluator_id = #{evaluatorId} 
 	</select>
 	<select id="getDimensionByAffair" parameterType="java.util.Map" resultType="java.util.Map">
-		SELECT 
-			med.dimension_id as dimensionId,
+		SELECT
+			mtds.transaction_dimension_id as transactionDimensionId,
+			mtds.dimension_id as dimensionId,
 			med.dimension_name as dimensionName,
-			med.mark as mark
-		FROM 
+			mtds.score as score
+		FROM
 			mms_examination_dimension med,
-			mms_affair_dimension mad
+			mms_transaction_dimension_score mtds
 		WHERE
-			med.dimension_id = mad.dimension_id AND
-			mad.affair_id = #{affairId}
+			mtds.dimension_id = med.dimension_id AND
+			mtds.affair_id = #{affairId} and mtds.employee_id = #{employeeID}
 	</select>
 	<select id="getStaffAffair" parameterType="java.util.Map" resultType="java.util.Map">
 		SELECT
@@ -94,24 +97,21 @@
 		)
 		AND itemType = 1
 	</select>
-	<select id="saveScoresByName" parameterType="java.util.Map" resultType="java.util.Map">
-		insert into mms_transaction_dimension_score 
-		(employee_id, affair_id, dimension_id, score, evaluation, evaluator, change_time) values 
-		(#{staffId}, #{affairId}, #{dimensionId}, #{score}, #{evaluation}, #{evaluatorId}, now());
-	</select>
+
 	<select id="updateStaffAffairStatus" parameterType="java.util.Map" resultType="java.util.Map">
 		update mms_staff_affair set is_solved = 1 where staff_id = #{staffId} and affair_id = #{affairId}
 	</select>
 	<select id="queryHistorySolved" parameterType="java.util.Map" resultMap="personalHistoryAffairMapper">
 		SELECT
-			a.affairId,
-			a.affairName,
+			a.staffId,
+			a.staffName,
 			a.evaluatorId,
 			a.affairId,
 			a.affairName,
 			a.series,
 			a.du,
 			b.sumScore,
+			b.transactionDimensionId,
 			b.dimensionId,
 			b.dimensionName,
 			b.score,
@@ -146,6 +146,7 @@
 			a.affair_id affairId,
 			a.sumScore,
 			a.changeTime,
+			mtds.transaction_dimension_id transactionDimensionId,
 			mtds.dimension_id dimensionId,
 			mtds.score,
 			mtds.evaluation
@@ -172,4 +173,12 @@
 		) b ON a.staffId = b.employeeId
 		where a.evaluatorId = #{evaluatorId}
 	</select>
+	<update id="saveEvaluation" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonalAffairdimension">
+		update mms_transaction_dimension_score set evaluation = #{evaluation},modifier=(SELECT
+                employee_name
+                FROM
+                mms_login_information
+                WHERE
+                employee_ID = #{employeeId}),change_time = now() where transaction_dimension_id = #{transactionDimensionId}
+	</update>
 </mapper>

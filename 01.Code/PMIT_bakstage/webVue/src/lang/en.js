@@ -24,7 +24,8 @@ export default {
     backupRestore: "备份与恢复",
     logManagement: "日志管理",
     teamSettings: "团队设置",
-    personalCenter: "个人中心"
+    personalCenter: "个人中心",
+    postManagement: "岗位管理"
   },
   navbar: {
     logOut: "Log Out",
