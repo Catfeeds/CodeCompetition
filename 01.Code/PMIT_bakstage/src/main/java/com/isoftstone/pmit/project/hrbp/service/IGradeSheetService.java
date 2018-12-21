@@ -18,4 +18,6 @@ public interface IGradeSheetService {
 
     boolean updatePersonalTraningScores(PersonalScore parameter);
 
+    List<PersonalScore> exportScore(PersonalScoreParam param);
+
 }

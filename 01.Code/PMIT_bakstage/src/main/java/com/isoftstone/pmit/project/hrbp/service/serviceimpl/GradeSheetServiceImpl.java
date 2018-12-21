@@ -3,6 +3,7 @@ package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.isoftstone.pmit.project.hrbp.entity.*;
+import com.isoftstone.pmit.project.hrbp.mapper.ClassOpeningMapper;
 import com.isoftstone.pmit.project.hrbp.mapper.GetScoreMapper;
 import com.isoftstone.pmit.project.hrbp.service.IGradeSheetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class GradeSheetServiceImpl implements IGradeSheetService {
 
     @Autowired
     private GetScoreMapper getScoreMapper;
+
+    @Autowired
+    private ClassOpeningMapper classOpeningMapper;
 
 
     @Override
@@ -195,14 +199,7 @@ public class GradeSheetServiceImpl implements IGradeSheetService {
             String employeeID = score.getEmployeeID();
             String types = score.getTypes();
             List<PersonalTranAndDimeScore> list = new ArrayList<>();
-            for (PersonalTranAndDimeScore tranAndDimeScore : allPerTranInfo){
-                String id = tranAndDimeScore.getEmployeeID();
-                String affairId = tranAndDimeScore.getAffairId();
-                String scoreTypes = tranAndDimeScore.getTypes();
-                if (id.equals(employeeID) && affairId.equals(nameID) && types.equals(scoreTypes)){
-                    list.add(tranAndDimeScore);
-                }
-            }
+            getMethod(allPerTranInfo, nameID, employeeID, types, list);
             score.setPersonalTranAndDimeScores(list);
         }
         PageInfo<PersonalScore> resultScores = new PageInfo<>(allPersonalScores);
@@ -244,6 +241,47 @@ public class GradeSheetServiceImpl implements IGradeSheetService {
         }
         boolean scores = getScoreMapper.updatePersonalScores(parameter);
         return scores;
+    }
+
+    @Override
+    public List<PersonalScore> exportScore(PersonalScoreParam param) {
+
+        if (param == null){
+            new PersonalScoreParam();
+        }
+        CourseParam courseParam = new CourseParam();
+        List<PersonalScore> personalScores = getScoreMapper.getAllPersonalScores(param);
+        List<PersonalTranAndDimeScore> perTranInfos = getScoreMapper.getAllPersonalTransactionInfo();
+        List<CourseInfo> courseInfos = classOpeningMapper.queryAllClass(courseParam);
+        for (PersonalScore personalScore :personalScores ){
+            String nameID = personalScore.getNameID();
+            String employeeID = personalScore.getEmployeeID();
+            String types = personalScore.getTypes();
+            List<PersonalTranAndDimeScore> list = new ArrayList<>();
+            getMethod(perTranInfos, nameID, employeeID, types, list);
+            for (CourseInfo courseInfo :courseInfos){
+                String openingID = courseInfo.getOpeningID();
+                String lecturer = courseInfo.getLecturer();
+                String openingName = courseInfo.getOpeningName();
+                if (openingID.equals(nameID)){
+                    personalScore.setLecturer(lecturer);
+                    personalScore.setOpeningName(openingName);
+                }
+            }
+            personalScore.setPersonalTranAndDimeScores(list);
+        }
+        return personalScores;
+    }
+
+    private void getMethod(List<PersonalTranAndDimeScore> perTranInfos, String nameID, String employeeID, String types, List<PersonalTranAndDimeScore> list) {
+        for (PersonalTranAndDimeScore tranAndDimeScore : perTranInfos) {
+            String id = tranAndDimeScore.getEmployeeID();
+            String affairId = tranAndDimeScore.getAffairId();
+            String scoreTypes = tranAndDimeScore.getTypes();
+            if (id.equals(employeeID) && affairId.equals(nameID) && types.equals(scoreTypes)) {
+                list.add(tranAndDimeScore);
+            }
+        }
     }
 }
 
