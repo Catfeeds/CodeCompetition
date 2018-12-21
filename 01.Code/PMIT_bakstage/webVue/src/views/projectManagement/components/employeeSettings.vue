@@ -10,9 +10,9 @@
             <el-input
               placeholder="PDU"
               size="mini"
-              v-model="teamInfo.pdu"
+              v-model="teamInfo.BU"
               style="width:193px"
-              disabled
+              readonly
             ></el-input>
           </el-form-item>
           <el-form-item label>

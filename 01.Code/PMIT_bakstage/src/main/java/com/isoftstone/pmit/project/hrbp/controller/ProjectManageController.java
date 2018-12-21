@@ -36,7 +36,7 @@ public class ProjectManageController {
 
     private void getTeamID(Map<String, Object> parameter){
         Object o = parameter.get("CU");
-        if(o== null){
+        if(o== null||o.equals("")){
             o = "ALL";
         }
         parameter.put("teamIDs",tempMap.get(String.valueOf(o)));
@@ -45,13 +45,13 @@ public class ProjectManageController {
     @PostMapping(value = "/queryProjectLevel")
     public String queryProjectLevel(@RequestBody Map<String, Object> params) {
         List<String> resulr = null;
-        if (params.get("BD") == null) {
+        if (params.get("BD") == null && params.get("BU") == null) {
             resulr = tempLevelMap.get("ALL");
             return AjaxResult.returnToResult(true, resulr);
         }
 
         if (params.get("BD") != null && params.get("BU") == null) {
-            resulr = tempLevelMap.get(String.valueOf(String.valueOf(params.get("bu"))));
+            resulr = tempLevelMap.get(String.valueOf(String.valueOf(params.get("BD"))));
             return AjaxResult.returnToResult(true, resulr);
         }
 

@@ -104,9 +104,9 @@ export default {
     })
   },
   mounted() {
-    this.getHumanTreeData();
-    this.getHumanTreeNode();
-    this.getHumanTreeTeamNode();
+    // this.getHumanTreeData();
+    // this.getHumanTreeNode();
+    // this.getHumanTreeTeamNode();
   },
   watch: {
     humanTreeNodeSource(data) {

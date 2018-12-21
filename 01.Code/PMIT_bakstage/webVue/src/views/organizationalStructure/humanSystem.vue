@@ -137,7 +137,7 @@ export default {
       return true;
     },
     beforeNodeDrop(treeId, treeNodes, targetNode, moveType) {
-      if (["BG", "BD"].indexOf(targetNode.data.nodeType) >= 0) {
+      if (targetNode.data.nodeType === "BG") {
         this.$message.warning("只能给BD以下节点新增子节点或同级节点");
         return false;
       }
@@ -149,11 +149,11 @@ export default {
       return true;
     },
     beforeTeamDrop(treeId, treeNodes, targetNode, moveType) {
-      if (["BG", "BD"].indexOf(targetNode.data.nodeType) >= 0) {
+      if (targetNode.data.nodeType === "BG") {
         this.$message.warning("只能给BD以下节点新增子节点或同级节点");
         return false;
       }
-      this.handleAddNode(treeId, targetNode, treeNodes[0]);
+      this.handleAddNode(treeId, targetNode, treeNodes[0], true);
       return !!targetNode && this.currentTreeId !== treeId;
     },
     addHoverDom(treeId, treeNode) {
@@ -178,12 +178,16 @@ export default {
         treeNode.tId +
         "' title='修改节点'></span>";
       sObj.after(editHtml);
-      $("#btnEdit_" + treeNode.tId).on("click", () => {
-        this.editNode(treeId, treeNode);
-      });
-      $("#btnDel_" + treeNode.tId).on("click", () => {
-        this.deleteNode(treeId, treeNode);
-      });
+      $("#btnEdit_" + treeNode.tId)
+        .off()
+        .on("click", () => {
+          this.editNode(treeId, treeNode);
+        });
+      $("#btnDel_" + treeNode.tId)
+        .off()
+        .on("click", () => {
+          this.deleteNode(treeId, treeNode);
+        });
     },
     removeHoverDom(treeId, treeNode) {
       $("#btnEdit_" + treeNode.tId)
@@ -272,18 +276,20 @@ export default {
         }
       });
     },
-    handleAddNode(treeId, treeNode, newTreeNode) {
+    handleAddNode(treeId, treeNode, newTreeNode, isTeam) {
       let vm = this;
       let param = {
         type: "team",
         relationID: "1",
         addNodeType: newTreeNode.data.nodeType,
         addNodeName: newTreeNode.name,
-        addTeamID: newTreeNode.id,
         parentNodeID: treeNode.id,
         parentNodePath: treeNode.data.nodePath,
         parentNodeType: treeNode.data.nodeType
       };
+      if(isTeam) {
+        param.addTeamID = newTreeNode.id;
+      }
       vm.$store
         .dispatch("addHumanTreeNode", param)
         .then(res => {

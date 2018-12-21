@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-tabs v-model="activeTab">
+    <el-tabs v-model="activeTab" @tab-click="changeTab">
       <el-tab-pane label="我的待办" name="tab1">
         <el-row type="flex" justify="end" style="margin-bottom:10px;">
           <el-button
@@ -135,7 +135,50 @@
                 label="评价名称"
                 prop="affairName"
                 sortable
-              ></el-table-column>
+              >
+                <template slot-scope="scope">
+                  <el-popover placement="right-end" title="考核维度评价详情" width="600" trigger="hover">
+                    <el-table
+                      :data="scope.row.personalAffairdimensionList"
+                      border
+                      fit
+                      size="mini"
+                      stripe
+                      max-height="400"
+                      tooltip-effect="dark"
+                      style="width: 100%;"
+                    >
+                      <el-table-column
+                        header-align="center"
+                        align="center"
+                        :label="$t('table.id')"
+                        width="50"
+                        type="index"
+                      ></el-table-column>
+                      <el-table-column
+                        prop="dimensionName"
+                        header-align="center"
+                        label="考核维度"
+                        width="150"
+                      ></el-table-column>
+                      <el-table-column prop="score" header-align="center" label="得分" width="100"></el-table-column>
+                      <el-table-column
+                        prop="evaluation"
+                        header-align="center"
+                        label="评价"
+                        width="100"
+                      ></el-table-column>
+                      <el-table-column
+                        prop="explanation"
+                        header-align="center"
+                        label="考核点说明"
+                        show-overflow-tooltip
+                      ></el-table-column>
+                    </el-table>
+                    <el-button type="text" slot="reference">{{scope.row.affairName}}</el-button>
+                  </el-popover>
+                </template>
+              </el-table-column>
 
               <el-table-column
                 width="150px"
@@ -178,7 +221,7 @@
                     type="text"
                     size="mini"
                     icon="el-icon-edit"
-                    title="处理"
+                    title="编辑"
                     @click="handleEdit(scope.row);"
                   ></el-button>
                 </template>
@@ -239,12 +282,13 @@
       </el-tab-pane>
     </el-tabs>
     <el-dialog :visible.sync="dialogSetVisible" width="70%" :close-on-click-modal="false">
-      <el-row>{{dimensionForm.affairName}}</el-row>
-      <el-row style="font-size:12px;margin:10px 0px;">
-        <el-col :span="16">被评价人:{{dimensionForm.evaluator}}</el-col>
-        <el-col :span="8">评价日期:{{dimensionForm.evaluateDate}}</el-col>
-      </el-row>
       <el-form :model="dimensionForm" size="mini" ref="dimensionForm">
+        <el-row>{{dimensionForm.affairName}}</el-row>
+        <el-row style="font-size:12px;margin:10px 0px;">
+          <el-col :span="16">被评价人:{{dimensionForm.evaluator}}</el-col>
+          <el-col :span="8">评价日期:{{dimensionForm.evaluateDate}}</el-col>
+        </el-row>
+
         <el-table
           ref="multipleTable"
           :data="dimensionForm.dimensionList"
@@ -265,20 +309,17 @@
             type="index"
           ></el-table-column>
           <el-table-column prop="dimension" header-align="center" label="考核维度" width="150"></el-table-column>
-          <el-table-column header-align="center" label="得分" width="100">
+          <el-table-column prop="score" header-align="center" label="得分" width="150">
             <template slot-scope="scope">
-              <el-form-item
-                :prop="'dimensionList.'+scope.$index+'.scope'"
-                :rules="rules.score"
-              >
-                <el-input v-model="scope.row.score" autocomplete="off" maxlength="3"></el-input>
+              <el-form-item :prop="'dimensionList.'+scope.$index+'.score'" :rules="rules.score">
+                <el-input v-model="scope.row.score" autocomplete="off" maxlength="5"></el-input>
               </el-form-item>
             </template>
           </el-table-column>
           <el-table-column prop="evaluate" header-align="center" label="评价" min-width="120">
             <template slot-scope="scope">
               <el-form-item>
-                <el-input v-model="scope.row.evaluate" autocomplete="off" maxlength="3"></el-input>
+                <el-input v-model="scope.row.evaluate" autocomplete="off" maxlength="128"></el-input>
               </el-form-item>
             </template>
           </el-table-column>
@@ -292,7 +333,6 @@
         </el-table>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <!-- <el-button @click="dialogSetVisible = false;" size="mini" v-if="isView">关 闭</el-button> -->
         <el-button type="primary" @click="handleSave();" size="mini">保 存</el-button>
       </div>
     </el-dialog>
@@ -304,6 +344,7 @@ import { mapGetters, mapActions, mapState } from "vuex";
 import { formatDate } from "@/utils/date";
 export default {
   data() {
+    let vm = this;
     let validScore = (rule, value, callback) => {
       if (!value) {
         return callback(new Error("请输入得分"));
@@ -311,8 +352,10 @@ export default {
       if (isNaN(value)) {
         return callback(new Error("只能输入整数和小数"));
       }
-      if (Number(value) > 100 || Number(value) < 0) {
-        return callback(new Error("只能0~100的整数和小数"));
+      let index = rule.field.split(".")[1] * 1;
+      let maxScore = vm.dimensionForm.dimensionList[index].mark;
+      if (Number(value) > maxScore || Number(value) < 0) {
+        return callback(new Error("只能0~" + maxScore + "的整数和小数"));
       }
       return callback();
     };
@@ -338,7 +381,6 @@ export default {
   mounted() {
     this.getScoreInfo();
     this.getEvaluateListData(this.employeeId);
-    this.getHistoryEvaluateList(this.employeeId);
   },
   computed: {
     ...mapGetters(["employeeId", "employeeName"]),
@@ -358,6 +400,14 @@ export default {
   },
   methods: {
     ...mapActions(["getEvaluateListData", "getHistoryEvaluateList"]),
+    changeTab(tab) {
+      if (tab.name === "tab2") {
+        this.getHistoryEvaluateList(this.employeeId);
+      }
+      if (tab.name === "tab1") {
+        this.getEvaluateListData(this.employeeId);
+      }
+    },
     collpseAll() {
       this.activeNames = [];
     },
@@ -376,6 +426,8 @@ export default {
         affairId: row.affairId,
         employeeId: row.staffId
       };
+      vm.dimensionForm.affairId = row.affairId;
+      vm.dimensionForm.staffId = row.staffId;
       vm.dimensionForm.affairName = row.afairName;
       vm.dimensionForm.evaluator = row.staffName;
       vm.dimensionForm.evaluateDate = formatDate(
@@ -387,6 +439,7 @@ export default {
           vm.dimensionForm.dimensionList = res.data.map(item => {
             item.dimension = item.dimensionName + "(总分" + item.mark + ")";
             item.score = "";
+            item.evaluate = "";
             return item;
           });
         } else {
@@ -394,6 +447,27 @@ export default {
         }
         vm.dialogSetVisible = true;
       });
+    },
+    handleEdit(row) {
+      let vm = this;
+      let param = {
+        affairId: row.affairId,
+        employeeId: row.staffId
+      };
+      vm.dimensionForm.affairId = row.affairId;
+      vm.dimensionForm.staffId = row.staffId;
+      vm.dimensionForm.affairName = row.afairName;
+      vm.dimensionForm.evaluator = row.staffName;
+      vm.dimensionForm.evaluateDate = "";
+      vm.dimensionForm.dimensionList = row.personalAffairdimensionList.map(
+        item => {
+          item.dimension = item.dimensionName + "(总分" + item.mark + ")";
+          item.score = item.score;
+          item.evaluate = item.evaluation;
+          return item;
+        }
+      );
+      vm.dialogSetVisible = true;
     },
     getScoreInfo() {
       let vm = this;
@@ -417,7 +491,39 @@ export default {
           vm.dataTable = [];
         });
     },
-    handleSave() {}
+    handleSave() {
+      let vm = this;
+      vm.$refs.dimensionForm.validate(valid => {
+        if (valid) {
+          let param = {
+            staffId: vm.dimensionForm.staffId,
+            evaluatorId: vm.employeeId,
+            affairId: vm.dimensionForm.affairId,
+            personalAffairdimensionList: vm.dimensionForm.dimensionList.map(
+              item => {
+                return {
+                  employeeId: vm.employeeId,
+                  transactionDimensionId: item.transactionDimensionId,
+                  evaluation: item.evaluate,
+                  score: item.score
+                };
+              }
+            )
+          };
+          vm.$store.dispatch("saveEvaluateInfo", param).then(res => {
+            if (res.success) {
+              vm.$message.success("操作成功");
+              vm.getEvaluateListData(vm.employeeId);
+            } else {
+              vm.$message.error("操作失败");
+            }
+            vm.dialogSetVisible = false;
+          });
+        } else {
+          return false;
+        }
+      });
+    }
   }
 };
 </script>

@@ -49,95 +49,95 @@ export default {
     }
   },
   actions: {
-    getHumanTreeData({ commit }) {
-      return api
-        .getHumanTreeData("team")
-        .then(res => {
-          if (res.data.success) {
-            commit("updateHumanTreeData", res.data.data);
-          } else {
-            commit("updateHumanTreeData", []);
-          }
-        })
-        .catch(() => {
-          commit("updateHumanTreeData", []);
-        });
-    },
-    getHumanTreeNode({ commit }) {
-      return api
-        .getHumanTreeNode(1)
-        .then(res => {
-          if (res.data.success) {
-            commit("updateHumanTreeNode", res.data.data);
-          } else {
-            commit("updateHumanTreeNode", []);
-          }
-        })
-        .catch(() => {
-          commit("updateHumanTreeNode", []);
-        });
-    },
-    getHumanTreeTeamNode({ commit }) {
-      return api
-        .getHumanTreeTeamNode()
-        .then(res => {
-          if (res.data.success) {
-            commit("updateHumanTreeTeamNode", res.data.data);
-          } else {
-            commit("updateHumanTreeTeamNode", []);
-          }
-        })
-        .catch(() => {
-          commit("updateHumanTreeTeamNode", []);
-        });
-    },
-    addHumanTreeNode(arg, param) {
-      return new Promise((resolve, reject) => {
-        api
-          .addHumanTreeNode(param)
-          .then(res => {
-            resolve(res.data);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
-    delHumanTreeNode(arg, param) {
-      return new Promise((resolve, reject) => {
-        api
-          .delHumanTreeNode(param)
-          .then(res => {
-            resolve(res.data);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
-    editHumanTreeNode(arg, param) {
-      return new Promise((resolve, reject) => {
-        api
-          .editHumanTreeNode(param)
-          .then(res => {
-            resolve(res.data);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    },
-    moveHumanTreeNode(arg, param) {
-      return new Promise((resolve, reject) => {
-        api
-          .moveHumanTreeNode(param)
-          .then(res => {
-            resolve(res.data);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
-    }
+    // getHumanTreeData({ commit }) {
+    //   return api
+    //     .getHumanTreeData("team")
+    //     .then(res => {
+    //       if (res.data.success) {
+    //         commit("updateHumanTreeData", res.data.data);
+    //       } else {
+    //         commit("updateHumanTreeData", []);
+    //       }
+    //     })
+    //     .catch(() => {
+    //       commit("updateHumanTreeData", []);
+    //     });
+    // },
+    // getHumanTreeNode({ commit }) {
+    //   return api
+    //     .getHumanTreeNode(1)
+    //     .then(res => {
+    //       if (res.data.success) {
+    //         commit("updateHumanTreeNode", res.data.data);
+    //       } else {
+    //         commit("updateHumanTreeNode", []);
+    //       }
+    //     })
+    //     .catch(() => {
+    //       commit("updateHumanTreeNode", []);
+    //     });
+    // },
+    // getHumanTreeTeamNode({ commit }) {
+    //   return api
+    //     .getHumanTreeTeamNode()
+    //     .then(res => {
+    //       if (res.data.success) {
+    //         commit("updateHumanTreeTeamNode", res.data.data);
+    //       } else {
+    //         commit("updateHumanTreeTeamNode", []);
+    //       }
+    //     })
+    //     .catch(() => {
+    //       commit("updateHumanTreeTeamNode", []);
+    //     });
+    // },
+    // addHumanTreeNode(arg, param) {
+    //   return new Promise((resolve, reject) => {
+    //     api
+    //       .addHumanTreeNode(param)
+    //       .then(res => {
+    //         resolve(res.data);
+    //       })
+    //       .catch(error => {
+    //         reject(error);
+    //       });
+    //   });
+    // },
+    // delHumanTreeNode(arg, param) {
+    //   return new Promise((resolve, reject) => {
+    //     api
+    //       .delHumanTreeNode(param)
+    //       .then(res => {
+    //         resolve(res.data);
+    //       })
+    //       .catch(error => {
+    //         reject(error);
+    //       });
+    //   });
+    // },
+    // editHumanTreeNode(arg, param) {
+    //   return new Promise((resolve, reject) => {
+    //     api
+    //       .editHumanTreeNode(param)
+    //       .then(res => {
+    //         resolve(res.data);
+    //       })
+    //       .catch(error => {
+    //         reject(error);
+    //       });
+    //   });
+    // },
+    // moveHumanTreeNode(arg, param) {
+    //   return new Promise((resolve, reject) => {
+    //     api
+    //       .moveHumanTreeNode(param)
+    //       .then(res => {
+    //         resolve(res.data);
+    //       })
+    //       .catch(error => {
+    //         reject(error);
+    //       });
+    //   });
+    // }
   }
 };

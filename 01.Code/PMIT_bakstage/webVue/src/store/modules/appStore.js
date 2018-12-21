@@ -338,14 +338,15 @@ const app = {
         ]
       };
       return new Promise((resolve, reject) => {
-        api
-          .getLogList(condition)
-          .then(() => {
-            resolve(logData);
-          })
-          .catch(error => {
-            reject(error);
-          });
+        resolve(logData);
+        // api
+        //   .getLogList(condition)
+        //   .then(() => {
+        //     resolve(logData);
+        //   })
+        //   .catch(error => {
+        //     reject(error);
+        //   });
       });
     }
   }

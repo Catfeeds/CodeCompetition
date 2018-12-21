@@ -5,17 +5,17 @@
         <el-col :span="4">
           <el-form-item>
             <el-select
-              v-model="searchForm.product"
+              v-model="searchForm.bd"
               size="mini"
               clearable
               placeholder="BD"
-              @change="productChange"
+              @change="changeBD"
             >
               <el-option
-                v-for="item in searchForm.productOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                v-for="item in searchForm.bdOptions"
+                :key="item"
+                :label="item"
+                :value="item"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -23,29 +23,29 @@
         <el-col :span="4">
           <el-form-item>
             <el-select
-              v-model="searchForm.du"
+              v-model="searchForm.bu"
               size="mini"
               clearable
               placeholder="BU"
-              @change="changeDU"
+              @change="changeBU"
             >
               <el-option
-                v-for="item in searchForm.duOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                v-for="item in searchForm.buOptions"
+                :key="item"
+                :label="item"
+                :value="item"
               ></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item>
-            <el-select v-model="searchForm.pdu" size="mini" clearable placeholder="CU">
+            <el-select v-model="searchForm.cu" size="mini" clearable placeholder="CU">
               <el-option
-                v-for="item in searchForm.pduOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+                v-for="item in searchForm.cuOptions"
+                :key="item"
+                :label="item"
+                :value="item"
               ></el-option>
             </el-select>
           </el-form-item>
@@ -108,26 +108,26 @@
             header-align="center"
             label="BD"
             :sortable="!isAdd"
-            prop="CU"
+            prop="BD"
           >
             <template slot-scope="scope">
-              <el-form-item prop="product" v-if="scope.row.isAdd">
+              <el-form-item prop="bd" v-if="scope.row.isAdd">
                 <el-select
                   style="width:150px"
-                  v-model="newForm.product"
+                  v-model="newForm.bd"
                   size="mini"
                   placeholder="BD"
-                  @change="newProductChange"
+                  @change="changeNewBD"
                 >
                   <el-option
-                    v-for="item in searchForm.productOptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    v-for="item in searchForm.bdOptions"
+                    :key="item"
+                    :label="item"
+                    :value="item"
                   ></el-option>
                 </el-select>
               </el-form-item>
-              <span v-else>{{scope.row.CU}}</span>
+              <span v-else>{{scope.row.BD}}</span>
             </template>
           </el-table-column>
 
@@ -139,19 +139,19 @@
             :sortable="!isAdd"
           >
             <template slot-scope="scope">
-              <el-form-item prop="du" v-if="scope.row.isAdd">
+              <el-form-item prop="bu" v-if="scope.row.isAdd">
                 <el-select
                   style="width:150px"
-                  v-model="newForm.du"
+                  v-model="newForm.bu"
                   size="mini"
                   placeholder="BU"
-                  @change="newDUChange"
+                  @change="changeNewBU"
                 >
                   <el-option
-                    v-for="item in newForm.duOptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    v-for="item in newForm.buOptions"
+                    :key="item"
+                    :label="item"
+                    :value="item"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -167,19 +167,18 @@
             :sortable="!isAdd"
           >
             <template slot-scope="scope">
-              <el-form-item prop="pdu" v-if="scope.row.isAdd">
+              <el-form-item prop="cu" v-if="scope.row.isAdd">
                 <el-select
                   style="width:150px"
-                  v-model="newForm.pdu"
+                  v-model="newForm.cu"
                   size="mini"
                   placeholder="CU"
-                  @change="newPDUChange"
                 >
                   <el-option
-                    v-for="item in newForm.pduOptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    v-for="item in newForm.cuOptions"
+                    :key="item"
+                    :label="item"
+                    :value="item"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -319,11 +318,11 @@ export default {
       projectID: "",
       isAdd: false,
       rules: {
-        product: [
-          { required: true, message: "请选择产品线", trigger: "change" }
+        bd: [
+          { required: true, message: "请选择BD", trigger: "change" }
         ],
-        du: [{ required: true, message: "请选择DU", trigger: "change" }],
-        pdu: [{ required: true, message: "请选择PDU", trigger: "change" }],
+        bu: [{ required: true, message: "请选择BU", trigger: "change" }],
+        cu: [{ required: true, message: "请选择CU", trigger: "change" }],
         employeeId: [
           { required: true, message: "请选择PM", trigger: "change" }
         ],
@@ -336,7 +335,7 @@ export default {
   },
   mounted() {
     var vm = this;
-    this.getPGProductInfo();
+    this.getDBInfo();
     this.getProjectGroupInfo({ pageSize: vm.pageSize })
       .then(() => {
         vm.listLoading = false;
@@ -360,13 +359,12 @@ export default {
   },
   methods: {
     ...mapActions([
-      "getPGProductInfo",
-      "getPGDU",
-      "getPGPDUList",
+      "getDBInfo",
+      "getBUInfo",
+      "getCUInfo",
+      "getNewFormBU",
+      "getNewFormCU",
       "getProjectGroupInfo",
-      "getNewFormProductInfo",
-      "getNewFormDU",
-      "getNewFormPDUList",
       "queryProjectManagers"
     ]),
     onSearchForm(arg, curPage, isCancel) {
@@ -389,27 +387,25 @@ export default {
         return;
       }
       this.isAdd = true;
-      this.newForm.product = "";
-      this.newForm.du = "";
-      this.newForm.pdu = "";
+      this.newForm.bd = "";
+      this.newForm.bu = "";
+      this.newForm.cu = "";
       this.newForm.teamName = "";
       this.newForm.employeeName = "";
       this.newForm.employeeId = "";
       this.dataTable.unshift({ isAdd: true });
     },
-    productChange() {
-      this.getPGDU();
+    changeBD() {
+      this.getBUInfo();
     },
-    changeDU() {
-      this.getPGPDUList();
+    changeBU() {
+      this.getCUInfo();
     },
-    newProductChange() {
-      this.getNewFormDU();
+    changeNewBD() {
+      this.getNewFormBU();
     },
-    newDUChange() {
-      this.getNewFormPDUList();
-    },
-    newPDUChange() {
+    changeNewBU() {
+      this.getNewFormCU();
       this.queryProjectManagers();
     },
     handleCurrentChange(val) {
@@ -424,11 +420,11 @@ export default {
       this.$router.push({ path: "teamSettings/" + projectId });
     },
     projectEdit(row) {
-      this.newForm.product = row.product;
-      this.newForm.du = row.du;
-      this.newForm.pdu = row.pdu;
-      this.newForm = row.teamName;
-      this.newForm = row.pm;
+      this.newForm.bd = row.BD;
+      this.newForm.bu = row.BU;
+      this.newForm.cu = row.CU;
+      this.newForm.teamName = row.projectName;
+      this.newForm.employeeId = row.pmID;
     },
     projectDelete(id) {
       if (this.validTableStatus()) {
@@ -465,9 +461,9 @@ export default {
             pmName: vm.newForm.employeeOptions.find(
               item => item.staffID === vm.newForm.employeeId
             ).staffName,
-            bu: vm.newForm.product,
-            du: vm.newForm.du,
-            pdu: vm.newForm.pdu,
+            BD: vm.newForm.bd,
+            BU: vm.newForm.bu,
+            CU: vm.newForm.cu,
             projectName: vm.newForm.teamName
           };
           vm.$store.dispatch("addProjectInfo", formData).then(res => {
