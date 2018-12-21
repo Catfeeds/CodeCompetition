@@ -4,7 +4,10 @@ export default {
   state: {
     humanTreeData: [],
     humanTreeNode: [],
-    humanTreeTeamNode: []
+    humanTreeTeamNode: [],
+    busiTreeData: [],
+    busiTreeNode: [],
+    busiTeePONode: []
   },
   mutations: {
     updateHumanTreeData(state, value) {
@@ -46,12 +49,52 @@ export default {
           name: item.nodeName
         };
       });
+    },
+    updateBusiTreePONode(state, value) {
+      state.busiTeePONode = value.map(item => {
+        return {
+          id: item.teamID,
+          data: item,
+          name: item.nodeName
+        };
+      });
+    },
+    updateBusiTreeData(state, value) {
+      let dealTreeData = data => {
+        return data.map(item => {
+          let node = {
+            id: item.nodeID,
+            data: item,
+            name: item.nodeName,
+            open: true
+          };
+          if (item.teamList) {
+            node.children = dealTreeData(item.teamList);
+          }
+          if (item.childList) {
+            node.children = dealTreeData(item.childList);
+          }
+          return node;
+        });
+      };
+      state.busiTreeData = dealTreeData(value);
+    },
+    updateBusiTreeNode(state, value) {
+      state.busiTreeNode = value
+        .filter(item => item.operationAllow)
+        .map(item => {
+          return {
+            id: item.levelIndex,
+            data: item,
+            name: item.levelIndexName
+          };
+        });
     }
   },
   actions: {
     getHumanTreeData({ commit }) {
       return api
-        .getHumanTreeData("team")
+        .getTreeData("team")
         .then(res => {
           if (res.data.success) {
             commit("updateHumanTreeData", res.data.data);
@@ -65,7 +108,7 @@ export default {
     },
     getHumanTreeNode({ commit }) {
       return api
-        .getHumanTreeNode(1)
+        .getTreeNode(1)
         .then(res => {
           if (res.data.success) {
             commit("updateHumanTreeNode", res.data.data);
@@ -77,9 +120,37 @@ export default {
           commit("updateHumanTreeNode", []);
         });
     },
-    getHumanTreeTeamNode({ commit }) {
+    getBusiTreeData({ commit }) {
       return api
-        .getHumanTreeTeamNode()
+        .getTreeData("po")
+        .then(res => {
+          if (res.data.success) {
+            commit("updateBusiTreeData", res.data.data);
+          } else {
+            commit("updateBusiTreeData", []);
+          }
+        })
+        .catch(() => {
+          commit("updateBusiTreeData", []);
+        });
+    },
+    getBusiTreeNode({ commit }) {
+      return api
+        .getTreeNode(2)
+        .then(res => {
+          if (res.data.success) {
+            commit("updateBusiTreeNode", res.data.data);
+          } else {
+            commit("updateBusiTreeNode", []);
+          }
+        })
+        .catch(() => {
+          commit("updateBusiTreeNode", []);
+        });
+    },
+    getTreeTeamNode({ commit }) {
+      return api
+        .getTreeTeamNode()
         .then(res => {
           if (res.data.success) {
             commit("updateHumanTreeTeamNode", res.data.data);
@@ -91,10 +162,24 @@ export default {
           commit("updateHumanTreeTeamNode", []);
         });
     },
-    addHumanTreeNode(arg, param) {
+    getTreePONode({ commit }) {
+      return api
+        .getTreePONode()
+        .then(res => {
+          if (res.data.success) {
+            commit("updateBusiTreePONode", res.data.data);
+          } else {
+            commit("updateBusiTreePONode", []);
+          }
+        })
+        .catch(() => {
+          commit("updateBusiTreePONode", []);
+        });
+    },
+    addTreeNode(arg, param) {
       return new Promise((resolve, reject) => {
         api
-          .addHumanTreeNode(param)
+          .addTreeNode(param)
           .then(res => {
             resolve(res.data);
           })
@@ -103,10 +188,10 @@ export default {
           });
       });
     },
-    delHumanTreeNode(arg, param) {
+    delTreeNode(arg, param) {
       return new Promise((resolve, reject) => {
         api
-          .delHumanTreeNode(param)
+          .delTreeNode(param)
           .then(res => {
             resolve(res.data);
           })
@@ -115,10 +200,10 @@ export default {
           });
       });
     },
-    editHumanTreeNode(arg, param) {
+    editTreeNode(arg, param) {
       return new Promise((resolve, reject) => {
         api
-          .editHumanTreeNode(param)
+          .editTreeNode(param)
           .then(res => {
             resolve(res.data);
           })
@@ -127,10 +212,10 @@ export default {
           });
       });
     },
-    moveHumanTreeNode(arg, param) {
+    moveTreeNode(arg, param) {
       return new Promise((resolve, reject) => {
         api
-          .moveHumanTreeNode(param)
+          .moveTreeNode(param)
           .then(res => {
             resolve(res.data);
           })

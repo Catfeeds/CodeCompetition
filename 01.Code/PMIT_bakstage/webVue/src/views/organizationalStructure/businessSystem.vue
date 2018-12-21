@@ -3,15 +3,15 @@
     <el-row :gutter="20">
       <el-col :span="14">
         <el-card shadow="never">
-          <div slot="header" class="clearfix">人力体系树</div>
-          <div id="empRelationTree" class="ztree" style="height:440px;"></div>
+          <div slot="header" class="clearfix">业务体系树</div>
+          <div id="busiRelationTree" class="ztree" style="height:440px;"></div>
         </el-card>
       </el-col>
       <el-col :span="10" class="em-list">
         <el-card shadow="never">
-          <div slot="header" class="clearfix">人力体系节点</div>
-          <div id="empListTree" class="ztree" style="height:80px;"></div>
-          <div id="teamListTree" class="ztree" style="height:360px;"></div>
+          <div slot="header" class="clearfix">业务体系节点</div>
+          <div id="busiNodeTree" class="ztree" style="height:80px;"></div>
+          <div id="busiPOTree" class="ztree" style="height:360px;"></div>
         </el-card>
       </el-col>
     </el-row>
@@ -98,33 +98,29 @@ export default {
   },
   computed: {
     ...mapState({
-      humanTreeDataSource: state => state.orgStructureStore.humanTreeData,
-      humanTreeNodeSource: state => state.orgStructureStore.humanTreeNode,
-      humanTreeTeamSource: state => state.orgStructureStore.humanTreeTeamNode
+      busiTreeDataSource: state => state.orgStructureStore.busiTreeData,
+      busiTreeNodeSource: state => state.orgStructureStore.busiTreeNode,
+      busiTreePOSource: state => state.orgStructureStore.busiTeePONode
     })
   },
   mounted() {
-    // this.getHumanTreeData();
-    // this.getHumanTreeNode();
-    // this.getHumanTreeTeamNode();
+    this.getBusiTreeData();
+    this.getBusiTreeNode();
+    this.getTreePONode();
   },
   watch: {
-    humanTreeNodeSource(data) {
-      $.fn.zTree.init($("#empListTree"), this.humanNodeSetting, data);
+    busiTreeNodeSource(data) {
+      $.fn.zTree.init($("#busiNodeTree"), this.humanNodeSetting, data);
     },
-    humanTreeDataSource(data) {
-      $.fn.zTree.init($("#empRelationTree"), this.humanTreeSetting, data);
+    busiTreeDataSource(data) {
+      $.fn.zTree.init($("#busiRelationTree"), this.humanTreeSetting, data);
     },
-    humanTreeTeamSource(data) {
-      $.fn.zTree.init($("#teamListTree"), this.humanTeamNodeSetting, data);
+    busiTreePOSource(data) {
+      $.fn.zTree.init($("#busiPOTree"), this.humanTeamNodeSetting, data);
     }
   },
   methods: {
-    ...mapActions([
-      "getHumanTreeData",
-      "getHumanTreeNode",
-      "getHumanTreeTeamNode"
-    ]),
+    ...mapActions(["getBusiTreeData", "getBusiTreeNode", "getTreePONode"]),
     beforeTreeDrag(treeId, treeNodes) {
       this.currentTreeId = treeId;
       return !treeNodes[0].disDrop;
@@ -137,10 +133,6 @@ export default {
       return true;
     },
     beforeNodeDrop(treeId, treeNodes, targetNode, moveType) {
-      if (["BG", "BD"].indexOf(targetNode.data.nodeType) >= 0) {
-        this.$message.warning("只能给BD以下节点新增子节点或同级节点");
-        return false;
-      }
       this.handleAddNode(treeId, targetNode, treeNodes[0]);
       return !!targetNode && this.currentTreeId !== treeId;
     },
@@ -149,29 +141,22 @@ export default {
       return true;
     },
     beforeTeamDrop(treeId, treeNodes, targetNode, moveType) {
-      if (["BG", "BD"].indexOf(targetNode.data.nodeType) >= 0) {
-        this.$message.warning("只能给BD以下节点新增子节点或同级节点");
-        return false;
-      }
-      this.handleAddNode(treeId, targetNode, treeNodes[0]);
+      this.handleAddNode(treeId, targetNode, treeNodes[0], true);
       return !!targetNode && this.currentTreeId !== treeId;
     },
     addHoverDom(treeId, treeNode) {
-      let isFlag = ["BG", "BD"].indexOf(treeNode.data.nodeType) >= 0;
-      if (
-        treeNode.editNameFlag ||
-        isFlag ||
-        $("#btnDel_" + treeNode.tId).length > 0
-      ) {
+      if (treeNode.editNameFlag || $("#btnEdit_" + treeNode.tId).length > 0) {
         return;
       }
       var sObj = $("#" + treeNode.tId + "_span");
       //删除
-      var detHtml =
-        "<span class='button remove' id='btnDel_" +
-        treeNode.tId +
-        "' title='删除节点'></span>";
-      sObj.after(detHtml);
+      if (treeNode.data.nodeType !== "BU") {
+        var detHtml =
+          "<span class='button remove' id='btnDel_" +
+          treeNode.tId +
+          "' title='删除节点'></span>";
+        sObj.after(detHtml);
+      }
       //修改
       var editHtml =
         "<span class='button edit' id='btnEdit_" +
@@ -231,17 +216,17 @@ export default {
       })
         .then(({ value }) => {
           let param = {
-            type: "team",
-            relationID: 1,
+            type: "po",
+            relationID: 2,
             nodePath: treeNode.data.nodePath,
             nodeType: treeNode.data.nodeType,
             nodeID: treeNode.id,
             nodeName: value
           };
-          vm.$store.dispatch("editHumanTreeNode", param).then(res => {
+          vm.$store.dispatch("editTreeNode", param).then(res => {
             if (res.success) {
               vm.$message.success("节点修改成功");
-              vm.getHumanTreeData();
+              vm.getBusiTreeData();
             } else {
               vm.$message.success("节点修改失败");
               vm.removeHoverDom(treeId, treeNode);
@@ -255,28 +240,28 @@ export default {
     handleDelNode(treeId, treeNode, isDelChildren) {
       let vm = this;
       let param = {
-        type: "team",
-        relationID: "",
+        type: "po",
+        relationID: "2",
         deleteChildren: isDelChildren,
         nodePath: treeNode.data.nodePath,
         nodeType: treeNode.data.nodeType,
         nodeID: treeNode.id
       };
-      vm.$store.dispatch("delHumanTreeNode", param).then(res => {
+      vm.$store.dispatch("delTreeNode", param).then(res => {
         if (res.success) {
           vm.$message.success("节点删除成功");
-          vm.getHumanTreeData();
+          vm.getBusiTreeData();
         } else {
           vm.$message.error("节点删除失败");
           vm.removeHoverDom(treeId, treeNode);
         }
       });
     },
-    handleAddNode(treeId, treeNode, newTreeNode) {
+    handleAddNode(treeId, treeNode, newTreeNode, isPO) {
       let vm = this;
       let param = {
-        type: "team",
-        relationID: "1",
+        type: "po",
+        relationID: "2",
         addNodeType: newTreeNode.data.nodeType,
         addNodeName: newTreeNode.name,
         addTeamID: newTreeNode.id,
@@ -284,21 +269,26 @@ export default {
         parentNodePath: treeNode.data.nodePath,
         parentNodeType: treeNode.data.nodeType
       };
+      if (isPO) {
+        param.addTeamID = newTreeNode.id;
+      } else {
+        param.addNodeType = newTreeNode.data.levelIndexID;
+      }
       vm.$store
-        .dispatch("addHumanTreeNode", param)
+        .dispatch("addTreeNode", param)
         .then(res => {
           if (res.success) {
             vm.$message.success("节点添加成功");
           } else {
             vm.$message.error("节点添加失败");
           }
-          vm.getHumanTreeData();
-          vm.getHumanTreeTeamNode();
+          vm.getBusiTreeData();
+          vm.getTreePONode();
         })
         .catch(() => {
           vm.$message.error("节点添加失败");
-          vm.getHumanTreeData();
-          vm.getHumanTreeTeamNode();
+          vm.getBusiTreeData();
+          vm.getTreePONode();
         });
     },
     validNodeName(value) {

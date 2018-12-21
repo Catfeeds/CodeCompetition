@@ -106,7 +106,7 @@ export default {
   mounted() {
     this.getHumanTreeData();
     this.getHumanTreeNode();
-    this.getHumanTreeTeamNode();
+    this.getTreeTeamNode();
   },
   watch: {
     humanTreeNodeSource(data) {
@@ -123,7 +123,7 @@ export default {
     ...mapActions([
       "getHumanTreeData",
       "getHumanTreeNode",
-      "getHumanTreeTeamNode"
+      "getTreeTeamNode"
     ]),
     beforeTreeDrag(treeId, treeNodes) {
       this.currentTreeId = treeId;
@@ -242,7 +242,7 @@ export default {
             nodeID: treeNode.id,
             nodeName: value
           };
-          vm.$store.dispatch("editHumanTreeNode", param).then(res => {
+          vm.$store.dispatch("editTreeNode", param).then(res => {
             if (res.success) {
               vm.$message.success("节点修改成功");
               vm.getHumanTreeData();
@@ -260,13 +260,13 @@ export default {
       let vm = this;
       let param = {
         type: "team",
-        relationID: "",
+        relationID: "1",
         deleteChildren: isDelChildren,
         nodePath: treeNode.data.nodePath,
         nodeType: treeNode.data.nodeType,
         nodeID: treeNode.id
       };
-      vm.$store.dispatch("delHumanTreeNode", param).then(res => {
+      vm.$store.dispatch("delTreeNode", param).then(res => {
         if (res.success) {
           vm.$message.success("节点删除成功");
           vm.getHumanTreeData();
@@ -293,7 +293,7 @@ export default {
         param.addNodeType = newTreeNode.data.levelIndexID;
       }
       vm.$store
-        .dispatch("addHumanTreeNode", param)
+        .dispatch("addTreeNode", param)
         .then(res => {
           if (res.success) {
             vm.$message.success("节点添加成功");
@@ -301,12 +301,12 @@ export default {
             vm.$message.error("节点添加失败");
           }
           vm.getHumanTreeData();
-          vm.getHumanTreeTeamNode();
+          vm.getTreeTeamNode();
         })
         .catch(() => {
           vm.$message.error("节点添加失败");
           vm.getHumanTreeData();
-          vm.getHumanTreeTeamNode();
+          vm.getTreeTeamNode();
         });
     },
     validNodeName(value) {

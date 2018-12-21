@@ -1,59 +1,67 @@
 import request from "@/utils/request";
-function getHumanTreeData(type) {
+function getTreeData(type) {
   return request({
     url: "hrbp/LevelTree/queryAllTree",
     method: "post",
     data: { type }
   });
 }
-function addHumanTreeNode(param) {
+function addTreeNode(param) {
   return request({
     url: "hrbp/LevelTree/addTreeNode",
     method: "post",
     data: param
   });
 }
-function delHumanTreeNode(param) {
+function delTreeNode(param) {
   return request({
     url: "hrbp/LevelTree/deleteTreeNode",
     method: "post",
     data: param
   });
 }
-function editHumanTreeNode(param) {
+function editTreeNode(param) {
   return request({
     url: "hrbp/LevelTree/updateTreeNode",
     method: "post",
     data: param
   });
 }
-function moveHumanTreeNode(param) {
+function moveTreeNode(param) {
   return request({
     url: "hrbp/LevelTree/moveTreeNode",
     method: "post",
     data: param
   });
 }
-function getHumanTreeNode(relationID) {
+function getTreeNode(relationID) {
   return request({
     url: "hrbp/LevelTree/queryAllLevel",
     method: "post",
     data: { relationID }
   });
 }
-function getHumanTreeTeamNode() {
+function getTreeTeamNode() {
   return request({
     url: "hrbp/LevelTree/queryTeamInfo",
     method: "post",
     data: {}
   });
 }
+function getTreePONode() {
+  return request({
+    url: "hrbp/LevelTree/queryPOInfo",
+    method: "post",
+    data: {}
+  });
+}
 export default {
-  getHumanTreeData,
-  addHumanTreeNode,
-  delHumanTreeNode,
-  editHumanTreeNode,
-  moveHumanTreeNode,
-  getHumanTreeNode,
-  getHumanTreeTeamNode
+  getTreeData,
+  addTreeNode,
+  delTreeNode,
+  editTreeNode,
+  moveTreeNode,
+  getTreeNode,
+  getTreeTeamNode,
+  getTreePONode
 };

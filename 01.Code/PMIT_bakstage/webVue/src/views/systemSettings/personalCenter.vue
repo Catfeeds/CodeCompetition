@@ -366,7 +366,7 @@ export default {
       dataTable: [],
       dialogSetVisible: false,
       evaluateTitle: "待我评价",
-      historyEvaluateTitle: "待我评价",
+      historyEvaluateTitle: "我的评价",
       dimensionForm: {
         dimensionList: [],
         evaluator: "",
@@ -395,7 +395,7 @@ export default {
       this.evaluateTitle = "待我评价(" + data.length + ")";
     },
     historyEvaluationTable(data) {
-      this.historyEvaluateTitle = "待我评价(" + data.length + ")";
+      this.historyEvaluateTitle = "我的评价(" + data.length + ")";
     }
   },
   methods: {

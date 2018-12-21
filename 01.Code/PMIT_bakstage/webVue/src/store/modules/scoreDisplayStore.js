@@ -26,7 +26,7 @@ let mutations = {
     state.searchForm.product = "";
   },
   updateTableDataSourcee(state, value) {
-    state.scoreData = value;
+    state.scoreData = value || { list: [], total: 0 };
   }
 };
 
@@ -61,10 +61,10 @@ let actions = {
         affairName: state.searchForm.trainName,
         types: state.searchForm.property,
         startTime: state.searchForm.scoreTime
-          ? formatDate(state.searchForm.scoreTime[0], "yyyy-MM-dd HH:mm:ss")
+          ? new Date(state.searchForm.scoreTime[0] + ":00")
           : "",
         endTime: state.searchForm.scoreTime
-          ? formatDate(state.searchForm.scoreTime[1], "yyyy-MM-dd HH:mm:ss")
+          ? new Date(state.searchForm.scoreTime[1] + ":00")
           : "",
         pageParam: {
           currPage: pageInfo ? pageInfo.currentPage : 1,
