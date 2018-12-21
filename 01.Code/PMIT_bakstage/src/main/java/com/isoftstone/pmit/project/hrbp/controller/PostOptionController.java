@@ -5,7 +5,6 @@ import com.isoftstone.pmit.common.util.AjaxResult;
 import com.isoftstone.pmit.common.util.JsonUtils;
 import com.isoftstone.pmit.common.util.ListUtils;
 import com.isoftstone.pmit.project.hrbp.entity.PostOptionInfo;
-import com.isoftstone.pmit.project.hrbp.entity.RelationTreeNode;
 import com.isoftstone.pmit.project.hrbp.service.IPostOptionService;
 import com.isoftstone.pmit.project.hrbp.util.ParamUtils;
 import io.swagger.annotations.Api;
@@ -24,19 +23,6 @@ import java.util.Map;
 public class PostOptionController {
     @Autowired
     private IPostOptionService postOptionService;
-
-    @ApiOperation(value="查询单人的岗位选项", notes="查询单人的岗位选项")
-    @PostMapping(value = "/queryPostOption")
-    public String queryPostOption(@RequestBody String parameter) {
-        PostOptionParam params = JsonUtils.readValue(parameter, PostOptionParam.class);
-        Map<String, Object> queryParams = ParamUtils.getPostOptionParams(params);
-        RelationTreeNode rst = postOptionService.queryBuByPostOption(queryParams);
-        if (null == rst) {
-            return AjaxResult.returnToResult(false, "查询岗位选项失败!");
-        }
-
-        return AjaxResult.returnToResult(true, rst);
-    }
 
     @ApiOperation(value="查询所有岗位选项", notes="查询所有岗位选项")
     @PostMapping(value = "/queryPostOptionInfos")

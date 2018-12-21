@@ -20,20 +20,6 @@ public class PostOptionService implements IPostOptionService {
     private PostOptionMapper postOptionMapper;
 
     @Override
-    public RelationTreeNode queryBuByPostOption(Map<String, Object> params) {
-        PostOptionInfo onePost = postOptionMapper.queryPostOption(params);
-
-        String authCont = onePost.getAuthContent();
-        if (StringUtilsMethod.isEmpty(authCont)) {
-            return null;
-        }
-
-        String[] postInfo = authCont.split(CommonConst.DATA_SEPARATOR);
-        // 调用光少的方法拼接树
-        return null;
-    }
-
-    @Override
     public List<PostOptionInfo> queryPostOptionInfos(Map<String, Object> params) {
         return postOptionMapper.queryPostOptionInfos(params);
     }
