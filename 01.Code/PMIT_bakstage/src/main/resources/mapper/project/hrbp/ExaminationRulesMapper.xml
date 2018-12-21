@@ -119,7 +119,8 @@
             (#{item.ruleId},
             #{item.itemId},
             #{item.itemType},
-            #{item.itemName})
+            #{item.itemName},
+            #{item.credit})
         </foreach>
     </insert>
 

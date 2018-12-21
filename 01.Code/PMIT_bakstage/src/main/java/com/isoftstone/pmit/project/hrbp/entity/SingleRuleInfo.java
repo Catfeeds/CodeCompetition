@@ -9,10 +9,8 @@ public class SingleRuleInfo {
     private int itemType;
     // 规则项名称
     private String itemName;
-    // 学分
+    // 分数
     private int credit;
-    // pass
-    private int pass;
 
     public int getRuleId() {
         return ruleId;
@@ -52,13 +50,5 @@ public class SingleRuleInfo {
 
     public void setCredit(int credit) {
         this.credit = credit;
-    }
-
-    public int getPass() {
-        return pass;
-    }
-
-    public void setPass(int pass) {
-        this.pass = pass;
     }
 }

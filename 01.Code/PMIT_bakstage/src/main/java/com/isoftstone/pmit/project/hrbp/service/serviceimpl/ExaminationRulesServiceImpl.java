@@ -58,6 +58,7 @@ public class ExaminationRulesServiceImpl implements IExaminationRulesService {
         // 不论新增还是更新，均先删除掉原来的单项规则后再追加
         int sqlRst;
         ExaminationRulesInfo oneRule = params.getOneRule();
+        oneRule.setSystem(params.getSystem()); // 后续让前台下发到里头
         if (CommonConst.SQL_EXECUTE_FAILED == examinationRulesMapper.deleteSingleRuleInfo(singleRule.get(0).getRuleId())) {
             sqlRst = examinationRulesMapper.addExaminationRulesInfo(oneRule);
         } else {

@@ -74,7 +74,6 @@ public class ExaminationRulesParam extends CommonParam {
         one.setItemType(1);
         one.setItemName("信息安全培训");
         one.setCredit(2);
-        one.setPass(80);
 
         SingleRuleInfo two = singleRules.get(1);
         two.setRuleId(12);
@@ -82,7 +81,6 @@ public class ExaminationRulesParam extends CommonParam {
         two.setItemType(1);
         two.setItemName("骨干MDE培训");
         two.setCredit(5);
-        two.setPass(90);
         System.out.println(JsonUtils.toJSON(examinationRulesParam));
     }
 }
