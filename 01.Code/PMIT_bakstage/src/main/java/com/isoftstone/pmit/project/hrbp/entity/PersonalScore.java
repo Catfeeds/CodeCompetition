@@ -28,8 +28,28 @@ public class PersonalScore {
     private int scoresID;
     /**所属类型的名称的ID*/
     private String nameID;
+    /** 开班系列名称 */
+    private String openingName;
+    /** 讲师 */
+    private String lecturer;
 
     private List<PersonalTranAndDimeScore> personalTranAndDimeScores;
+
+    public String getOpeningName() {
+        return openingName;
+    }
+
+    public void setOpeningName(String openingName) {
+        this.openingName = openingName;
+    }
+
+    public String getLecturer() {
+        return lecturer;
+    }
+
+    public void setLecturer(String lecturer) {
+        this.lecturer = lecturer;
+    }
 
     public List<PersonalTranAndDimeScore> getPersonalTranAndDimeScores() {
         return personalTranAndDimeScores;
