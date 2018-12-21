@@ -11,6 +11,15 @@ public class PersonalAffairdimension {
     private Double score;
     private String evaluation;
     private String explanation;
+    private Double mark;
+
+    public Double getMark() {
+        return mark;
+    }
+
+    public void setMark(Double mark) {
+        this.mark = mark;
+    }
 
     public String getExplanation() {
         return explanation;

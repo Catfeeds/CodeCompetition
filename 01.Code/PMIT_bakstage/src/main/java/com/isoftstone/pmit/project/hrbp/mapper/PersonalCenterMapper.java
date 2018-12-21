@@ -16,7 +16,7 @@ public interface PersonalCenterMapper {
 
 	List<Map<String, Object>> getDimensionByAffair(Map<String, Object> paramMap);
 
-	List<Map<String, Object>> queryHistorySolved(Map<String, Object> paramMap);
+	List<PersonalHistoryInfo> queryHistorySolved(Map<String, Object> paramMap);
 
 	List<Map<String,Object>> getStaffAffair(Map<String,Object> pendingSolvedMap);
 

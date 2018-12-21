@@ -48,7 +48,7 @@ public class PersonalCenterService implements IPersonalCenterService {
     }
 
     @Override
-    public List<Map<String, Object>> queryHistorySolved(Map<String, Object> paramMap) {
+    public List<PersonalHistoryInfo> queryHistorySolved(Map<String, Object> paramMap) {
         return personalCenterMapper.queryHistorySolved(paramMap);
     }
 

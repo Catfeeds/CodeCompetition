@@ -20,7 +20,6 @@ public class PersonalHistoryInfo {
     private Date ChangeTime;
     private List<PersonalAffairdimension> PersonalAffairdimensionList;
 
-
     public String getStaffName() {
         return staffName;
     }

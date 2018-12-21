@@ -56,7 +56,7 @@ public class PersonalCenterController {
 	@PostMapping("/queryHistorySolved")
 	public String queryHistorySolved(@RequestBody Map<String, Object> paramMap) {
 //		Map<String, Object> paramMap = JSONObject.parseObject(param, HashMap.class);
-		List<Map<String, Object>> result = personalCenterService.queryHistorySolved(paramMap);
+		List<PersonalHistoryInfo> result = personalCenterService.queryHistorySolved(paramMap);
 		return AjaxResult.returnToResult(true, result);
 	}
 
