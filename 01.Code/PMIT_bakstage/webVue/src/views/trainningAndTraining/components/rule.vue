@@ -20,7 +20,7 @@
       ></el-table-column>
 
       <el-table-column min-width="150px" header-align="center" label="所属体系" prop="system" sortable></el-table-column>
-      <el-table-column min-width="100px" header-align="center" label="所属角色" prop="roleId" sortable></el-table-column>
+      <el-table-column min-width="100px" header-align="center" label="所属角色" prop="roleName" sortable></el-table-column>
       <el-table-column min-width="100px" header-align="center" label="职级" prop="roleLevel" sortable></el-table-column>
       <el-table-column
         min-width="100px"

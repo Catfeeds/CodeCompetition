@@ -580,10 +580,10 @@ export default {
           affairName: vm.searchForm.trainName,
           types: vm.searchForm.property,
           startTime: vm.searchForm.scoreTime
-            ? formatDate(vm.searchForm.scoreTime[0], "yyyy-MM-dd HH:mm:ss")
+            ? vm.searchForm.scoreTime[0] + ":00"
             : "",
           endTime: vm.searchForm.scoreTime
-            ? formatDate(vm.searchForm.scoreTime[1], "yyyy-MM-dd HH:mm:ss")
+            ? vm.searchForm.scoreTime[1] + ":00"
             : "",
           pageParam: {
             currPage: 0,

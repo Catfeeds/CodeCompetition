@@ -450,13 +450,11 @@ export default {
             vm.getKeyRoleTableData();
           } else {
             vm.$message.error("关键角色保存失败");
-            vm.keyRoleDataSource = [];
           }
           vm.dialogVisible = false;
         })
         .catch(() => {
           vm.$message.error("关键角色保存失败");
-          vm.keyRoleDataSource = [];
           vm.dialogVisible = false;
         });
     },

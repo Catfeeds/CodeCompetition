@@ -289,6 +289,8 @@ export default {
       };
       if(isTeam) {
         param.addTeamID = newTreeNode.id;
+      }else{
+        param.addNodeType = newTreeNode.data.levelIndexID;
       }
       vm.$store
         .dispatch("addHumanTreeNode", param)
