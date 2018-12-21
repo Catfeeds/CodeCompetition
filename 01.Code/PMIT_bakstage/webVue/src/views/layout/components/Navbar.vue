@@ -129,7 +129,7 @@ export default {
     })
   },
   mounted() {
-    this.getEvaluateCount(this.employeeId);
+    this.getEvaluateCount(this.employeeId || Cookies.get("loginName"));
   },
   methods: {
     ...mapActions(["getEvaluateCount"]),
