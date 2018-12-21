@@ -7,6 +7,8 @@ public class ExaminationRulesInfo {
     private int ruleId;
     // 角色Id
     private int roleId;
+    //角色名称
+    private String roleName;
     // 体系
     private String system;
     // 级别
@@ -31,6 +33,14 @@ public class ExaminationRulesInfo {
     private int excellentScore;
     // 卓越规则 0:> 1:≥ 2:< 3:≤
     private int excellentRule;
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
 
     public int getRuleId() {
         return ruleId;
