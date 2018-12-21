@@ -16,8 +16,8 @@ export default {
     return {
       chart: null,
       nameMap:{
-        'backnonenum':'骨干',
-        'nobacknonenum':'普员'
+        'mmsNumber':'骨干',
+        'backupMmsNumber':'备份骨干'
       }
     };
   },
@@ -25,7 +25,7 @@ export default {
     this.initChart();
     var obj = this.getParams(),
       vm = this;
-    delete obj.isBacknone;
+    delete obj.isMMS;
     this.getRate(obj);
     this.chart.on("click", function(params) {
       vm.setSelectedEType(params.dataIndex);

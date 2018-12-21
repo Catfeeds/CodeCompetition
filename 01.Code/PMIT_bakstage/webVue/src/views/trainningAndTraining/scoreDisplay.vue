@@ -498,7 +498,7 @@ export default {
               vm.$message.success("成绩修改成功");
               vm.handleFilter(null, vm.page);
             } else {
-              vm.$message.success("成绩修改失败");
+              vm.$message.error("成绩修改失败");
             }
             vm.dialogSetVisible = false;
           });

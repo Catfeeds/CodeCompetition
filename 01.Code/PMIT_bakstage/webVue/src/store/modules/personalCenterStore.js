@@ -3,7 +3,8 @@ import api from "@/api/personalCenterApi";
 export default {
   state: {
     evaluateList: [],
-    historyEvaluateList: []
+    historyEvaluateList: [],
+    evaluateCount: 0
   },
   mutations: {
     updateEvaluateList(state, value) {
@@ -11,6 +12,9 @@ export default {
     },
     updateHistoryEvaluateList(state, value) {
       state.historyEvaluateList = value;
+    },
+    updateEvaluateCount(state, value) {
+      state.evaluateCount = value || 0;
     }
   },
   actions: {
@@ -65,6 +69,20 @@ export default {
             reject(error);
           });
       });
+    },
+    getEvaluateCount({ commit }, employeeId) {
+      return api
+        .queryEvaluateCount(employeeId)
+        .then(res => {
+          if (res.data.success) {
+            commit("updateEvaluateCount", res.data.data.count);
+          } else {
+            commit("updateEvaluateCount", 0);
+          }
+        })
+        .catch(() => {
+          commit("updateEvaluateCount", 0);
+        });
     }
   }
 };

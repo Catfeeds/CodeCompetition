@@ -44,9 +44,17 @@ function saveEvaluation(evaluateInfo) {
     data: evaluateInfo
   });
 }
+function queryEvaluateCount(evaluatorId) {
+  return request({
+    url: "hrbp/PersonalCenter/countPendingSolved",
+    method: "post",
+    data: { evaluatorId }
+  });
+}
 export default {
   getEvaluateList,
   getHistoryEvaluateList,
   saveEvaluation,
-  getDimensionListByAffairId
+  getDimensionListByAffairId,
+  queryEvaluateCount
 };

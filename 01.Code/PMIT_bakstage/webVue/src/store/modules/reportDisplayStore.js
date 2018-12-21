@@ -58,7 +58,7 @@ let mutations = {
   },
   setRateData(state, val) {
     state.rateData = val || [];
-    state.selectedEType = state.rateData[0] || "";
+    // state.selectedEType = state.rateData[0] || "";
   },
   setDepartmentStatisData(state, val) {
     state.departmentStatisData = val || [];

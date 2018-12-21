@@ -247,7 +247,7 @@ export default {
               vm.$message.success("节点修改成功");
               vm.getHumanTreeData();
             } else {
-              vm.$message.success("节点修改失败");
+              vm.$message.error("节点修改失败");
               vm.removeHoverDom(treeId, treeNode);
             }
           });
@@ -270,6 +270,7 @@ export default {
         if (res.success) {
           vm.$message.success("节点删除成功");
           vm.getHumanTreeData();
+          vm.getTreeTeamNode();
         } else {
           vm.$message.error("节点删除失败");
           vm.removeHoverDom(treeId, treeNode);
@@ -298,7 +299,7 @@ export default {
           if (res.success) {
             vm.$message.success("节点添加成功");
           } else {
-            vm.$message.error("节点添加失败");
+            vm.$message.error(res.message);
           }
           vm.getHumanTreeData();
           vm.getTreeTeamNode();

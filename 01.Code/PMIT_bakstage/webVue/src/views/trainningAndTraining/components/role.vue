@@ -188,7 +188,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getRoleInfo", "getAllRole", "getSystemInfo"]),
+    ...mapActions(["getRoleInfo", "getRoleOption", "getSystemInfo"]),
     getRoleList() {
       let vm = this;
       vm.loading = true;
@@ -246,7 +246,7 @@ export default {
           if (res.success) {
             vm.$message.success(res.message);
             vm.getRoleList();
-            vm.getAllRole();
+            vm.getRoleOption();
           } else {
             vm.$message.error(res.message);
           }
@@ -292,7 +292,7 @@ export default {
             if (res.success) {
               vm.$message.success(res.message);
               vm.getRoleList();
-              vm.getAllRole();
+              vm.getRoleOption();
             } else {
               vm.$message.error(res.message);
             }

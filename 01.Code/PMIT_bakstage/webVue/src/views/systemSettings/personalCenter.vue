@@ -399,7 +399,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["getEvaluateListData", "getHistoryEvaluateList"]),
+    ...mapActions([
+      "getEvaluateListData",
+      "getHistoryEvaluateList",
+      "getEvaluateCount"
+    ]),
     changeTab(tab) {
       if (tab.name === "tab2") {
         this.getHistoryEvaluateList(this.employeeId);
@@ -514,6 +518,7 @@ export default {
             if (res.success) {
               vm.$message.success("操作成功");
               vm.getEvaluateListData(vm.employeeId);
+              vm.getEvaluateCount(vm.employeeId);
             } else {
               vm.$message.error("操作失败");
             }

@@ -58,7 +58,12 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="30%" :close-on-click-modal="false">
+    <el-dialog
+      :title="dialogTitle"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :close-on-click-modal="false"
+    >
       <el-form :model="roleForm" size="mini" label-width="80px" ref="roleForm" :rules="rules">
         <el-form-item label="角色名称" prop="roleName">
           <el-input v-model="roleForm.roleName" autocomplete="off" required maxlength="64"></el-input>
@@ -77,7 +82,7 @@
                 default-expand-all
                 :props="defaultProps"
                 :default-checked-keys="selectedNodes"
-                ref="tree"
+                ref="newTree"
               ></el-tree>
             </el-scrollbar>
           </div>
@@ -96,11 +101,13 @@ export default {
   data() {
     let vm = this;
     let validMenuTree = (rule, value, callback) => {
-      vm.roleForm.menuIds = vm.$refs.tree.getCheckedNodes().map(item => {
-        return {
-          menuId: item.id
-        };
-      });
+      vm.roleForm.menuIds = vm.$refs.newTree
+        .getCheckedNodes(false, true)
+        .map(item => {
+          return {
+            menuId: item.id
+          };
+        });
       if (vm.roleForm.menuIds.length <= 0) {
         callback(new Error(rule.message));
       } else {
@@ -144,7 +151,6 @@ export default {
   mounted() {
     this.getRoleList();
     this.$store.dispatch("getAllMenuInfo").then(res => {
-      console.log(111);
       if (res.success) {
         this.menuTreeData = res.data
           .filter(item => !item.parentId && item.menuId > 1)
@@ -200,7 +206,6 @@ export default {
           vm.loading = false;
         })
         .catch(error => {
-          console.log(error);
           vm.loading = false;
         });
     },
@@ -213,10 +218,10 @@ export default {
       }).then(() => {
         vm.$store.dispatch("delSysRoleInfo", id).then(res => {
           if (!res.code) {
-            vm.$message.success(res.msg);
+            vm.$message.success(res.message);
             vm.getRoleList();
           } else {
-            vm.$message.error(res.msg);
+            vm.$message.error(res.message);
           }
         });
       });
@@ -230,11 +235,11 @@ export default {
           vm.roleForm.roleId = rowData.roleId;
           vm.dialogTitle = "编辑角色";
           vm.dialogVisible = true;
-          if (!vm.$refs.tree) {
+          if (!vm.$refs.newTree) {
             vm.selectedNodes = res.data.map(item => item.menuId);
           } else {
             vm.clearValidate("roleForm");
-            vm.$refs.tree.setCheckedNodes(
+            vm.$refs.newTree.setCheckedNodes(
               res.data.map(item => {
                 return { id: item.menuId, name: item.note };
               })
@@ -249,9 +254,10 @@ export default {
       this.roleForm.roleName = "";
       this.roleForm.description = "";
       this.roleForm.roleId = -1;
-      if (this.$refs.tree) {
+      this.selectedNodes = [];
+      if (this.$refs.newTree) {
         this.clearValidate("roleForm");
-        this.$refs.tree.setCheckedKeys([]);
+        this.$refs.newTree.setCheckedKeys([]);
       }
     },
     submtForm(formName) {

@@ -48,7 +48,12 @@ function delRuleInfo(ruleId) {
     data: { ruleId }
   });
 }
-
+function queryRoleList() {
+  return request({
+    url: "hrbp/eRules/queryAllRole",
+    method: "post"
+  });
+}
 export default {
   getRoleList,
   delRoleInfo,
@@ -56,5 +61,6 @@ export default {
   getRuleList,
   addRuleInfo,
   getRuleInfoById,
-  delRuleInfo
+  delRuleInfo,
+  queryRoleList
 };

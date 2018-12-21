@@ -71,7 +71,7 @@ export default {
   },
   mounted() {
     this.getSystemInfo();
-    this.getAllRole();
+    this.getRoleOption();
     this.$refs.roleTab.handleFilter();
   },
   computed: {
@@ -81,7 +81,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions(["getAllRole", "getSystemInfo"]),
+    ...mapActions(["getRoleOption", "getSystemInfo"]),
     changeTab(tab, event) {
       if (tab.name === "role") {
         this.$refs.roleTab.handleFilter();

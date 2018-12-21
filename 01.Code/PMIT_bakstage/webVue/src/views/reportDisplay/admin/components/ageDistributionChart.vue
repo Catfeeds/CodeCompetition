@@ -18,7 +18,7 @@ export default {
       ageMap:{
         'agelessthan30':"30以下",
         'age30to40':'30~40',
-        'agegreaterthan40':'40以下'
+        'agegreaterthan40':'40以上'
       }
     };
   },

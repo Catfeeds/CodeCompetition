@@ -6,7 +6,8 @@ export default {
     systemOptions: [],
     seriesOptions: [],
     trainDataSource: [],
-    affairDataSource: []
+    affairDataSource: [],
+    roleOptions: []
   },
   mutations: {
     updateRoleData(state, value) {
@@ -40,10 +41,13 @@ export default {
     },
     updateAffairData(state, value) {
       state.affairDataSource = value;
+    },
+    updateRoleOption(state, value) {
+      state.roleOptions = value;
     }
   },
   actions: {
-    getAllRole({ commit }) {
+    getRoleTreeInfo({ commit }) {
       return new Promise(() => {
         api
           .getRoleList({ system: "", roleName: "" })
@@ -58,6 +62,20 @@ export default {
             commit("updateRoleData", []);
           });
       });
+    },
+    getRoleOption({ commit }) {
+      return api
+        .queryRoleList()
+        .then(res => {
+          if (res.data.success) {
+            commit("updateRoleOption", res.data.data);
+          } else {
+            commit("updateRoleOption", []);
+          }
+        })
+        .catch(() => {
+          commit("updateRoleOption", []);
+        });
     },
     getSystemInfo({ dispatch, commit }) {
       return dispatch("querySystem")

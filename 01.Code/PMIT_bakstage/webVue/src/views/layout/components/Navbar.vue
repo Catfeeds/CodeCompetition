@@ -23,15 +23,11 @@
         </div>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item class="clearfix">
-            <router-link to="/personal" style="display:inline-block;">
-            {{employeeName}}
-            </router-link>
-            <el-badge class="mark" :value="12" />
+            <router-link to="/personal" style="display:inline-block;">{{employeeName}}</router-link>
+            <el-badge class="mark" :value="count"/>
           </el-dropdown-item>
           <el-dropdown-item divided>
-          <router-link to="/">
-            {{ $t("navbar.dashboard") }}
-          </router-link>
+            <router-link to="/">{{ $t("navbar.dashboard") }}</router-link>
           </el-dropdown-item>
           <el-dropdown-item divided>
             <span style="display:block;" @click="logout">
@@ -79,7 +75,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions, mapState } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
 import Screenfull from "@/components/Screenfull";
@@ -121,9 +117,22 @@ export default {
     LangSelect
   },
   computed: {
-    ...mapGetters(["sidebar", "employeeId", "employeeName", "avatar", "device"])
+    ...mapGetters([
+      "sidebar",
+      "employeeId",
+      "employeeName",
+      "avatar",
+      "device"
+    ]),
+    ...mapState({
+      count: state => state.personalCenterStore.evaluateCount
+    })
+  },
+  mounted() {
+    this.getEvaluateCount(this.employeeId);
   },
   methods: {
+    ...mapActions(["getEvaluateCount"]),
     toggleSideBar() {
       this.$store.dispatch("toggleSideBar");
     },

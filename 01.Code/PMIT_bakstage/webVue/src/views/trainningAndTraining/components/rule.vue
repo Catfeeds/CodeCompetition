@@ -392,9 +392,8 @@
           width="80"
           type="index"
         ></el-table-column>
-        <el-table-column prop="itemName" header-align="center" label="培训名称" width="150"></el-table-column>
-        <el-table-column prop="credit" header-align="center" label="学分" width="100"></el-table-column>
-        <el-table-column prop="pass" header-align="center" label="及格分" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="itemName" header-align="center" label="培训名称" min-width="150"></el-table-column>
+        <el-table-column prop="credit" header-align="center" label="最高得分" width="100"></el-table-column>
       </el-table>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogViewVisible = false;" size="mini">关 闭</el-button>
@@ -559,7 +558,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      "getAllRole",
+      "getRoleTreeInfo",
       "getSeriesInfo",
       "getAllTrain",
       "getAllAffair"
@@ -762,6 +761,7 @@ export default {
       vm.ruleForm.system = "";
       vm.ruleForm.role = "";
       vm.ruleForm.rank = "";
+      vm.getRoleTreeInfo();
       vm.getSeriesInfo();
       vm.active = 0;
       vm.isBaseInfo = true;
@@ -822,7 +822,7 @@ export default {
               vm.$message.success("规则添加成功");
               vm.getRuleList();
             } else {
-              vm.$message.success("规则添加失败");
+              vm.$message.error("规则添加失败");
             }
             vm.selectedTrain = [];
             vm.selectedAffair = [];
@@ -870,6 +870,12 @@ export default {
       .el-form-item--mini.el-form-item {
         margin-bottom: 10px;
       }
+    }
+  }
+  .el-scrollbar {
+    height: 100%;
+    .el-scrollbar__wrap {
+      overflow-x: hidden;
     }
   }
 }

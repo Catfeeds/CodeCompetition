@@ -263,11 +263,11 @@
           </tr>
           <tr>
             <th>喜欢的一句话</th>
-            <td>{{ postForm.personalStyle.oneSentence }}</td>
+            <td>{{ postForm.personalStyle.dislike }}</td>
           </tr>
           <tr>
             <th>不喜欢的</th>
-            <td>{{ postForm.personalStyle.dislike }}</td>
+            <td>{{ postForm.personalStyle.oneSentence }}</td>
           </tr>
         </table>
       </el-tab-pane>
