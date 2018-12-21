@@ -97,7 +97,7 @@
 				AND mer.roleId = msr.roleId
 			) b
 			WHERE
-				a.role = b.roleName
+				a.role = b.roleId
 			AND a.bu = b.bu
 			AND a.rank = b.roleLevel
 		)
