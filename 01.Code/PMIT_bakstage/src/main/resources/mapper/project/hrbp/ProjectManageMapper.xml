@@ -51,11 +51,30 @@
         <if test="null != pmID and '' != pmID">
             AND employeeID like '%${pmID}%'
         </if>
-        <if test="null != bu and '' != bu">
-            AND bu = #{bu}
-        </if>
-        <if test="null != pdu and '' != pdu">
-            AND pdu = #{pdu}
+        <if test="null != BU and '' != BU">
+            AND bu = #{BU}
         </if>
     </select>
+
+    <insert id="insertProjectNode" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="projectID">
+        INSERT INTO
+        mms_project_manage(
+        <if test="null != pmID">
+            pmID,
+        </if>
+        <if test="null != pmName">
+            pmName,
+        </if>
+        projectName
+        )
+        VALUES (
+        <if test="null != pmID">
+            #{pmID},
+        </if>
+        <if test="null != pmName">
+            #{pmName},
+        </if>
+        #{projectName}
+        )
+    </insert>
 </mapper>

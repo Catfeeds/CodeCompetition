@@ -50,6 +50,11 @@ public class ProjectManageService implements IProjectManageService {
         return projectManageMapper.queryPMs(queryMap);
     }
 
+    @Override
+    public Long addProjectNode(Map<String, Object> queryMap) {
+        return projectManageMapper.insertProjectNode(queryMap);
+    }
+
 //    private void buildTeamQueryMap(Map<String, Object> params, Map<String, Object> queryMap) {
 //        Set<String> teamPaths = new HashSet<String>();
 //

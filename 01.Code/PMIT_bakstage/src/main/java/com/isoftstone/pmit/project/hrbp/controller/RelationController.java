@@ -1,6 +1,9 @@
 package com.isoftstone.pmit.project.hrbp.controller;
 
+import com.isoftstone.pmit.common.constant.CommonConst;
 import com.isoftstone.pmit.common.util.AjaxResult;
+import com.isoftstone.pmit.common.util.StringUtilsMethod;
+import com.isoftstone.pmit.project.hrbp.entity.PostOptionInfo;
 import com.isoftstone.pmit.project.hrbp.entity.RelationTreeNode;
 import com.isoftstone.pmit.project.hrbp.service.IRelationService;
 import io.swagger.annotations.Api;
@@ -146,6 +149,19 @@ public class RelationController {
         List<RelationTreeNode> result;
         try {
             result = service.queryChildTreesByNode(params);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return AjaxResult.returnToMessage(false, e.getMessage());
+        }
+        return AjaxResult.returnToResult(true, result);
+    }
+
+    @ApiOperation(value = "查询级联信息", notes = "查询级联信息")
+    @PostMapping(value = "/queryCascadeInfo")
+    public String queryCascadeInfo(Map<String, Object> params) {
+        Map<String, Object> result;
+        try {
+            result = service.queryCascadeInfo(params);
         } catch (Exception e) {
             e.printStackTrace();
             return AjaxResult.returnToMessage(false, e.getMessage());

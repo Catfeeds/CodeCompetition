@@ -141,7 +141,10 @@
 
     <select id="queryNodes" parameterType="java.util.Map" resultType="RelationTreeNode">
       SELECT
-        *
+        <if test="isChild">
+            TRUE AS isHasAuthority,
+        </if>
+        ${tableName}.*
       FROM
         ${tableName}
       <where>

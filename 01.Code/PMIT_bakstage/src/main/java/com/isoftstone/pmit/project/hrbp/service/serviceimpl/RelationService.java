@@ -1,8 +1,10 @@
 package com.isoftstone.pmit.project.hrbp.service.serviceimpl;
 
+import com.isoftstone.pmit.common.constant.CommonConst;
 import com.isoftstone.pmit.common.exception.RelationTreeNodeException;
 import com.isoftstone.pmit.common.util.StringUtilsMethod;
 import com.isoftstone.pmit.project.hrbp.common.TreeUtil;
+import com.isoftstone.pmit.project.hrbp.entity.PostOptionInfo;
 import com.isoftstone.pmit.project.hrbp.entity.RelationTreeNode;
 import com.isoftstone.pmit.project.hrbp.mapper.RelationMapper;
 import com.isoftstone.pmit.project.hrbp.service.IRelationService;
@@ -117,6 +119,8 @@ public class RelationService implements IRelationService {
     @Override
     public List<RelationTreeNode> queryParentTreesByNode(Map<String, Object> params) {
         params.put("tableName", tableNames.get(params.get("type")));
+        params.put("isChild", false);
+
         List<RelationTreeNode> nodes = new ArrayList<RelationTreeNode>();
         nodes = mapper.queryNodes(params);
 
@@ -132,6 +136,8 @@ public class RelationService implements IRelationService {
     @Override
     public List<RelationTreeNode> queryChildTreesByNode(Map<String, Object> params) {
         params.put("tableName", tableNames.get(params.get("type")));
+        params.put("isChild", true);
+
         List<RelationTreeNode> nodes = new ArrayList<RelationTreeNode>();
         nodes = mapper.queryNodes(params);
 
@@ -143,6 +149,70 @@ public class RelationService implements IRelationService {
 
         return buildTree(treeNodes);
     }
+
+    @Override
+    public Map<String, Object> queryCascadeInfo(Map<String, Object> params) {
+        params.put("tableName", tableNames.get(params.get("type")));
+
+        Map<String, Object> result = new HashMap<String, Object>();
+        PostOptionInfo onePost = mapper.queryPostOption(params);
+
+        List<RelationTreeNode> treeNodes = getAuthTree(params, onePost);
+        if (treeNodes == null) {
+            return null;
+        }
+        List<RelationTreeNode> trees = buildTree(treeNodes);
+
+        List<Map<String, Object>> levelInfo = mapper.queryAllLevel(params);
+        result.put("levelInfo", levelInfo);
+
+        List<String> levels = new ArrayList<String>();
+        for (Map<String, Object> temp : levelInfo) {
+            levels.add(String.valueOf(temp.get("levelIndexID")));
+        }
+
+        RelationTreeNode root = new RelationTreeNode();
+        root.setChildList(new ArrayList<RelationTreeNode>());
+        root.setTeamList(new ArrayList<RelationTreeNode>());
+        root.setNodeID(-1);
+        root.setNodeName("root");
+
+        for (RelationTreeNode temp : trees) {
+           // getCascadeTree(root, temp, levels);
+        }
+
+
+        return result;
+    }
+
+    private void getCascadeTree(RelationTreeNode parentNode, RelationTreeNode currentNode, List<String> levels,
+                                List<RelationTreeNode> tempList) {
+        if (currentNode.getChildList() != null) {
+            List<RelationTreeNode> tempCurrentList = new ArrayList<RelationTreeNode>();
+            for (RelationTreeNode temp : currentNode.getChildList()) {
+                getCascadeTree(currentNode, temp, levels,tempCurrentList);
+            }
+            parentNode.setChildList(tempCurrentList);
+        }
+
+        if (!levels.contains(currentNode.getNodeType())) {
+            //parentNode.getChildList().remove(currentNode);
+            if (currentNode.getChildList() != null) {
+                tempList.addAll(currentNode.getChildList());
+                //parentNode.getChildList().addAll(currentNode.getChildList());
+            }
+
+            if (currentNode.getTeamList() != null) {
+                if (parentNode.getTeamList() == null) {
+                    parentNode.setTeamList(new ArrayList<RelationTreeNode>());
+                }
+                parentNode.getTeamList().addAll(currentNode.getTeamList());
+            }
+        }else {
+            tempList.add(currentNode);
+        }
+    }
+
 
     private List<RelationTreeNode> buildTree(List<RelationTreeNode> treeNodeList) {
         List<RelationTreeNode> result = new ArrayList<RelationTreeNode>();
@@ -313,6 +383,22 @@ public class RelationService implements IRelationService {
         }
     }
 
+    private void buildNodeIDs(String[] paths, Set<Integer> nodeIDs) {
+        if (paths != null) {
+            for (String path : paths) {
+                if (!StringUtilsMethod.isEmpty(path)) {
+                    String[] pathNodes = path.split(":");
+                    if (pathNodes.length > 2) {
+                        for (int index = 1; index < pathNodes.length - 1; index++) {
+                            nodeIDs.add(Integer.valueOf(pathNodes[index]));
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+
     private void buildNodePaths(List<RelationTreeNode> nodes, Set<String> nodePaths) {
         if (nodes != null) {
             for (RelationTreeNode temp : nodes) {
@@ -322,5 +408,51 @@ public class RelationService implements IRelationService {
                 nodePaths.add(path);
             }
         }
+    }
+
+    private List<RelationTreeNode> getAuthTree(Map<String, Object> params, PostOptionInfo onePost) {
+        String authCont = onePost.getAuthContent();
+        if (StringUtilsMethod.isEmpty(authCont)) {
+            return null;
+        }
+        String[] postInfo = authCont.split(CommonConst.DATA_SEPARATOR);
+        List<RelationTreeNode> treeNodes = new ArrayList<RelationTreeNode>();
+        treeNodes.addAll(queryParentTreesByPath(postInfo, params));
+        treeNodes.addAll(queryChildTreesByPath(postInfo, params));
+        return treeNodes;
+    }
+
+    private List<RelationTreeNode> queryParentTreesByPath(String[] paths, Map<String, Object> params) {
+        Map<String, Object> queryMap = new HashMap<String, Object>();
+        queryMap.put("tableName", params.get("tableName"));
+        queryMap.put("isChild", false);
+
+        Set<Integer> nodeIDs = new HashSet<Integer>();
+        buildNodeIDs(paths, nodeIDs);
+        queryMap.put("nodeIDs", nodeIDs);
+        return mapper.queryNodes(queryMap);
+    }
+
+    public List<RelationTreeNode> queryChildTreesByPath(String[] paths, Map<String, Object> params) {
+        Map<String, Object> queryMap = new HashMap<String, Object>();
+        queryMap.put("tableName", params.get("tableName"));
+        queryMap.put("isChild", true);
+
+        List<String> nodePaths = new ArrayList<String>();
+        nodePaths.addAll(Arrays.asList(paths));
+        queryMap.put("nodePaths", nodePaths);
+
+        buildCurrentNodeIDs(queryMap, nodePaths);
+
+        return mapper.queryNodes(queryMap);
+    }
+
+    private void buildCurrentNodeIDs(Map<String, Object> queryMap, List<String> nodePaths) {
+        Set<Integer> nodeIDs = new HashSet<Integer>();
+        for (String temp : nodePaths) {
+            String[] pathNodeID = temp.split(":");
+            nodeIDs.add(Integer.valueOf(pathNodeID[pathNodeID.length - 1]));
+        }
+        queryMap.put("nodeIDs", nodeIDs);
     }
 }

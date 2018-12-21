@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface IRelationService {
-    public List<Map<String,Object>> queryAllLevel(Map<String, Object> params);
+    public List<Map<String, Object>> queryAllLevel(Map<String, Object> params);
 
     public List<RelationTreeNode> queryTeamInfo();
 
@@ -27,4 +27,7 @@ public interface IRelationService {
     public List<RelationTreeNode> queryParentTreesByNode(Map<String, Object> params);
 
     public List<RelationTreeNode> queryChildTreesByNode(Map<String, Object> params);
+
+    public Map<String, Object> queryCascadeInfo(Map<String, Object> params);
+
 }

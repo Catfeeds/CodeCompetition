@@ -10,4 +10,6 @@ public interface IProjectManageService {
     public void deleteProject(Map<String, Object> queryMap);
 
     public List<Map<String, String>> queryPMs(Map<String, Object> queryMap);
+
+    public Long addProjectNode(Map<String, Object> queryMap);
 }
