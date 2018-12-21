@@ -8,7 +8,7 @@
               v-model="searchForm.product"
               size="mini"
               clearable
-              placeholder="产品线"
+              placeholder="BD"
               @change="productChange"
             >
               <el-option
@@ -26,7 +26,7 @@
               v-model="searchForm.du"
               size="mini"
               clearable
-              placeholder="DU"
+              placeholder="BU"
               @change="changeDU"
             >
               <el-option
@@ -40,7 +40,7 @@
         </el-col>
         <el-col :span="4">
           <el-form-item>
-            <el-select v-model="searchForm.pdu" size="mini" clearable placeholder="PDU">
+            <el-select v-model="searchForm.pdu" size="mini" clearable placeholder="CU">
               <el-option
                 v-for="item in searchForm.pduOptions"
                 :key="item.value"
@@ -106,9 +106,9 @@
           <el-table-column
             min-width="120px"
             header-align="center"
-            :label="$t('projectGroup.product')"
+            label="BD"
             :sortable="!isAdd"
-            prop="bu"
+            prop="CU"
           >
             <template slot-scope="scope">
               <el-form-item prop="product" v-if="scope.row.isAdd">
@@ -116,7 +116,7 @@
                   style="width:150px"
                   v-model="newForm.product"
                   size="mini"
-                  placeholder="产品线"
+                  placeholder="BD"
                   @change="newProductChange"
                 >
                   <el-option
@@ -127,15 +127,15 @@
                   ></el-option>
                 </el-select>
               </el-form-item>
-              <span v-else>{{scope.row.bu}}</span>
+              <span v-else>{{scope.row.CU}}</span>
             </template>
           </el-table-column>
 
           <el-table-column
             min-width="120px"
             header-align="center"
-            prop="du"
-            label="DU"
+            prop="BU"
+            label="BU"
             :sortable="!isAdd"
           >
             <template slot-scope="scope">
@@ -144,7 +144,7 @@
                   style="width:150px"
                   v-model="newForm.du"
                   size="mini"
-                  placeholder="DU"
+                  placeholder="BU"
                   @change="newDUChange"
                 >
                   <el-option
@@ -155,15 +155,15 @@
                   ></el-option>
                 </el-select>
               </el-form-item>
-              <span v-else>{{scope.row.du}}</span>
+              <span v-else>{{scope.row.BU}}</span>
             </template>
           </el-table-column>
 
           <el-table-column
             min-width="150px"
             header-align="center"
-            prop="pdu"
-            label="PDU"
+            prop="CU"
+            label="CU"
             :sortable="!isAdd"
           >
             <template slot-scope="scope">
@@ -172,7 +172,7 @@
                   style="width:150px"
                   v-model="newForm.pdu"
                   size="mini"
-                  placeholder="PDU"
+                  placeholder="CU"
                   @change="newPDUChange"
                 >
                   <el-option
@@ -183,7 +183,7 @@
                   ></el-option>
                 </el-select>
               </el-form-item>
-              <span v-else>{{scope.row.pdu}}</span>
+              <span v-else>{{scope.row.CU}}</span>
             </template>
           </el-table-column>
 
