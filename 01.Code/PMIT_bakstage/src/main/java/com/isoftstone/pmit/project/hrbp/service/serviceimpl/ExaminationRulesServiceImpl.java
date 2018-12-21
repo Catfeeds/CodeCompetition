@@ -56,21 +56,20 @@ public class ExaminationRulesServiceImpl implements IExaminationRulesService {
         }
 
         // 不论新增还是更新，均先删除掉原来的单项规则后再追加
-        int ruleId = singleRule.get(0).getRuleId();
-        int delNum = examinationRulesMapper.deleteSingleRuleInfo(ruleId);
-
-        if (CommonConst.SQL_EXECUTE_FAILED == delNum) {
-            ruleId = examinationRulesMapper.addExaminationRulesInfo(params.getOneRule());
+        int sqlRst;
+        ExaminationRulesInfo oneRule = params.getOneRule();
+        if (CommonConst.SQL_EXECUTE_FAILED == examinationRulesMapper.deleteSingleRuleInfo(singleRule.get(0).getRuleId())) {
+            sqlRst = examinationRulesMapper.addExaminationRulesInfo(oneRule);
         } else {
-            ruleId = examinationRulesMapper.updateExaminationRulesInfo(params.getOneRule());
+            sqlRst = examinationRulesMapper.updateExaminationRulesInfo(oneRule);
         }
 
-        if (CommonConst.SQL_EXECUTE_FAILED  == ruleId) {
+        if (CommonConst.SQL_EXECUTE_FAILED  == sqlRst) {
             return false;
         }
 
         for (SingleRuleInfo oneSingleRule : singleRule) {
-            oneSingleRule.setRuleId(ruleId);
+            oneSingleRule.setRuleId(oneRule.getRuleId());
         }
 
         return CommonConst.SQL_EXECUTE_FAILED != examinationRulesMapper.addSigleRuleInfo(singleRule);
