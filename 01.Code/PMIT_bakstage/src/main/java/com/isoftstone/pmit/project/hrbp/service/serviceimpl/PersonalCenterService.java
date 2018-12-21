@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,4 +59,12 @@ public class PersonalCenterService implements IPersonalCenterService {
 
     }
 
+    @Override
+    public Map<String, Object> countPendingSolved(Map<String, Object> paramMap) {
+        List<Map<String, Object>> pendingSolved = getPendingSolved(paramMap);
+        int size = pendingSolved.size();
+        Map<String, Object> countMap = new HashMap<>();
+        countMap.put("count",size);
+        return countMap;
+    }
 }

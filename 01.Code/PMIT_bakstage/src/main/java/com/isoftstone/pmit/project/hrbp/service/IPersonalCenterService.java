@@ -16,4 +16,5 @@ public interface IPersonalCenterService {
 
     void saveEvaluation(List<PersonalAffairdimension> personalAffairdimensionList);
 
+	Map<String, Object> countPendingSolved(Map<String,Object> paramMap);
 }

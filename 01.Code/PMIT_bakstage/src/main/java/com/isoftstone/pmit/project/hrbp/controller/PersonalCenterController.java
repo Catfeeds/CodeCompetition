@@ -60,4 +60,12 @@ public class PersonalCenterController {
 		List<Map<String, Object>> result = personalCenterService.queryHistorySolved(paramMap);
 		return AjaxResult.returnToResult(true, result);
 	}
+
+	@ApiOperation("查询待解决事务量")
+	@PostMapping("/countPendingSolved")
+	public String countPendingSolved(@RequestBody String param) {
+		Map<String, Object> paramMap = JSONObject.parseObject(param, HashMap.class);
+		Map<String, Object> count = personalCenterService.countPendingSolved(paramMap);
+		return AjaxResult.returnToResult(true, count);
+	}
 }
