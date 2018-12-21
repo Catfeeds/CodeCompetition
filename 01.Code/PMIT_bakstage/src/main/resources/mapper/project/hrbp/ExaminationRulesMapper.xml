@@ -126,4 +126,8 @@
     <delete id="deleteSingleRuleInfo" parameterType="int">
         delete from mms_examination_rule_item where ruleId = #{ruleId}
     </delete>
+
+    <select id="queryAllRole" resultType="com.isoftstone.pmit.project.hrbp.entity.ExaminationRulesInfo">
+        select roleId ,roleName from mms_special_role
+    </select>
 </mapper>

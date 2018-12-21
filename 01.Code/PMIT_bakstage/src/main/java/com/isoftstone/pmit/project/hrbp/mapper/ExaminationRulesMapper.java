@@ -87,4 +87,6 @@ public interface ExaminationRulesMapper {
      * @return 删除结果，返回0表示增加失败
      */
     int deleteSingleRuleInfo(int ruleId);
+
+    List<ExaminationRulesInfo> queryAllRole();
 }

@@ -57,4 +57,10 @@ public interface IExaminationRulesService {
      * @return 所有单项规则细节
      */
     List<SingleRuleInfo> querySigleRuleInfo(int ruleId);
+
+    /**
+     * 查询所有角色
+     * @return
+     */
+    List<ExaminationRulesInfo> queryAllRole();
 }

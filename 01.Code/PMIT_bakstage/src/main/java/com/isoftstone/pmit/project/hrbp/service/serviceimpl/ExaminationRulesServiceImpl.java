@@ -84,4 +84,9 @@ public class ExaminationRulesServiceImpl implements IExaminationRulesService {
     public List<SingleRuleInfo> querySigleRuleInfo(int ruleId) {
         return examinationRulesMapper.querySigleRuleInfo(ruleId);
     }
+
+    @Override
+    public List<ExaminationRulesInfo> queryAllRole() {
+        return examinationRulesMapper.queryAllRole();
+    }
 }

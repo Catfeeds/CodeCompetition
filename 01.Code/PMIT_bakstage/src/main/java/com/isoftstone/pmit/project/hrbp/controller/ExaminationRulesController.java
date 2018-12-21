@@ -103,7 +103,17 @@ public class ExaminationRulesController extends AbstractController {
         if (ListUtils.isEmpty(rst)) {
             return AjaxResult.returnToResult(false, "查询单项规则未获得有效数据!");
         }
-
         return AjaxResult.returnToResult(true, rst);
     }
+
+    @ApiOperation(value="查询所有角色", notes="查询所有角色")
+    @PostMapping(value = "/queryAllRole")
+    public String queryAllRole() {
+        List<ExaminationRulesInfo> rst = examinationRulesService.queryAllRole();
+        if (ListUtils.isEmpty(rst)) {
+            return AjaxResult.returnToResult(false, "查询单项规则未获得有效数据!");
+        }
+        return AjaxResult.returnToResult(true, rst);
+    }
+
 }
