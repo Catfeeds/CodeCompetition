@@ -46,6 +46,7 @@
 			mtds.transaction_dimension_id as transactionDimensionId,
 			mtds.dimension_id as dimensionId,
 			med.dimension_name as dimensionName,
+			med.mark as mark,
 			mtds.score as score,
 			med.explanation
 		FROM

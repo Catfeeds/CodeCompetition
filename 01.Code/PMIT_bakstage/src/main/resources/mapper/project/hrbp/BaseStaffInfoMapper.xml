@@ -3,57 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.isoftstone.pmit.project.hrbp.mapper.BaseStaffInfoMapper">
-
-    <resultMap type="com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo" id="StaffInfoResult">
-        <id     property="employeeID"         column="employeeID"      />
-        <result property="employeeName"       column="employeeName"      />
-        <result property="idNumber"       column="idNumber"      />
-        <result property="isoftStatus"       column="isoftStatus"      />
-        <result property="personCategory"       column="personCategory"    />
-        <result property="ifBackBone"        column="ifBackBone"        />
-        <result property="ifOffShore"       column="ifOffShore"  />
-        <result property="workPlace"        column="workPlace"     />
-        <result property="workStationNumber"   column="workStationNumber"     />
-        <result property="cooperationMode"           column="cooperationMode"     />
-        <result property="position"           column="position"     />
-        <result property="positionRole"           column="positionRole"     />
-        <result property="skill"           column="skill"     />
-        <result property="sillDirection"           column="sillDirection"     />
-        <result property="directLeaderId"           column="directLeaderId"     />
-        <result property="directLeaderName"           column="directLeaderName"     />
-        <result property="employmentDate"           column="employmentDate"     />
-        <result property="departureDate"           column="departureDate"     />
-        <result property="generalPosition"           column="generalPosition"     />
-        <result property="currentPositionDate"           column="currentPositionDate"     />
-        <result property="costCenter"           column="costCenter"     />
-        <result property="costCenterLeaderName"           column="costCenterLeaderName"     />
-        <result property="bu"           column="bu"     />
-        <result property="du"           column="du"     />
-        <result property="pdu"           column="pdu"     />
-        <result property="workPlaceArea"           column="workPlaceArea"     />
-        <result property="sex"           column="sex"     />
-        <result property="telephone"           column="telephone"     />
-        <result property="isoftEmai"           column="isoftEmai"     />
-        <result property="graduationSchool"           column="graduationSchool"     />
-        <result property="graduationMajor"           column="graduationMajor"     />
-        <result property="graduationTime"           column="graduationTime"     />
-        <result property="if211"           column="if211"     />
-        <result property="ifUnderGraduates"           column="ifUnderGraduates"     />
-        <result property="ifAbvoveTwoInstitutions"           column="ifAbvoveTwoInstitutions"     />
-        <result property="education"           column="education"     />
-        <result property="degree"           column="degree"     />
-        <result property="ifGraduate"           column="ifGraduate"     />
-        <result property="educationMode"           column="educationMode"     />
-        <result property="nation"           column="nation"     />
-        <result property="nativePlace"           column="nativePlace"     />
-        <result property="political"           column="political"     />
-        <result property="domainUserName"           column="domainUserName"     />
-        <result property="projectTeamId"           column="projectTeamId"     />
-        <result property="currentStatus"           column="currentStatus"     />
-        <result property="lengthOfService"           column="lengthOfService"     />
-        <result property="divisionAge"           column="divisionAge"     />
-    </resultMap>
-    <resultMap type="FamilyInformation" id="familyInformation">
+    <resultMap id="familyInformation" type="com.isoftstone.pmit.project.hrbp.entity.FamilyInformation">
         <id     property="employeeID"         column="employeeID"      />
         <result property="birthdayDate"       column="birthdayDate"      />
         <result property="nationality"       column="nationality"      />
@@ -73,16 +23,9 @@
         <result property="isbuyHouse"       column="isbuyHouse"      />
         <result property="dayOfBuyHouse"       column="dayOfBuyHouse"      />
         <result property="propertyAddress"       column="propertyAddress"      />
+
     </resultMap>
-    <resultMap id="companyQualification" type="CompanyQualification">
-        <id     property="certificateNum"         column="certificateNum"      />
-        <result property="employeeID"       column="employeeID"      />
-        <result property="qualificationName"       column="qualificationName"      />
-        <result property="qualificationType"       column="qualificationType"      />
-        <result property="certificationLevel"       column="certificationLevel"      />
-        <result property="passDate"       column="passDate"      />
-    </resultMap>
-    <resultMap id="personalStyle" type="PersonalStyle">
+    <resultMap id="personalStyle" type="com.isoftstone.pmit.project.hrbp.entity.PersonalStyle">
         <id     property="employeeID"         column="employeeID"/>
         <result property="food"       column="food" />
         <result property="game"       column="game" />
@@ -95,11 +38,121 @@
         <result property="documentPhoto"       column="documentPhoto" />
         <result property="photosOfLife"       column="photosOfLife" />
     </resultMap>
-    <resultMap id="technicallInformation" type="TechnicalInformation">
+    <resultMap id="technicallInformation" type="com.isoftstone.pmit.project.hrbp.entity.TechnicalInformation">
         <id     property="employeeID"         column="employeeID"/>
         <result property="technologyPlatform"       column="technologyPlatform" />
         <result property="technologyGrade"       column="technologyGrade" />
         <result property="areasOfExpertise"       column="areasOfExpertise" />
+    </resultMap>
+    <resultMap id="exportInformation" type="com.isoftstone.pmit.project.hrbp.entity.PersonalInformation">
+        <association property="baseStaffInfo" javaType="com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo">
+            <id     property="employeeID"         column="employeeID"      />
+            <result property="employeeName"       column="employeeName"      />
+            <result property="idNumber"       column="idNumber"      />
+            <result property="isoftStatus"       column="isoftStatus"      />
+            <result property="personCategory"       column="personCategory"    />
+            <result property="ifBackBone"        column="ifBackBone"        />
+            <result property="ifOffShore"       column="ifOffShore"  />
+            <result property="workPlace"        column="workPlace"     />
+            <result property="workStationNumber"   column="workStationNumber"     />
+            <result property="cooperationMode"           column="cooperationMode"     />
+            <result property="position"           column="position"     />
+            <result property="positionRole"           column="positionRole"     />
+            <result property="skill"           column="skill"     />
+            <result property="sillDirection"           column="sillDirection"     />
+            <result property="directLeaderId"           column="directLeaderId"     />
+            <result property="directLeaderName"           column="directLeaderName"     />
+            <result property="employmentDate"           column="employmentDate"     />
+            <result property="departureDate"           column="departureDate"     />
+            <result property="generalPosition"           column="generalPosition"     />
+            <result property="currentPositionDate"           column="currentPositionDate"     />
+            <result property="costCenter"           column="costCenter"     />
+            <result property="costCenterLeaderName"           column="costCenterLeaderName"     />
+            <result property="bu"           column="bu"     />
+            <result property="du"           column="du"     />
+            <result property="pdu"           column="pdu"     />
+            <result property="workPlaceArea"           column="workPlaceArea"     />
+            <result property="sex"           column="sex"     />
+            <result property="telephone"           column="telephone"     />
+            <result property="isoftEmai"           column="isoftEmai"     />
+            <result property="graduationSchool"           column="graduationSchool"     />
+            <result property="graduationMajor"           column="graduationMajor"     />
+            <result property="graduationTime"           column="graduationTime"     />
+            <result property="if211"           column="if211"     />
+            <result property="ifUnderGraduates"           column="ifUnderGraduates"     />
+            <result property="ifAbvoveTwoInstitutions"           column="ifAbvoveTwoInstitutions"     />
+            <result property="education"           column="education"     />
+            <result property="degree"           column="degree"     />
+            <result property="ifGraduate"           column="ifGraduate"     />
+            <result property="educationMode"           column="educationMode"     />
+            <result property="nation"           column="nation"     />
+            <result property="nativePlace"           column="nativePlace"     />
+            <result property="political"           column="political"     />
+            <result property="domainUserName"           column="domainUserName"     />
+            <result property="projectTeamId"           column="projectTeamId"     />
+            <result property="currentStatus"           column="currentStatus"     />
+            <result property="lengthOfService"           column="lengthOfService"     />
+            <result property="divisionAge"           column="divisionAge"  />
+        </association>
+        <association property="familyInformations" javaType="com.isoftstone.pmit.project.hrbp.entity.FamilyInformation">
+            <id     property="employeeID"         column="employeeID"      />
+            <result property="birthdayDate"       column="birthdayDate"      />
+            <result property="nationality"       column="nationality"      />
+            <result property="birthplace"       column="birthplace"      />
+            <result property="isPartyMember"       column="isPartyMember"      />
+            <result property="heigh"       column="heigh"      />
+            <result property="weight"       column="weight"      />
+            <result property="currentHomeAddress"       column="currentHomeAddress"      />
+            <result property="emergencyContact"       column="emergencyContact"      />
+            <result property="emergencyContactRelation"       column="emergencyContactRelation"      />
+            <result property="emergencyContactAdress"       column="emergencyContactAdress"      />
+            <result property="emergencyContactPhone"       column="emergencyContactPhone"      />
+            <result property="maritalStatus"       column="maritalStatus"      />
+            <result property="childInformation"       column="childInformation"      />
+            <result property="wayToWork"       column="wayToWork"      />
+            <result property="workingHour"       column="workingHour"      />
+            <result property="isbuyHouse"       column="isbuyHouse"      />
+            <result property="dayOfBuyHouse"       column="dayOfBuyHouse"      />
+            <result property="propertyAddress"       column="propertyAddress"      />
+        </association>
+        <association property="personalStyle" javaType="com.isoftstone.pmit.project.hrbp.entity.PersonalStyle">
+            <id     property="employeeID"         column="employeeID"/>
+            <result property="food"       column="food" />
+            <result property="game"       column="game" />
+            <result property="motion"       column="motion" />
+            <result property="book"       column="book" />
+            <result property="movie"       column="movie" />
+            <result property="music"       column="music" />
+            <result property="dislike"       column="dislike" />
+            <result property="oneSentence"       column="oneSentence" />
+            <result property="documentPhoto"       column="documentPhoto" />
+            <result property="photosOfLife"       column="photosOfLife" />
+        </association>
+        <collection property="companyQualifications" ofType="com.isoftstone.pmit.project.hrbp.entity.CompanyQualification">
+            <id     property="certificateNum"         column="certificateNum"      />
+            <result property="employeeID"       column="employeeID"      />
+            <result property="qualificationName"       column="qualificationName"      />
+            <result property="qualificationType"       column="qualificationType"      />
+            <result property="certificationLevel"       column="certificationLevel"      />
+            <result property="passDate"       column="passDate"      />
+        </collection>
+        <collection property="technicalInformation" ofType="com.isoftstone.pmit.project.hrbp.entity.TechnicalInformation">
+            <id     property="employeeID"         column="employeeID"/>
+            <result property="technologyPlatform"       column="technologyPlatform" />
+            <result property="technologyGrade"       column="technologyGrade" />
+            <result property="areasOfExpertise"       column="areasOfExpertise" />
+        </collection>
+        <collection property="teamInfos" ofType="com.isoftstone.pmit.project.hrbp.entity.TeamInfo">
+            <id     property="teamId"         column="team_id"/>
+            <result property="teamName"       column="team_name" />
+            <result property="staffName"       column="staff_name" />
+            <result property="staffId"       column="staff_id" />
+            <result property="position"       column="position" />
+            <result property="parentId"       column="parent_id" />
+            <result property="level"       column="level" />
+            <result property="status"       column="status" />
+            <result property="changeTime"       column="change_time" />
+        </collection>
     </resultMap>
     <select id="getBaseStaffInfoById" resultType="com.isoftstone.pmit.project.hrbp.entity.BaseStaffInfo" parameterType="java.util.Map">
         SELECT
@@ -522,7 +575,7 @@ FROM
               and   pdu = #{pdu}
           </if>
 
-          <if test="employeeId != null and employeeId != ''">
+          <if test="employeeID != null and employeeID != ''">
               and  employeeID like CONCAT('%',#{employeeId},'%')
           </if>
 
@@ -533,5 +586,41 @@ FROM
 
 
     </select>
+    <select id="exportPersonalInformation" parameterType="com.isoftstone.pmit.project.hrbp.entity.PersonInfoAndPageInfo" resultMap="exportInformation">
+        SELECT
+            base.*,
+            styles.*,
+            company.*,
+            technical.*,
+            family.*,
+            team.*
+        FROM
+            mms_base_staff_info base
+        LEFT JOIN mms_personal_style styles ON base.employeeID = styles.employeeID
+        LEFT JOIN mms_company_qualification company ON company.employeeID = base.employeeID
+        LEFT JOIN mms_technical_information technical ON technical.employeeID = base.employeeID
+        LEFT JOIN mms_family_information family ON family.employeeID = base.employeeID
+        LEFT JOIN mms_project_team_record team ON team.staff_id = base.employeeID
+        <where>
+            <if test="bu != null and bu != ''">
+                and base.bu = #{bu}
+            </if>
 
+            <if test="du != null and du != ''">
+                and  base.du = #{du}
+            </if>
+
+            <if test="pdu != null and pdu != ''">
+                and   base.pdu = #{pdu}
+            </if>
+
+            <if test="employeeID != null and employeeID != ''">
+                and  base.employeeID like CONCAT('%',#{employeeID},'%')
+            </if>
+
+            <if test=" employeeName != null and employeeName != ''">
+                and   base.employeeName like  CONCAT('%',#{employeeName},'%')
+            </if>
+        </where>
+    </select>
 </mapper>
