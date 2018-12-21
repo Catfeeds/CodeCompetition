@@ -4,6 +4,7 @@ import com.isoftstone.pmit.project.hrbp.entity.*;
 import com.isoftstone.pmit.system.exceloperation.mapper.*;
 import com.isoftstone.pmit.system.exceloperation.service.IPersonalInfoService;
 import com.isoftstone.pmit.system.exceloperation.util.ExcelOperationUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -101,7 +102,7 @@ public class PersonalInfoServiceImpl implements IPersonalInfoService {
             baseStaffInfo.setNation(personalInfo.get("民族"));
             baseStaffInfo.setNativePlace(personalInfo.get("籍贯"));
             baseStaffInfo.setPolitical(personalInfo.get("政治面貌"));
-            baseStaffInfo.setProjectTeamId(Integer.parseInt(personalInfo.get("项目组ID")));
+            baseStaffInfo.setProjectTeamId(Integer.parseInt(StringUtils.isEmpty(personalInfo.get("项目组ID")) ? "0" : personalInfo.get("项目组ID")));
             baseStaffInfo.setCurrentStatus(personalInfo.get("当前人员状态"));
             baseStaffInfo.setRank(personalInfo.get("等级"));
             baseStaffInfoList.add(baseStaffInfo);
@@ -183,7 +184,7 @@ public class PersonalInfoServiceImpl implements IPersonalInfoService {
                 for (int index = 0; index < length; index++){
                     CompanyQualification companyQualification = new CompanyQualification();
                     companyQualification.setEmployeeID(personalInfo.get("软通工号"));
-                    companyQualification.setCertificateNum(Integer.parseInt(certificateNums[index]));
+                    companyQualification.setCertificateNum(Integer.parseInt(StringUtils.isEmpty(certificateNums[index]) ? "0" : certificateNums[index]));
                     companyQualification.setQualificationName(qualificationNames[index]);
                     companyQualification.setQualificationType(qualificationTypes[index]);
                     companyQualification.setCertificationLevel(qualificationLevels[index]);
@@ -193,7 +194,7 @@ public class PersonalInfoServiceImpl implements IPersonalInfoService {
             }else{
                 CompanyQualification companyQualification = new CompanyQualification();
                 companyQualification.setEmployeeID(personalInfo.get("软通工号"));
-                companyQualification.setCertificateNum(Integer.parseInt(certificateNum));
+                companyQualification.setCertificateNum(Integer.parseInt(StringUtils.isEmpty(certificateNum) ? "0" : certificateNum));
                 companyQualification.setQualificationName(personalInfo.get("资质名称"));
                 companyQualification.setQualificationType(personalInfo.get("资质类型"));
                 companyQualification.setCertificationLevel(personalInfo.get("认证等级"));

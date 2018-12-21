@@ -175,7 +175,7 @@ public class ExcelOperationUtils {
             String tempPath = "C:/Users/ptqua/Desktop/template.xlsx";
             InputStream inputStream = new FileInputStream(new File(tempPath));
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
-            writeExcel(tableName, workbook, listTitle, list);
+//            writeExcel(tableName, workbook, listTitle, list);
             OutputStream os = response.getOutputStream();
             response.setContentType("application/vnd.ms-excel");
             response.setHeader("Content-disposition",
@@ -188,34 +188,21 @@ public class ExcelOperationUtils {
         }
     }
 
-    private static void writeExcel(String tableName, XSSFWorkbook workbook, List<String> listTitle,
-                                   List<Map<String, String>> list){
-        Sheet sheet = workbook.getSheetAt(0);
-        Row tableTitleRow = sheet.getRow(1);
-        Row rowTitle = sheet.getRow(2);
-        Row rowTable = sheet.getRow(3);
-        CellStyle tableTitleRowStyle = tableTitleRow.getCell(0).getCellStyle();
-        CellStyle titleCellStyle = rowTitle.getCell(0).getCellStyle();
+
+    /**
+     * 填充sheet
+     * @param sheet
+     * @param listTitle
+     * @param listMap
+     */
+    public static void writeSheet(Sheet sheet, List<String> listTitle, List<Map<String, String>> listMap){
+        Row rowTable = sheet.getRow(1);
         CellStyle tableCellStyle = rowTable.getCell(0).getCellStyle();
 
-        // 填写表头
-        Cell tableTitleCell = tableTitleRow.createCell(0);
-        tableTitleCell.setCellValue(tableName);
-        tableTitleCell.setCellStyle(tableTitleRowStyle);
-
-        // 填写表各列头
-        Row titleRow = sheet.createRow(2);
-        Cell titleCell = null;
-        for (int titleCellIndex = 0; titleCellIndex < listTitle.size(); titleCellIndex++){
-            titleCell = titleRow.createCell(titleCellIndex);
-            titleCell.setCellValue(listTitle.get(titleCellIndex));
-            titleCell.setCellStyle(titleCellStyle);
-        }
-
         // 填写表格信息
-        int startIndex = 3;
+        int startIndex = 1;
         Row currentRow = null;
-        for (Map<String, String> rowInfo : list){
+        for (Map<String, String> rowInfo : listMap){
             currentRow = sheet.createRow(startIndex);
             Cell currentCell = null;
             for (int cellIndex = 0; cellIndex < listTitle.size(); cellIndex++){
@@ -225,6 +212,5 @@ public class ExcelOperationUtils {
             }
             startIndex++;
         }
-
     }
 }

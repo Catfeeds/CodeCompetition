@@ -12,7 +12,7 @@ public class PersonalScore {
     private String bu;
     /**成本中心*/
     private String costCenter;
-    /**类型(培训成绩/考试成绩/评价成绩)*/
+    /**类型(培训/考试/评价)*/
     private String types;
     /**得分时间*/
     private Date scoreTime;

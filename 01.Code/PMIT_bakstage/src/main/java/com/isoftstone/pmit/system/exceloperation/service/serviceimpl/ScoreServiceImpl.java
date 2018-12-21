@@ -55,7 +55,7 @@ public class ScoreServiceImpl implements IScoreService {
                 trans.setAffair_id(score.get("事务ID"));
                 trans.setDimension_id(score.get("维度ID"));
                 trans.setEvaluator(score.get("评价人ID"));
-                trans.setScore(Float.valueOf(score.get("分数")));
+                trans.setScore(Float.valueOf(StringUtils.isEmpty(score.get("分数")) ? "0" : score.get("分数")));
                 trans.setType(score.get("类型"));
                 trans.setModifier(user);
                 transList.add(trans);
@@ -66,7 +66,7 @@ public class ScoreServiceImpl implements IScoreService {
                 ScoreCourse course = new ScoreCourse();
                 course.setEmployee_id(score.get("软通工号"));
                 course.setOpening_id(score.get("开班ID"));
-                course.setTest_score(Float.valueOf(score.get("分数")));
+                course.setTest_score(Float.valueOf(StringUtils.isEmpty(score.get("分数")) ? "0" : score.get("分数")));
                 course.setType(score.get("类型"));
                 course.setModifier(user);
                 courseList.add(course);
